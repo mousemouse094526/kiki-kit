@@ -1,9 +1,9 @@
 ---
-name: logo-barn
+name: brandsmith
 description: Create a complete brand logo package — wordmark, app icons, profile marks, PNG exports, and a concept document — as clean path-based SVG with light/dark theme variants. Use this whenever the user wants a logo, wordmark, lettermark, brand identity, app icon, avatar, or profile image for a brand, company, product, shop, or team, even if they only say things like "ทำโลโก้", "ออกแบบแบรนด์", "make me a logo", "I need an app icon", or asks to restyle/extend an existing logo. Also use when the user wants role- or name-labeled profile images derived from an existing brand mark.
 ---
 
-# Logo Barn — brand logo package generator
+# Brandsmith — brand logo package generator
 
 Build a production-ready logo package the way a small studio would: interview first,
 check the landscape, generate as *code* (so everything is regenerable), verify visually,

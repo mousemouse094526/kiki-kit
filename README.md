@@ -14,7 +14,7 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 |---|---|
 | `flow-verify` | Checks the running system against the project's flow docs. Reads existing test evidence first, tests only the gaps, then reports. Never edits code |
 | `mermaid-flow` | Writes and reviews Mermaid diagrams that stay readable instead of turning into crossed wires, and verifies the flow is correct before delivering |
-| `logo-barn` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
+| `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
 
 ### Agents — separate helpers that go off and work on their own
 
@@ -24,7 +24,7 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 
 ### Evals — test sets that score how well a skill performs
 
-`evals/logo-barn/` holds the prompts and the grader for `logo-barn`.
+`evals/brandsmith/` holds the prompts and the grader for `brandsmith`.
 
 Run output lands in `iteration-1/`, which is **not** committed (see `.gitignore`) — it reaches hundreds of MB.
 

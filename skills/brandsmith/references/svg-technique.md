@@ -1,6 +1,6 @@
 # SVG technique reference
 
-Math and code patterns for the logo-barn pipeline. Everything here was learned by
+Math and code patterns for the brandsmith pipeline. Everything here was learned by
 building a real brand package; deviate when you have a reason, but know the defaults.
 
 ## Extracting font glyphs as paths (fontTools)
