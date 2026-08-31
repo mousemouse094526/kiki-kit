@@ -32,7 +32,7 @@ Run output lands in `iteration-1/`, which is **not** committed (see `.gitignore`
 
 ## Moving to a new machine
 
-Lives at [`mousemouse094526/kiki-kit`](https://github.com/mousemouse094526/kiki-kit) (private).
+Lives at [`mousemouse094526/kiki-kit`](https://github.com/mousemouse094526/kiki-kit). Public, so no GitHub login is needed to install it.
 
 On the new machine, open Claude Code and type these two lines:
 
@@ -43,9 +43,19 @@ On the new machine, open Claude Code and type these two lines:
 
 The first line points Claude at the repo; the second installs the plugin it finds there. `kiki-kit@kiki` reads as "the plugin named kiki-kit, from the marketplace named kiki" — both names come from `.claude-plugin/`.
 
-A private repo needs the machine to be authenticated to GitHub first (SSH key or `gh auth login`).
-
 Restart Claude Code. Done.
+
+### What the machine also needs
+
+Installing works anywhere. Two skills shell out to tools that must already be present:
+
+| Tool | Needed by | Without it |
+|---|---|---|
+| `rsvg-convert`, ImageMagick, or Chrome | `brandsmith` SVG to PNG export | The skill runs, then stops at export |
+| `python3` | `mermaid-flow` diagram linter | Diagrams are not checked |
+| macOS with Xcode | `test-runner` iOS Simulator steps | API and web testing still work |
+
+On macOS: `brew install librsvg`
 
 ---
 
