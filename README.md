@@ -12,7 +12,7 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 
 | Skill | Does |
 |---|---|
-| `flow-verify` | Checks the running system against the project's flow docs. Reads existing test evidence first, tests only the gaps, then reports. Never edits code |
+| `flow-audit` | Audits the running system against a flow doc — every edge tested with fresh evidence, one clean-context agent per doc. Never edits code |
 | `mermaid-flow` | Writes and reviews Mermaid diagrams that stay readable instead of turning into crossed wires, and verifies the flow is correct before delivering |
 | `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
 
