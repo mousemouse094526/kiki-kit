@@ -32,20 +32,18 @@ Run output lands in `iteration-1/`, which is **not** committed (see `.gitignore`
 
 ## Moving to a new machine
 
-Not pushed to GitHub yet. One-time setup:
+Lives at [`mousemouse094526/kiki-kit`](https://github.com/mousemouse094526/kiki-kit) (private).
 
-```bash
-gh repo create claude-agent-skill --private --source=. --push
-```
-
-Then on the new machine, open Claude Code and type these two lines:
+On the new machine, open Claude Code and type these two lines:
 
 ```
-/plugin marketplace add <your-github-user>/claude-agent-skill
+/plugin marketplace add mousemouse094526/kiki-kit
 /plugin install kiki-kit@kiki
 ```
 
-`<your-github-user>` is the GitHub username — if the repo is at `github.com/kiki/claude-agent-skill`, type `kiki/claude-agent-skill`.
+The first line points Claude at the repo; the second installs the plugin it finds there. `kiki-kit@kiki` reads as "the plugin named kiki-kit, from the marketplace named kiki" — both names come from `.claude-plugin/`.
+
+A private repo needs the machine to be authenticated to GitHub first (SSH key or `gh auth login`).
 
 Restart Claude Code. Done.
 
