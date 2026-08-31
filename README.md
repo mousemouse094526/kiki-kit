@@ -23,8 +23,6 @@ Restart Claude Code. `/help` should now list the skills below.
 
 | Skill | Does |
 |---|---|
-| `figma-to-screen` | Build or update an Expo React Native screen from a Figma link — theme tokens, HeroUI Native, lint + visual compare loop |
-| `figma-sync-theme` | Sync Figma variable collections into `global.css` as Tailwind v4 `@theme` custom properties |
 | `flow-verify` | Check the running system against the project's flow docs; reuses existing test evidence, tests only the gaps. Report-only |
 | `mermaid-flow` | Author and review Mermaid diagrams that stay readable, with a logic + label check before delivery |
 | `logo-barn` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light/dark variants |
