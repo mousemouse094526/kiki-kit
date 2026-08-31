@@ -1,0 +1,26 @@
+{
+  "skill_name": "mermaid-flow",
+  "evals": [
+    {
+      "id": 0,
+      "name": "architecture-split",
+      "prompt": "Add a mermaid diagram to a new file docs/arch.md that shows our whole system architecture so a new dev can understand it. Components: a React web frontend, a React Native mobile app, an API gateway service, an auth service, a PostgreSQL database, a Redis cache, a background worker that fetches from Stripe and SendGrid, and a push-notification sender. The worker pulls jobs off Redis, writes results to Postgres, and triggers push notifications. Clients only talk to the API gateway.",
+      "expected_output": "One or more readable mermaid flowchart(s). Should NOT be a single spaghetti graph with all ~10+ nodes crammed together — either split into focused sub-diagrams or use subgraphs with a set direction, each block small. All named components represented.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "order-lifecycle-right-type",
+      "prompt": "Add a mermaid diagram to docs/order-status.md documenting the lifecycle of an order in our system. An order starts as 'created'. From created it can become 'paid' or 'cancelled'. Once paid it goes 'processing' then 'shipped' then 'delivered'. Payment can fail from created (goes to 'payment_failed', which can retry back to created). An order can be cancelled from created or paid, but not after it ships. Delivered and cancelled are terminal.",
+      "expected_output": "A stateDiagram-v2 (states + transitions, [*] start/terminal markers) — NOT a flowchart of process boxes. All states and the retry loop present. This discriminates: baselines often draw a lifecycle as a flowchart, which is the wrong type. Valid syntax.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "cleanup-messy",
+      "prompt": "This mermaid diagram in docs/flow.md is unreadable — the lines cross everywhere. Please clean it up so it's easy to follow.\n\n```mermaid\nflowchart TB\n  UI-->API\n  MOB-->API\n  API-->AUTH\n  API-->DB\n  API<-->CACHE\n  AUTH-->DB\n  API-->QUEUE\n  QUEUE-->W1\n  QUEUE-->W2\n  QUEUE-->W3\n  W1-->DB\n  W2-->DB\n  W3-->DB\n  W1-->EXT1\n  W2-->EXT2\n  W3-->EXT3\n  W1-->NOTIF\n  W2-->NOTIF\n  W3-->NOTIF\n  NOTIF-->PUSH\n  NOTIF-->EMAIL\n  DB-->API\n  CACHE-->SSE\n  SSE-->UI\n  SSE-->MOB\n```",
+      "expected_output": "The cleaned version should be split into multiple focused mermaid diagrams (or heavily restructured with subgraphs + collapsed worker nodes), each block small (<=12 nodes), one flow direction, fewer crossing/bidirectional edges. Original components preserved.",
+      "files": []
+    }
+  ]
+}

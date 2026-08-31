@@ -1,0 +1,86 @@
+{
+  "skill_name": "logo-barn",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "thai-coffee-minimal",
+      "prompt": "ทำโลโก้ให้ร้านกาแฟชื่อ Moonbrew แนวมินิมอล อยากได้ไฟล์ svg เอาไว้ทำ app icon ด้วย",
+      "expected_output": "brand/ package: wordmark SVGs (light+dark variants), app icons, concept doc; path-based SVG, no <text> elements",
+      "files": [],
+      "assertions": [
+        {
+          "text": "produces at least 3 SVG files"
+        },
+        {
+          "text": "no SVG uses a <text> element (all text converted to paths)"
+        },
+        {
+          "text": "both a light-background and a dark-background variant exist"
+        },
+        {
+          "text": "an app-icon asset exists (square viewBox, container tile)"
+        },
+        {
+          "text": "a concept document (markdown) explains the design"
+        },
+        {
+          "text": "generator script(s) exist so assets can be regenerated (not hand-only SVGs)"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "fintech-darkmode-icon",
+      "prompt": "I'm launching a fintech app called Lynx. Need a logo that works as an app icon and looks good in dark mode. Brand color should be some kind of teal.",
+      "expected_output": "logo package with teal primary, dark-mode variant that is legible, app icon set, concept doc",
+      "files": [],
+      "assertions": [
+        {
+          "text": "produces at least 3 SVG files"
+        },
+        {
+          "text": "no SVG uses a <text> element (all text converted to paths)"
+        },
+        {
+          "text": "primary brand color is in the teal family (hue roughly 160-210)"
+        },
+        {
+          "text": "a dedicated dark-mode variant exists and its mark is light-colored (legible on dark)"
+        },
+        {
+          "text": "an app-icon asset exists (square viewBox, container tile)"
+        },
+        {
+          "text": "a concept document (markdown) explains the design"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "thai-bakery-fb-avatar",
+      "prompt": "ขอโลโก้ร้านเบเกอรี่ 'ป้าแดงเบเกอรี่' โทนอบอุ่นๆ เอาไปตั้งเป็นรูปโปรไฟล์เพจ Facebook",
+      "expected_output": "profile-ready assets that survive circular crop, PNG export included (Facebook rejects SVG), warm palette, Thai text handled as paths",
+      "files": [],
+      "assertions": [
+        {
+          "text": "PNG export exists (Facebook profile upload rejects SVG)"
+        },
+        {
+          "text": "profile asset is square 1:1 at 512px or larger"
+        },
+        {
+          "text": "no SVG uses a <text> element (Thai text must be paths — renders wrong without the font otherwise)"
+        },
+        {
+          "text": "palette is warm (reds/oranges/browns dominate, not default blue/green)"
+        },
+        {
+          "text": "mark content stays inside the inscribed circle of the tile (survives circular crop)"
+        },
+        {
+          "text": "a concept document (markdown) explains the design"
+        }
+      ]
+    }
+  ]
+}

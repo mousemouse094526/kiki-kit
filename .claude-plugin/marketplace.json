@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "kiki",
+  "description": "Personal Claude Code marketplace — Figma-to-code, flow verification, diagramming, and branding skills.",
+  "owner": {
+    "name": "kiki"
+  },
+  "plugins": [
+    {
+      "name": "kiki-kit",
+      "description": "Figma-to-code, flow verification, Mermaid diagramming, logo design, and a manual test-runner agent.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

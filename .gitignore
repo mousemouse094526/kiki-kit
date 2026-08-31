@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+node_modules/
+__pycache__/
+*.pyc
+
+# eval run output — regenerated, can be hundreds of MB
+iteration-*/

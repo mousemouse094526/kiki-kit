@@ -1,0 +1,7 @@
+{
+  "name": "kiki-kit",
+  "description": "Skills and agents for Figma-driven React Native work, flow verification against a running system, readable Mermaid diagrams, and brand logo packages.",
+  "author": {
+    "name": "kiki"
+  }
+}

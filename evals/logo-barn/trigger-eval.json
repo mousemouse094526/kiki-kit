@@ -1,0 +1,82 @@
+[
+  {
+    "query": "ทำโลโก้ให้ร้านชาไข่มุกชื่อ ChaCha หน่อย โทนพาสเทลๆ เอาไว้แปะหน้าร้านกับข้างแก้ว",
+    "should_trigger": true
+  },
+  {
+    "query": "I'm starting a podcast called Night Owl Radio — need some kind of logo/cover mark that still reads when it's a tiny avatar on Spotify",
+    "should_trigger": true
+  },
+  {
+    "query": "help me design a brand identity for my consulting firm Apex Advisory, something professional, navy-ish, we'll need it on slides and business cards",
+    "should_trigger": true
+  },
+  {
+    "query": "อยากได้ app icon ให้แอพจดบันทึกที่ทำอยู่ชื่อ Jotter ขอเป็น svg ได้ปะ เดี๋ยวเอาไปใส่ expo",
+    "should_trigger": true
+  },
+  {
+    "query": "ทีมผมมี dev, qa, pm, support อยากได้รูปโปรไฟล์ slack แยกตามตำแหน่ง โดยเอา logo บริษัทที่มีอยู่แล้วมาติดชื่อ role ข้างล่าง",
+    "should_trigger": true
+  },
+  {
+    "query": "can u make a lettermark for my etsy shop 'Willow & Thread'? just a W monogram, need it for the shop icon and maybe stickers",
+    "should_trigger": true
+  },
+  {
+    "query": "โลโก้ร้านผมมันเชยแล้วอ่ะ อยากรีแบรนด์ให้ดู modern ขึ้น ร้านขายอุปกรณ์แคมป์ปิ้งชื่อ ForestGo ช่วยออกแบบใหม่ที",
+    "should_trigger": true
+  },
+  {
+    "query": "make me a logo",
+    "should_trigger": true
+  },
+  {
+    "query": "need a favicon + social avatar set for beanbag.dev, it's my dev blog side project, something playful",
+    "should_trigger": true
+  },
+  {
+    "query": "หัวหน้าให้หา logo ใหม่ให้แผนก ขอแนว minimal ชื่อทีม Data Wizard เอาไปใช้ใน teams กับปกรายงาน",
+    "should_trigger": true
+  },
+  {
+    "query": "convert logo.svg in this folder to a 512px png for me",
+    "should_trigger": false
+  },
+  {
+    "query": "ช่วยเช็คหน่อยว่าไฟล์ logo-final.svg ที่ดีไซเนอร์ส่งมา มัน embed font มาหรือเปล่า แล้วมี layer อะไรบ้าง",
+    "should_trigger": false
+  },
+  {
+    "query": "implement the logo header component in React from this figma link, it has the logo + nav",
+    "should_trigger": false
+  },
+  {
+    "query": "our logo renders blurry in the navbar on retina screens, i think it's a css background-size thing, can you fix it",
+    "should_trigger": false
+  },
+  {
+    "query": "เขียน prompt ให้ midjourney หน่อย อยากให้มัน gen ภาพโลโก้สไตล์ vintage badge ร้านกาแฟ",
+    "should_trigger": false
+  },
+  {
+    "query": "what font does the coca-cola logo use? looks like some custom script",
+    "should_trigger": false
+  },
+  {
+    "query": "resize ทุกไฟล์ png ใน ./assets/icons ให้เหลือ 64px แล้ว optimize ด้วย",
+    "should_trigger": false
+  },
+  {
+    "query": "add our existing logo.png into the header of the email template in templates/welcome.html",
+    "should_trigger": false
+  },
+  {
+    "query": "ออกแบบ banner โปรโมชั่นลดราคา 50% ลงเพจ facebook ให้หน่อย ใช้โลโก้เดิมของร้านประกอบ",
+    "should_trigger": false
+  },
+  {
+    "query": "design a poster for our company hackathon next month, put the company logo top right and make it exciting",
+    "should_trigger": false
+  }
+]
