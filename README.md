@@ -60,13 +60,16 @@ On macOS: `brew install librsvg`
 
 ---
 
-## Examples (not installed)
+## Examples (local only, not committed)
 
-`examples/` holds skills from
-[mattpocock/skills](https://github.com/mattpocock/skills) (MIT © Matt Pocock) —
-`grill-with-docs`, `grilling`, `domain-modeling` — kept as reference material
-for sharpening our own skills. They live outside `skills/`, so installing the
-plugin does not load them.
+`examples/` is gitignored scratch space for third-party skills studied as
+reference — currently `grill-with-docs` from
+[mattpocock/skills](https://github.com/mattpocock/skills) (MIT © Matt Pocock).
+Refetch on a new machine with:
+
+```bash
+npx skills@latest add mattpocock/skills --skill=grill-with-docs
+```
 
 ## Deliberately not in this repo
 
