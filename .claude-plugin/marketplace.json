@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "kiki-kit",
-      "description": "Flow audits against a running system, readable Mermaid diagrams, brand logo packages, and a manual test-runner agent.",
+      "description": "Flow audits against a running system, readable Mermaid diagrams, and brand logo packages.",
       "source": "./",
       "category": "productivity"
     }

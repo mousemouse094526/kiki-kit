@@ -1,6 +1,6 @@
 # kiki-kit
 
-My own Claude Code skills and agents, kept in git so they survive a wiped machine and install on a new one in two commands.
+My own Claude Code skills, kept in git so they survive a wiped machine and install on a new one in two commands.
 
 These normally live in `~/.claude/` on a single machine. This repo is the copy that gets them back.
 
@@ -15,12 +15,6 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 | `flow-audit` | Audits the running system against a flow doc — every edge tested with fresh evidence, one clean-context agent per doc. Never edits code |
 | `mermaid-flow` | Writes and reviews Mermaid diagrams that stay readable instead of turning into crossed wires, and verifies the flow is correct before delivering |
 | `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
-
-### Agents — separate helpers that go off and work on their own
-
-| Agent | Does |
-|---|---|
-| `test-runner` | Runs manual-style tests against the running system (API, back office, simulator) and writes a markdown report per round |
 
 ### Evals — test sets that score how well a skill performs
 
@@ -53,7 +47,6 @@ Installing works anywhere. Two skills shell out to tools that must already be pr
 |---|---|---|
 | `rsvg-convert`, ImageMagick, or Chrome | `brandsmith` SVG to PNG export | The skill runs, then stops at export |
 | `python3` | `mermaid-flow` diagram linter | Diagrams are not checked |
-| macOS with Xcode | `test-runner` iOS Simulator steps | API and web testing still work |
 
 On macOS: `brew install librsvg`
 
@@ -87,7 +80,6 @@ Machine config rather than authored work, and quick to set up again:
   marketplace.json   tells Claude this repo is a "store" named kiki
   plugin.json        tells it the store holds a plugin named kiki-kit
 skills/              the real content
-agents/              the real content
 evals/               scoring sets
 ```
 

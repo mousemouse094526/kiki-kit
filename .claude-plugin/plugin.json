@@ -1,7 +1,7 @@
 {
   "name": "kiki-kit",
   "version": "0.1.0",
-  "description": "Skills and agents for verifying flows against a running system, authoring readable Mermaid diagrams, and building brand logo packages via brandsmith.",
+  "description": "Skills for flow audits against a running system, readable Mermaid diagrams, and brand logo packages.",
   "author": {
     "name": "kiki"
   }
