@@ -15,6 +15,9 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 | `flow-audit` | Audits the running system against a flow doc — every edge tested with fresh evidence, one clean-context agent per doc. Never edits code |
 | `mermaid-flow` | Writes and reviews Mermaid diagrams that stay readable instead of turning into crossed wires, and verifies the flow is correct before delivering |
 | `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
+| `grill-with-docs` | Relentless interview to sharpen a plan, writing the glossary and ADRs as decisions land — runs `grilling` + `domain-modeling` together |
+| `grilling` | Round-based interview over a design tree: asks the whole frontier of ready questions each round, with a recommended answer per question |
+| `domain-modeling` | Builds the project's domain model — challenges fuzzy terms, keeps CONTEXT.md as a pure glossary, records ADRs only for hard-to-reverse trade-offs |
 
 ### Evals — test sets that score how well a skill performs
 
@@ -59,6 +62,13 @@ On macOS: `brew install librsvg`
 3. On any machine that has it installed, type `/plugin update kiki-kit@kiki`
 
 ---
+
+## Third-party skills
+
+`grill-with-docs`, `grilling`, and `domain-modeling` come from
+[mattpocock/skills](https://github.com/mattpocock/skills) (MIT © Matt Pocock),
+copied here so the plugin is self-contained. Edits made here are ours; pull
+upstream again to refresh them.
 
 ## Deliberately not in this repo
 
