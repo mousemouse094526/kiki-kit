@@ -6,3 +6,5 @@ __pycache__/
 
 # eval run output — regenerated, can be hundreds of MB
 iteration-*/
+
+examples/
