@@ -5,7 +5,8 @@ description: >-
   whole picture agreed before any code exists. Interviews the user one
   question at a time (choices with a recommended answer), writes the feature
   docs as markdown (spec.md, decisions.md, flow.md under docs/features/{slug}/
-  plus glossary terms in CONTEXT.md), then builds ONLY after the user approves
+  plus glossary terms in CONTEXT.md), runs the legal-check skill on every
+  feature before the gate, then builds ONLY after the user approves
   the docs, on a fresh feature branch, and commits ONLY after the user
   approves the built result. Code only — tests and review belong to separate
   skills that read the spec and flow afterwards. Invoked explicitly as
@@ -20,11 +21,13 @@ build approved, commit. Everything happens here: no handoff prompt, no second
 session, no "go run another skill". The user's two OKs are the only doors —
 nothing is built before the first, nothing is committed before the second.
 
-This skill is self-contained. It never invokes or depends on skills outside
-this plugin — testing and code review are deliberately NOT here: a later
-skill reads `spec.md` and `flow.md` and generates test cases from them, and
-review is its own pass. Building those into this session would spend the
-context the build itself needs.
+This skill never invokes or depends on skills outside this plugin; siblings
+in this plugin are fair game, and one is mandatory — the **legal-check**
+skill runs on every feature before Gate 1 (see Phase 2.5). Testing and code
+review are deliberately NOT here: a later skill reads `spec.md` and
+`flow.md` and generates test cases from them, and review is its own pass.
+Building those into this session would spend the context the build itself
+needs.
 
 ## Per-project knobs — resolve once, before the interview
 
@@ -111,11 +114,25 @@ inlined where prose would be less precise.
 Keep each diagram to one question and ~10 nodes; if the mermaid-flow skill is
 installed its rules apply, but do not block on it.
 
+## Phase 2.5 — Legal check, every feature, no exceptions
+
+Invoke the **legal-check** skill (this plugin) on the drafted feature. It
+sweeps the risk zones (personal data, payments, minors, marketing, health,
+KYC, content), researches the governing law with web sources, and writes
+`legal.md` into the same feature folder — or reports "no legal surface" and
+writes nothing. Run it before Gate 1, not after: an OK given without the
+legal picture is an OK to the wrong picture, and a build obligation found
+after the build is a rework ticket. Fold any build obligations it produces
+into the spec's Implementation section (cite them like decisions) so the
+build cannot silently skip them.
+
 ## Gate 1 — OK before any code
 
 Show the user the whole picture in chat: the doc folder path, the decision
-list (`D1: title` per line), and what will be built — modules, rough size,
-the branch name. Then ask with AskUserQuestion: **Build / Adjust**.
+list (`D1: title` per line), the legal summary from Phase 2.5 (zones
+touched, obligations count, lawyer questions — or "no legal surface"), and
+what will be built — modules, rough size, the branch name. Then ask with
+AskUserQuestion: **Build / Adjust**.
 
 - **Adjust** → fold the changes into the docs and gate again.
 - **Build** → only then continue. Nothing below this line happens without it,
@@ -147,9 +164,13 @@ Never commit before the OK; never push unless asked.
 - **Two gates, no exceptions.** Docs before code, OK before build, OK before
   commit. The moment a gate becomes negotiable it stops guaranteeing
   anything.
-- **Self-contained.** Never call or defer to skills outside this plugin. The
-  session ends with committed code and readable docs; test generation and
-  review start from those files, later, in their own sessions.
+- **Plugin-contained.** Never call or defer to skills outside this plugin;
+  the legal-check sibling is the one mandatory call. The session ends with
+  committed code and readable docs; test generation and review start from
+  those files, later, in their own sessions.
+- **Legal runs every time.** Phase 2.5 is not conditional on the feature
+  looking risky — deciding what is risky is legal-check's job, not a hunch
+  made here.
 - **Every decision has a number.** If it was worth asking, it is worth a
   D-entry — decisions.md is the interview's permanent output, and an
   unnumbered decision cannot be cited by the spec or traced by the summary.
