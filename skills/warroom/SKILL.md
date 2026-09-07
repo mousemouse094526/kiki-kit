@@ -63,10 +63,12 @@ recommendation pushes the authoring back onto them.
 - **Walk the design tree in dependency order.** Ask the question whose answer
   unblocks the most next questions. A question that depends on an unanswered
   one is not ready to ask.
-- **Challenge fuzzy terms as they appear.** When the user says "account" and
-  the code has both Customer and User, stop and pin the word before building
-  on it. A resolved term goes into `CONTEXT.md` immediately — batching
-  glossary updates is how they get lost.
+- **Apply the domain-modeling skill (this plugin) as terms appear.** Fuzzy
+  or conflicting words get challenged and pinned before anything is built on
+  them, resolved terms go into `CONTEXT.md` immediately, and what the user
+  says gets cross-checked against what the code does. Its ADR gate stays
+  project-level — interview decisions still land in this feature's
+  decisions.md, not docs/adr/.
 - **Record each decision the moment it lands** as a `D{n}` entry (see
   decisions.md format below). Append-only, never renumber — later phases
   cite these numbers.
