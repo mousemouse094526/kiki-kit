@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "kiki-kit",
-      "description": "Flow audits against a running system, readable Mermaid diagrams, and brand logo packages.",
+      "description": "Feature warroom (interview, docs, gated build), flow audits, readable Mermaid diagrams, and brand logo packages.",
       "source": "./",
       "category": "productivity"
     }
