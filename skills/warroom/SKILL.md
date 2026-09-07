@@ -21,13 +21,16 @@ build approved, commit. Everything happens here: no handoff prompt, no second
 session, no "go run another skill". The user's two OKs are the only doors —
 nothing is built before the first, nothing is committed before the second.
 
-This skill never invokes or depends on skills outside this plugin; siblings
-in this plugin are fair game, and one is mandatory — the **legal-check**
-skill runs on every feature before Gate 1 (see Phase 2.5). Testing and code
-review are deliberately NOT here: a later skill reads `spec.md` and
-`flow.md` and generates test cases from them, and review is its own pass.
-Building those into this session would spend the context the build itself
-needs.
+Skill calls follow one rule: anything in this plugin's `skills/` may be
+invoked when it earns its keep (one is mandatory — **legal-check** runs on
+every feature before Gate 1, see Phase 2.5); `examples/` is reference
+material and is never invoked; and a skill this one comes to depend on gets
+vendored into `skills/` first, not called from wherever it happens to live —
+a dependency outside the plugin is a build that breaks on the next machine.
+Testing and code review are deliberately NOT here: a later skill reads
+`spec.md` and `flow.md` and generates test cases from them, and review is
+its own pass. Building those into this session would spend the context the
+build itself needs.
 
 ## Per-project knobs — resolve once, before the interview
 
@@ -111,8 +114,8 @@ exception: a snippet that IS the decision (a state machine, a schema) may be
 inlined where prose would be less precise.
 
 **`flow.md`** — how it runs: mermaid diagram(s) with a one-line caption each.
-Keep each diagram to one question and ~10 nodes; if the mermaid-flow skill is
-installed its rules apply, but do not block on it.
+Apply the **mermaid-flow** skill (this plugin) when drawing them — its
+layout rules and linter are why the diagrams stay readable.
 
 ## Phase 2.5 — Legal check, every feature, no exceptions
 
@@ -164,10 +167,11 @@ Never commit before the OK; never push unless asked.
 - **Two gates, no exceptions.** Docs before code, OK before build, OK before
   commit. The moment a gate becomes negotiable it stops guaranteeing
   anything.
-- **Plugin-contained.** Never call or defer to skills outside this plugin;
-  the legal-check sibling is the one mandatory call. The session ends with
-  committed code and readable docs; test generation and review start from
-  those files, later, in their own sessions.
+- **No stray skill calls.** Invoke only skills that live in this plugin's
+  `skills/` — never `examples/`, never something merely present on the
+  machine. A new dependency gets vendored into `skills/` first. The session
+  ends with committed code and readable docs; test generation and review
+  start from those files, later, in their own sessions.
 - **Legal runs every time.** Phase 2.5 is not conditional on the feature
   looking risky — deciding what is risky is legal-check's job, not a hunch
   made here.
