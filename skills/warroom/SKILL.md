@@ -1,101 +1,76 @@
 ---
 name: warroom
 description: >-
-  Take one feature from idea to committed code in a single session, with the
-  whole picture agreed before any code exists. Interviews the user one
-  question at a time (choices with a recommended answer), writes the feature
-  docs as markdown (spec.md, decisions.md, flow.md under docs/features/{slug}/
-  plus glossary terms in CONTEXT.md), runs the legal-check skill on every
-  feature before the gate, then builds ONLY after the user approves
-  the docs, on a fresh feature branch, and commits ONLY after the user
-  approves the built result. Code only — tests and review belong to separate
-  skills that read the spec and flow afterwards. Invoked explicitly as
-  /warroom.
-disable-model-invocation: true
+  Plan one feature until the whole picture is clear and approved — documents
+  only, no code. Interviews the user one question at a time (choices with a
+  recommended answer), then writes the feature docs as markdown under
+  docs/features/{slug}/: spec.md, decisions.md, flow.md, plus legal.md via
+  the legal-check skill and glossary terms in CONTEXT.md. Ends at the
+  approval gate: the user OKs the docs and the session is done — splitting,
+  building, testing, and review are later skills that read these files.
+  Invoke with /warroom, or whenever a feature needs its plan and docs laid
+  out before anyone builds it.
 ---
 
-# Warroom — one session, one feature
+# Warroom — plan one feature, on paper, until it's approved
 
-Plan the whole feature out loud, get it approved, build exactly that, get the
-build approved, commit. Everything happens here: no handoff prompt, no second
-session, no "go run another skill". The user's two OKs are the only doors —
-nothing is built before the first, nothing is committed before the second.
+Interview → docs → one approval gate → done. The output is a docs folder a
+stranger could build from; writing code is not this skill's job, ever.
 
-Skill calls follow one rule: anything in this plugin's `skills/` may be
-invoked when it earns its keep (one is mandatory — **legal-check** runs on
-every feature before Gate 1, see Phase 2.5); `examples/` is reference
-material and is never invoked; and a skill this one comes to depend on gets
-vendored into `skills/` first, not called from wherever it happens to live —
-a dependency outside the plugin is a build that breaks on the next machine.
-Testing and code review are deliberately NOT here: a later skill reads
-`spec.md` and `flow.md` and generates test cases from them, and review is
-its own pass. Building those into this session would spend the context the
-build itself needs.
+**Which skills may be called:** any skill in this plugin's `skills/` — they
+ship with the plugin, so they exist on every machine that installs it.
+`examples/` is study material and is not part of the plugin: it isn't there
+after an install, so nothing may depend on it. A useful outside skill
+becomes callable by vendoring it into `skills/` first.
 
 ## Per-project knobs — resolve once, before the interview
 
-State the resolved knobs in one line before asking anything, so the user can
-correct a bad guess while it is still free:
+State them in one line before asking anything, so a bad guess gets corrected
+while it's free:
 
-- **Checks** — the project's real lint and typecheck commands, read from
-  `package.json` scripts (or Makefile, pyproject.toml, CI config). Written
-  below as `<lint>` / `<typecheck>`. A project may have only one, or neither
-  — record which exist. No test command is needed; tests are out of scope.
 - **Docs home** — `docs/features/{slug}/` by default; if the project already
-  keeps feature docs elsewhere, match that convention instead and read no
-  further about paths.
-- **Branch style** — `feature/{slug}` by default; copy the repo's own pattern
-  if `git branch -a` shows one (e.g. `feat/…`).
-- **Glossary** — `CONTEXT.md` at the repo root. Create it lazily, on the
-  first resolved term, never empty.
+  keeps feature docs elsewhere, match that convention.
+- **Glossary** — `CONTEXT.md` at the repo root. Created lazily on the first
+  resolved term, never empty.
 
 ## Phase 1 — Interview, one question at a time
 
 Ask with AskUserQuestion: ONE question per call, choices with your
-recommended answer first and marked "(Recommended)". The user is here to
-react and decide, not to author from scratch — a question without a
-recommendation pushes the authoring back onto them.
+recommended answer first, marked "(Recommended)". The user is here to react
+and decide, not to author from scratch.
 
 - **Facts are your job, decisions are theirs.** Anything the codebase can
-  answer (what's in the stack, how the existing module works, which pattern
-  the repo already uses), look up before asking — a grep costs nothing, the
-  user's attention is the scarce resource. Only genuine decisions reach them.
-- **Walk the design tree in dependency order.** Ask the question whose answer
-  unblocks the most next questions. A question that depends on an unanswered
-  one is not ready to ask.
-- **Apply the domain-modeling skill (this plugin) as terms appear.** Fuzzy
-  or conflicting words get challenged and pinned before anything is built on
-  them, resolved terms go into `CONTEXT.md` immediately, and what the user
-  says gets cross-checked against what the code does. Its ADR gate stays
-  project-level — interview decisions still land in this feature's
-  decisions.md, not docs/adr/.
-- **Record each decision the moment it lands** as a `D{n}` entry (see
-  decisions.md format below). Append-only, never renumber — later phases
-  cite these numbers.
-- The interview is done when nothing is left silently assumed: you could
-  hand the spec to a stranger and they'd build the same thing.
+  answer, look up before asking. Only genuine decisions reach the user.
+- **Walk the design tree in dependency order.** Ask the question whose
+  answer unblocks the most next questions.
+- **Apply the domain-modeling skill (this plugin) as terms appear** — it
+  challenges fuzzy words, pins one canonical term into `CONTEXT.md`, and
+  cross-checks claims against the code. Interview decisions still land in
+  this feature's decisions.md; docs/adr/ is for project-level decisions
+  only.
+- **Record each decision the moment it lands** as a `D{n}` entry.
+  Append-only, never renumber — the spec cites these numbers.
+- Done when nothing is left silently assumed: a stranger with the spec
+  would build the same thing.
 
-**Too big for one session?** If mid-interview the feature is clearly several
-features wearing one name, say so and propose the split — smaller features,
-one warroom session each. Do not push on: a session that runs out of context
-mid-build is worse than two honest sessions.
+**Big is fine — this is planning.** A large feature just makes a longer
+plan. But if the interview reveals several features wearing one name, say
+so and propose the split: separate feature folders, one warroom each. The
+split itself is a planning outcome worth presenting.
 
 ## Phase 2 — Write the docs
 
-All docs are **English**, always — chat stays in the conversation's language,
-but the files outlive the conversation and other skills read them.
-One file per topic in `docs/features/{slug}/`:
+All docs are **English**; chat stays in the conversation's language. One
+file per topic in `docs/features/{slug}/`:
 
-**`decisions.md`** — the why. Every decision from the interview, short:
+**`decisions.md`** — the why. Every decision from the interview, 3–5 lines
+each; the rejected options and the reason are the payload:
 
 ```markdown
 ## D1: Redis holds OTP state
 Chosen over a DB table (slower, needs cleanup job) and JWT (cannot revoke).
 Redis is already in the stack and TTL handles expiry for free.
 ```
-
-3–5 lines each. The rejected options and the reason are the payload — the
-choice alone can be read from the code later, the why cannot.
 
 **`spec.md`** — the what and how. Structure (drop empty sections):
 
@@ -111,76 +86,48 @@ choice alone can be read from the code later, the why cannot.
 ## Out of Scope   — what this feature deliberately does not do
 ```
 
-No file paths or code snippets in the spec — they go stale fast. The
-exception: a snippet that IS the decision (a state machine, a schema) may be
-inlined where prose would be less precise.
+No file paths or code snippets — they go stale fast. Exception: a snippet
+that IS the decision (a state machine, a schema).
 
-**`flow.md`** — how it runs: mermaid diagram(s) with a one-line caption each.
-Apply the **mermaid-flow** skill (this plugin) when drawing them — its
-layout rules and linter are why the diagrams stay readable.
+**`flow.md`** — how it runs: mermaid diagram(s), one-line caption each,
+drawn with the **mermaid-flow** skill (this plugin).
 
-## Phase 2.5 — Legal check, every feature, no exceptions
+## Phase 2.5 — Legal check, every feature
 
 Invoke the **legal-check** skill (this plugin) on the drafted feature. It
-sweeps the risk zones (personal data, payments, minors, marketing, health,
-KYC, content), researches the governing law with web sources, and writes
-`legal.md` into the same feature folder — or reports "no legal surface" and
-writes nothing. Run it before Gate 1, not after: an OK given without the
-legal picture is an OK to the wrong picture, and a build obligation found
-after the build is a rework ticket. Fold any build obligations it produces
-into the spec's Implementation section (cite them like decisions) so the
-build cannot silently skip them.
+sweeps the risk zones, researches the governing law with web sources, and
+writes `legal.md` into the same folder — or reports "no legal surface".
+Fold its build obligations into the spec's Implementation section so the
+future build cannot skip them. It runs before the gate: the user approves
+with the legal picture in view.
 
-## Gate 1 — OK before any code
+## The Gate — approve the plan
 
-Show the user the whole picture in chat: the doc folder path, the decision
-list (`D1: title` per line), the legal summary from Phase 2.5 (zones
-touched, obligations count, lawyer questions — or "no legal surface"), and
-what will be built — modules, rough size, the branch name. Then ask with
-AskUserQuestion: **Build / Adjust**.
+Show the whole picture in chat: the doc folder path, the decision list
+(`D1: title` per line), the legal summary (zones touched, obligations,
+lawyer questions — or "no legal surface"), and the rough build shape
+(modules touched, estimated size). Then ask with AskUserQuestion:
+**Approve / Adjust**.
 
 - **Adjust** → fold the changes into the docs and gate again.
-- **Build** → only then continue. Nothing below this line happens without it,
-  and asking for code mid-interview does not skip the gate — the answer is
-  "the docs come first", one sentence, no negotiation. The gate is what
-  guarantees the user has seen the whole picture before anything exists.
+- **Approve** → warroom is done. Name the doc files in the reply and stop.
+  The docs are left uncommitted — committing them is the user's call.
+  Building, splitting into tasks, test generation, and review are separate
+  skills that start by reading these files.
 
-## Phase 3 — Build
-
-1. `git checkout -b feature/{slug}` (the branch-style knob) — one feature,
-   one branch; the user decides later where it merges.
-2. Write the code the spec describes — **code only, no tests**. The spec is
-   the contract: a better idea discovered mid-build is a new `D{n}` entry and
-   a one-line heads-up to the user, not a silent detour.
-3. Run `<lint>` and `<typecheck>` (whichever exist). Fix until clean — a
-   summary written on top of red checks hands the user broken code with a
-   bow on it.
-
-## Gate 2 — OK before commit
-
-Summarise in chat: files created/changed (one line each), which `D{n}` each
-change traces to, check results, and anything the user should look at by eye.
-Then ask: **Commit / Fix first**. On OK, commit everything from this session
-— docs, CONTEXT.md, code — to the feature branch with a conventional message.
-Never commit before the OK; never push unless asked.
+A request for code at any point gets one sentence — this skill plans; a
+build skill reads the approved spec — and the interview continues.
 
 ## Operating rules
 
-- **Two gates, no exceptions.** Docs before code, OK before build, OK before
-  commit. The moment a gate becomes negotiable it stops guaranteeing
-  anything.
-- **No stray skill calls.** Invoke only skills that live in this plugin's
-  `skills/` — never `examples/`, never something merely present on the
-  machine. A new dependency gets vendored into `skills/` first. The session
-  ends with committed code and readable docs; test generation and review
-  start from those files, later, in their own sessions.
-- **Legal runs every time.** Phase 2.5 is not conditional on the feature
-  looking risky — deciding what is risky is legal-check's job, not a hunch
-  made here.
-- **Every decision has a number.** If it was worth asking, it is worth a
-  D-entry — decisions.md is the interview's permanent output, and an
-  unnumbered decision cannot be cited by the spec or traced by the summary.
-- **Docs in English, chat in the user's language.** Different artifacts,
-  different readers.
-- **One feature per session.** A second feature request mid-session gets its
-  own warroom later — say so and finish this one.
+- **No code, no exceptions.** Not a prototype, not a stub, not "just the
+  schema". The moment this skill writes code, its docs stop being the
+  contract and start being an afterthought.
+- **The gate is the only exit.** Docs the user never approved are a draft,
+  not a plan — do not present them as finished.
+- **Legal runs every time.** Deciding what is risky is legal-check's job,
+  not a hunch made here.
+- **Every decision has a number.** An unnumbered decision cannot be cited
+  by the spec.
+- **Docs in English, chat in the user's language.**
+- **One feature per session.** A second feature gets its own warroom.
