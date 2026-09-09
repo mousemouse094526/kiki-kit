@@ -16,7 +16,7 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 | `mermaid-flow` | Writes and reviews Mermaid diagrams that stay readable instead of turning into crossed wires, and verifies the flow is correct before delivering |
 | `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
 | `warroom` | Plan one feature on paper — interview with recommended answers, then spec/decisions/flow/legal docs, ending at an approval gate. No code; later skills build from the docs |
-| `legal-check` | Engineering-level legal scan for one feature — risk zones, jurisdiction knob, web-sourced obligations into `legal.md`; warroom runs it before its build gate |
+| `legal-check` | Engineering-level legal scan for one feature — risk zones, jurisdiction knob, web-sourced obligations into `legal.md`; warroom runs it before its approval gate |
 | `domain-modeling` | Glossary discipline — challenge fuzzy terms, one canonical word with banned alternatives in `CONTEXT.md` (multi-context via `CONTEXT-MAP.md`), sparing project-level ADRs |
 
 ### Evals — test sets that score how well a skill performs
