@@ -79,6 +79,8 @@ Redis is already in the stack and TTL handles expiry for free.
 ## Problem        — from the user's perspective
 ## Solution       — from the user's perspective
 ## User Stories   — numbered "As a…, I want…, so that…"
+## Expected Outcome — what exists once this ships: what the user can do
+                    that they couldn't before, and how success is judged
 ## Implementation — modules touched, interfaces, schema/API contracts;
                     cite decisions as (D1), (D2) instead of retelling them
 ## Seams          — the public boundaries where behaviour is observable;

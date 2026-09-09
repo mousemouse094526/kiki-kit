@@ -17,7 +17,7 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 | `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
 | `warroom` | Plan one feature on paper — interview with recommended answers, then spec/decisions/flow/legal docs, ending at an approval gate. No code; later skills build from the docs |
 | `legal-check` | Engineering-level legal scan for one feature — risk zones, jurisdiction knob, web-sourced obligations into `legal.md`; warroom runs it before its approval gate |
-| `domain-modeling` | Glossary discipline — challenge fuzzy terms, one canonical word with banned alternatives in `CONTEXT.md` (multi-context via `CONTEXT-MAP.md`), sparing project-level ADRs |
+| `domain-modeling` | Matt Pocock's domain-modeling skill, vendored verbatim (synced from upstream) — glossary discipline in `CONTEXT.md`, multi-context via `CONTEXT-MAP.md`, sparing ADRs |
 
 ### Evals — test sets that score how well a skill performs
 
@@ -65,7 +65,7 @@ On macOS: `brew install librsvg`
 
 ## Examples (local only, not committed)
 
-`skills/domain-modeling` is adapted from the same source (MIT © Matt Pocock).
+`skills/domain-modeling` is vendored verbatim from the same source (MIT © Matt Pocock) and re-synced from upstream by hand — edit upstream, not here.
 `examples/` is gitignored scratch space for third-party skills studied as
 reference — currently `grill-with-docs` from
 [mattpocock/skills](https://github.com/mattpocock/skills) (MIT © Matt Pocock).
