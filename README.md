@@ -16,14 +16,7 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 | `mermaid-flow` | Writes and reviews Mermaid diagrams that stay readable instead of turning into crossed wires, and verifies the flow is correct before delivering |
 | `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
 | `warroom` | Plan one feature on paper — interview with recommended answers, then spec/decisions/flow/legal docs, ending at an approval gate. No code; later skills build from the docs |
-| `legal-check` | Engineering-level legal scan for one feature — risk zones, jurisdiction knob, web-sourced obligations into `legal.md`; warroom runs it before its approval gate |
-| `domain-modeling` | Matt Pocock's domain-modeling skill, vendored verbatim (synced from upstream) — glossary discipline in `CONTEXT.md`, multi-context via `CONTEXT-MAP.md`, sparing ADRs |
-
-### Evals — test sets that score how well a skill performs
-
-`evals/brandsmith/` holds the prompts and the grader for `brandsmith`.
-
-Run output lands in `iteration-1/`, which is **not** committed (see `.gitignore`) — it reaches hundreds of MB.
+| `warroom-legal` | "Can we do this under Thai law?" — per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with web-sourced references in one `legal.md`; warroom runs it before its approval gate |
 
 ---
 
@@ -53,6 +46,21 @@ Installing works anywhere. Two skills shell out to tools that must already be pr
 
 On macOS: `brew install librsvg`
 
+### Skills that need each other
+
+`warroom` calls three companion skills mid-run: `mermaid-flow` (draws
+`flow.md`) and `warroom-legal` (writes `legal.md` before the approval gate)
+ship in this plugin; `domain-modeling` (pins glossary terms during the
+interview) is Matt Pocock's and is **not** vendored — it updates upstream too
+often. Install it separately, and re-run the same command to update it:
+
+```bash
+npx skills@latest add mattpocock/skills --skill=domain-modeling
+```
+
+If it is missing, warroom pauses at the first glossary term and asks you to
+install it.
+
 ---
 
 ## Editing a skill later
@@ -65,7 +73,6 @@ On macOS: `brew install librsvg`
 
 ## Examples (local only, not committed)
 
-`skills/domain-modeling` is vendored verbatim from the same source (MIT © Matt Pocock) and re-synced from upstream by hand — edit upstream, not here.
 `examples/` is gitignored scratch space for third-party skills studied as
 reference — currently `grill-with-docs` from
 [mattpocock/skills](https://github.com/mattpocock/skills) (MIT © Matt Pocock).
@@ -95,7 +102,6 @@ Machine config rather than authored work, and quick to set up again:
   marketplace.json   tells Claude this repo is a "store" named kiki
   plugin.json        tells it the store holds a plugin named kiki-kit
 skills/              the real content
-evals/               scoring sets
 ```
 
 Those two files in `.claude-plugin/` are what makes Claude Code recognize the repo. Do not delete them.

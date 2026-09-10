@@ -5,7 +5,7 @@ description: >-
   only, no code. Interviews the user one question at a time (choices with a
   recommended answer), then writes the feature docs as markdown under
   docs/features/{slug}/: spec.md, decisions.md, flow.md, plus legal.md via
-  the legal-check skill and glossary terms in CONTEXT.md. Ends at the
+  the warroom-legal skill and glossary terms in CONTEXT.md. Ends at the
   approval gate: the user OKs the docs and the session is done — splitting,
   building, testing, and review are later skills that read these files.
   Invoke with /warroom, or whenever a feature needs its plan and docs laid
@@ -16,12 +16,6 @@ description: >-
 
 Interview → docs → one approval gate → done. The output is a docs folder a
 stranger could build from; writing code is not this skill's job, ever.
-
-**Which skills may be called:** any skill in this plugin's `skills/` — they
-ship with the plugin, so they exist on every machine that installs it.
-`examples/` is study material and is not part of the plugin: it isn't there
-after an install, so nothing may depend on it. A useful outside skill
-becomes callable by vendoring it into `skills/` first.
 
 ## Per-project knobs — resolve once, before the interview
 
@@ -43,11 +37,18 @@ and decide, not to author from scratch.
   answer, look up before asking. Only genuine decisions reach the user.
 - **Walk the design tree in dependency order.** Ask the question whose
   answer unblocks the most next questions.
-- **Apply the domain-modeling skill (this plugin) as terms appear** — it
-  challenges fuzzy words, pins one canonical term into `CONTEXT.md`, and
-  cross-checks claims against the code. Interview decisions still land in
-  this feature's decisions.md; docs/adr/ is for project-level decisions
-  only.
+- **Apply the domain-modeling skill (Matt Pocock's, installed separately)
+  as terms appear** — it challenges fuzzy words, pins one canonical term
+  into `CONTEXT.md`, and cross-checks claims against the code. If the skill
+  is not installed, pause and tell the user to install it, then continue
+  once it is available:
+
+  ```bash
+  npx skills@latest add mattpocock/skills --skill=domain-modeling
+  ```
+
+  Interview decisions still land in this feature's decisions.md; docs/adr/
+  is for project-level decisions only.
 - **Record each decision the moment it lands** as a `D{n}` entry.
   Append-only, never renumber — the spec cites these numbers.
 - Done when nothing is left silently assumed: a stranger with the spec
@@ -96,18 +97,20 @@ drawn with the **mermaid-flow** skill (this plugin).
 
 ## Phase 2.5 — Legal check, every feature
 
-Invoke the **legal-check** skill (this plugin) on the drafted feature. It
-sweeps the risk zones, researches the governing law with web sources, and
-writes `legal.md` into the same folder — or reports "no legal surface".
-Fold its build obligations into the spec's Implementation section so the
-future build cannot skip them. It runs before the gate: the user approves
-with the legal picture in view.
+Invoke the **warroom-legal** skill (this plugin) on the drafted feature. It
+researches the governing law with web sources, rules each legally relevant
+action ALLOWED / NOT ALLOWED / CONDITIONAL, and writes one `legal.md` into
+the same folder — or reports "no legal surface". Fold every CONDITIONAL
+requirement into the spec's Implementation section so the future build
+cannot skip it. It runs before the gate: the user approves with the legal
+picture in view.
 
 ## The Gate — approve the plan
 
 Show the whole picture in chat: the doc folder path, the decision list
-(`D1: title` per line), the legal summary (zones touched, obligations,
-lawyer questions — or "no legal surface"), and the rough build shape
+(`D1: title` per line), the legal summary (verdict per item — ALLOWED /
+NOT ALLOWED / CONDITIONAL with its requirements — or "no legal surface"),
+and the rough build shape
 (modules touched, estimated size). Then ask with AskUserQuestion:
 **Approve / Adjust**.
 
@@ -127,7 +130,7 @@ build skill reads the approved spec — and the interview continues.
   contract and start being an afterthought.
 - **The gate is the only exit.** Docs the user never approved are a draft,
   not a plan — do not present them as finished.
-- **Legal runs every time.** Deciding what is risky is legal-check's job,
+- **Legal runs every time.** Deciding what is risky is warroom-legal's job,
   not a hunch made here.
 - **Every decision has a number.** An unnumbered decision cannot be cited
   by the spec.

@@ -4,7 +4,7 @@ node_modules/
 __pycache__/
 *.pyc
 
-# eval run output — regenerated, can be hundreds of MB
-iteration-*/
-
 examples/
+
+# eval scratch — not part of the plugin
+evals/
