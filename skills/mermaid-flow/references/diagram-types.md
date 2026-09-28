@@ -1,8 +1,6 @@
 # Diagram type selection
 
-Picking the wrong type is the #1 hidden cause of unreadable Mermaid: you fight the layout
-engine instead of using the type built for your data. Match the type to the *shape of the
-information*, not to whatever you drew first.
+Match the type to the *shape of the information*, not to whatever you drew first.
 
 ## Selection table
 
@@ -21,24 +19,21 @@ information*, not to whatever you drew first.
 
 ## Decision hints
 
-- **"It has back-and-forth over time" → `sequenceDiagram`, almost always.** The moment you
-  find yourself drawing an arrow back "up" a flowchart to show a response, stop and switch.
-  Sequence diagrams make request/response inherently readable because the axis *is* time.
+- **Back-and-forth over time → `sequenceDiagram`.** Drawing an arrow back "up" a
+  flowchart to show a response → stop and switch.
 
-- **"It's about data at rest" → `erDiagram`.** Tables, columns, foreign keys, cardinality.
-  Don't model a schema as a flowchart of boxes — you lose cardinality and gain crossings.
+- **Data at rest → `erDiagram`.** Tables, columns, foreign keys, cardinality. Never a
+  flowchart of boxes.
 
-- **"It's about one thing changing status" → `stateDiagram-v2`.** Order lifecycle,
-  connection states, job states. Not a flowchart — states aren't process steps.
+- **One thing changing status → `stateDiagram-v2`.** Order lifecycle, connection states,
+  job states. Not a flowchart.
 
-- **"It's the whole system and it won't fit" → C4 leveling.** Instead of one giant
-  flowchart, split by zoom: Context (systems + actors), Container (apps/services/DBs),
-  Component (inside one app). Each level answers one question. You can do the same leveling
-  by hand with plain `flowchart`s if you don't want C4 syntax — the principle is what matters.
+- **Whole system won't fit → C4 leveling.** Split by zoom: Context (systems + actors),
+  Container (apps/services/DBs), Component (inside one app). One question per level.
+  Plain `flowchart`s leveled by hand work too.
 
-- **Still a flowchart? Then commit to a direction.** `LR` for pipelines and narratives,
-  `TB` for hierarchies and org/dependency trees. Mixing directions inside one graph is what
-  produces diagonal crossing edges.
+- **Still a flowchart → one direction.** `LR` for pipelines and narratives, `TB` for
+  hierarchies and org/dependency trees. Never mix directions inside one graph.
 
 ## Minimal syntax reminders
 
@@ -68,5 +63,5 @@ stateDiagram-v2
     failed --> queued: retry
 ```
 
-Keep the same discipline as flowcharts: one question per diagram, short labels, and split
-before it gets crowded.
+Same discipline as flowcharts: one question per diagram, short labels, split before it
+gets crowded.

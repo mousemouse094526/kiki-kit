@@ -5,15 +5,14 @@ description: Create a complete brand logo package — wordmark, app icons, profi
 
 # Brandsmith — brand logo package generator
 
-Build a production-ready logo package the way a small studio would: interview first,
-check the landscape, generate as *code* (so everything is regenerable), verify visually,
-document the concept. Output goes in the directory where the skill is invoked, under
-`brand/`.
+Interview first, check the landscape, generate as *code* (everything regenerable),
+verify visually, document the concept. Output goes under `brand/` in the directory
+where the skill is invoked.
 
 ## Phase 0 — Interview (always first)
 
-Ask before designing. Use the AskUserQuestion tool so the user picks from choices
-instead of writing essays. Two questions are mandatory, in this order:
+Ask before designing, with the AskUserQuestion tool. Two questions are mandatory, in
+this order:
 
 1. **What is the logo about?** — brand name, what the brand does, feeling it should
    give (e.g. fresh / premium / playful / technical). If the user already said this in
@@ -21,7 +20,7 @@ instead of writing essays. Two questions are mandatory, in this order:
 2. **Color** — offer 3–4 palette choices appropriate to the brand's field (each option
    = primary hex + short rationale), and remind the user they can type their own hex
    in "Other". Whatever they pick, the package must work on **both light and dark
-   backgrounds** — never design for only one.
+   backgrounds**.
 
 Also ask (same call or second call, batch to max 4 questions):
 
@@ -32,30 +31,26 @@ Also ask (same call or second call, batch to max 4 questions):
    - *Abstract symbol + wordmark* — separate icon and text lockup
 4. Anything genuinely ambiguous about scope (e.g. does "logo" include app icons?).
 
-If no user is available to answer (running non-interactively / in a subagent), do not
-stall: pick sensible defaults, and record every decision you made for them in the
-concept document under a "Decisions taken by default" heading.
+No user available to answer (non-interactive / subagent) → pick sensible defaults, and
+record every one in the concept document under a "Decisions taken by default" heading.
 
 ## Phase 1 — Similarity check (don't skip)
 
-"Letter + leaf"-style ideas are heavily mined territory. Before committing to a
-concept, do a quick image search (web search or the browser tool) for the motif you're
-planning plus the brand's industry. You are looking for:
+Before committing to a concept, image-search (web search or the browser tool) the
+planned motif plus the brand's industry. Look for:
 
 - **Famous direct clashes** — same letter + same motif + same color family at a known
   brand. If found, change the motif, not just the color.
-- **Stock-template crowding** — if the exact concept exists as a $30 template
-  everywhere, distinctiveness must come from a *specific combination* (placement,
-  negative space, a second motif). Note this reasoning in the concept doc.
+- **Stock-template crowding** — exact concept sold as templates everywhere →
+  distinctiveness must come from a *specific combination* (placement, negative space,
+  a second motif). Note this in the concept doc.
 
 Tell the user what you found in one short paragraph before building.
 
 ## Phase 2 — Build as generators, not hand-drawn files
 
-Never hand-write final SVGs one by one. Write Python generator scripts into
-`brand/tools/` and have them emit every variant. This is the single most important
-habit: every later request ("make the circle one smaller", "add a role label")
-becomes a one-line change + rerun.
+Never hand-write final SVGs. Write Python generator scripts into `brand/tools/` that
+emit every variant, so every later change is an edit + rerun.
 
 Folder layout to produce:
 
@@ -70,26 +65,23 @@ brand/
 └── tools/      the generator scripts + README with regen order
 ```
 
-Technique rules (why each matters — details and math in
+Technique rules (details and math in
 [references/svg-technique.md](references/svg-technique.md)):
 
 - **Path-based text only.** Convert wordmark text to outlines (fontTools glyph
-  extraction). An SVG with `<text>` renders differently on every machine.
-- **Geometry by container.** The same mark at the same size looks wrong in different
-  containers. Square tile ≈ 57% cap-height, circle ≈ 52% (rim crowds the mark),
-  leave room below (~40%) when a text label joins the mark. Center optically on the
-  main letterform, not the bounding box of letter + ornament.
-- **Full-bleed profile images get square corners.** Platforms apply their own crop;
-  baked-in rounding fights it.
+  extraction). `<text>` renders differently on every machine.
+- **Geometry by container.** Square tile ≈ 57% cap-height, circle ≈ 52%, leave room
+  below (~40%) when a text label joins the mark. Center optically on the main
+  letterform, not the bounding box of letter + ornament.
+- **Full-bleed profile images get square corners.** Platforms apply their own crop.
 - **Anything meant for profile pictures must survive a circular crop.** Check the
   extreme points against the inscribed circle before shipping.
-- **Light/dark pairs are mandatory** (this is a promise made at interview time):
-  every deliverable set includes an on-light and an on-dark variant, and
-  preview.html shows both strips so drift is visible immediately.
+- **Light/dark pairs are mandatory:** every deliverable set includes an on-light and
+  an on-dark variant, and preview.html shows both strips.
 
 ## Phase 3 — Export PNG
 
-Platforms often reject SVG. Export 1024×1024 PNGs of every profile-facing asset with
+Export 1024×1024 PNGs of every profile-facing asset with
 `scripts/export_png.sh <in.svg> <out.png>` (bundled — tries rsvg-convert, ImageMagick,
 then headless Chrome; transparent variants keep their alpha).
 
@@ -101,9 +93,8 @@ then headless Chrome; transparent variants keep their alpha).
 2. Write `brand/concept/logo-concept.md`: the concept story (what is hidden where and
    why), color table with hex + usage, variant/file table, geometry constants used,
    similarity-check findings, and how to regenerate. Then **always build the PDF
-   version too** — the md is for repos, the PDF is what users hand to printers,
-   partners, and teammates. `reportlab` + `svglib` are rarely preinstalled: install
-   them into the package venv (the same one used for fonttools —
+   version too**. `reportlab` + `svglib` are rarely preinstalled: install them into
+   the package venv (the same one used for fonttools —
    `python3 -m venv brand/tools/venv && brand/tools/venv/bin/pip install reportlab svglib`)
    and keep the PDF build as a script in `brand/tools/` so it regenerates.
    Skip the PDF only if the install itself fails (e.g. offline) — in that case tell
@@ -118,4 +109,4 @@ then headless Chrome; transparent variants keep their alpha).
 When asked for additions (new color, role labels, new size), extend the generators in
 `brand/tools/` and rerun — never edit emitted SVGs. If a change alters concept-level
 facts (new variant family, new geometry constant), update logo-concept.md (and the PDF
-if it exists) in the same turn; an out-of-date concept doc is worse than none.
+if it exists) in the same turn.

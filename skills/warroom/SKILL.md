@@ -14,13 +14,12 @@ description: >-
 
 # Warroom — plan one feature, on paper, until it's approved
 
-Interview → docs → one approval gate → done. The output is a docs folder a
-stranger could build from; writing code is not this skill's job, ever.
+Interview → docs → one approval gate → done. Output: a docs folder a
+stranger could build from.
 
 ## Per-project knobs — resolve once, before the interview
 
-State them in one line before asking anything, so a bad guess gets corrected
-while it's free:
+State them in one line before asking anything:
 
 - **Docs home** — `docs/features/{slug}/` by default; if the project already
   keeps feature docs elsewhere, match that convention.
@@ -30,8 +29,7 @@ while it's free:
 ## Phase 1 — Interview, one question at a time
 
 Ask with AskUserQuestion: ONE question per call, choices with your
-recommended answer first, marked "(Recommended)". The user is here to react
-and decide, not to author from scratch.
+recommended answer first, marked "(Recommended)".
 
 - **Facts are your job, decisions are theirs.** Anything the codebase can
   answer, look up before asking. Only genuine decisions reach the user.
@@ -50,14 +48,13 @@ and decide, not to author from scratch.
   Interview decisions still land in this feature's decisions.md; docs/adr/
   is for project-level decisions only.
 - **Record each decision the moment it lands** as a `D{n}` entry.
-  Append-only, never renumber — the spec cites these numbers.
+  Append-only, never renumber.
 - Done when nothing is left silently assumed: a stranger with the spec
   would build the same thing.
 
-**Big is fine — this is planning.** A large feature just makes a longer
-plan. But if the interview reveals several features wearing one name, say
-so and propose the split: separate feature folders, one warroom each. The
-split itself is a planning outcome worth presenting.
+Large feature → longer plan, no problem. Interview reveals several features
+under one name → say so and propose the split: separate feature folders,
+one warroom each.
 
 ## Phase 2 — Write the docs
 
@@ -65,7 +62,7 @@ All docs are **English**; chat stays in the conversation's language. One
 file per topic in `docs/features/{slug}/`:
 
 **`decisions.md`** — the why. Every decision from the interview, 3–5 lines
-each; the rejected options and the reason are the payload:
+each, including the rejected options and the reason:
 
 ```markdown
 ## D1: Redis holds OTP state
@@ -89,8 +86,8 @@ Redis is already in the stack and TTL handles expiry for free.
 ## Out of Scope   — what this feature deliberately does not do
 ```
 
-No file paths or code snippets — they go stale fast. Exception: a snippet
-that IS the decision (a state machine, a schema).
+No file paths or code snippets. Exception: a snippet that IS the decision
+(a state machine, a schema).
 
 **`flow.md`** — how it runs: mermaid diagram(s), one-line caption each,
 drawn with the **mermaid-flow** skill (this plugin).
@@ -101,24 +98,19 @@ Invoke the **warroom-legal** skill (this plugin) on the drafted feature. It
 researches the governing law with web sources, rules each legally relevant
 action ALLOWED / NOT ALLOWED / CONDITIONAL, and writes one `legal.md` into
 the same folder — or reports "no legal surface". Fold every CONDITIONAL
-requirement into the spec's Implementation section so the future build
-cannot skip it. It runs before the gate: the user approves with the legal
-picture in view.
+requirement into the spec's Implementation section. Run it before the gate.
 
 ## The Gate — approve the plan
 
 Show the whole picture in chat: the doc folder path, the decision list
 (`D1: title` per line), the legal summary (verdict per item — ALLOWED /
 NOT ALLOWED / CONDITIONAL with its requirements — or "no legal surface"),
-and the rough build shape
-(modules touched, estimated size). Then ask with AskUserQuestion:
-**Approve / Adjust**.
+and the rough build shape (modules touched, estimated size). Then ask with
+AskUserQuestion: **Approve / Adjust**.
 
 - **Adjust** → fold the changes into the docs and gate again.
 - **Approve** → warroom is done. Name the doc files in the reply and stop.
-  The docs are left uncommitted — committing them is the user's call.
-  Building, splitting into tasks, test generation, and review are separate
-  skills that start by reading these files.
+  Leave the docs uncommitted — committing is the user's call.
 
 A request for code at any point gets one sentence — this skill plans; a
 build skill reads the approved spec — and the interview continues.
@@ -126,13 +118,9 @@ build skill reads the approved spec — and the interview continues.
 ## Operating rules
 
 - **No code, no exceptions.** Not a prototype, not a stub, not "just the
-  schema". The moment this skill writes code, its docs stop being the
-  contract and start being an afterthought.
-- **The gate is the only exit.** Docs the user never approved are a draft,
-  not a plan — do not present them as finished.
-- **Legal runs every time.** Deciding what is risky is warroom-legal's job,
-  not a hunch made here.
-- **Every decision has a number.** An unnumbered decision cannot be cited
-  by the spec.
+  schema".
+- **The gate is the only exit.** Never present unapproved docs as finished.
+- **Legal runs every time.** Never skip it on a hunch that nothing is risky.
+- **Every decision has a number.**
 - **Docs in English, chat in the user's language.**
 - **One feature per session.** A second feature gets its own warroom.

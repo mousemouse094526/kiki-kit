@@ -19,8 +19,7 @@ description: >-
 The user brings things they want to do. Answer each one — no more, no
 less — with one of three verdicts, every verdict backed by a cited source:
 
-- **ALLOWED** — say it is allowed and cite the reference. Nothing else: an
-  allowed item needs no justification beyond its citation.
+- **ALLOWED** — say it is allowed and cite the reference. Nothing else.
 - **NOT ALLOWED** — name the specific prohibition and cite it.
 - **CONDITIONAL** — allowed only if requirements are met. List exactly
   what must exist or be done for the item to become ALLOWED, as checkable
@@ -48,13 +47,11 @@ otherwise. Nothing legally relevant in the input → write no file, reply
 
 ## Research — sources, not memory
 
-Verify every verdict with WebSearch / WebFetch against current law — laws
-amend, and a confidently remembered rule repealed last year is exactly the
-failure this step catches. Prefer the regulator's own site (pdpc.or.th,
-bot.or.th, etda.or.th, ocpb.go.th, krisdika.go.th, ratchakitcha.soc.go.th)
-over blog summaries. Typical Thai regimes: PDPA (B.E. 2562), Computer
-Crime Act, BOT regulations when money moves, consumer-protection and
-direct-sales law for e-commerce.
+Verify every verdict with WebSearch / WebFetch against current law. Prefer
+the regulator's own site (pdpc.or.th, bot.or.th, etda.or.th, ocpb.go.th,
+krisdika.go.th, ratchakitcha.soc.go.th) over blog summaries. Typical Thai
+regimes: PDPA (B.E. 2562), Computer Crime Act, BOT regulations when money
+moves, consumer-protection and direct-sales law for e-commerce.
 
 Every verdict cites a numbered reference resolved at the bottom of the
 file. If the web is unreachable, write the verdict anyway, mark it
@@ -102,22 +99,19 @@ Disclosure to a third party without a lawful basis violates PDPA s.27 [1].
 ```
 
 The **Summary table is the payload**: verdict and requirements per item,
-written so a later AI or build step can act on it without re-reading the
-prose. The **References section is the only place URLs appear** — verdicts
-cite by `[n]`.
+complete on its own. URLs appear only in **References** — verdicts cite by
+`[n]`.
 
-After writing, **send the file with SendUserFile** so the user can
-download it. Then reply in chat, in the conversation's language: one line
-per item with its verdict — reasons only for NOT ALLOWED and CONDITIONAL —
-plus any UNVERIFIED marks and the file path.
+After writing, **send the file with SendUserFile**. Then reply in chat, in
+the conversation's language: one line per item with its verdict — reasons
+only for NOT ALLOWED and CONDITIONAL — plus any UNVERIFIED marks and the
+file path.
 
 ## Operating rules
 
-- One md file per run. Verdicts, summary, references — all in it.
-- Verdict only on what the user asked. ALLOWED gets no reasoning dump;
-  NOT ALLOWED gets the reason; ambiguous gets AskUserQuestion first.
-- Cite `[n]` or mark UNVERIFIED. References numbered at the bottom.
+- One md file per run.
+- Verdict only on what the user asked. Ambiguous → AskUserQuestion first.
+- Cite `[n]` or mark UNVERIFIED.
 - File structure in English (item titles may stay in the user's wording);
-  chat in the conversation's language, same split as every skill in this
-  plugin.
+  chat in the conversation's language.
 - End the file with: *"Engineering compliance notes, not legal advice."*

@@ -1,7 +1,7 @@
 # SVG technique reference
 
-Math and code patterns for the brandsmith pipeline. Everything here was learned by
-building a real brand package; deviate when you have a reason, but know the defaults.
+Math and code patterns for the brandsmith pipeline. Defaults — deviate only with a
+reason.
 
 ## Extracting font glyphs as paths (fontTools)
 
