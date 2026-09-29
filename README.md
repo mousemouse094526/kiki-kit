@@ -12,7 +12,6 @@ These normally live in `~/.claude/` on a single machine. This repo is the copy t
 
 | Skill | Does |
 |---|---|
-| `flow-audit` | Audits the running system against a flow doc — every edge tested with fresh evidence, one clean-context agent per doc. Never edits code |
 | `mermaid-flow` | Writes and reviews Mermaid diagrams that stay readable instead of turning into crossed wires, and verifies the flow is correct before delivering |
 | `brandsmith` | Full brand logo package — wordmark, app icons, profile marks, PNG exports, concept doc, light and dark variants |
 | `warroom` | Plan one feature on paper — interview with recommended answers, then spec/decisions/flow/legal docs, ending at an approval gate. No code; later skills build from the docs |
@@ -31,7 +30,14 @@ On the new machine, open Claude Code and type these two lines:
 /plugin install kiki-kit@kiki
 ```
 
-The first line points Claude at the repo; the second installs the plugin it finds there. `kiki-kit@kiki` reads as "the plugin named kiki-kit, from the marketplace named kiki" — both names come from `.claude-plugin/`.
+Or from a shell, same effect:
+
+```bash
+claude plugin marketplace add mousemouse094526/kiki-kit
+claude plugin install kiki-kit@kiki
+```
+
+The first line points Claude at the repo; the second installs the plugin it finds there. `kiki-kit@kiki` reads as "the plugin named kiki-kit, from the marketplace named kiki" — both names come from `.claude-plugin/`. It installs at user scope, so the skills work in every project on that machine.
 
 Restart Claude Code. Done.
 
@@ -61,7 +67,20 @@ separate install.
 
 1. Edit the file in this repo
 2. `git commit` and `git push`
-3. On any machine that has it installed, type `/plugin update kiki-kit@kiki`
+3. On any machine that has it installed, pull the new commit from a shell:
+
+   ```bash
+   claude plugin marketplace update kiki
+   claude plugin update kiki-kit@kiki
+   ```
+
+   The first line refreshes Claude's copy of the repo; the second updates the
+   installed plugin from it. Inside Claude Code, the same two steps are
+   `/plugin marketplace update kiki` and `/plugin update kiki-kit@kiki`.
+4. Restart Claude Code.
+
+`plugin.json` has no `version` on purpose: installs track the git commit, so
+every push counts as a new version — no number to bump.
 
 ---
 
