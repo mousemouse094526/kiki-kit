@@ -7,7 +7,8 @@ description: >-
   docs/features/{slug}/: spec.md, decisions.md, flow.md, plus legal.md via
   the warroom-legal skill and glossary terms in CONTEXT.md, then has five
   red-team reviewer subagents (Advocate, Builder, Breaker, Tester, Skeptic)
-  challenge the docs before the gate. Ends at the approval gate: the user OKs the docs and the session is done — splitting,
+  challenge the docs before the gate. After the user approves at the gate,
+  hands off to the warroom-tickets skill to split the docs into tickets —
   building, testing, and review are later skills that read these files.
   Invoke with /warroom, or whenever a feature needs its plan and docs laid
   out before anyone builds it.
@@ -15,7 +16,7 @@ description: >-
 
 # Warroom — plan one feature, on paper, until it's approved
 
-Interview → docs → legal → red team → one approval gate → done. Output: a docs folder a
+Interview → docs → legal → red team → one approval gate → tickets. Output: a docs folder a
 stranger could build from.
 
 ## Per-project knobs — resolve once, before the interview
@@ -137,8 +138,11 @@ shape (modules touched, estimated size). Then ask with AskUserQuestion:
 **Approve / Adjust**.
 
 - **Adjust** → fold the changes into the docs and gate again.
-- **Approve** → warroom is done. Name the doc files in the reply and stop.
-  Leave the docs uncommitted — committing is the user's call.
+- **Approve** → the docs are done. Name the doc files in the reply, then
+  invoke the **warroom-tickets** skill (this plugin) on this feature right
+  away — it quizzes the user on the breakdown before writing anything.
+  Stop after the tickets are written. Leave everything uncommitted —
+  committing is the user's call.
 
 A request for code at any point gets one sentence — this skill plans; a
 build skill reads the approved spec — and the interview continues.

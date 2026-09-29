@@ -4,13 +4,16 @@ Claude Code skills, packaged as a plugin.
 
 | Skill | Does |
 |---|---|
-| `warroom` | Plan one feature on paper: interview, spec/decisions/flow/legal docs, five-reviewer red team, approval gate. No code |
+| `warroom` | Plan one feature on paper: interview, spec/decisions/flow/legal docs, five-reviewer red team, approval gate, then tickets. No code |
+| `warroom-tickets` | Split approved warroom docs into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
 | `warroom-legal` | "Can we do this under Thai law?" Per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with sources, in one `legal.md` |
 | `mermaid-flow` | Readable Mermaid diagrams, checked for correctness before delivery |
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |
 
+Flow: `warroom` → (gate) → `warroom-tickets` automatically.
 `warroom` uses `mermaid-flow` and `warroom-legal` from this plugin. Its glossary
-rules are adapted from Matt Pocock's `domain-modeling`
+rules are adapted from Matt Pocock's `domain-modeling`, and `warroom-tickets`
+from his `to-tickets`
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT).
 
 ## Install
