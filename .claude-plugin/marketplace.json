@@ -1,14 +1,14 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "kiki",
-  "description": "Personal Claude Code marketplace — feature planning, legal checks, flow audits, diagramming, and branding skills.",
+  "description": "Personal Claude Code marketplace — feature planning, legal checks, diagramming, and branding skills.",
   "owner": {
     "name": "kiki"
   },
   "plugins": [
     {
       "name": "kiki-kit",
-      "description": "Feature warroom (interview, docs, approval gate — no code), Thai-law legal check, flow audits, readable Mermaid diagrams, and brand logo packages.",
+      "description": "Feature warroom (interview, docs, approval gate — no code), Thai-law legal check, readable Mermaid diagrams, and brand logo packages.",
       "source": "./",
       "category": "productivity"
     }
