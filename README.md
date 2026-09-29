@@ -4,7 +4,7 @@ Claude Code skills, packaged as a plugin.
 
 | Skill | Does |
 |---|---|
-| `warroom` | Plan one feature on paper: interview, then spec/decisions/flow/legal docs, ending at an approval gate. No code |
+| `warroom` | Plan one feature on paper: interview, spec/decisions/flow/legal docs, five-reviewer red team, approval gate. No code |
 | `warroom-legal` | "Can we do this under Thai law?" Per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with sources, in one `legal.md` |
 | `mermaid-flow` | Readable Mermaid diagrams, checked for correctness before delivery |
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |

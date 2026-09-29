@@ -5,8 +5,9 @@ description: >-
   only, no code. Interviews the user one question at a time (choices with a
   recommended answer), then writes the feature docs as markdown under
   docs/features/{slug}/: spec.md, decisions.md, flow.md, plus legal.md via
-  the warroom-legal skill and glossary terms in CONTEXT.md. Ends at the
-  approval gate: the user OKs the docs and the session is done — splitting,
+  the warroom-legal skill and glossary terms in CONTEXT.md, then has five
+  red-team reviewer subagents (Advocate, Builder, Breaker, Tester, Skeptic)
+  challenge the docs before the gate. Ends at the approval gate: the user OKs the docs and the session is done — splitting,
   building, testing, and review are later skills that read these files.
   Invoke with /warroom, or whenever a feature needs its plan and docs laid
   out before anyone builds it.
@@ -14,7 +15,7 @@ description: >-
 
 # Warroom — plan one feature, on paper, until it's approved
 
-Interview → docs → one approval gate → done. Output: a docs folder a
+Interview → docs → legal → red team → one approval gate → done. Output: a docs folder a
 stranger could build from.
 
 ## Per-project knobs — resolve once, before the interview
@@ -106,13 +107,34 @@ action ALLOWED / NOT ALLOWED / CONDITIONAL, and writes one `legal.md` into
 the same folder in the docs language — or reports "no legal surface". Fold every CONDITIONAL
 requirement into the spec's Implementation section. Run it before the gate.
 
+## Phase 3 — Red team, every feature
+
+Spawn five reviewers as separate subagents, in parallel, each with its own
+checklist from [references/red-team.md](references/red-team.md):
+**The Advocate** (end user), **The Builder** (implementer), **The Breaker**
+(failure and abuse), **The Tester** (provability), **The Skeptic** (scope).
+Label each subagent with its name. Give each only the docs — never another
+reviewer's output.
+
+Then merge the findings yourself, dropping duplicates:
+
+- **Doc gap or contradiction with an obvious fix** → fix the docs.
+- **Needs a decision** (including two reviewers pulling opposite ways) →
+  ask the user with AskUserQuestion, recommended answer first; record it
+  as a new `D{n}`.
+- **Noise** (already answered, out of scope, pure taste) → dismiss.
+
+Runs once per warroom. Another round only if the user asks for one.
+
 ## The Gate — approve the plan
 
 Show the whole picture in chat: the doc folder path, the decision list
 (`D1: title` per line), the legal summary (verdict per item — ALLOWED /
 NOT ALLOWED / CONDITIONAL with its requirements — or "no legal surface"),
-and the rough build shape (modules touched, estimated size). Then ask with
-AskUserQuestion: **Approve / Adjust**.
+the red team line (`Red team: x fixed, y decided (D7, D8), z dismissed`,
+plus one line per BLOCKER and how it was resolved), and the rough build
+shape (modules touched, estimated size). Then ask with AskUserQuestion:
+**Approve / Adjust**.
 
 - **Adjust** → fold the changes into the docs and gate again.
 - **Approve** → warroom is done. Name the doc files in the reply and stop.
@@ -127,6 +149,7 @@ build skill reads the approved spec — and the interview continues.
   schema".
 - **The gate is the only exit.** Never present unapproved docs as finished.
 - **Legal runs every time.** Never skip it on a hunch that nothing is risky.
+- **Red team runs every time**, after legal, before the gate.
 - **Every decision has a number.**
 - **Docs and chat in the user's language**; fixed tokens stay as-is.
 - **One feature per session.** A second feature gets its own warroom.
