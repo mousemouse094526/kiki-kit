@@ -112,6 +112,8 @@ file path.
 - One md file per run.
 - Verdict only on what the user asked. Ambiguous → AskUserQuestion first.
 - Cite `[n]` or mark UNVERIFIED.
-- File structure in English (item titles may stay in the user's wording);
-  chat in the conversation's language.
-- End the file with: *"Engineering compliance notes, not legal advice."*
+- File and chat in the language the user writes in. Keep verdict words
+  (ALLOWED / NOT ALLOWED / CONDITIONAL / UNVERIFIED), `[n]` citations, and
+  law names as-is; translate the headings and prose.
+- End the file with the disclaimer in the file's language — English:
+  *"Engineering compliance notes, not legal advice."*

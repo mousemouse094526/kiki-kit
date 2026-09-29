@@ -48,18 +48,12 @@ On macOS: `brew install librsvg`
 
 ### Skills that need each other
 
-`warroom` calls three companion skills mid-run: `mermaid-flow` (draws
-`flow.md`) and `warroom-legal` (writes `legal.md` before the approval gate)
-ship in this plugin; `domain-modeling` (pins glossary terms during the
-interview) is Matt Pocock's and is **not** vendored — it updates upstream too
-often. Install it separately, and re-run the same command to update it:
-
-```bash
-npx skills@latest add mattpocock/skills --skill=domain-modeling
-```
-
-If it is missing, warroom pauses at the first glossary term and asks you to
-install it.
+`warroom` calls two companion skills mid-run, both in this plugin:
+`mermaid-flow` (draws `flow.md`) and `warroom-legal` (writes `legal.md`
+before the approval gate). Glossary work (`CONTEXT.md`, ADRs) is built into
+warroom itself — adapted from Matt Pocock's `domain-modeling`
+([mattpocock/skills](https://github.com/mattpocock/skills), MIT), no
+separate install.
 
 ---
 

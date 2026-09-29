@@ -35,18 +35,20 @@ recommended answer first, marked "(Recommended)".
   answer, look up before asking. Only genuine decisions reach the user.
 - **Walk the design tree in dependency order.** Ask the question whose
   answer unblocks the most next questions.
-- **Apply the domain-modeling skill (Matt Pocock's, installed separately)
-  as terms appear** — it challenges fuzzy words, pins one canonical term
-  into `CONTEXT.md`, and cross-checks claims against the code. If the skill
-  is not installed, pause and tell the user to install it, then continue
-  once it is available:
-
-  ```bash
-  npx skills@latest add mattpocock/skills --skill=domain-modeling
-  ```
-
-  Interview decisions still land in this feature's decisions.md; docs/adr/
-  is for project-level decisions only.
+- **Sharpen the language as terms appear** (format and rules in
+  [references/glossary.md](references/glossary.md)):
+  - Term conflicts with `CONTEXT.md` → call it out immediately: "Glossary
+    defines 'cancellation' as X, you seem to mean Y. Which?"
+  - Vague or overloaded word → propose one precise term: "'account' — the
+    Customer or the User?"
+  - Relationship between concepts → probe it with invented edge-case
+    scenarios until the boundary is precise.
+  - User states how something works → check the code; surface any
+    contradiction.
+  - Term resolved → write it into `CONTEXT.md` right then, not batched.
+- Interview decisions land in this feature's decisions.md. Offer an ADR
+  in `docs/adr/` only for project-level decisions (criteria in
+  references/glossary.md).
 - **Record each decision the moment it lands** as a `D{n}` entry.
   Append-only, never renumber.
 - Done when nothing is left silently assumed: a stranger with the spec
@@ -58,8 +60,12 @@ one warroom each.
 
 ## Phase 2 — Write the docs
 
-All docs are **English**; chat stays in the conversation's language. One
-file per topic in `docs/features/{slug}/`:
+**Docs language = the language the user writes in.** Thai prompts → Thai
+docs. Keep fixed tokens as-is: file names, the `##` section headings of
+spec.md and decisions.md, `D{n}` ids, glossary term names, code
+identifiers, and verdict words (ALLOWED / NOT ALLOWED / CONDITIONAL).
+
+One file per topic in `docs/features/{slug}/`:
 
 **`decisions.md`** — the why. Every decision from the interview, 3–5 lines
 each, including the rejected options and the reason:
@@ -97,7 +103,7 @@ drawn with the **mermaid-flow** skill (this plugin).
 Invoke the **warroom-legal** skill (this plugin) on the drafted feature. It
 researches the governing law with web sources, rules each legally relevant
 action ALLOWED / NOT ALLOWED / CONDITIONAL, and writes one `legal.md` into
-the same folder — or reports "no legal surface". Fold every CONDITIONAL
+the same folder in the docs language — or reports "no legal surface". Fold every CONDITIONAL
 requirement into the spec's Implementation section. Run it before the gate.
 
 ## The Gate — approve the plan
@@ -122,5 +128,5 @@ build skill reads the approved spec — and the interview continues.
 - **The gate is the only exit.** Never present unapproved docs as finished.
 - **Legal runs every time.** Never skip it on a hunch that nothing is risky.
 - **Every decision has a number.**
-- **Docs in English, chat in the user's language.**
+- **Docs and chat in the user's language**; fixed tokens stay as-is.
 - **One feature per session.** A second feature gets its own warroom.
