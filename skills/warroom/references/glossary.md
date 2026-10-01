@@ -1,4 +1,4 @@
-# Glossary and ADR format
+# Glossary format
 
 Adapted from Matt Pocock's `domain-modeling` skill
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT © Matt Pocock).
@@ -44,27 +44,6 @@ Multi-context `CONTEXT-MAP.md` lists each context with a link and one line, plus
 Relationships section (`**Ordering → Billing**: Ordering emits OrderPlaced; Billing
 consumes it`).
 
-## ADRs — project-level decisions only
+## ADRs
 
-Feature decisions go in the feature's `decisions.md`. Offer an ADR in `docs/adr/`
-only when a decision reaches beyond this feature AND all three hold:
-
-1. **Hard to reverse** — changing it later is costly.
-2. **Surprising without context** — a future reader would ask "why this way?"
-3. **Real trade-off** — genuine alternatives existed.
-
-Qualifies: architectural shape, integration patterns between contexts, technology
-choices with lock-in, ownership/boundary rules, deliberate deviations from the obvious
-path, constraints not visible in the code.
-
-Format: `docs/adr/NNNN-slug.md`, next number after the highest existing one, folder
-created on first ADR.
-
-```md
-# {Short title of the decision}
-
-{1-3 sentences: context, what was decided, and why.}
-```
-
-Add `Status`, `Considered Options`, or `Consequences` sections only when they carry
-real information.
+Criteria, sweep, and format in [adr.md](adr.md).

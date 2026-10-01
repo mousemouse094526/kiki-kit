@@ -7,7 +7,9 @@ description: >-
   docs/features/{slug}/: spec.md, decisions.md, flow.md, plus legal.md via
   the warroom-legal skill and glossary terms in CONTEXT.md, then has five
   red-team reviewer subagents (Advocate, Builder, Breaker, Tester, Skeptic)
-  challenge the docs before the gate. After the user approves at the gate,
+  challenge the docs, then a Successor subagent sweeps decisions, legal
+  findings, and spec constraints for ADR-worthy decisions and drafts them
+  for docs/adr/. After the user approves at the gate,
   hands off to the warroom-tickets skill to split the docs into tickets —
   building, testing, and review are later skills that read these files.
   Invoke with /warroom, or whenever a feature needs its plan and docs laid
@@ -16,7 +18,7 @@ description: >-
 
 # Warroom — plan one feature, on paper, until it's approved
 
-Interview → docs → legal → red team → one approval gate → tickets. Output: a docs folder a
+Interview → docs → legal → red team → ADR sweep → one approval gate → tickets. Output: a docs folder a
 stranger could build from.
 
 ## Per-project knobs — resolve once, before the interview
@@ -27,6 +29,8 @@ State them in one line before asking anything:
   keeps feature docs elsewhere, match that convention.
 - **Glossary** — `CONTEXT.md` at the repo root. Created lazily on the first
   resolved term, never empty.
+- **ADRs** — `docs/adr/`. Read the titles of existing ADRs now, and the
+  full text of any that touch this feature.
 
 ## Phase 1 — Interview, one question at a time
 
@@ -48,9 +52,11 @@ recommended answer first, marked "(Recommended)".
   - User states how something works → check the code; surface any
     contradiction.
   - Term resolved → write it into `CONTEXT.md` right then, not batched.
-- Interview decisions land in this feature's decisions.md. Offer an ADR
-  in `docs/adr/` only for project-level decisions (criteria in
-  references/glossary.md).
+- **Existing ADRs are facts.** Answer from them instead of asking. A
+  choice that contradicts one → say so at once and ask: follow the ADR, or
+  supersede it.
+- Interview decisions land in this feature's decisions.md. Don't sort them
+  into ADRs mid-interview — the sweep does that with the whole picture.
 - **Record each decision the moment it lands** as a `D{n}` entry.
   Append-only, never renumber.
 - Done when nothing is left silently assumed: a stranger with the spec
@@ -127,18 +133,36 @@ Then merge the findings yourself, dropping duplicates:
 
 Runs once per warroom. Another round only if the user asks for one.
 
+## Phase 4 — ADR sweep, every feature
+
+One question at a time, every decision looks local to the feature; which
+ones reach beyond it only shows once the whole plan exists. So after the
+red team merge, spawn one subagent, **The Successor** — the engineer who
+builds the next feature here — with the prompt and criteria in
+[references/adr.md](references/adr.md).
+
+Then, yourself: drop candidates that fail a test or hit "Not an ADR",
+merge candidates that are one decision, and draft each survivor (title +
+1–3 sentences + `Source:`). Hold the drafts for the gate — no files yet.
+A conflict with an existing ADR → ask the user with AskUserQuestion:
+follow it or supersede it; record the answer as a new `D{n}`.
+
 ## The Gate — approve the plan
 
 Show the whole picture in chat: the doc folder path, the decision list
 (`D1: title` per line), the legal summary (verdict per item — ALLOWED /
 NOT ALLOWED / CONDITIONAL with its requirements — or "no legal surface"),
 the red team line (`Red team: x fixed, y decided (D7, D8), z dismissed`,
-plus one line per BLOCKER and how it was resolved), and the rough build
-shape (modules touched, estimated size). Then ask with AskUserQuestion:
-**Approve / Adjust**.
+plus one line per BLOCKER and how it was resolved), the ADR block (each
+draft in full, any conflict with an existing ADR and how it was decided —
+or `ADR: none — {reason}`), and the rough build shape (modules touched,
+estimated size). Then ask with AskUserQuestion: **Approve / Adjust**.
 
-- **Adjust** → fold the changes into the docs and gate again.
-- **Approve** → the docs are done. Name the doc files in the reply, then
+- **Adjust** → fold the changes into the docs — including cutting or
+  rewording an ADR draft — and gate again.
+- **Approve** → the docs are done. Write each ADR draft to
+  `docs/adr/NNNN-slug.md` and add an `ADR: NNNN` line under each source
+  `D{n}` in decisions.md. Name the doc and ADR files in the reply, then
   invoke the **warroom-tickets** skill (this plugin) on this feature right
   away — it quizzes the user on the breakdown before writing anything.
   Stop after the tickets are written. Leave everything uncommitted —
@@ -154,6 +178,7 @@ build skill reads the approved spec — and the interview continues.
 - **The gate is the only exit.** Never present unapproved docs as finished.
 - **Legal runs every time.** Never skip it on a hunch that nothing is risky.
 - **Red team runs every time**, after legal, before the gate.
+- **ADR sweep runs every time**, after the red team. "None" needs a reason.
 - **Every decision has a number.**
 - **Docs and chat in the user's language**; fixed tokens stay as-is.
 - **One feature per session.** A second feature gets its own warroom.
