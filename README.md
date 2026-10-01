@@ -6,7 +6,7 @@ Claude Code skills, packaged as a plugin.
 |---|---|
 | `warroom` | Plan one feature on paper: interview, spec/decisions/flow/legal docs, five-reviewer red team, approval gate, then tickets. No code |
 | `warroom-tickets` | Split approved warroom docs into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
-| `warroom-build` | Build one ticket per session: TDD at the agreed seams, full suite, two-axis review (Standards + Spec), commit |
+| `warroom-build` | Build one ticket per session: library docs via `llms.txt` (indexed in `docs/reference/`), TDD at the agreed seams, full suite, three-axis review (Standards, Spec, Newcomer), commit. `--review-feature` reviews the whole branch before merge |
 | `warroom-debug` | Debug any failure: reproduce, narrow scope, falsify ranked hypotheses with an Outsider subagent, ledger, regression test, postmortem record in `docs/debug/` |
 | `warroom-trial` | Role-played users (from the spec's actors and real-world roles) try the running app on localhost without seeing the code; findings triaged into bug / spec gap / friction in one trial report |
 | `warroom-legal` | "Can we do this under Thai law?" Per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with sources, in one `legal.md` |

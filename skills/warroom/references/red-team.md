@@ -37,6 +37,9 @@ answer. Do not edit any file.
   patterns)? Check the code.
 - Is any decision cited but missing from decisions.md, or contradicting
   another?
+- Does the plan rely on library behaviour the docs don't promise? Check
+  `docs/reference/` and the library's current docs (`llms.txt` first) for
+  every library the Implementation leans on.
 
 ## The Breaker — tries to make it fail
 
