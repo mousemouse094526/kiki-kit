@@ -85,20 +85,9 @@ Do not edit files.
 ## Format
 
 `docs/adr/NNNN-slug.md` — scan `docs/adr/` for the highest number and add
-one. Create the folder lazily, on the first ADR.
-
-```md
-# {Short title of the decision}
-
-{1-3 sentences: what's the context, what did we decide, and why.}
-
-Source: {feature slug} D1, D2 · legal 3
-```
+one. Create the folder lazily, on the first ADR. Skeleton:
+[../templates/adr.md](../templates/adr.md).
 
 **Hard limit: three sentences.** No key names, header names, or numbers
 unless that exact name or number is the decision. Over three → split the
 ADR or move the detail back to the spec.
-
-Optional, only when they add genuine value: **Status** (`proposed |
-accepted | deprecated | superseded by ADR-NNNN`), **Considered Options**,
-**Consequences**.

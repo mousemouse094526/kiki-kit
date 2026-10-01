@@ -1,0 +1,74 @@
+# Template: spec.md
+
+The what and how. Copy the skeleton under **Template**; follow **Rules**.
+The `##` headings stay in English; everything else is in the docs language.
+Drop a section only when it would be empty.
+
+## Rules
+
+- **Cite, don't retell.** A decision appears as `(D3)`; its reasoning lives
+  in decisions.md.
+- **One idea per bullet.** Nest bullets for steps or sub-cases instead of
+  writing long lines.
+- **Contracts as tables** — routes, error codes, endpoints and their
+  actions, settings.
+- **Ordered steps as numbered lists** — checks in order, transaction steps.
+- **Implementation is split by `###` area** (modules touched, data, each
+  API group, client, ops). One area per heading.
+- **No file paths or code snippets.** Exception: a snippet that IS the
+  decision — a state machine, a schema.
+- **Seams are numbered**, one seam per number, each with observable
+  pass/fail bullets. warroom-tickets and the build read this section.
+- **Out of Scope** bullets cite the `D{n}` that ruled them out.
+
+## Template
+
+```markdown
+# Spec: {feature slug}
+
+{One line: what this feature is.}
+
+## Problem
+
+{From the user's perspective.}
+
+## Solution
+
+- {From the user's perspective, one bullet per capability.}
+
+## User Stories
+
+**{Actor}**
+1. As a {actor}, I want {feature}, so that {benefit} (D1)
+
+## Expected Outcome
+
+{What exists once this ships — what the user can do that they couldn't before.}
+- **{Scenario}:** {what the user sees}
+
+**How success is judged:**
+- {checkable outcome}
+
+## Implementation
+
+### Modules touched
+- **{module}**
+  - {change} (D2)
+
+### Data
+{schema block when the schema is the decision}
+
+### {API group / client / ops area}
+| {column} | {column} |
+|---|---|
+| {row} | {row} |
+
+## Seams
+
+1. **{seam name}** `{interface}`
+   - {input or situation} → {observable result}
+
+## Out of Scope
+
+- {what this feature deliberately does not do} (D4)
+```

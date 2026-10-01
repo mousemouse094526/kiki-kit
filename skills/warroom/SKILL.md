@@ -57,8 +57,9 @@ recommended answer first, marked "(Recommended)".
   supersede it.
 - Interview decisions land in this feature's decisions.md. Don't sort them
   into ADRs mid-interview — the sweep does that with the whole picture.
-- **Record each decision the moment it lands** as a `D{n}` entry.
-  Append-only, never renumber.
+- **Record each decision the moment it lands** as a `D{n}` entry in the
+  format of [templates/decisions.md](templates/decisions.md). Append-only,
+  never renumber.
 - Done when nothing is left silently assumed: a stranger with the spec
   would build the same thing.
 
@@ -70,41 +71,18 @@ one warroom each.
 
 **Docs language = the language the user writes in.** Thai prompts → Thai
 docs. Keep fixed tokens as-is: file names, the `##` section headings of
-spec.md and decisions.md, `D{n}` ids, glossary term names, code
+spec.md and decisions.md, the field labels and Status / From words of
+decisions.md, `D{n}` ids, glossary term names, code
 identifiers, and verdict words (ALLOWED / NOT ALLOWED / CONDITIONAL).
 
-One file per topic in `docs/features/{slug}/`:
+One file per topic in `docs/features/{slug}/`. Read each template before
+writing its file, copy its skeleton, and follow its rules:
 
-**`decisions.md`** — the why. Every decision from the interview, 3–5 lines
-each, including the rejected options and the reason:
-
-```markdown
-## D1: Redis holds OTP state
-Chosen over a DB table (slower, needs cleanup job) and JWT (cannot revoke).
-Redis is already in the stack and TTL handles expiry for free.
-```
-
-**`spec.md`** — the what and how. Structure (drop empty sections):
-
-```markdown
-# Spec: {feature}
-## Problem        — from the user's perspective
-## Solution       — from the user's perspective
-## User Stories   — numbered "As a…, I want…, so that…"
-## Expected Outcome — what exists once this ships: what the user can do
-                    that they couldn't before, and how success is judged
-## Implementation — modules touched, interfaces, schema/API contracts;
-                    cite decisions as (D1), (D2) instead of retelling them
-## Seams          — the public boundaries where behaviour is observable;
-                    the future test skill reads this section
-## Out of Scope   — what this feature deliberately does not do
-```
-
-No file paths or code snippets. Exception: a snippet that IS the decision
-(a state machine, a schema).
-
-**`flow.md`** — how it runs: mermaid diagram(s), one-line caption each,
-drawn with the **mermaid-flow** skill (this plugin).
+| File | What it holds | Template |
+|---|---|---|
+| `decisions.md` | the why — every decision, its rejected options and reasons | [templates/decisions.md](templates/decisions.md) |
+| `spec.md` | the what and how — problem, stories, outcome, implementation, seams, out of scope | [templates/spec.md](templates/spec.md) |
+| `flow.md` | how it runs — mermaid diagrams drawn with the **mermaid-flow** skill (this plugin) | [templates/flow.md](templates/flow.md) |
 
 ## Phase 2.5 — Legal check, every feature
 
@@ -165,8 +143,8 @@ estimated size). Then ask with AskUserQuestion: **Approve / Adjust**.
   alone, fold the findings, re-check it against the ADR criteria, then
   gate again.
 - **Approve** → the docs are done. Write each ADR draft to
-  `docs/adr/NNNN-slug.md` and add an `ADR: NNNN` line under each source
-  `D{n}` in decisions.md. Name the doc and ADR files in the reply, then
+  `docs/adr/NNNN-slug.md` ([templates/adr.md](templates/adr.md)) and set
+  the `ADR` field of each source `D{n}` and its index row in decisions.md. Name the doc and ADR files in the reply, then
   invoke the **warroom-tickets** skill (this plugin) on this feature right
   away — it quizzes the user on the breakdown before writing anything.
   Stop after the tickets are written. Leave everything uncommitted —

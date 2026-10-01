@@ -1,0 +1,57 @@
+# Template: decisions.md
+
+The why behind the feature. Copy the skeleton under **Template**; follow
+**Rules**. Labels, `##` headings, `D{n}`, and the words in the Status and
+From fields stay in English; everything else is in the docs language.
+
+## Rules
+
+- **Index first.** The table at the top lists every decision. Update its row
+  whenever a decision is added or its Status or ADR changes.
+- **One fact per bullet.** Never chain facts with `·`, `/`, or `+` on one
+  line — that is what makes a decision unreadable.
+- **Chosen and Why are one or two sentences each.** Anything longer belongs
+  in Details.
+- **Rejected lists every real alternative with its reason**, one per bullet:
+  `{option} — {why not}`.
+- **Details holds at most eight bullets.** More than that is spec material:
+  move it to spec.md › Implementation and cite the `D{n}` there.
+- **Bundle form** for many small rulings from one source (decided from the
+  code, red-team fixes): Chosen says what the bundle covers; each Details
+  bullet is `**{topic}:** {ruling} — {why}`. Skip Why and Rejected unless one
+  applies to the whole bundle.
+- **Append-only.** A new decision takes the next number. Changing an older
+  one is a new `D{n}`; the old entry keeps its text and only its Status
+  changes (`superseded by D10`, `changed by D21`, `extended by D25`).
+- **Footer on every entry:** `From` (`interview`, `code`, `legal`,
+  `red team`, `gate`), `Status` (`active` unless changed), `ADR` (`—` until
+  the gate writes one).
+- Drop empty optional fields (Details, Accepted risk).
+
+## Template
+
+```markdown
+# Decisions: {feature slug}
+
+| D | Decision | Status | ADR |
+|---|---|---|---|
+| D1 | {title} | active | — |
+| D2 | {title} | superseded by D5 | — |
+
+## D1: {title — the decision as a short statement}
+
+**Chosen:** {what we do, one or two sentences}
+
+**Why:** {the reason, one or two sentences}
+
+**Rejected:**
+- {option} — {why not}
+- {option} — {why not}
+
+**Details:**
+- {one fact per bullet}
+
+**Accepted risk:** {only when a known risk was accepted, and why it is tolerable}
+
+**From:** interview · **Status:** active · **ADR:** —
+```
