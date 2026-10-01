@@ -159,7 +159,11 @@ or `ADR: none — {reason}`), and the rough build shape (modules touched,
 estimated size). Then ask with AskUserQuestion: **Approve / Adjust**.
 
 - **Adjust** → fold the changes into the docs — including cutting or
-  rewording an ADR draft — and gate again.
+  rewording an ADR draft — and gate again. An adjustment that adds or
+  changes a `D{n}` (more than ADR wording) skipped the red team: rerun
+  warroom-legal on the items it touches, give that `D{n}` to The Breaker
+  alone, fold the findings, re-check it against the ADR criteria, then
+  gate again.
 - **Approve** → the docs are done. Write each ADR draft to
   `docs/adr/NNNN-slug.md` and add an `ADR: NNNN` line under each source
   `D{n}` in decisions.md. Name the doc and ADR files in the reply, then

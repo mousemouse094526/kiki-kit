@@ -35,6 +35,9 @@ If any one is missing, skip it.
 - **Constraints not visible in the code** — compliance, infrastructure,
   partner contracts.
 - **Rejected alternatives when the rejection is non-obvious.**
+- **A rule every later feature must follow** — "every Company-owned table is
+  deleted with its Company", "every Admin write is audited". The obligation
+  is the decision, even when this feature's own use of it looks small.
 
 ### Not an ADR, even when it feels important
 
@@ -44,6 +47,8 @@ An ADR is not a diary of every choice made this session.
 - This feature's own behaviour — UX, messages, scope cuts.
 - Ops runbooks — deploy order, seed steps.
 - Consequences of an existing ADR — cite it instead.
+- Implementation detail inside an ADR-worthy decision — id format, key
+  names, header names. The ADR keeps the rule; the spec keeps the detail.
 
 ## Where candidates hide
 
@@ -59,6 +64,9 @@ The interview is not the only source. Check:
 
 One ADR = one decision. Several `D{n}` that make one decision → one ADR
 citing all of them. The source `D{n}` stays in `decisions.md` either way.
+A draft whose `Source:` lists more than three `D{n}`, or that needs "and"
+to state its title, is usually a summary of the feature, not one decision:
+split it or cut it down to the rule.
 
 ## The Successor — sweep subagent
 
@@ -86,6 +94,10 @@ one. Create the folder lazily, on the first ADR.
 
 Source: {feature slug} D1, D2 · legal 3
 ```
+
+**Hard limit: three sentences.** No key names, header names, or numbers
+unless that exact name or number is the decision. Over three → split the
+ADR or move the detail back to the spec.
 
 Optional, only when they add genuine value: **Status** (`proposed |
 accepted | deprecated | superseded by ADR-NNNN`), **Considered Options**,
