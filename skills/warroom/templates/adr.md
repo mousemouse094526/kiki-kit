@@ -4,6 +4,8 @@ Format from Matt Pocock's `ADR-FORMAT.md`
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT © Matt Pocock).
 Criteria and limits are in [../references/adr.md](../references/adr.md).
 
+Follow [markdown-style.md](../references/markdown-style.md).
+
 ## Template
 
 ```markdown

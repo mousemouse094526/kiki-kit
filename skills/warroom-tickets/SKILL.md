@@ -111,6 +111,10 @@ skeleton, and follow its rules.
 Work the **frontier**: any ticket whose blockers are all done. For a
 purely linear chain that means top to bottom.
 
+Before finishing, run the self-check in
+[markdown-style.md](../warroom/references/markdown-style.md) on every ticket
+file against [templates/ticket.md](templates/ticket.md).
+
 Finish by listing the ticket files and the frontier (the tickets that can
 start now). Leave the files uncommitted. Do NOT edit
 spec.md or decisions.md.

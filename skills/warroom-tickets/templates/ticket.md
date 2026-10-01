@@ -7,6 +7,8 @@ skeleton under **Template**; follow **Rules**. Labels, status values, and
 
 ## Rules
 
+All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
+
 - **What to build** is the end-to-end behaviour from the user's side, two
   or three sentences — not a layer-by-layer task list.
 - **Blocked by** names ticket numbers and titles, or
@@ -14,10 +16,8 @@ skeleton under **Template**; follow **Rules**. Labels, status values, and
 - **Covers** names exactly what this ticket delivers, one kind per bullet:
   decisions, ADRs, seams (by number in spec.md › Seams), user stories,
   legal items. warroom-tickets' coverage check reads these.
-- **One observable behaviour per bullet**: `{situation} → {result}`. Plain
-  `- ` bullets, no `- [ ]` checkboxes — they render as raw `[ ]` in many
-  viewers, and **Status** already says whether the ticket is done. More
-  than eight → group them under `###` sub-headings by area, or split the
+- **One observable behaviour per bullet**: `{situation} → {result}`.
+  **Status** says whether the ticket is done. More than eight → group them under `###` sub-headings by area, or split the
   ticket.
 - **Status** is `ready-for-agent`, `in-progress`, or `done`.
 - No file paths or code snippets — they go stale fast. A snippet that

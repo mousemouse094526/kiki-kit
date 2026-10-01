@@ -84,6 +84,8 @@ writing its file, copy its skeleton, and follow its rules:
 | `spec.md` | the what and how — problem, stories, outcome, implementation, seams, out of scope | [templates/spec.md](templates/spec.md) |
 | `flow.md` | how it runs — mermaid diagrams drawn with the **mermaid-flow** skill (this plugin) | [templates/flow.md](templates/flow.md) |
 
+Every doc also follows [references/markdown-style.md](references/markdown-style.md).
+
 ## Phase 2.5 — Legal check, every feature
 
 Invoke the **warroom-legal** skill (this plugin) on the drafted feature. It
@@ -127,7 +129,10 @@ follow it or supersede it; record the answer as a new `D{n}`.
 
 ## The Gate — approve the plan
 
-Show the whole picture in chat: the doc folder path, the decision list
+First run the self-check in
+[references/markdown-style.md](references/markdown-style.md) on every file
+this warroom wrote or changed — docs, ADR drafts, and `CONTEXT.md`. Then
+show the whole picture in chat: the doc folder path, the decision list
 (`D1: title` per line), the legal summary (verdict per item — ALLOWED /
 NOT ALLOWED / CONDITIONAL with its requirements — or "no legal surface"),
 the red team line (`Red team: x fixed, y decided (D7, D8), z dismissed`,
@@ -144,7 +149,8 @@ estimated size). Then ask with AskUserQuestion: **Approve / Adjust**.
   gate again.
 - **Approve** → the docs are done. Write each ADR draft to
   `docs/adr/NNNN-slug.md` ([templates/adr.md](templates/adr.md)) and set
-  the `ADR` field of each source `D{n}` and its index row in decisions.md. Name the doc and ADR files in the reply, then
+  the `ADR` field of each source `D{n}` and its index row in decisions.md;
+  self-check those files. Name the doc and ADR files in the reply, then
   invoke the **warroom-tickets** skill (this plugin) on this feature right
   away — it quizzes the user on the breakdown before writing anything.
   Stop after the tickets are written. Leave everything uncommitted —
@@ -161,6 +167,7 @@ build skill reads the approved spec — and the interview continues.
 - **Legal runs every time.** Never skip it on a hunch that nothing is risky.
 - **Red team runs every time**, after legal, before the gate.
 - **ADR sweep runs every time**, after the red team. "None" needs a reason.
+- **Self-check before every gate**, and again after writing ADR files.
 - **Every decision has a number.**
 - **Docs and chat in the user's language**; fixed tokens stay as-is.
 - **One feature per session.** A second feature gets its own warroom.

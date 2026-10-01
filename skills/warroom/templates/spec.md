@@ -6,6 +6,8 @@ Drop a section only when it would be empty.
 
 ## Rules
 
+All of [markdown-style.md](../references/markdown-style.md), plus:
+
 - **Cite, don't retell.** A decision appears as `(D3)`; its reasoning lives
   in decisions.md.
 - **One idea per bullet.** Nest bullets for steps or sub-cases instead of

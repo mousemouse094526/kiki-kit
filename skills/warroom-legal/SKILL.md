@@ -74,7 +74,10 @@ The **Summary table is the payload**: verdict and requirements per item,
 complete on its own. URLs appear only in **References** — verdicts cite by
 `[n]`.
 
-After writing, **send the file with SendUserFile**. Then reply in chat, in
+After writing, run the self-check in
+[markdown-style.md](../warroom/references/markdown-style.md) against
+[templates/legal.md](templates/legal.md), then **send the file with
+SendUserFile**. Then reply in chat, in
 the conversation's language: one line per item with its verdict — reasons
 only for NOT ALLOWED and CONDITIONAL — plus any UNVERIFIED marks and the
 file path.

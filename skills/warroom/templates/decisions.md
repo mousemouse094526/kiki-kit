@@ -6,10 +6,10 @@ From fields stay in English; everything else is in the docs language.
 
 ## Rules
 
+All of [markdown-style.md](../references/markdown-style.md), plus:
+
 - **Index first.** The table at the top lists every decision. Update its row
   whenever a decision is added or its Status or ADR changes.
-- **One fact per bullet.** Never chain facts with `·`, `/`, or `+` on one
-  line — that is what makes a decision unreadable.
 - **Chosen and Why are one or two sentences each.** Anything longer belongs
   in Details.
 - **Rejected lists every real alternative with its reason**, one per bullet:

@@ -6,6 +6,8 @@ are in the language the user writes in.
 
 ## Rules
 
+All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
+
 - **One `##` section per item**, numbered, titled with what the user wants
   to do, citing the decisions it comes from when checking a feature
   (`(D3, D9)`).
@@ -13,8 +15,7 @@ are in the language the user writes in.
 - **NOT ALLOWED** → one or two sentences naming the prohibition, cited.
 - **CONDITIONAL** → `Required to be allowed:` then one plain bullet per
   requirement, each a concrete thing that must exist or be done, each
-  cited. Plain `- ` bullets — no `- [ ]` checkboxes: nobody ticks them
-  here, and the work is tracked in the spec and tickets.
+  cited. The work itself is tracked in the spec and tickets.
 - **Assumptions** the verdicts rest on (who is controller, who is a service
   provider) go in a short list under the header, before item 1.
 - **Summary table is the payload** — verdict and requirements per item,

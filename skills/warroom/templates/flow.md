@@ -5,6 +5,8 @@ skeleton under **Template**.
 
 ## Rules
 
+All of [markdown-style.md](../references/markdown-style.md), plus:
+
 - **Reading order up front** — a numbered list of the diagrams.
 - **Same names as spec.md** — error codes, fields, roles, terms from
   `CONTEXT.md`.
