@@ -1,6 +1,6 @@
 {
   "name": "kiki-kit",
-  "description": "Skills for planning one feature on paper up to an approval gate (warroom + Thai-law legal check), then splitting it into tickets and building them test-first (with a debugging discipline), readable Mermaid diagrams, and brand logo packages.",
+  "description": "Skills for planning one feature on paper up to an approval gate (warroom + Thai-law legal check), then splitting it into tickets and building them test-first (with a debugging discipline), persona trials of the running app, readable Mermaid diagrams, and brand logo packages.",
   "author": {
     "name": "kiki"
   }

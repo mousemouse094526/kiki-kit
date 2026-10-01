@@ -8,11 +8,12 @@ Claude Code skills, packaged as a plugin.
 | `warroom-tickets` | Split approved warroom docs into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
 | `warroom-build` | Build one ticket per session: TDD at the agreed seams, full suite, two-axis review (Standards + Spec), commit |
 | `warroom-debug` | Debug any failure: reproduce, narrow scope, falsify ranked hypotheses with an Outsider subagent, ledger, regression test, postmortem record in `docs/debug/` |
+| `warroom-trial` | Role-played users (from the spec's actors and real-world roles) try the running app on localhost without seeing the code; findings triaged into bug / spec gap / friction in one trial report |
 | `warroom-legal` | "Can we do this under Thai law?" Per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with sources, in one `legal.md` |
 | `mermaid-flow` | Readable Mermaid diagrams, checked for correctness before delivery |
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |
 
-Flow: `warroom` → (gate) → `warroom-tickets` automatically → `warroom-build` (once per ticket, `warroom-debug` when something fails unexplained).
+Flow: `warroom` → (gate) → `warroom-tickets` automatically → `warroom-build` (once per ticket, `warroom-debug` when something fails unexplained) → `warroom-trial` once tickets can be demoed.
 `warroom` uses `mermaid-flow` and `warroom-legal` from this plugin.
 
 Credits:
