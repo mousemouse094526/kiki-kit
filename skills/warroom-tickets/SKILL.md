@@ -7,7 +7,9 @@ description: >-
   decisions.md, flow.md, legal.md) and CONTEXT.md, explores the codebase
   for prefactoring, drafts vertical slices, quizzes the user on
   granularity and blocking edges, and writes the tickets only after the
-  user approves the breakdown. No code. Warroom runs it right after its
+  user approves the breakdown. Ends with a ready-to-paste prompt for
+  warroom-build, checked against the project (uncommitted docs, branch,
+  services, test setup, reference notes). No code. Warroom runs it right after its
   approval gate; also runs standalone as /warroom-tickets {slug}.
 ---
 
@@ -115,6 +117,15 @@ Before finishing, run the self-check in
 [markdown-style.md](../warroom/references/markdown-style.md) on every ticket
 file against [templates/ticket.md](templates/ticket.md).
 
-Finish by listing the ticket files and the frontier (the tickets that can
-start now): "Next: /warroom-build {slug}". Leave the files uncommitted. Do NOT edit
-spec.md or decisions.md.
+### 6. Hand off to the build
+
+List the ticket files and the frontier (the tickets that can start now).
+Then generate the **build prompt** from
+[templates/build-prompt.md](templates/build-prompt.md): run its checks on
+the project — uncommitted docs, branch, services, test setup, reference
+notes, secrets, ticket size — and show the steps that apply followed by one
+ready-to-paste **English** prompt for `/warroom-build {slug} {first frontier ticket}` in
+a new session.
+
+Leave the files uncommitted — the build prompt's first step commits them.
+Do NOT edit spec.md or decisions.md.
