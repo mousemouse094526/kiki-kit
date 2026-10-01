@@ -3,8 +3,10 @@ name: warroom-build
 description: >-
   Implement ONE warroom ticket into committed code, in this session. Picks
   the frontier ticket from docs/features/{slug}/tickets/ (or the one named),
-  reads the current docs of every library it touches (llms.txt first,
-  indexed in docs/reference/), builds it test-first at the seams agreed in
+  first makes sure every language, runtime, and library it touches has a
+  reference note with best practices from the current official docs
+  (llms.txt first, indexed in docs/reference/) — fetching and writing any
+  that are missing — builds it test-first at the seams agreed in
   spec.md, runs typecheck and single test files regularly and the full
   suite once at the end, reviews the diff on three axes (Standards, Spec,
   and a Newcomer who knows nothing about the ticket) with parallel
@@ -52,11 +54,13 @@ items. Read `CONTEXT.md` so names match the domain. Then:
 - Find the typecheck, single-test-file, full-suite, and lint commands
   (package.json scripts, Makefile, CI config). State them in one line.
 - Set `**Status:** in-progress`.
-- **Library docs** — follow
+- **Language and library docs** — follow
   [references/library-docs.md](references/library-docs.md) for every
-  library this ticket's code will call: check `docs/reference/README.md`,
-  read the library's `llms.txt` (or its official docs when it has none),
-  and add or update the index row and note.
+  language, runtime, and library this ticket's code touches: check
+  `docs/reference/README.md`; anything without a reference yet or with a
+  changed version → fetch its `llms.txt` (or official docs and style guide)
+  and write its note with best practices and a pattern **before writing any
+  code**.
 
 ## 3. Build test-first
 

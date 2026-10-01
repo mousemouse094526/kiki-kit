@@ -1,29 +1,44 @@
-# Template: docs/reference/{library}.md
+# Template: docs/reference/{name}.md
 
-A short note per library: what the docs don't tell this project. Follow
-[markdown-style.md](../../warroom/references/markdown-style.md).
+One note per language, runtime, or library: the best practices this
+project follows and what the docs don't say about how it is used here.
+Follow [markdown-style.md](../../warroom/references/markdown-style.md).
 
 ## Rules
 
+- **Written before the first code that uses it**, then extended by later
+  tickets.
 - **Summarise and link** — never paste docs pages.
-- **How we use it** holds this project's choices, each citing its `D{n}`
-  or ADR when one exists.
-- **Traps** are behaviours that surprised a build or a debug session, each
-  with the doc link or debug record that proves it.
+- **Best practices** come from official sources only, each with its link.
+- **Pattern** is one short example written for this project in its style —
+  not copied from the docs — with the page it follows.
+- **How we use it** cites the `D{n}` or ADR behind each choice.
+- **Traps** link the doc page or `docs/debug/` record that proves them.
 - Sections with nothing to say are dropped.
 
 ## Template
 
-```markdown
-# {library}
+````markdown
+# {name}
 
-**Version:** {installed version}
+**Kind:** language | runtime | library
+
+**Version:** {installed version, and strictness settings for a language}
 
 **Docs:** {llms.txt or official docs URL}
 
-## Pages we used
+## Best practices
 
-- [{page title}]({url}) — {what this project needed from it}
+- {recommended idiom} — [{page}]({url})
+- **Avoid:** {what the docs warn against} — [{page}]({url})
+
+## Pattern
+
+```{lang}
+{a short example in this project's style}
+```
+
+Follows [{page}]({url}).
 
 ## How we use it
 
@@ -32,4 +47,4 @@ A short note per library: what the docs don't tell this project. Follow
 ## Traps
 
 - {behaviour that surprised us} — [{source}]({doc link or docs/debug/… record})
-```
+````

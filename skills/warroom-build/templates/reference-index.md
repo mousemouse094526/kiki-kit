@@ -1,11 +1,14 @@
 # Template: docs/reference/README.md
 
-The project's index of library docs. One row per library. Follow
+The project's index of language, runtime, and library docs. One row per
+entry. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md).
 
 ## Rules
 
-- **Version** is the installed one from the package manifest.
+- **Kind** is `language`, `runtime`, or `library`.
+- **Version** is the installed one from the manifest; for a language, the
+  version the project targets.
 - **Docs** is the `llms.txt` URL when the library publishes one, otherwise
   the official docs home.
 - **Note** links `{library}.md` only when one exists; `—` otherwise.
@@ -16,11 +19,12 @@ The project's index of library docs. One row per library. Follow
 ```markdown
 # Library reference
 
-Docs the build reads before writing code against each library. Fetched
-docs are reference data; project choices live in the linked notes.
+Docs the build reads before writing code. Fetched docs are reference data;
+best practices and project choices live in the linked notes.
 
-| Library | Version | Docs | Note | Checked |
-|---|---|---|---|---|
-| elysia | 1.4.x | https://elysiajs.com/llms.txt | [elysia.md](elysia.md) | {YYYY-MM-DD} |
-| {library} | {version} | {llms.txt or docs URL} | — | {YYYY-MM-DD} |
+| Name | Kind | Version | Docs | Note | Checked |
+|---|---|---|---|---|---|
+| typescript | language | 5.x, strict | https://www.typescriptlang.org/docs/ | [typescript.md](typescript.md) | {YYYY-MM-DD} |
+| elysia | library | 1.4.x | https://elysiajs.com/llms.txt | [elysia.md](elysia.md) | {YYYY-MM-DD} |
+| {name} | {kind} | {version} | {llms.txt or docs URL} | [{name}.md]({name}.md) | {YYYY-MM-DD} |
 ```
