@@ -136,7 +136,7 @@ system let this happen, never who.
   action says where it is tracked: a ticket, an ADR, a check in CI.
 - **What helped** — what made this fast or slow to find.
 
-Put the confirmed hypothesis in the fix's commit message. Report in one
+Put the confirmed hypothesis in the fix's commit message, in English. Report in one
 line per phase, plus the record path.
 
 ## Operating rules

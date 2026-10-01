@@ -56,7 +56,8 @@ the ticket uses something that has **no note yet**:
 - **How we use it** — the project's choices, citing `D{n}` or ADRs.
 - **Traps** — behaviours that surprised a build or a debug session.
 
-Summarise and link; never paste whole docs pages. Later tickets add to the
+Notes are written in English, like the sources they summarise. Summarise
+and link; never paste whole docs pages. Later tickets add to the
 note when they learn something; bump its version when the manifest does.
 
 ## 5. Use it

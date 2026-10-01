@@ -19,10 +19,23 @@ rules add to these; where they conflict, the template wins.
   next one, so they render as separate paragraphs.
 - **Headings go one level at a time** — `##` then `###`, never skipping.
 - **Code identifiers in backticks** — fields, routes, error codes, env vars.
-- **Fixed tokens stay in English** — file names, template labels and
-  headings, status words, verdict words, `D{n}`. Prose follows the
-  language the user writes in.
+- **Language** — see the next section.
 - No emoji, no raw HTML.
+
+## Language — English except the docs
+
+One rule for every warroom skill:
+
+| Output | Language |
+|---|---|
+| **Docs the user reads** — spec, decisions, flow, legal, ADRs, tickets, debug records, trial reports, `CONTEXT.md` descriptions | the language the user writes in |
+| Chat replies and AskUserQuestion choices | the language the user writes in |
+| Everything else — skill files, prompts between agents (subagent briefs, the build prompt), `docs/reference/` notes, code, code comments, test names, log messages, commit messages, branch names | **English** |
+
+Inside the docs, **fixed tokens stay in English**: file names, template
+labels and headings, status and kind words, verdict words, `D{n}`, glossary
+term names, code identifiers. Quoted UI text stays in the language the app
+shows it in.
 
 ## Self-check — before finishing
 
@@ -32,7 +45,8 @@ Re-open every file you wrote or changed in this run, then:
    in its template; no required section missing.
 2. **Checkboxes** — search for `[ ]` and `[x]`; replace with plain `- `.
 3. **Rule pass** — read each bullet against the rules above and the
-   template's own rules (length limits, one fact per bullet, citations).
+   template's own rules (length limits, one fact per bullet, citations,
+   the language table).
 4. Fix what fails, then re-run 1–3 on the fixed files.
 
 Report "self-check: passed" or what was fixed in one line of the reply.

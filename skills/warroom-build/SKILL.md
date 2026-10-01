@@ -62,6 +62,10 @@ items. Read `CONTEXT.md` so names match the domain. Then:
   and write its note with best practices and a pattern **before writing any
   code**.
 
+Language: code, comments, test names, commits, and `docs/reference/` notes
+are English; replies to the user follow their language — see
+[markdown-style.md](../warroom/references/markdown-style.md#language--english-except-the-docs).
+
 ## 3. Build test-first
 
 Follow [references/tdd.md](references/tdd.md). The seams are the ones the

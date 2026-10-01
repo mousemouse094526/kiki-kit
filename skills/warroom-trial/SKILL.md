@@ -116,4 +116,5 @@ no commit from this skill.
 - **Personas run one at a time**, each in a fresh subagent.
 - **Nothing is fixed without the user's pick.** The default is a report.
 - **Report in the user's language**; kinds, status words, and `D{n}` stay
-  in English.
+  in English. Persona briefs are English; personas quote the app's UI text
+  as shown.
