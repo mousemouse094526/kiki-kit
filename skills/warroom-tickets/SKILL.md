@@ -102,33 +102,11 @@ numbered from `01` in dependency order (blockers first). One ticket per
 file, never a single combined file.
 
 **Language = the docs language** (the language the user writes in, same as
-warroom). Fixed tokens stay as-is: the file names, the `**What to build:**`
-/ `**Blocked by:**` / `**Status:**` labels, status values, `D{n}` ids,
-glossary terms, code identifiers.
+warroom). Fixed tokens stay as-is: the file names, the template's labels
+and headings, status values, `D{n}` ids, glossary terms, code identifiers.
 
-<local-ticket-template>
-
-# <NN>: <Ticket title>
-
-**What to build:** the end-to-end behaviour this ticket makes work, from
-the user's perspective, not a layer-by-layer implementation list.
-
-**Blocked by:** the numbers/titles of the tickets that gate this one, or
-"None (can start immediately)".
-
-**Covers:** the user stories, seams, `D{n}`, and legal items this ticket
-delivers.
-
-**Status:** ready-for-agent
-
-- [ ] Acceptance criterion 1
-- [ ] Acceptance criterion 2
-
-</local-ticket-template>
-
-Avoid specific file paths or code snippets: they go stale fast. Exception:
-a snippet that encodes a decision more precisely than prose can (state
-machine, schema, type shape) — the spec already holds these; cite it.
+Read [templates/ticket.md](templates/ticket.md) before writing, copy its
+skeleton, and follow its rules.
 
 Work the **frontier**: any ticket whose blockers are all done. For a
 purely linear chain that means top to bottom.
