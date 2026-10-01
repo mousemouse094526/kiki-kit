@@ -13,8 +13,10 @@ description: >-
   subagents, marks the ticket done, and commits to the current branch. An
   unexplained failure hands off to warroom-debug. One ticket per session.
   Invoke with /warroom-build {slug} [ticket-number]; /warroom-build {slug}
-  --review-feature reviews the whole feature branch before merge.
-disable-model-invocation: true
+  --review-feature reviews the whole feature branch before merge. Use only
+  when the user explicitly asks to build a warroom ticket or review a
+  warroom feature — including a pasted build prompt — never on your own
+  initiative.
 ---
 
 # Warroom Build

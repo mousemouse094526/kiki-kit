@@ -11,8 +11,8 @@ description: >-
   trial report under docs/features/{slug}/trial/. Nothing is fixed without
   the user's pick: bugs go to warroom-debug, spec gaps to warroom, friction
   to new tickets. Invoke with /warroom-trial {slug}, after warroom-build has
-  landed tickets someone can demo.
-disable-model-invocation: true
+  landed tickets someone can demo. Use only when the user explicitly asks
+  for a trial — never on your own initiative.
 ---
 
 # Warroom Trial — let the users try it before they do
