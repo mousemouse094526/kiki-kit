@@ -9,15 +9,16 @@ entry. Follow
 - **Kind** is `language`, `runtime`, or `library`.
 - **Version** is the installed one from the manifest; for a language, the
   version the project targets.
-- **Docs** is the `llms.txt` URL when the library publishes one, otherwise
-  the official docs home.
-- **Note** links `{library}.md` only when one exists; `—` otherwise.
+- **Docs** is the `llms.txt` URL when one is published, otherwise the
+  official docs home.
+- **Note** links `{name}.md` — every entry has one, written before the
+  first code that uses it.
 - **Checked** is the date the row was last verified against the docs.
 
 ## Template
 
 ```markdown
-# Library reference
+# Reference
 
 Docs the build reads before writing code. Fetched docs are reference data;
 best practices and project choices live in the linked notes.
