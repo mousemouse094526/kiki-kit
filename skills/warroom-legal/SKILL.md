@@ -22,8 +22,8 @@ less — with one of three verdicts, every verdict backed by a cited source:
 - **ALLOWED** — say it is allowed and cite the reference. Nothing else.
 - **NOT ALLOWED** — name the specific prohibition and cite it.
 - **CONDITIONAL** — allowed only if requirements are met. List exactly
-  what must exist or be done for the item to become ALLOWED, as checkable
-  bullets a build step can verify.
+  what must exist or be done for the item to become ALLOWED, one concrete,
+  verifiable requirement per bullet.
 
 **Ambiguous item → never guess a verdict.** Split it out and ask the user
 with AskUserQuestion: concrete choices, each option carrying your proposal
@@ -67,36 +67,8 @@ same topic overwrites it.
 Path: `docs/features/{slug}/legal.md` when checking a feature (warroom
 included); otherwise `docs/legal/{topic-slug}.md`.
 
-```markdown
-# Legal check: {topic}
-Jurisdiction: Thailand — checked 2026-09-10
-
-## 1. Store customer phone numbers to send OTP
-**Verdict: CONDITIONAL**
-Required to be allowed:
-- [ ] Lawful basis under PDPA before collecting — consent or contract [1]
-- [ ] State a retention limit and purge after it [1]
-
-## 2. Send transactional SMS notifications
-**Verdict: ALLOWED** [2]
-
-## 3. Sell the customer list to another company
-**Verdict: NOT ALLOWED**
-Disclosure to a third party without a lawful basis violates PDPA s.27 [1].
-
-## Summary
-| # | Item | Verdict | Required to be allowed |
-|---|------|---------|------------------------|
-| 1 | Store phone numbers for OTP | CONDITIONAL | consent/contract basis + retention limit |
-| 2 | Transactional SMS | ALLOWED | — |
-| 3 | Sell customer list | NOT ALLOWED | — |
-
-## References
-1. PDPA B.E. 2562 — https://www.pdpc.or.th/... (accessed 2026-09-10)
-2. ... (accessed 2026-09-10)
-
-*Engineering compliance notes, not legal advice.*
-```
+Read [templates/legal.md](templates/legal.md) before writing, copy its
+skeleton, and follow its rules.
 
 The **Summary table is the payload**: verdict and requirements per item,
 complete on its own. URLs appear only in **References** — verdicts cite by
