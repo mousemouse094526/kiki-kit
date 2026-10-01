@@ -6,15 +6,23 @@ Claude Code skills, packaged as a plugin.
 |---|---|
 | `warroom` | Plan one feature on paper: interview, spec/decisions/flow/legal docs, five-reviewer red team, approval gate, then tickets. No code |
 | `warroom-tickets` | Split approved warroom docs into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
+| `warroom-build` | Build one ticket per session: TDD at the agreed seams, full suite, two-axis review (Standards + Spec), commit |
+| `warroom-debug` | Debug any failure: reproduce, narrow scope, falsify ranked hypotheses with an Outsider subagent, ledger, regression test, postmortem record in `docs/debug/` |
 | `warroom-legal` | "Can we do this under Thai law?" Per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with sources, in one `legal.md` |
 | `mermaid-flow` | Readable Mermaid diagrams, checked for correctness before delivery |
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |
 
-Flow: `warroom` → (gate) → `warroom-tickets` automatically.
-`warroom` uses `mermaid-flow` and `warroom-legal` from this plugin. Its glossary
-rules are adapted from Matt Pocock's `domain-modeling`, and `warroom-tickets`
-from his `to-tickets`
-([mattpocock/skills](https://github.com/mattpocock/skills), MIT).
+Flow: `warroom` → (gate) → `warroom-tickets` automatically → `warroom-build` (once per ticket, `warroom-debug` when something fails unexplained).
+`warroom` uses `mermaid-flow` and `warroom-legal` from this plugin.
+
+Credits:
+- Matt Pocock ([mattpocock/skills](https://github.com/mattpocock/skills), MIT):
+  `domain-modeling` (glossary, ADRs), `to-tickets`, `implement`, `tdd`,
+  `code-review`, `diagnosing-bugs`.
+- 9arm's `debug-mantra` ([thananon/9arm-skills](https://github.com/thananon/9arm-skills)):
+  the four debug mantras.
+- lyndonkl's `postmortem` ([lyndonkl/claude](https://github.com/lyndonkl/claude)):
+  the blameless postmortem.
 
 ## Install
 

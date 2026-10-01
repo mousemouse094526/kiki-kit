@@ -1,0 +1,97 @@
+---
+name: warroom-build
+description: >-
+  Implement ONE warroom ticket into committed code, in this session. Picks
+  the frontier ticket from docs/features/{slug}/tickets/ (or the one named),
+  builds it test-first at the seams agreed in spec.md, runs typecheck and
+  single test files regularly and the full suite once at the end, reviews
+  the diff on two axes (Standards and Spec) with parallel subagents, marks
+  the ticket done, and commits to the current branch. An unexplained
+  failure hands off to warroom-debug. One ticket per session. Invoke with
+  /warroom-build {slug} [ticket-number].
+disable-model-invocation: true
+---
+
+# Warroom Build
+
+Adapted from Matt Pocock's `implement`, `tdd`, and `code-review`
+([mattpocock/skills](https://github.com/mattpocock/skills), MIT): a simple
+work → feedback → commit loop over one ticket. You are the dispatcher — one
+session per ticket, clearing context between tickets.
+
+Implement the work described in the ticket. Use TDD at pre-agreed seams.
+Run typechecking regularly, single test files regularly, and the full test
+suite once at the end. Once done, review the work. Commit to the current
+branch.
+
+## 1. Pick the ticket
+
+Tickets live in `docs/features/{slug}/tickets/`. No folder → tell the user
+to run `/warroom-tickets {slug}` first.
+
+- A number given → that ticket. A **Blocked by** ticket not `done` → say
+  which, stop.
+- None given → the **frontier**: the lowest-numbered ticket at
+  `**Status:** ready-for-agent` whose every blocker is `done`. A ticket left
+  `in-progress` → ask: resume it (Recommended) or pick another.
+- Nothing ready → report what blocks the rest, stop.
+
+## 2. Load the context
+
+Read the ticket, then what its **Covers** names: the `D{n}` in
+decisions.md, the ADRs in `docs/adr/`, the Seams in spec.md, the legal
+items. Read `CONTEXT.md` so names match the domain. Then:
+
+- Record the **start commit** (`git rev-parse HEAD`) — the review diffs
+  from it.
+- On the default branch → ask once: new branch `feat/{slug}` (Recommended)
+  or stay.
+- Find the typecheck, single-test-file, full-suite, and lint commands
+  (package.json scripts, Makefile, CI config). State them in one line.
+- Set `**Status:** in-progress`.
+
+## 3. Build test-first
+
+Follow [references/tdd.md](references/tdd.md). The seams are the ones the
+ticket's Covers names from spec.md › Seams — agreed at the warroom gate, so
+don't re-ask. A behaviour no agreed seam can observe → ask the user which
+seam to add, with each option's trade-off.
+
+One acceptance criterion at a time: red → green. Run the typecheck and the
+test file after each green.
+
+**Never redesign.** A real choice the docs don't answer → ask with
+AskUserQuestion, recommended answer first, and append it to decisions.md as
+the next `D{n}`. The ticket can't be built as cut → stop, leave it
+`in-progress`, report why.
+
+**Unexplained failure → warroom-debug.** A test that fails for a reason you
+can't name in one look, a previously green test that breaks, or behaviour
+that contradicts the spec → call the Skill tool with `warroom-debug`. Come
+back here with its fix and regression test.
+
+## 4. Full suite
+
+Run the full suite, typecheck, and lint once. Fix what this ticket broke.
+Failures that were already there → report, don't fix.
+
+## 5. Review on two axes
+
+Follow [references/review.md](references/review.md): fixed point = the
+start commit; spec = this ticket plus the docs it covers. Two subagents in
+parallel — **Standards** and **Spec** — reported side by side.
+
+Fix findings inside the ticket's scope; refactoring happens here, not in
+the TDD loop. Then run focused checks on what you fixed — never a second
+broad review. List what you left and why.
+
+## 6. Commit
+
+Every acceptance criterion holds → `**Status:** done`. Commit code, tests,
+and the ticket file to the current branch:
+`feat({slug}): {ticket title} (#{NN})` — `refactor` for prefactor tickets.
+Don't push, don't open a PR.
+
+Report: what landed, new `D{n}`, any debug record written, review findings
+left, and the next frontier ticket. Recommend clearing context before the
+next `/warroom-build {slug}`.

@@ -116,5 +116,5 @@ Before finishing, run the self-check in
 file against [templates/ticket.md](templates/ticket.md).
 
 Finish by listing the ticket files and the frontier (the tickets that can
-start now). Leave the files uncommitted. Do NOT edit
+start now): "Next: /warroom-build {slug}". Leave the files uncommitted. Do NOT edit
 spec.md or decisions.md.

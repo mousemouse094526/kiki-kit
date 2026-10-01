@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "kiki-kit",
-      "description": "Feature warroom (interview, docs, approval gate), ticket splitting, Thai-law legal check, readable Mermaid diagrams, and brand logo packages.",
+      "description": "Feature warroom (interview, docs, approval gate), ticket splitting, test-first build and debugging, Thai-law legal check, readable Mermaid diagrams, and brand logo packages.",
       "source": "./",
       "category": "productivity"
     }
