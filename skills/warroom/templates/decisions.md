@@ -24,7 +24,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   one is a new `D{n}`; the old entry keeps its text and only its Status
   changes (`superseded by D10`, `changed by D21`, `extended by D25`).
 - **Footer on every entry:** `From` (`interview`, `code`, `legal`,
-  `red team`, `gate`), `Status` (`active` unless changed), `ADR` (`—` until
+  `red team`, `gate`, or `build ticket NN` for a decision made while
+  building), `Status` (`active` unless changed), `ADR` (`—` until
   the gate writes one).
 - Drop empty optional fields (Details, Accepted risk).
 
