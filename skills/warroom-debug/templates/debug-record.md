@@ -82,4 +82,8 @@ and labels stay in English; the text is in the user's language.
 - {action} — tracked in {ticket / ADR / CI check}
 
 **What helped:** {what made this fast or slow to find}
+
+## Sources
+
+- [{title}]({url}) — {what it backs: a doc page, an issue, a changelog} (accessed {YYYY-MM-DD})
 ```

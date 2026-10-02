@@ -73,4 +73,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 ## Out of Scope
 
 - {what this feature deliberately does not do} (D4)
+
+## Sources
+
+- [{title}]({url}) — {what it backs} (accessed {YYYY-MM-DD})
 ```

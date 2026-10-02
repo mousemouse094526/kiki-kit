@@ -14,7 +14,9 @@ Follow [markdown-style.md](../../warroom/references/markdown-style.md).
   not copied from the docs — with the page it follows.
 - **How we use it** cites the `D{n}` or ADR behind each choice.
 - **Traps** link the doc page or `docs/debug/` record that proves them.
-- Sections with nothing to say are dropped.
+- **Sources** lists every page fetched for this note, with its access date;
+  each bullet above links the page it came from.
+- Sections with nothing to say are dropped (Sources never is).
 
 ## Template
 
@@ -47,4 +49,8 @@ Follows [{page}]({url}).
 ## Traps
 
 - {behaviour that surprised us} — [{source}]({doc link or docs/debug/… record})
+
+## Sources
+
+- [{page title}]({url}) — {what it backs} (accessed {YYYY-MM-DD})
 ````

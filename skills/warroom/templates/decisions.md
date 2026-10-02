@@ -27,7 +27,10 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   `red team`, `gate`, or `build ticket NN` for a decision made while
   building), `Status` (`active` unless changed), `ADR` (`—` until
   the gate writes one).
-- Drop empty optional fields (Details, Accepted risk).
+- **Sources** on an entry links the outside facts it rests on (a library
+  limit, a law, a vendor constraint); the file's `## Sources` at the end
+  collects them all.
+- Drop empty optional fields (Details, Accepted risk, Sources).
 
 ## Template
 
@@ -54,5 +57,11 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 **Accepted risk:** {only when a known risk was accepted, and why it is tolerable}
 
+**Sources:** {only when the decision rests on an outside fact — [page](url), …}
+
 **From:** interview · **Status:** active · **ADR:** —
+
+## Sources
+
+- [{title}]({url}) — {what it backs} (accessed {YYYY-MM-DD})
 ```

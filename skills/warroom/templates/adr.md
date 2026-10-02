@@ -14,6 +14,8 @@ Follow [markdown-style.md](../references/markdown-style.md).
 {1-3 sentences: what's the context, what did we decide, and why.}
 
 Source: {feature slug} D1, D2 · legal 3
+
+Links: [{title}]({url}) — only when the decision rests on an outside fact
 ```
 
 Optional, only when they add genuine value: **Status** (`proposed |

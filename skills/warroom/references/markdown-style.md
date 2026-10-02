@@ -19,6 +19,13 @@ rules add to these; where they conflict, the template wins.
   next one, so they render as separate paragraphs.
 - **Headings go one level at a time** — `##` then `###`, never skipping.
 - **Code identifiers in backticks** — fields, routes, error codes, env vars.
+- **Link every outside fact to its source.** Anything that came from
+  outside the project — library docs, a law, a standard, an issue, an
+  article — carries a link where it is used, and the doc lists every link
+  under `## Sources` at the end: `- [{title}]({url}) — {what it backs}
+  (accessed {YYYY-MM-DD})`. Facts from the project itself (code, `D{n}`,
+  ADRs) are cited by name, not linked. A doc with no outside facts has no
+  Sources section.
 - **Language** — see the next section.
 - No emoji, no raw HTML.
 
@@ -44,6 +51,8 @@ Re-open every file you wrote or changed in this run, then:
 1. **Template match** — same headings, labels, and order as the skeleton
    in its template; no required section missing.
 2. **Checkboxes** — search for `[ ]` and `[x]`; replace with plain `- `.
+   **Sources** — every outside fact has a link, and every link appears
+   under `## Sources`.
 3. **Rule pass** — read each bullet against the rules above and the
    template's own rules (length limits, one fact per bullet, citations,
    the language table).
