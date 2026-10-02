@@ -14,6 +14,7 @@ Claude Code skills, packaged as a plugin.
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |
 
 Flow: `warroom` → (gate) → `warroom-tickets` automatically → `warroom-build` (once per ticket, `warroom-debug` when something fails unexplained) → `warroom-trial` once tickets can be demoed.
+Which skill calls which, and where each one hands back to you: [docs/flow.md](docs/flow.md).
 `warroom` uses `mermaid-flow` and `warroom-legal` from this plugin.
 
 Credits:
@@ -60,6 +61,7 @@ new version.
 ```
 .claude-plugin/   marketplace.json (marketplace "kiki") + plugin.json (plugin "kiki-kit") — required
 skills/           one folder per skill
+docs/             how the skills fit together (flow.md)
 ```
 
 Validate with `claude plugin validate .`
