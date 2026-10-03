@@ -27,8 +27,8 @@ reference note wins for what the library actually does.
 
 ## 2. Missing — create them before coding
 
-No conventions skill for the area the ticket touches → stop before the
-first line of code:
+Normally warroom-tickets sets conventions up before slicing. Still none for
+the area the ticket touches → stop before the first line of code:
 
 1. Read the existing code in that area and list the patterns it already
    follows (folders, layers, validation, errors, tests).
@@ -42,8 +42,10 @@ first line of code:
    `patterns/{layer}.md` per layer that has code, and a short `CLAUDE.md`
    for the app that points at it.
 4. Record the structure as a `D{n}` (and an ADR when it qualifies).
-5. Existing code that doesn't match → a prefactor ticket before the next
-   feature ticket, not a silent rewrite inside this one.
+5. Existing code that doesn't match → stop and recommend
+   `/warroom-tickets {slug}` to re-cut: it numbers the prefactor before the
+   tickets it unblocks. Never append a higher-numbered blocker by hand,
+   and never rewrite it silently inside this ticket.
 
 ## 3. Missing pattern — stop and ask
 

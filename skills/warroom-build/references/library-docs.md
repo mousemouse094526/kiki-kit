@@ -1,5 +1,10 @@
 # Language and library docs — read the real docs, not memory
 
+Reference notes hold what the **library** does and recommends. How **this
+project** uses it — folders, layers, which validator, which pattern — lives
+in the project's conventions skill ([conventions.md](conventions.md)), not
+here.
+
 Model memory of a language's idioms or a library's API is often a version
 behind. Before writing code, read the current docs of every language,
 runtime, and library the ticket touches — `llms.txt` first — and keep a
@@ -53,7 +58,6 @@ the ticket uses something that has **no note yet**:
   this ticket does, and the ones they warn against.
 - **Pattern** — one short example in this project's style, written for
   this project, with the doc page it follows.
-- **How we use it** — the project's choices, citing `D{n}` or ADRs.
 - **Traps** — behaviours that surprised a build or a debug session.
 
 Notes are written in English, like the sources they summarise. Summarise

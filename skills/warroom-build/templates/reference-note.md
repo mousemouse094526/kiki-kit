@@ -1,7 +1,7 @@
 # Template: docs/reference/{name}.md
 
-One note per language, runtime, or library: the best practices this
-project follows and what the docs don't say about how it is used here.
+One note per language, runtime, or library: what its official docs
+recommend and warn against, and the traps this project hit with it.
 Follow [markdown-style.md](../../warroom/references/markdown-style.md).
 
 ## Rules
@@ -12,7 +12,8 @@ Follow [markdown-style.md](../../warroom/references/markdown-style.md).
 - **Best practices** come from official sources only, each with its link.
 - **Pattern** is one short example written for this project in its style —
   not copied from the docs — with the page it follows.
-- **How we use it** cites the `D{n}` or ADR behind each choice.
+- **No project choices** — folders, layers, and patterns go in the
+  project's conventions skill.
 - **Traps** link the doc page or `docs/debug/` record that proves them.
 - **Sources** lists every page fetched for this note, with its access date;
   each bullet above links the page it came from.
@@ -41,10 +42,6 @@ Follow [markdown-style.md](../../warroom/references/markdown-style.md).
 ```
 
 Follows [{page}]({url}).
-
-## How we use it
-
-- {choice} ({D18}, {ADR 0007})
 
 ## Traps
 

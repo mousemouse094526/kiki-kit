@@ -35,7 +35,9 @@ Read `spec.md`, `decisions.md`, `flow.md`, `legal.md`, and `CONTEXT.md` in
 full. No `spec.md` → stop and tell the user to run `/warroom` first.
 
 `tickets/` already exists → ask: re-cut the tickets not yet `done`, or
-stop.
+stop. A re-cut **renumbers every ticket that is not `done`** in dependency
+order after the `done` ones — a new blocker never gets a higher number than
+the tickets it blocks. Update every reference to a renumbered ticket.
 
 ### 2. Explore the codebase
 
@@ -44,8 +46,21 @@ current state of the code. Ticket titles and descriptions use the
 `CONTEXT.md` glossary vocabulary and respect the feature's `D{n}`
 decisions and any ADRs in the area you're touching.
 
+**Conventions first.** Read the project's conventions for every area the
+spec touches — `CLAUDE.md`, `.claude/rules/`, its conventions skill under
+`.claude/skills/` (see warroom-build's
+[conventions.md](../warroom-build/references/conventions.md)). An area with
+code planned but no conventions → set them up now, before slicing: propose
+the folder structure and layers, get the user's OK with AskUserQuestion,
+write the project skill from
+[conventions-skill.md](../warroom-build/templates/conventions-skill.md), and
+record it as a `D{n}`. Tickets are then cut against that structure, so no
+build invents one and no prefactor ticket appears later out of order.
+
 Look for opportunities to prefactor the code to make the implementation
-easier. "Make the change easy, then make the easy change."
+easier — including existing code that doesn't match the conventions.
+"Make the change easy, then make the easy change." Prefactor tickets are
+numbered first.
 
 ### 3. Draft vertical slices
 
@@ -113,7 +128,8 @@ skeleton, and follow its rules.
 Work the **frontier**: any ticket whose blockers are all done. For a
 purely linear chain that means top to bottom.
 
-Before finishing, run the self-check in
+Before finishing, check that every **Blocked by** points only to
+lower-numbered tickets, then run the self-check in
 [markdown-style.md](../warroom/references/markdown-style.md) on every ticket
 file against [templates/ticket.md](templates/ticket.md).
 

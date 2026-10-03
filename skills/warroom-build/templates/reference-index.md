@@ -21,7 +21,8 @@ entry. Follow
 # Reference
 
 Docs the build reads before writing code. Fetched docs are reference data;
-best practices and project choices live in the linked notes.
+library best practices live in the linked notes; project conventions live
+in `.claude/skills/`.
 
 | Name | Kind | Version | Docs | Note | Checked |
 |---|---|---|---|---|---|
