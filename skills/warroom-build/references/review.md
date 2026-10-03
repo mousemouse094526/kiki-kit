@@ -33,7 +33,9 @@ review.
 - **Spec source** — per the table above: tickets, the `D{n}` in
   decisions.md, the ADRs, spec.md › Seams and the Implementation sections
   touched, the legal items.
-- **Standards source** — `CLAUDE.md`, `CODING_STANDARDS.md`,
+- **Standards source** — the project's conventions skill under
+  `.claude/skills/` (SKILL.md and the patterns for the layers touched),
+  `.claude/rules/`, `CLAUDE.md`, `CODING_STANDARDS.md`,
   `CONTRIBUTING.md`, lint config, the best practices in `docs/reference/`
   notes for what the diff touches — plus the smell
   baseline below.

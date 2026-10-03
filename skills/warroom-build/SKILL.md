@@ -56,6 +56,12 @@ items. Read `CONTEXT.md` so names match the domain. Then:
 - Find the typecheck, single-test-file, full-suite, and lint commands
   (package.json scripts, Makefile, CI config). State them in one line.
 - Set `**Status:** in-progress`.
+- **Project conventions** — follow
+  [references/conventions.md](references/conventions.md): read the
+  project's `CLAUDE.md`, `.claude/rules/`, and its conventions skill under
+  `.claude/skills/` for the area this ticket touches. None yet → propose
+  one, get the user's OK, and write it into the project before coding.
+  They live in the project, never in this skill.
 - **Language and library docs** — follow
   [references/library-docs.md](references/library-docs.md) for every
   language, runtime, and library this ticket's code touches: check
@@ -78,7 +84,11 @@ seam to add, with each option's trade-off.
 One acceptance criterion at a time: red → green. Run the typecheck and the
 test file after each green.
 
-**Never redesign.** A real choice the docs don't answer → ask with
+**Follow the project conventions: new code goes where the folder structure
+says, in the layers it names. A ticket that sets a new pattern updates the
+project's pattern file in the same commit.
+
+Never redesign.** A real choice the docs don't answer → ask with
 AskUserQuestion, recommended answer first, and append it to decisions.md as
 the next `D{n}`. The ticket can't be built as cut → stop, leave it
 `in-progress`, report why.

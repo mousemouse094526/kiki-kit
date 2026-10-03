@@ -21,6 +21,9 @@ prompt or a step before it.
 - **Test setup** — is there a test command in the manifests? None → the
   prompt says the first ticket sets it up, and with what the docs or
   ticket name.
+- **Conventions** — a project conventions skill under `.claude/skills/`
+  (or a `CLAUDE.md`) for the area the frontier ticket touches. None → the
+  prompt says the build must propose and write one before coding.
 - **References** — `docs/reference/README.md`. Missing, or missing a
   language, runtime, or library the frontier ticket touches → the prompt
   lists them so the build writes their notes before coding.
