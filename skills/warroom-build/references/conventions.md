@@ -16,8 +16,8 @@ Read, in this order, whatever exists for the area the ticket touches:
 1. `CLAUDE.md` at the repo root and in the app or package the ticket
    touches (`apps/api/CLAUDE.md`, …).
 2. `.claude/rules/*.md`.
-3. Project skills under `.claude/skills/` — the one for this area, e.g.
-   `.claude/skills/{project}-api/`: its `SKILL.md`, then only the
+3. Project skills under `.claude/skills/` — the one for this area's stack,
+   e.g. `.claude/skills/elysia-api/`: its `SKILL.md`, then only the
    `patterns/*.md` files for the layers the ticket touches.
 
 What they say is the project standard: the build follows it and the
@@ -38,7 +38,7 @@ the area the ticket touches → stop before the first line of code:
    unless the user names it.
 3. Write the project skill from
    [templates/conventions-skill.md](../templates/conventions-skill.md):
-   `.claude/skills/{project}-{area}/SKILL.md` plus one
+   `.claude/skills/{framework}-{surface}/SKILL.md` plus one
    `patterns/{layer}.md` per layer that has code, and a short `CLAUDE.md`
    for the app that points at it.
 4. Record the structure as a `D{n}` (and an ADR when it qualifies).
@@ -46,6 +46,14 @@ the area the ticket touches → stop before the first line of code:
    `/warroom-tickets {slug}` to re-cut: it numbers the prefactor before the
    tickets it unblocks. Never append a higher-numbered blocker by hand,
    and never rewrite it silently inside this ticket.
+
+## Naming
+
+Name a conventions skill after the **stack and surface** it covers, never
+the project: `{framework}-{surface}` — `elysia-api`, `tanstack-start-web`,
+`nextjs-web`, `expo-mobile`, `fastapi-api`. One skill per app type, shared
+by every app of that type in the repo. The same name in another project is
+fine — each project keeps its own copy and content.
 
 ## 3. Missing pattern — stop and ask
 

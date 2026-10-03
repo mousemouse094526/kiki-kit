@@ -1,4 +1,4 @@
-# Template: .claude/skills/{project}-{area}/
+# Template: .claude/skills/{framework}-{surface}/
 
 A project's own conventions skill. Lives in the project repo, is loaded by
 Claude Code like any skill, and is read by warroom-build before coding.
@@ -18,19 +18,21 @@ English throughout. Follow
   ticket, not a convention.
 - **Never-break rules are few** — the ones a reviewer should block a merge
   for.
+- Named `{framework}-{surface}` (see conventions.md › Naming), not after
+  the project.
 - No other project's name, paths, or code.
 
 ## SKILL.md
 
 ````markdown
 ---
-name: {project}-{area}
+name: {framework}-{surface}
 description: >-
-  How {project}'s {area} code is structured and written: {stack}. Use
-  whenever writing, moving, or reviewing code under {path}.
+  How {project}'s {surface} code ({path}) is structured and written:
+  {stack}. Use whenever writing, moving, or reviewing code under {path}.
 ---
 
-# {Project} {area}
+# {Framework} {surface}
 
 {One or two sentences: what lives here and the stack.}
 
