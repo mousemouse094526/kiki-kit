@@ -3,7 +3,9 @@
 Reference notes hold what the **library** does and recommends. How **this
 project** uses it — folders, layers, which validator, which pattern — lives
 in the project's conventions skill ([conventions.md](conventions.md)), not
-here.
+here. The only coding guidance this skill carries itself is methodology
+that holds in every project: TDD ([tdd.md](tdd.md), [tests.md](tests.md),
+[mocking.md](mocking.md)) and the review smells ([review.md](review.md)).
 
 Model memory of a language's idioms or a library's API is often a version
 behind. Before writing code, read the current docs of every language,

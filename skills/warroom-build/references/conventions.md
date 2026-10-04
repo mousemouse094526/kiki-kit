@@ -47,14 +47,6 @@ the area the ticket touches → stop before the first line of code:
    tickets it unblocks. Never append a higher-numbered blocker by hand,
    and never rewrite it silently inside this ticket.
 
-## Naming
-
-Name a conventions skill after the **stack and surface** it covers, never
-the project: `{framework}-{surface}` — `elysia-api`, `tanstack-start-web`,
-`nextjs-web`, `expo-mobile`, `fastapi-api`. One skill per app type, shared
-by every app of that type in the repo. The same name in another project is
-fine — each project keeps its own copy and content.
-
 ## 3. Missing pattern — stop and ask
 
 The skill exists but has no pattern for a layer the ticket needs (the
@@ -69,3 +61,11 @@ index before writing the code.
 - The `SKILL.md` stays short: structure, never-break rules, and the
   pattern index. Detail goes in `patterns/` so it loads only when needed.
 - Everything in the project skill is English, like code.
+
+## 5. Naming
+
+Name a conventions skill after the **stack and surface** it covers, never
+the project: `{framework}-{surface}` — `elysia-api`, `tanstack-start-web`,
+`nextjs-web`, `expo-mobile`, `fastapi-api`. One skill per app type, shared
+by every app of that type in the repo. The same name in another project is
+fine — each project keeps its own copy and content.

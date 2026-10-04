@@ -1,5 +1,11 @@
 <!-- From Matt Pocock's tdd (github.com/mattpocock/skills, MIT). -->
 
+> **Methodology, not project conventions.** These are the TDD rules every
+> project shares. Which runner, which mocking library, and where test files
+> live belong to the project's conventions skill (`patterns/testing.md`) —
+> when the two disagree on tooling, the project wins. The examples use
+> TypeScript and Jest-style syntax only to illustrate.
+
 # When to Mock
 
 Mock at **system boundaries** only:
