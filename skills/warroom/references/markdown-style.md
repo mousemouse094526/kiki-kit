@@ -1,7 +1,9 @@
 # Markdown style — every doc the warroom skills write
 
-Shared by warroom, warroom-legal, and warroom-tickets. Each template's own
-rules add to these; where they conflict, the template wins.
+Shared by every warroom skill — warroom, warroom-legal, warroom-tickets,
+warroom-build, warroom-debug, warroom-trial — and every template they use.
+Each template's own rules add to these; where they conflict, the template
+wins.
 
 ## Rules
 
@@ -12,7 +14,8 @@ rules add to these; where they conflict, the template wins.
   Nest bullets for sub-cases and steps instead of writing long lines.
 - **No chained facts in prose.** Don't join facts with `·`, `/`, or `+` on
   one line. Allowed only in table cells, footer lines
-  (`**From:** … · **Status:** … · **ADR:** …`), and `**Covers:**` lists.
+  (`**From:** … · **Status:** … · **ADR:** …`, a trial finding's
+  `**Kind:** …` line), an ADR's `Source:` line, and `**Covers:**` lists.
 - **Pick the shape that fits:** tables for contracts and comparisons,
   numbered lists for ordered steps, bullets for everything else.
 - **Bold labels stand on their own line** with a blank line before the
@@ -25,7 +28,9 @@ rules add to these; where they conflict, the template wins.
   under `## Sources` at the end: `- [{title}]({url}) — {what it backs}
   (accessed {YYYY-MM-DD})`. Facts from the project itself (code, `D{n}`,
   ADRs) are cited by name, not linked. A doc with no outside facts has no
-  Sources section.
+  Sources section. **Exception:** `legal.md` keeps its numbered
+  `## References` section instead, cited inline as `[n]` — the same rule
+  under the name lawyers expect.
 - **Language** — see the next section.
 - No emoji, no raw HTML.
 
@@ -51,11 +56,11 @@ Re-open every file you wrote or changed in this run, then:
 1. **Template match** — same headings, labels, and order as the skeleton
    in its template; no required section missing.
 2. **Checkboxes** — search for `[ ]` and `[x]`; replace with plain `- `.
-   **Sources** — every outside fact has a link, and every link appears
-   under `## Sources`.
-3. **Rule pass** — read each bullet against the rules above and the
+3. **Sources** — every outside fact has a link, and every link appears
+   under `## Sources` (`## References` in `legal.md`).
+4. **Rule pass** — read each bullet against the rules above and the
    template's own rules (length limits, one fact per bullet, citations,
    the language table).
-4. Fix what fails, then re-run 1–3 on the fixed files.
+5. Fix what fails, then re-run 1–4 on the fixed files.
 
 Report "self-check: passed" or what was fixed in one line of the reply.

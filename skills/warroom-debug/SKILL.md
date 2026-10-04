@@ -65,7 +65,8 @@ Before reading code for a theory, shrink where the bug can be:
 
 - **Docs** — what do spec.md, decisions.md, and the ADRs say should
   happen? If the code does what the docs say, this is a spec gap, not a
-  bug: stop and send it to warroom.
+  bug: set the record's Status to `spec gap → warroom`, stop, and
+  recommend `/warroom` on the feature.
 - **History** — find the last known good state (a commit, tag, branch, or
   ticket). `git log` and `git diff` since then; if the window is wide,
   `git bisect run` with the Phase 1 command.
@@ -135,6 +136,10 @@ system let this happen, never who.
 - **Prevention** — prefer, in order: remove the hazard, a safer
   substitute, an automated check or test, a process change, a note. Each
   action says where it is tracked: a ticket, an ADR, a check in CI.
+  Actions that need new work → propose them to the user with
+  AskUserQuestion; each one accepted becomes a new ticket after the highest
+  number, in [warroom-tickets' template](../warroom-tickets/templates/ticket.md),
+  `**Status:** ready-for-agent`. Nothing is created without the user's yes.
 - **What helped** — what made this fast or slow to find.
 
 Put the confirmed hypothesis in the fix's commit message, in English. Report in one
@@ -148,5 +153,7 @@ line per phase, plus the record path.
 - **No hypothesis is "the cause" until it explains every ledger row.**
 - **The record is updated as you go**, never reconstructed at the end.
 - **Redact secrets** in everything shown or recorded — write `<REDACTED>`.
-- Called from warroom-build → return the fix and regression test to it;
-  don't commit separately.
+- **The record is committed with the fix.** Called from warroom-build →
+  return the fix, the regression test, and the record to it; they go in
+  the ticket's commit, not a separate one. Run on its own → commit the
+  fix, its regression test, and the record together.

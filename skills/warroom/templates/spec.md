@@ -17,8 +17,10 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 - **Ordered steps as numbered lists** — checks in order, transaction steps.
 - **Implementation is split by `###` area** (modules touched, data, each
   API group, client, ops). One area per heading.
-- **No file paths or code snippets.** Exception: a snippet that IS the
-  decision — a state machine, a schema.
+- **Name modules and packages, not files.** `apps/api`, `packages/db`, a
+  feature folder are fine; file-level paths and code snippets are not —
+  they go stale fast. Exception: a snippet that IS the decision — a state
+  machine, a schema.
 - **Seams are numbered**, one seam per number, each with observable
   pass/fail bullets. warroom-tickets and the build read this section.
 - **Tag a seam `(e2e)`** when its behaviour can only be observed through

@@ -13,7 +13,7 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
   (`(D3, D9)`).
 - **ALLOWED** → the verdict line and its citation. Nothing else.
 - **NOT ALLOWED** → one or two sentences naming the prohibition, cited.
-- **CONDITIONAL** → `Required to be allowed:` then one plain bullet per
+- **CONDITIONAL** → `**Required to be allowed:**` then one plain bullet per
   requirement, each a concrete thing that must exist or be done, each
   cited. The work itself is tracked in the spec and tickets.
 - **Assumptions** the verdicts rest on (who is controller, who is a service
@@ -21,7 +21,7 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
 - **Summary table is the payload** — verdict and requirements per item,
   complete on its own, requirements joined with `·`.
 - URLs only in **References**, each with its access date; verdicts cite
-  by `[n]`.
+  by `[n]`. This replaces the `## Sources` section other docs use.
 - Unverifiable verdict → append
   `UNVERIFIED — from model knowledge, verify before relying`.
 - End with the disclaimer in the file's language.
@@ -30,22 +30,28 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
 
 ```markdown
 # Legal check: {topic}
-Jurisdiction: Thailand — checked {YYYY-MM-DD}
+
+**Jurisdiction:** Thailand — checked {YYYY-MM-DD}
 
 {Assumptions, only when the verdicts depend on them:}
 - {assumption}
 
 ## 1. {What the user wants to do} ({D3, D9})
+
 **Verdict: CONDITIONAL**
-Required to be allowed:
+
+**Required to be allowed:**
 - {requirement} [1]
 - {requirement} [1][2]
 
 ## 2. {What the user wants to do}
+
 **Verdict: ALLOWED** [2]
 
 ## 3. {What the user wants to do}
+
 **Verdict: NOT ALLOWED**
+
 {The prohibition, one or two sentences} [1].
 
 ## Summary

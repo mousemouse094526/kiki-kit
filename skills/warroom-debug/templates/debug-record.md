@@ -6,8 +6,9 @@ and labels stay in English; the text is in the user's language.
 
 ## Rules
 
-- **Status** moves `investigating` → `fixed` (or `blocked: {what is
-  needed}`).
+- **Status** moves `investigating` → `fixed`, or ends as
+  `blocked: {what is needed}`, or `spec gap → warroom` when the code does
+  what the docs say and the docs are what's wrong.
 - **Ledger rows are never edited or deleted** — a wrong turn is still a
   breadcrumb.
 - **Hypotheses keep their number**; mark them `alive`, `killed by #{run}`,
