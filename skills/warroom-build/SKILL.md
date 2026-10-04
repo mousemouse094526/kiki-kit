@@ -89,6 +89,12 @@ seam to add, with each option's trade-off.
 One acceptance criterion at a time: red → green. Run the typecheck and the
 test file after each green.
 
+**`(e2e)` criteria come last.** Once the behaviour below them is green,
+write the e2e test for each `(e2e)` criterion with the project's e2e tool,
+where the conventions say, through the real UI against the running apps.
+No e2e setup yet and this ticket has `(e2e)` criteria → set it up first,
+as the conventions describe.
+
 **Follow the project conventions:** new code goes where the folder
 structure says, in the layers it names. A ticket that sets a new pattern
 updates the project's pattern file in the same commit.
@@ -105,7 +111,9 @@ back here with its fix and regression test.
 
 ## 4. Full suite
 
-Run the full suite, typecheck, and lint once. Fix what this ticket broke.
+Run the full suite, typecheck, and lint once — plus the e2e suite when the
+ticket has `(e2e)` criteria or touched a page an e2e test covers. Fix what
+this ticket broke.
 Failures that were already there → report, don't fix.
 
 ## 5. Review on three axes

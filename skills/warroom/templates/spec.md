@@ -21,6 +21,10 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   decision — a state machine, a schema.
 - **Seams are numbered**, one seam per number, each with observable
   pass/fail bullets. warroom-tickets and the build read this section.
+- **Tag a seam `(e2e)`** when its behaviour can only be observed through
+  the UI — a user flow across pages, or across apps (one user acts in one
+  app, another sees it in another). Those are proven with the project's
+  e2e tool; every other seam is proven below the UI.
 - **Out of Scope** bullets cite the `D{n}` that ruled them out.
 
 ## Template
@@ -69,6 +73,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 1. **{seam name}** `{interface}`
    - {input or situation} → {observable result}
+2. **{user flow}** (e2e) `{app(s) and pages}`
+   - {what the user does on screen} → {what they see}
 
 ## Out of Scope
 

@@ -52,7 +52,9 @@ spec touches — `CLAUDE.md`, `.claude/rules/`, its conventions skill under
 `.claude/skills/` (see warroom-build's
 [conventions.md](../warroom-build/references/conventions.md)). An area with
 code planned but no conventions → set them up now, before slicing: propose
-the folder structure and layers, get the user's OK with AskUserQuestion,
+the folder structure, layers, and testing stack (runner, and the e2e tool
+and its location when the spec has `(e2e)` seams), get the user's OK with
+AskUserQuestion,
 write the project skill from
 [conventions-skill.md](../warroom-build/templates/conventions-skill.md), and
 record it as a `D{n}`. Tickets are then cut against that structure, so no
@@ -92,7 +94,10 @@ expand), contract (delete the old form; blocked by every migrate batch).
 **Warroom addition — cover the docs.** Before the quiz, check every User
 Story, every Seam, and every CONDITIONAL requirement in `legal.md` lands in
 at least one ticket's acceptance criteria, and nothing from Out of Scope
-does. A gap the docs don't answer is a missing decision: say so and send
+does. Every `(e2e)` seam lands in the ticket that completes its flow — the
+first ticket where every page and app it crosses exists — as acceptance
+criteria tagged `(e2e)`. The first such ticket also sets up the e2e
+package if the project has none. A gap the docs don't answer is a missing decision: say so and send
 it back to warroom instead of guessing.
 
 ### 4. Quiz the user

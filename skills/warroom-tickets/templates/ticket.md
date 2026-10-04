@@ -16,7 +16,8 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
 - **Covers** names exactly what this ticket delivers, one kind per bullet:
   decisions, ADRs, seams (by number in spec.md › Seams), user stories,
   legal items. warroom-tickets' coverage check reads these.
-- **One observable behaviour per bullet**: `{situation} → {result}`.
+- **One observable behaviour per bullet**: `{situation} → {result}`. A
+  behaviour proven through the UI ends with `(e2e)`.
   **Status** says whether the ticket is done. More than eight → group
   them under `###` sub-headings by area, or split the ticket.
 - **Status** is `ready-for-agent`, `in-progress`, or `done`.
@@ -44,5 +45,5 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
 ## Acceptance criteria
 
 - {situation} → {observable result}
-- {situation} → {observable result}
+- {user does on screen} → {user sees} (e2e)
 ```

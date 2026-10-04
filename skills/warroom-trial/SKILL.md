@@ -103,7 +103,13 @@ next step. Ask with AskUserQuestion (multiSelect) which to act on now:
   here.
 - **friction** → write a new ticket after the highest number, in
   [warroom-tickets' template](../warroom-tickets/templates/ticket.md),
-  `**Status:** ready-for-agent`.
+  `**Status:** ready-for-agent`, with the persona's goal as an `(e2e)`
+  acceptance criterion so the fix stays fixed.
+- **bug** fixed through warroom-debug → its regression test is an e2e test
+  when the persona hit it on screen.
+
+A trial is exploratory and is not a test suite; the `(e2e)` criteria it
+leaves behind are what keep its findings from coming back.
 
 Everything not picked stays in the report as `open`. No code, no branch,
 no commit from this skill.

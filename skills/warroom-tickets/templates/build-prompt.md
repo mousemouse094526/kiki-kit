@@ -22,7 +22,9 @@ prompt or a step before it.
   (`docker-compose.yml`, setup docs). Any → a start step before the prompt.
 - **Test setup** — is there a test command in the manifests? None → the
   prompt says the first ticket sets it up, and with what the docs or
-  ticket name.
+  ticket name. The frontier ticket has `(e2e)` criteria → is there an e2e
+  package and command? None → the prompt says this ticket sets it up with
+  the tool and location the conventions name.
 - **Conventions** — a project conventions skill under `.claude/skills/`
   (or a `CLAUDE.md`) for the area the frontier ticket touches. None → the
   prompt says the build must propose and write one before coding.
@@ -68,6 +70,7 @@ Context:
 - {notes older than installed: {name} {note} → {installed} → refresh them for the installed version}
 - {behind latest: {name} {installed} → {latest} ({minor|major}) → read the changelog and ask before upgrading; never upgrade inside this ticket}
 - {no test command yet → set up {runner} as ticket {NN} specifies}
+- {(e2e) criteria but no e2e setup → set up {e2e tool} in {location} per the conventions; e2e tests run after the behaviour works}
 - {services {list} are running via {how}; values come from .env — ask for anything missing, never guess a secret}
 - Don't touch {default branch}; don't push.
 - {large ticket → stop at the end of an acceptance group if it won't finish in one session; don't commit half a group}

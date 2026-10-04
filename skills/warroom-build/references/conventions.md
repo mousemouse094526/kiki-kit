@@ -39,8 +39,12 @@ the area the ticket touches → stop before the first line of code:
 3. Write the project skill from
    [templates/conventions-skill.md](../templates/conventions-skill.md):
    `.claude/skills/{framework}-{surface}/SKILL.md` plus one
-   `patterns/{layer}.md` per layer that has code, and a short `CLAUDE.md`
+   `patterns/{layer}.md` per layer the surface has, and a short `CLAUDE.md`
    for the app that points at it.
+   - The proposal always covers testing: the runner for tests below the
+     UI, and — when the project has a UI — the e2e tool, where e2e tests
+     live, and how they start the apps. When user flows cross apps,
+     recommend one shared e2e package (e.g. `apps/e2e`) over one per app.
 4. Record the structure as a `D{n}` (and an ADR when it qualifies).
 5. Existing code that doesn't match → stop and recommend
    `/warroom-tickets {slug}` to re-cut: it numbers the prefactor before the

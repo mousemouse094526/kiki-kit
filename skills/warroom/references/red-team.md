@@ -54,6 +54,9 @@ answer. Do not edit any file.
 - Does each user story have a checkable pass/fail condition?
 - Which edge cases have no stated expected behaviour?
 - Does flow.md match spec.md step for step?
+- Does every user story the user performs on a screen have an `(e2e)`
+  seam, and is every `(e2e)` seam really UI-only (not provable by an API
+  test)?
 
 ## The Skeptic — questions whether to build it at all
 

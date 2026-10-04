@@ -42,8 +42,9 @@ user's language; follow
 ## Phase 1 — Reproduce
 
 Build one command that goes red on **this** bug: a failing test at the
-nearest seam, a curl script, a CLI call with a fixture, a headless browser
-script, a replayed request, or a throwaway harness.
+nearest seam, a curl script, a CLI call with a fixture, an e2e test with
+the project's e2e tool (for a bug only visible in the UI), a replayed
+request, or a throwaway harness.
 
 - **Fails every time** → go on.
 - **Fails sometimes** → not debuggable yet. Raise the rate: loop the
@@ -117,8 +118,8 @@ in or out.
 ## Phase 6 — Fix behind a regression test
 
 1. Turn the minimised repro into a failing test at a seam that exercises
-   the real bug pattern. No such seam exists → that is a finding; write it
-   down.
+   the real bug pattern — an e2e test when the bug only shows in the UI.
+   No such seam exists → that is a finding; write it down.
 2. Watch it fail, apply the fix, watch it pass.
 3. Re-run the original, un-minimised Phase 1 command.
 4. Remove every tagged probe (grep the prefix) and throwaway harness.
