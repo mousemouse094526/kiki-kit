@@ -62,13 +62,17 @@ items. Read `CONTEXT.md` so names match the domain. Then:
   `.claude/skills/` for the area this ticket touches. None yet → propose
   one, get the user's OK, and write it into the project before coding.
   They live in the project, never in this skill.
-- **Language and library docs** — follow
+- **Versions, then language and library docs** — follow
   [references/library-docs.md](references/library-docs.md) for every
-  language, runtime, and library this ticket's code touches: check
-  `docs/reference/README.md`; anything without a reference yet or with a
-  changed version → fetch its `llms.txt` (or official docs and style guide)
-  and write its note with best practices and a pattern **before writing any
-  code**.
+  language, runtime, and library this ticket's code touches:
+  1. Show the version table (installed, latest, gap, note version); a
+     minor or major gap → read the changelog and ask: stay (Recommended)
+     or upgrade now as its own commit or a prefactor ticket. Never upgrade
+     silently or inside the ticket's commit.
+  2. Note version equals installed → use it. Older or missing → fetch the
+     docs for the installed version (`llms.txt` first; versioned docs or the
+     changelog when installed ≠ latest) and update the note and index row
+     **before writing any code**.
 
 Language: code, comments, test names, commits, and `docs/reference/` notes
 are English; replies to the user follow their language — see

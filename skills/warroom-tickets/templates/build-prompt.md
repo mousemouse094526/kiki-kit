@@ -24,9 +24,12 @@ prompt or a step before it.
 - **Conventions** — a project conventions skill under `.claude/skills/`
   (or a `CLAUDE.md`) for the area the frontier ticket touches. None → the
   prompt says the build must propose and write one before coding.
-- **References** — `docs/reference/README.md`. Missing, or missing a
-  language, runtime, or library the frontier ticket touches → the prompt
-  lists them so the build writes their notes before coding.
+- **References and versions** — `docs/reference/README.md`, and for each
+  language, runtime, and library the frontier ticket touches: installed
+  version (manifest or lockfile), latest version (package registry), and
+  note version. The prompt lists the ones with no note, a note older than
+  installed, or a minor or major gap to latest — so the build checks the
+  changelog and asks before coding.
 - **Secrets** — env vars the frontier ticket needs that `.env` or
   `.env.example` doesn't hold → the prompt says to ask, never guess.
 - **Ticket size** — more than ~30 acceptance bullets → the prompt tells the
@@ -59,6 +62,8 @@ Show the steps that apply, then the prompt in one fenced block.
 Context:
 - {first ticket of the feature → create branch feat/{slug} from {default branch}}
 - {no notes yet in docs/reference/ for: {list} → write them before coding, llms.txt first}
+- {notes older than installed: {name} {note} → {installed} → refresh them for the installed version}
+- {behind latest: {name} {installed} → {latest} ({minor|major}) → read the changelog and ask before upgrading; never upgrade inside this ticket}
 - {no test command yet → set up {runner} as ticket {NN} specifies}
 - {services {list} are running via {how}; values come from .env — ask for anything missing, never guess a secret}
 - Don't touch {default branch}; don't push.
