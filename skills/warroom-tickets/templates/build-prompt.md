@@ -10,9 +10,11 @@ project, not from guesses. Follow
 Run these checks and note each result; every finding becomes a line in the
 prompt or a step before it.
 
-- **Uncommitted docs** — `git status` on the feature folder, `docs/adr/`,
-  `CONTEXT.md`. Any → a commit step before the prompt, because the build
-  reviews everything since its start commit.
+- **Uncommitted docs** — `git status` on everything warroom and
+  warroom-tickets may have written: the feature folder, `docs/adr/`,
+  `CONTEXT.md`, `.claude/skills/` (a conventions skill set up before
+  slicing), and any `CLAUDE.md`. Any → a commit step before the prompt,
+  because the build reviews everything since its start commit.
 - **Branch** — the default branch (`git symbolic-ref
   refs/remotes/origin/HEAD`) and the current one. On the default branch →
   the prompt names the branch to create: `feat/{slug}`.
@@ -45,7 +47,7 @@ Show the steps that apply, then the prompt in one fenced block.
 1. Commit the docs:
 
    ```bash
-   git add {paths} && git commit -m "docs({slug}): plan, ADRs, tickets"
+   git add {paths} && git commit -m "docs({slug}): plan, ADRs, conventions, tickets"
    ```
 
 2. Start the services:
@@ -61,6 +63,7 @@ Show the steps that apply, then the prompt in one fenced block.
 
 Context:
 - {first ticket of the feature → create branch feat/{slug} from {default branch}}
+- {no conventions for {area} → propose the folder structure and layers, get my OK, and write .claude/skills/{framework}-{surface}/ before coding}
 - {no notes yet in docs/reference/ for: {list} → write them before coding, llms.txt first}
 - {notes older than installed: {name} {note} → {installed} → refresh them for the installed version}
 - {behind latest: {name} {installed} → {latest} ({minor|major}) → read the changelog and ask before upgrading; never upgrade inside this ticket}
