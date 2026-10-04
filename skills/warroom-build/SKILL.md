@@ -3,10 +3,11 @@ name: warroom-build
 description: >-
   Implement ONE warroom ticket into committed code, in this session. Picks
   the frontier ticket from docs/features/{slug}/tickets/ (or the one named),
-  first makes sure every language, runtime, and library it touches has a
-  reference note with best practices from the current official docs
-  (llms.txt first, indexed in docs/reference/) — fetching and writing any
-  that are missing — builds it test-first at the seams agreed in
+  reads the project's own conventions (CLAUDE.md, .claude/skills/), checks
+  installed versions against the latest and asks before any upgrade, makes
+  sure every language, runtime, and library it touches has a reference note
+  for the installed version (llms.txt first, indexed in docs/reference/) —
+  fetching and writing any that are missing — then builds it test-first at the seams agreed in
   spec.md, runs typecheck and single test files regularly and the full
   suite once at the end, reviews the diff on three axes (Standards, Spec,
   and a Newcomer who knows nothing about the ticket) with parallel
@@ -88,11 +89,11 @@ seam to add, with each option's trade-off.
 One acceptance criterion at a time: red → green. Run the typecheck and the
 test file after each green.
 
-**Follow the project conventions: new code goes where the folder structure
-says, in the layers it names. A ticket that sets a new pattern updates the
-project's pattern file in the same commit.
+**Follow the project conventions:** new code goes where the folder
+structure says, in the layers it names. A ticket that sets a new pattern
+updates the project's pattern file in the same commit.
 
-Never redesign.** A real choice the docs don't answer → ask with
+**Never redesign.** A real choice the docs don't answer → ask with
 AskUserQuestion, recommended answer first, and append it to decisions.md as
 the next `D{n}`. The ticket can't be built as cut → stop, leave it
 `in-progress`, report why.
