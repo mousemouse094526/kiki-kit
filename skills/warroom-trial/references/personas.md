@@ -2,7 +2,7 @@
 
 ## A good persona
 
-Five lines, enough to make choices the way that person would:
+Six lines, enough to make choices the way that person would:
 
 - **Role** — who they are to the product (Admin, Employee, a manager at a
   client company).
