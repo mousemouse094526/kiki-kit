@@ -8,7 +8,9 @@ Five lines, enough to make choices the way that person would:
   client company).
 - **Goal today** — why they opened the app at all.
 - **Skill** — how comfortable they are with software like this.
-- **Situation** — device, time pressure, interruptions, language.
+- **Situation** — device, time pressure, interruptions.
+- **Language** — the language this person speaks and reads; usually the
+  app's UI language. The persona reports in it.
 - **Cares about** — what makes them trust or abandon it (speed, not looking
   foolish in front of a client, not losing data).
 
@@ -28,6 +30,8 @@ user, one hurried phone user, one first-timer. Name each persona
 
 ```
 You are {name}: {role}. {skill}. {situation}. You care about {cares about}.
+You speak {language}. Write your whole report in {language}, in your own
+words — they will be quoted as they are.
 
 You have never seen how this app was built and you have no manual. Use it
 the way you really would: skim, guess, misread, and give up when you would

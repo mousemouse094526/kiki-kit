@@ -33,6 +33,10 @@ they get stuck?
   `run` skill, the setup docs). Trials run **only on a local development
   host** (`localhost`, `127.0.0.1`, `*.localhost`, `*.test`) — never staging
   or production, never real user data.
+- **Mobile apps run as the project's dev build in a simulator or
+  emulator**, pointed at the local api — never a store build, never an
+  installed production app. Check the api URL the build uses before the
+  first persona starts.
 - **Test accounts** come from the project's seed or fixture data, or are
   created in the local app for this trial. Write any you create into the
   project's seed or example config, not into chat.
@@ -68,8 +72,8 @@ knows how it was built can't get lost the way a real user does.
 
 Each persona uses the app like that person would — skims, guesses, misreads,
 gives up when that person would — and returns the report format in the
-brief. A phone persona uses the mobile viewport, or the simulator for the
-mobile app.
+brief. A phone persona uses the mobile viewport for a website, or the
+project's dev build in the simulator for a mobile app.
 
 ## 5. Dev-lead triage
 
@@ -98,15 +102,14 @@ in [markdown-style.md](../warroom/references/markdown-style.md).
 Show the ranked findings in chat, one line each with its kind and proposed
 next step. Ask with AskUserQuestion (multiSelect) which to act on now:
 
-- **bug** → call `warroom-debug` with the persona's steps as the repro.
+- **bug** → call `warroom-debug` with the persona's steps as the repro;
+  when the persona hit it on screen, its regression test is an e2e test.
 - **spec gap** → recommend `/warroom` on this feature; don't edit the spec
   here.
 - **friction** → write a new ticket after the highest number, in
   [warroom-tickets' template](../warroom-tickets/templates/ticket.md),
   `**Status:** ready-for-agent`, with the persona's goal as an `(e2e)`
   acceptance criterion so the fix stays fixed.
-- **bug** fixed through warroom-debug → its regression test is an e2e test
-  when the persona hit it on screen.
 
 A trial is exploratory and is not a test suite; the `(e2e)` criteria it
 leaves behind are what keep its findings from coming back.
@@ -122,5 +125,7 @@ no commit from this skill.
 - **Personas run one at a time**, each in a fresh subagent.
 - **Nothing is fixed without the user's pick.** The default is a report.
 - **Report in the user's language**; kinds, status words, and `D{n}` stay
-  in English. Persona briefs are English; personas quote the app's UI text
-  as shown.
+  in English. Persona briefs are English, but each persona **answers in the
+  language its real users speak** (the app's UI language, e.g. Thai), so
+  their words go into the report as evidence without translation. They
+  quote the app's UI text exactly as shown.

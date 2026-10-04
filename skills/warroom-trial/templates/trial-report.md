@@ -9,8 +9,8 @@ statuses stay in English; the text is in the user's language.
 
 - **Findings are ranked**: blocked goals first, then by how many personas
   hit it.
-- **Each finding quotes the persona** in one line — their words are the
-  evidence.
+- **Each finding quotes the persona** in one line, in the language they
+  reported in — never translated; their words are the evidence.
 - **Status** per finding: `open`, `→ debug`, `→ warroom`, `→ ticket NN`, or
   `note`. Update it when the user picks.
 - **Persona reports are kept as returned**, trimmed only for length.
