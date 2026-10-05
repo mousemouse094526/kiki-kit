@@ -28,7 +28,9 @@ they get stuck?
 
 - **Feature folder** `docs/features/{slug}/` with spec.md and tickets.
   Trial what is `done`; say which tickets are not built yet and leave their
-  stories out.
+  stories out. Tell the user in one line, plainly: which tickets were
+  tried, which were skipped and why. No tickets → stop and recommend
+  `/warroom-tickets {slug}`.
 - **The app runs locally.** Start it the project's way (a launch config, the
   `run` skill, the setup docs). Trials run **only on a local development
   host** (`localhost`, `127.0.0.1`, `*.localhost`, `*.test`) — never staging

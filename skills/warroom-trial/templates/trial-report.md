@@ -14,6 +14,10 @@ statuses stay in English; the text is in the user's language.
 - **Status** per finding: `open`, `→ debug`, `→ warroom`, `→ ticket NN`, or
   `note`. Update it when the user picks.
 - **Persona reports are kept as returned**, trimmed only for length.
+- **Scope lines explain themselves** — say what was tried, what was
+  skipped, and why, in the user's language. Every ticket done → `none —
+  every ticket is done, the whole feature was tried`. No `tickets/` folder
+  → stop; there is nothing built to try.
 - The `**Kind:** … · **Seen by:** … · **Status:** …` line counts as a footer
   line, so its `·` separators are allowed.
 
@@ -22,9 +26,9 @@ statuses stay in English; the text is in the user's language.
 ```markdown
 # Trial: {feature slug} — {YYYY-MM-DD}
 
-**Built tickets tried:** 01, 02, 03
+**Tried:** tickets 01, 02, 03 — Status `done`, so their stories were played
 
-**Not yet built:** 04–07
+**Skipped, not built yet:** tickets 04–07 — Status not `done`; their stories were left out, so nothing missing from them is a finding
 
 **App:** {local url}
 
