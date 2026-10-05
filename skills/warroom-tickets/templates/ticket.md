@@ -21,6 +21,8 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
   **Status** says whether the ticket is done. More than eight → group
   them under `###` sub-headings by area, or split the ticket.
 - **Status** is `ready-for-agent`, `in-progress`, or `done`.
+- **Notes** is written by the build, never by warroom-tickets: why it
+  stopped, and review findings it left. Dropped while empty.
 - No file paths or code snippets — they go stale fast. A snippet that
   encodes a decision lives in the spec; cite it.
 
@@ -46,4 +48,8 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
 
 - {situation} → {observable result}
 - {user does on screen} → {user sees} (e2e)
+
+## Notes
+
+- {written by the build: why it stopped, or a review finding left and why}
 ```

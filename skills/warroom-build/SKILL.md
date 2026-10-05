@@ -41,7 +41,8 @@ to run `/warroom-tickets {slug}` first.
   which, stop.
 - None given → the **frontier**: the lowest-numbered ticket at
   `**Status:** ready-for-agent` whose every blocker is `done`. A ticket left
-  `in-progress` → ask: resume it (Recommended) or pick another.
+  `in-progress` → read its `## Notes` first, then ask: resume it
+  (Recommended) or pick another.
 - Nothing ready → report what blocks the rest, stop.
 
 ## 2. Load the context
@@ -101,8 +102,10 @@ updates the project's pattern file in the same commit.
 
 **Never redesign.** A real choice the docs don't answer → ask with
 AskUserQuestion, recommended answer first, and append it to decisions.md as
-the next `D{n}`. The ticket can't be built as cut → stop, leave it
-`in-progress`, report why.
+the next `D{n}`, then carry on. The ticket can't be built as cut → stop,
+leave it `in-progress`, write why under the ticket's `## Notes`, and
+recommend `/warroom-tickets {slug}` to re-cut (or `/warroom` when the docs
+themselves are wrong).
 
 **Unexplained failure → warroom-debug.** A test that fails for a reason you
 can't name in one look, a previously green test that breaks, or behaviour
@@ -125,7 +128,8 @@ side by side.
 
 Fix findings inside the ticket's scope; refactoring happens here, not in
 the TDD loop. Then run focused checks on what you fixed — never a second
-broad review. List what you left and why.
+broad review. Write what you left and why under the ticket's `## Notes`, so
+the next session and the feature review can see it.
 
 ## 6. Commit
 

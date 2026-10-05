@@ -200,6 +200,53 @@ push.
   (built twice, named two ways). You pick what to fix → commit
   `refactor({slug}): feature review fixes`.
 
+**Why one ticket per session**
+- **A clean context** — in a long session Claude starts forgetting or mixing old and new. Each ticket starts fresh and reads only what it needs.
+- **A focused review** — the review diffs from the ticket's own start commit, not mixed with other tickets.
+- **Easy to undo** — one ticket = one commit; revert just the one that broke.
+- **Memory lives in files, not chat** — the ticket, decisions.md, and `## Notes` carry over to the next session.
+
+## 5.1 When the build hits something unexpected
+
+```mermaid
+flowchart LR
+    X{"Build hits"}
+    Q["Ask you<br/>record new D · carry on"]
+    D["warroom-debug<br/>fix, carry on"]
+    S["Stop · in-progress<br/>→ /warroom-tickets"]
+    W["Stop<br/>→ /warroom"]
+    BL["Stop<br/>name the blocker"]
+    R["Report<br/>don't fix"]
+
+    X -->|a question the docs don't answer| Q
+    X -->|unexplained test failure| D
+    X -->|ticket can't be built as cut| S
+    X -->|docs wrong / contradict| W
+    X -->|blocker not done| BL
+    X -->|test already broken before| R
+```
+
+The build never redesigns — a real choice always goes to you; anything
+outside the ticket stops and says where to go.
+
+| What happens | The build | You |
+|---|---|---|
+| **A new decision** — the docs don't answer (e.g. "which language are error messages in") | asks with a recommended option, records the next D in `decisions.md`, carries on | pick |
+| **An unexplained error** | calls warroom-debug in the same session, gets a fix + test, carries on | answer if debug asks |
+| **Debug can't reproduce it** | record `blocked: {what is needed}`, stops | send the logs or data asked for |
+| **The ticket can't be built as cut** (too big, needs other work first) | stops, leaves it `in-progress`, writes why under `## Notes` | run `/warroom-tickets {slug}` to re-cut — tickets not done are renumbered |
+| **The docs are wrong or contradict each other** | stops, recommends `/warroom` | run `/warroom`, change the D → re-cut |
+| **A blocker isn't done** | stops, names it | build that one first |
+| **A test that was already broken** (not by this ticket) | reports, doesn't fix | decide whether to debug it |
+| **Review findings outside the ticket** | fixes what's in scope, writes the rest under `## Notes` | see them at `--review-feature` |
+| **A ticket too big for one session** | stops at the end of an acceptance group, never commits half a group | new session, `/warroom-build {slug}` |
+
+**Where unfinished work waits**
+- A ticket `in-progress` — the next `/warroom-build {slug}` reads its `## Notes` and asks whether to resume.
+- Review findings left — each ticket's `## Notes`; `--review-feature` sees them all.
+- Trial findings not picked — `open` in `trial/{date}.md`.
+- A stuck debug — `docs/debug/` with status `blocked: …`.
+
 ## 6. warroom-debug — find a bug's cause
 
 ```mermaid
