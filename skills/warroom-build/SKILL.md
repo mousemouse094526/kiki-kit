@@ -41,8 +41,8 @@ to run `/warroom-tickets {slug}` first.
   which, stop.
 - None given → the **frontier**: the lowest-numbered ticket at
   `**Status:** ready-for-agent` whose every blocker is `done`. A ticket left
-  `in-progress` → read its `## Notes` first, then ask: resume it
-  (Recommended) or pick another.
+  `in-progress` → read its rows in `open-items.md` first, then ask:
+  resume it (Recommended) or pick another.
 - Nothing ready → report what blocks the rest, stop.
 
 ## 2. Load the context
@@ -100,12 +100,29 @@ as the conventions describe.
 structure says, in the layers it names. A ticket that sets a new pattern
 updates the project's pattern file in the same commit.
 
-**Never redesign.** A real choice the docs don't answer → ask with
-AskUserQuestion, recommended answer first, and append it to decisions.md as
-the next `D{n}`, then carry on. The ticket can't be built as cut → stop,
-leave it `in-progress`, write why under the ticket's `## Notes`, and
-recommend `/warroom-tickets {slug}` to re-cut (or `/warroom` when the docs
-themselves are wrong).
+**Never redesign.** Anything unfinished goes in
+`docs/features/{slug}/open-items.md`
+([templates/open-items.md](templates/open-items.md)) — never only in chat.
+
+**Decisions.** A real choice the docs don't answer — first sort it:
+
+- **Local** — it changes only how this ticket does its own work; no other
+  ticket, seam, legal item, ADR, or active `D{n}` changes (wording of an
+  error, a default page size). → ask with AskUserQuestion, recommended
+  answer first; append the next `D{n}` with `**From:** build ticket NN`;
+  add it to this ticket's Covers; carry on.
+- **Wide** — it changes what the spec, another ticket, a legal item, or an
+  ADR says, or contradicts an active `D{n}`. → never decided here: it
+  skips the red team and legal check. Stop, leave the ticket
+  `in-progress`, add a row `From: decision · Next: → /warroom`, and
+  recommend `/warroom {slug}` — its Adjust records the `D{n}`, re-runs
+  warroom-legal and The Breaker on it, then re-cuts.
+- Unsure which → treat it as wide.
+
+**Can't be built as cut** (too big, needs work no ticket has) → stop,
+leave it `in-progress`, add a row `From: build stop · Next: →
+/warroom-tickets`, and recommend `/warroom-tickets {slug}` to re-cut. The
+docs themselves wrong → `Next: → /warroom` instead.
 
 **Unexplained failure → warroom-debug.** A test that fails for a reason you
 can't name in one look, a previously green test that breaks, or behaviour
@@ -117,7 +134,8 @@ back here with its fix and regression test.
 Run the full suite, typecheck, and lint once — plus the e2e suite when the
 ticket has `(e2e)` criteria or touched a page an e2e test covers. Fix what
 this ticket broke.
-Failures that were already there → report, don't fix.
+Failures that were already there → don't fix; add a row `From: full suite
+· Next: → /warroom-debug`.
 
 ## 5. Review on three axes
 
@@ -128,8 +146,8 @@ side by side.
 
 Fix findings inside the ticket's scope; refactoring happens here, not in
 the TDD loop. Then run focused checks on what you fixed — never a second
-broad review. Write what you left and why under the ticket's `## Notes`, so
-the next session and the feature review can see it.
+broad review. Each finding left → a row `From: review: {axis} · Next: →
+feature review`.
 
 ## 6. Commit
 
@@ -139,7 +157,7 @@ and the ticket file to the current branch:
 Don't push, don't open a PR.
 
 Report: what landed, new `D{n}`, library notes added, any debug record
-written, review findings left, and the next frontier ticket. Recommend
+written, rows added to `open-items.md`, and the next frontier ticket. Recommend
 clearing context before the next `/warroom-build {slug}`. Every ticket
 `done` → recommend `/warroom-build {slug} --review-feature`.
 
@@ -154,7 +172,11 @@ for one concept, a seam one ticket tested and another bypassed.
 2. Follow [references/review.md](references/review.md), feature scope —
    the three axes over the whole branch, with the whole feature folder as
    the spec source.
-3. Show the findings. Ask with AskUserQuestion which to fix now. Fix the
-   picked ones, run focused checks, commit as
-   `refactor({slug}): feature review fixes`. Leave the rest listed in the
-   reply. No second broad review.
+3. Show the findings together with every `open` row in `open-items.md`
+   whose Next is `→ feature review`. Ask with AskUserQuestion which to fix
+   now. Fix the picked ones, run focused checks, commit as
+   `refactor({slug}): feature review fixes`. Picked rows → `done ({sha})`;
+   new findings not picked → new rows `From: feature review`. No second
+   broad review.
+4. Any row still `open` → list it with its Next before recommending
+   merge.

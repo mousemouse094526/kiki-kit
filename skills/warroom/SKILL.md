@@ -32,6 +32,21 @@ State them in one line before asking anything:
 - **ADRs** — `docs/adr/`. Read the titles of existing ADRs now, and the
   full text of any that touch this feature.
 
+## Re-opening a feature that already has docs
+
+`docs/features/{slug}/spec.md` exists → this is a change, not a new plan.
+Read the folder, then gather what sent the user back:
+
+- `open-items.md` rows that are `open` with `Next: → /warroom`;
+- trial findings in `trial/*.md` with Status `→ warroom`;
+- a `docs/debug/` record with Status `spec gap → warroom`.
+
+List them, then interview only on those items. Each answer is a new `D{n}`
+(`From:` the item's source); skip straight to the gate's **Adjust** path —
+warroom-legal and The Breaker on each new `D{n}` — instead of the full red
+team. On Approve: set each source row's Status to `→ D{n}` (the trial
+finding's and the debug record's too), then warroom-tickets re-cuts.
+
 ## Phase 1 — Interview, one question at a time
 
 Ask with AskUserQuestion: ONE question per call, choices with your

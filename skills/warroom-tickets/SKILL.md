@@ -39,6 +39,8 @@ full. No `spec.md` → stop and tell the user to run `/warroom` first.
 stop. A re-cut **renumbers every ticket that is not `done`** in dependency
 order after the `done` ones — a new blocker never gets a higher number than
 the tickets it blocks. Update every reference to a renumbered ticket.
+Fold every `open` row in `open-items.md` whose Next is `→
+/warroom-tickets` into the new cut, and set its Status to `→ ticket NN`.
 
 ### 2. Explore the codebase
 

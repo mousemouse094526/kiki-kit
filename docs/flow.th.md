@@ -197,47 +197,68 @@ flowchart LR
 - **context สะอาด** — session ยาวๆ Claude จะเริ่มลืมหรือสับสนของเก่ากับใหม่ เริ่มใหม่ทุกใบ อ่านเฉพาะที่ใบนั้นต้องใช้
 - **review ได้ตรงจุด** — review ดู diff ตั้งแต่ commit ที่เริ่มใบนั้น ไม่ปนกับใบอื่น
 - **ย้อนได้** — หนึ่งใบ = หนึ่ง commit ใบไหนพังก็ revert ใบนั้น
-- **ความจำอยู่ในไฟล์ ไม่ใช่ในแชท** — ticket, decisions.md, `## Notes` คือสิ่งที่ส่งต่อให้ session ถัดไป
+- **ความจำอยู่ในไฟล์ ไม่ใช่ในแชท** — ticket, decisions.md, `open-items.md` คือสิ่งที่ส่งต่อให้ session ถัดไป
 
-## 5.1 ระหว่าง build เจอเรื่องไม่ปกติ
+## 5.1 build เจอเรื่องไม่ปกติ
 
 ```mermaid
 flowchart LR
     X{"build เจอ"}
-    Q["ถามคุณ<br/>บันทึก D ใหม่ · ทำต่อ"]
-    D["warroom-debug<br/>แก้แล้วทำต่อ"]
-    S["หยุด · in-progress<br/>→ /warroom-tickets"]
-    W["หยุด<br/>→ /warroom"]
-    BL["หยุด<br/>บอกว่ารอใบไหน"]
-    R["รายงาน<br/>ไม่แก้"]
+    L["ถามคุณ → D ใหม่<br/>ทำต่อ"]
+    WD["หยุด<br/>→ /warroom"]
+    DB["warroom-debug<br/>แก้แล้วทำต่อ"]
+    RC["หยุด<br/>→ /warroom-tickets"]
+    BL["หยุด<br/>รอใบที่บล็อก"]
+    OI["open-items.md<br/>→ feature review"]
 
-    X -->|เรื่องที่เอกสารไม่ได้ตอบ| Q
-    X -->|test fail อธิบายไม่ได้| D
-    X -->|ticket ทำตามที่หั่นไม่ได้| S
-    X -->|เอกสารผิด / ขัดกันเอง| W
+    X -->|decision เฉพาะใบนี้| L
+    X -->|decision กระทบที่อื่น| WD
+    X -->|error อธิบายไม่ได้| DB
+    X -->|หั่นมาทำไม่ได้| RC
     X -->|ใบที่บล็อกยังไม่ done| BL
-    X -->|test พังอยู่ก่อนแล้ว| R
+    X -->|review เกินขอบเขต| OI
 ```
 
-build ไม่ออกแบบใหม่เอง — เรื่องที่ต้องตัดสินใจถามคุณเสมอ ส่วนที่เกินขอบเขต ticket หยุดและบอกว่าต้องไปทางไหน
+build ไม่ออกแบบเอง — ทุกเรื่องที่ไม่จบในใบ ลง `open-items.md` พร้อมบอกว่าไปต่อทางไหน
 
-| เจออะไร | build ทำอะไร | คุณทำอะไร |
+| เจอ | build ทำ | ไปต่อ |
 |---|---|---|
-| **decision ใหม่** — เอกสารไม่ได้ตอบ (เช่น "ข้อความ error ภาษาอะไร") | ถามพร้อมตัวเลือกที่แนะนำ บันทึกเป็น D ถัดไปใน `decisions.md` แล้วทำต่อ | เลือก |
-| **error อธิบายไม่ได้** | เรียก warroom-debug ใน session เดียวกัน ได้ fix + test แล้วกลับมาทำต่อ | ตอบถ้า debug ขอข้อมูล |
-| **debug ทำ fail ซ้ำไม่ได้** | record เป็น `blocked: {ต้องการอะไร}` หยุด | ส่ง log / ข้อมูลที่ขอ |
-| **ticket ทำตามที่หั่นไม่ได้** (ใหญ่ไป, ต้องมีงานอื่นก่อน) | หยุด, ticket ค้าง `in-progress`, เขียนเหตุผลใน `## Notes` | รัน `/warroom-tickets {slug}` ตัดใหม่ — ใบที่ยังไม่ done ถูกเรียงเลขใหม่ |
-| **เอกสารผิดหรือขัดกันเอง** | หยุด แนะนำ `/warroom` | รัน `/warroom` แก้ D → ตัด ticket ใหม่ |
-| **ใบที่บล็อกยังไม่ done** | หยุด บอกว่ารอใบไหน | build ใบนั้นก่อน |
-| **test ที่พังอยู่ก่อนแล้ว** (ไม่ใช่ใบนี้ทำพัง) | รายงาน ไม่แก้ | ตัดสินใจเองว่าจะ debug ไหม |
-| **review เจอแต่เกินขอบเขต** | แก้เฉพาะที่อยู่ในใบ ที่เหลือเขียนใน `## Notes` | ดูตอน `--review-feature` |
-| **ticket ใหญ่ ทำไม่จบใน session** | หยุดที่ท้ายกลุ่มเกณฑ์ ไม่ commit ครึ่งกลุ่ม | session ใหม่ รัน `/warroom-build {slug}` |
+| decision **เฉพาะใบนี้** (ข้อความ error, ค่า default) | ถามคุณ → D ใหม่ `From: build ticket NN` | ทำต่อ |
+| decision **กระทบที่อื่น** (spec, ใบอื่น, กฎหมาย, ADR, D เดิม) | หยุด · ไม่ตัดสินเอง | `/warroom` → legal + Breaker เช็ค → ตัดใหม่ |
+| ไม่แน่ใจว่าแบบไหน | ถือว่ากระทบที่อื่น | `/warroom` |
+| error อธิบายไม่ได้ | เรียก debug | ได้ fix → ทำต่อ |
+| debug ทำ fail ซ้ำไม่ได้ | record `blocked` | คุณส่ง log ที่ขอ |
+| ticket หั่นมาทำไม่ได้ | หยุด · `in-progress` | `/warroom-tickets` ตัดใหม่ |
+| เอกสารผิด / ขัดกัน | หยุด | `/warroom` |
+| ใบที่บล็อกยังไม่ done | หยุด · บอกชื่อใบ | build ใบนั้นก่อน |
+| test พังอยู่ก่อนแล้ว | ไม่แก้ | `/warroom-debug` |
+| review เกินขอบเขตใบ | แก้เฉพาะในใบ | `--review-feature` |
+| ใหญ่ ทำไม่จบใน session | หยุดท้ายกลุ่มเกณฑ์ | session ใหม่ ทำต่อ |
+
+**`open-items.md` — งานค้างทั้ง feature ในตารางเดียว**
+
+```
+| # | Ticket | From         | Found                       | Next               | Status    |
+| 1 | 04     | build stop   | ต้องมี session store ก่อน      | → /warroom-tickets | → ticket 05 |
+| 2 | 04     | review: Spec | ...                         | → feature review   | open      |
+| 3 | 06     | decision     | suspend แล้ว logout ทันทีไหม  | → /warroom         | → D32     |
+```
+
+- **From** มาจากไหน · **Next** flow ที่ปิดมัน · **Status** `open` จนกว่า flow นั้นปิด
+- skill ที่ปิดเป็นคนแก้ Status: `/warroom-tickets` → `→ ticket NN` · `/warroom` → `→ D{n}` · `--review-feature` → `done (sha)`
 
 **งานค้างอยู่ตรงไหน**
-- ticket `in-progress` — รอบหน้า `/warroom-build {slug}` อ่าน `## Notes` แล้วถามว่าจะทำต่อไหม
-- review ที่เหลือ — `## Notes` ของ ticket แต่ละใบ, `--review-feature` เห็นทั้งหมด
-- finding จาก trial ที่ไม่ได้เลือก — `open` ใน `trial/{date}.md`
-- debug ที่ติด — `docs/debug/` สถานะ `blocked: …`
+
+| ค้างที่ | มาจาก | ใครปิด |
+|---|---|---|
+| `open-items.md` | build, review, feature review | ตาม Next ของแต่ละแถว |
+| ticket `in-progress` | build ที่หยุด | `/warroom-build` อ่านแถวของใบนั้นแล้วถามว่าทำต่อไหม |
+| `trial/{date}.md` แถว `open` | trial ที่คุณไม่ได้เลือก | trial รอบหน้า / คุณเลือกทีหลัง |
+| `docs/debug/` `blocked` | debug ที่ติด | `/warroom-debug` เมื่อได้ข้อมูล |
+| `docs/debug/` `spec gap → warroom` | debug ที่พบว่าเอกสารผิด | `/warroom` |
+
+`/warroom` บน feature เดิม: รวบรวมแถว `→ /warroom` ทุกแหล่ง ถามเฉพาะเรื่องนั้น →
+D ใหม่ → legal + Breaker → gate → ตัด ticket ใหม่
 
 ## 6. warroom-debug — ไล่หาสาเหตุ bug
 
@@ -338,6 +359,6 @@ flowchart LR
 | `warroom` | `docs/features/{slug}/` spec.md, decisions.md, flow.md · `docs/adr/` · `CONTEXT.md` |
 | `warroom-legal` | `docs/features/{slug}/legal.md` |
 | `warroom-tickets` | `docs/features/{slug}/tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` (เมื่อยังไม่มี) |
-| `warroom-build` | code + test หนึ่ง commit ต่อ ticket · โน้ตใน `docs/reference/` |
+| `warroom-build` | code + test หนึ่ง commit ต่อ ticket · โน้ตใน `docs/reference/` · `docs/features/{slug}/open-items.md` (เมื่อมีงานค้าง) |
 | `warroom-debug` | `docs/debug/{date}-{slug}.md` |
 | `warroom-trial` | `docs/features/{slug}/trial/{date}.md` · ticket ใหม่จาก friction ที่เลือก |

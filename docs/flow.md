@@ -204,48 +204,69 @@ push.
 - **A clean context** — in a long session Claude starts forgetting or mixing old and new. Each ticket starts fresh and reads only what it needs.
 - **A focused review** — the review diffs from the ticket's own start commit, not mixed with other tickets.
 - **Easy to undo** — one ticket = one commit; revert just the one that broke.
-- **Memory lives in files, not chat** — the ticket, decisions.md, and `## Notes` carry over to the next session.
+- **Memory lives in files, not chat** — the ticket, decisions.md, and `open-items.md` carry over to the next session.
 
 ## 5.1 When the build hits something unexpected
 
 ```mermaid
 flowchart LR
     X{"Build hits"}
-    Q["Ask you<br/>record new D · carry on"]
-    D["warroom-debug<br/>fix, carry on"]
-    S["Stop · in-progress<br/>→ /warroom-tickets"]
-    W["Stop<br/>→ /warroom"]
-    BL["Stop<br/>name the blocker"]
-    R["Report<br/>don't fix"]
+    L["Ask you → new D<br/>carry on"]
+    WD["Stop<br/>→ /warroom"]
+    DB["warroom-debug<br/>fix, carry on"]
+    RC["Stop<br/>→ /warroom-tickets"]
+    BL["Stop<br/>wait for blocker"]
+    OI["open-items.md<br/>→ feature review"]
 
-    X -->|a question the docs don't answer| Q
-    X -->|unexplained test failure| D
-    X -->|ticket can't be built as cut| S
-    X -->|docs wrong / contradict| W
+    X -->|decision local to ticket| L
+    X -->|decision reaches further| WD
+    X -->|unexplained error| DB
+    X -->|can't build as cut| RC
     X -->|blocker not done| BL
-    X -->|test already broken before| R
+    X -->|review out of scope| OI
 ```
 
-The build never redesigns — a real choice always goes to you; anything
-outside the ticket stops and says where to go.
+The build never redesigns — anything it doesn't finish goes in
+`open-items.md` with where it goes next.
 
-| What happens | The build | You |
+| Hits | Build does | Next |
 |---|---|---|
-| **A new decision** — the docs don't answer (e.g. "which language are error messages in") | asks with a recommended option, records the next D in `decisions.md`, carries on | pick |
-| **An unexplained error** | calls warroom-debug in the same session, gets a fix + test, carries on | answer if debug asks |
-| **Debug can't reproduce it** | record `blocked: {what is needed}`, stops | send the logs or data asked for |
-| **The ticket can't be built as cut** (too big, needs other work first) | stops, leaves it `in-progress`, writes why under `## Notes` | run `/warroom-tickets {slug}` to re-cut — tickets not done are renumbered |
-| **The docs are wrong or contradict each other** | stops, recommends `/warroom` | run `/warroom`, change the D → re-cut |
-| **A blocker isn't done** | stops, names it | build that one first |
-| **A test that was already broken** (not by this ticket) | reports, doesn't fix | decide whether to debug it |
-| **Review findings outside the ticket** | fixes what's in scope, writes the rest under `## Notes` | see them at `--review-feature` |
-| **A ticket too big for one session** | stops at the end of an acceptance group, never commits half a group | new session, `/warroom-build {slug}` |
+| decision **local** (error wording, a default) | asks you → new D `From: build ticket NN` | carry on |
+| decision **reaches further** (spec, other ticket, legal, ADR, old D) | stops · never decides | `/warroom` → legal + Breaker → re-cut |
+| unsure which | treats it as reaching further | `/warroom` |
+| unexplained error | calls debug | fix → carry on |
+| debug can't reproduce | record `blocked` | you send the logs asked for |
+| ticket can't be built as cut | stops · `in-progress` | `/warroom-tickets` re-cut |
+| docs wrong / contradict | stops | `/warroom` |
+| blocker not done | stops · names it | build that one first |
+| test already broken | doesn't fix | `/warroom-debug` |
+| review out of the ticket's scope | fixes in-scope only | `--review-feature` |
+| too big for one session | stops at end of a criteria group | new session, carry on |
+
+**`open-items.md` — everything unfinished for the feature, one table**
+
+```
+| # | Ticket | From         | Found                        | Next               | Status      |
+| 1 | 04     | build stop   | needs a session store first  | → /warroom-tickets | → ticket 05 |
+| 2 | 04     | review: Spec | ...                          | → feature review   | open        |
+| 3 | 06     | decision     | sign out on suspend at once? | → /warroom         | → D32       |
+```
+
+- **From** where it came from · **Next** the flow that closes it · **Status** `open` until that flow closes it.
+- The closing skill updates Status: `/warroom-tickets` → `→ ticket NN` · `/warroom` → `→ D{n}` · `--review-feature` → `done (sha)`.
 
 **Where unfinished work waits**
-- A ticket `in-progress` — the next `/warroom-build {slug}` reads its `## Notes` and asks whether to resume.
-- Review findings left — each ticket's `## Notes`; `--review-feature` sees them all.
-- Trial findings not picked — `open` in `trial/{date}.md`.
-- A stuck debug — `docs/debug/` with status `blocked: …`.
+
+| Waits in | From | Closed by |
+|---|---|---|
+| `open-items.md` | build, review, feature review | each row's Next |
+| ticket `in-progress` | a build that stopped | `/warroom-build` reads that ticket's rows and asks to resume |
+| `trial/{date}.md` rows `open` | trial findings you didn't pick | next trial / you pick later |
+| `docs/debug/` `blocked` | a stuck debug | `/warroom-debug` once the data arrives |
+| `docs/debug/` `spec gap → warroom` | debug found the docs wrong | `/warroom` |
+
+`/warroom` on an existing feature: gathers every `→ /warroom` item, asks
+only about those → new D → legal + Breaker → gate → re-cut.
 
 ## 6. warroom-debug — find a bug's cause
 
@@ -345,6 +366,6 @@ tickets yourself, build the new tickets → `--review-feature` → trial again.
 | `warroom` | `docs/features/{slug}/` spec.md, decisions.md, flow.md · `docs/adr/` · `CONTEXT.md` |
 | `warroom-legal` | `docs/features/{slug}/legal.md` |
 | `warroom-tickets` | `docs/features/{slug}/tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` (when missing) |
-| `warroom-build` | code + tests, one commit per ticket · `docs/reference/` notes |
+| `warroom-build` | code + tests, one commit per ticket · `docs/reference/` notes · `docs/features/{slug}/open-items.md` (when something is left) |
 | `warroom-debug` | `docs/debug/{date}-{slug}.md` |
 | `warroom-trial` | `docs/features/{slug}/trial/{date}.md` · new tickets for the friction you pick |
