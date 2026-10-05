@@ -1,5 +1,7 @@
 # How the warroom skills fit together
 
+**English** · [ไทย](flow.th.md)
+
 Which skill you start, which ones it calls on its own, and where it stops
 and hands back to you.
 
@@ -78,6 +80,15 @@ flowchart LR
 
 **Nothing is fixed until you pick.** Unpicked findings stay `open` in the
 trial report.
+- **bug** — debug builds a repro from the persona's steps, fixes behind a
+  regression test (an e2e test when it showed on screen), and commits the
+  fix, test, and record together.
+- **spec gap** — trial never edits the spec; `/warroom` adds a `D{n}` and
+  cuts more tickets.
+- **friction** — a new ticket after the highest number, with the persona's
+  goal as an `(e2e)` criterion so it doesn't come back.
+- New tickets built → `--review-feature` → `/warroom-trial` again to check
+  the old findings are gone.
 
 ## Each skill at a glance
 
@@ -97,7 +108,7 @@ trial report.
 |---|---|
 | `warroom` | `docs/features/{slug}/` spec.md, decisions.md, flow.md · `docs/adr/` · `CONTEXT.md` |
 | `warroom-legal` | `docs/features/{slug}/legal.md` |
-| `warroom-tickets` | `docs/features/{slug}/tickets/NN-*.md` |
+| `warroom-tickets` | `docs/features/{slug}/tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` (project conventions, when missing) |
 | `warroom-build` | code + tests, one commit per ticket · `docs/reference/` notes |
 | `warroom-debug` | `docs/debug/{date}-{slug}.md` |
-| `warroom-trial` | `docs/features/{slug}/trial/{date}.md` |
+| `warroom-trial` | `docs/features/{slug}/trial/{date}.md` · new tickets for the friction you pick |
