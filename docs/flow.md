@@ -43,31 +43,33 @@ are helpers the other skills call along the way.
 
 ```mermaid
 flowchart LR
-    W["/warroom<br/>plan"]
-    T["warroom-tickets<br/>cut tickets"]
+    W["/warroom"]
+    L["warroom-legal"]
+    T["warroom-tickets"]
     B["/warroom-build<br/>one ticket"]
-    R["--review-feature<br/>whole branch"]
-    TR["/warroom-trial<br/>users try it"]
-    NT["new tickets"]
-    M["merge"]
+    D["warroom-debug"]
+    R["/warroom-build<br/>--review-feature"]
+    TR["/warroom-trial"]
 
+    W -->|auto, before the gate| L
     W -->|auto, after Approve| T
-    T -->|you paste the prompt<br/>new session| B
+    T -->|you paste the build prompt<br/>in a new session| B
+    B -->|auto, unexplained failure| D
     B -->|you, every ticket done| R
-    R -->|you| TR
-    TR -->|friction / bugs| NT
-    TR -->|clean| M
+    R -->|you, app runs locally| TR
 ```
 
-From plan to merge — "auto" chains inside one session; "you" means the
-skill stops and waits for you.
-
-- **New tickets** from a trial go back through `/warroom-build` →
-  `--review-feature` → `/warroom-trial` until nothing important is left
-  (the loop isn't drawn, to keep the wires straight).
-- **warroom-legal** is called by warroom before the gate, and
-  **warroom-debug** by build or trial on a bug — see their sections.
-- While building: **one ticket per new session**, with a cleared context.
+**From plan to trial: solid arrows labelled "auto" happen inside the same
+run; "you" means the skill stops and waits for you.**
+- Run `/warroom-build` once per ticket, each in a new session, until every
+  ticket is `done` — the build names the next ticket when it finishes.
+- warroom-debug returns its fix and regression test to the build that
+  called it; run it yourself with `/warroom-debug` for any bug outside a
+  build.
+- warroom-legal also runs alone as `/warroom-legal {items or slug}`.
+- What a trial finds → see section 7. The ones you pick become new
+  tickets, and you go round again: `/warroom-build` → `--review-feature` →
+  `/warroom-trial`, until nothing important is left, then merge.
 
 **What you actually type, in order:**
 

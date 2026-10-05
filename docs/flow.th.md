@@ -41,30 +41,32 @@
 
 ```mermaid
 flowchart LR
-    W["/warroom<br/>วางแผน"]
-    T["warroom-tickets<br/>หั่นงาน"]
+    W["/warroom"]
+    L["warroom-legal"]
+    T["warroom-tickets"]
     B["/warroom-build<br/>ทีละ ticket"]
-    R["--review-feature<br/>ตรวจทั้งก้อน"]
-    TR["/warroom-trial<br/>ผู้ใช้ลองจริง"]
-    NT["ticket ใหม่"]
-    M["merge"]
+    D["warroom-debug"]
+    R["/warroom-build<br/>--review-feature"]
+    TR["/warroom-trial"]
 
+    W -->|auto, ก่อน gate| L
     W -->|auto, หลัง Approve| T
-    T -->|คุณวาง prompt<br/>session ใหม่| B
-    B -->|คุณ, ครบทุกใบ| R
-    R -->|คุณ| TR
-    TR -->|ติดขัด / bug| NT
-    TR -->|ผ่าน| M
+    T -->|คุณวาง build prompt<br/>ใน session ใหม่| B
+    B -->|auto, failure ที่อธิบายไม่ได้| D
+    B -->|คุณ, ticket done ครบ| R
+    R -->|คุณ, แอปรันบนเครื่อง| TR
 ```
 
-เส้นทางจากแผนถึง merge — "auto" คือต่อกันเองใน session เดียว, "คุณ" คือ skill
-หยุดรอคุณสั่ง
-
-- **ticket ใหม่** จาก trial วนกลับไป `/warroom-build` → `--review-feature` →
-  `/warroom-trial` อีกรอบ จนไม่มีอะไรสำคัญค้าง (เส้นวนไม่ได้วาดไว้เพื่อไม่ให้สายพันกัน)
-- **warroom-legal** ถูก warroom เรียกก่อน gate และ **warroom-debug** ถูก build
-  หรือ trial เรียกเมื่อเจอ bug — ดูในหัวข้อของแต่ละตัว
-- ระหว่าง build: **ticket ละ session ใหม่** ล้าง context ก่อนเสมอ
+**จากแผนถึง trial: ลูกศรที่เขียนว่า "auto" เกิดใน run เดียวกัน ส่วน "คุณ"
+คือ skill หยุดรอคุณ**
+- รัน `/warroom-build` ทีละ ticket แต่ละครั้งใน session ใหม่ จนทุก ticket
+  เป็น `done` — build จะบอก ticket ถัดไปเมื่อเสร็จ
+- warroom-debug ส่ง fix และ regression test กลับให้ build ที่เรียกมัน ถ้าเป็น
+  bug นอก build ให้รัน `/warroom-debug` เอง
+- warroom-legal รันเดี่ยวได้ด้วย `/warroom-legal {items หรือ slug}`
+- trial เจออะไร → ดูหัวข้อ 7 ข้อที่คุณเลือกกลายเป็น ticket ใหม่ แล้ววนกลับไป
+  `/warroom-build` → `--review-feature` → `/warroom-trial` อีกรอบ จนไม่มีอะไรสำคัญค้าง
+  แล้วค่อย merge
 
 **คำสั่งที่คุณพิมพ์จริง ตามลำดับ:**
 
