@@ -6,7 +6,8 @@ description: >-
   path, falsify ranked hypotheses (with an Outsider subagent for a
   third-person view), keep a ledger of every run, fix behind a regression
   test, then close with a blameless postmortem. Everything is written to one
-  record file under docs/debug/ that can be read cold the next morning.
+  record file — in the feature's bugs/ folder, or docs/bugs/ — that can be
+  read cold the next morning.
   Use when the user says debug / diagnose / something is broken, throwing,
   failing, flaky, or slow, pastes a stack trace or error log, or when
   warroom-build hits a failure it can't explain.
@@ -31,7 +32,9 @@ the phases in order:
 
 ## Phase 0 — Open the record
 
-Create `docs/debug/{YYYY-MM-DD}-{slug}.md` from
+Create the record — `docs/features/{feature}/bugs/{YYYY-MM-DD}-{slug}.md`
+when the bug is in a warroom feature, otherwise
+`docs/bugs/{YYYY-MM-DD}-{slug}.md` — from
 [templates/debug-record.md](templates/debug-record.md) before anything
 else. Fill in the symptom in the user's words. **Every later phase writes
 into this file as it happens**; someone will read it cold the next morning.

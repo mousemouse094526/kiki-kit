@@ -5,7 +5,7 @@ live — lives in a conventions skill the **project** owns. These skills only
 find it, set it up, and update it. Never copy one project's conventions
 into a skill or another project.
 
-Conventions say "how we build here"; `docs/reference/` says "how the
+Conventions say "how we build here"; `docs/library-notes/` says "how the
 library works". When they disagree, the convention wins on structure and
 the reference note wins on library behaviour.
 
@@ -16,7 +16,7 @@ Read, in this order, whatever exists for the area a ticket touches:
 1. `CLAUDE.md` at the repo root and in the app or package touched.
 2. `.claude/rules/*.md`.
 3. `.claude/skills/{framework}-{surface}/` — its `SKILL.md`, then only the
-   `patterns/*.md` for the layers touched.
+   `rules/*.md` for the layers touched.
 
 The build follows them; the Standards reviewer checks against them.
 
@@ -44,12 +44,12 @@ per app type, shared by every app of that type in the repo.
 
 ## Keep them current — warroom-build
 
-- A ticket that sets or changes a pattern updates its `patterns/{layer}.md`
+- A ticket that sets or changes a layer's rules updates its `rules/{layer}.md`
   **in the same commit** as the code, so the rule and its first example
   match.
-- A layer with no pattern yet (the first background job, the first upload)
+- A layer with no rules file yet (the first background job, the first upload)
   is a structural choice local to the ticket: ask how it should work, add
-  `patterns/{layer}.md` and its index row, then write the code.
-- `SKILL.md` stays short — structure, never-break rules, pattern index.
-  Detail lives in `patterns/` so it loads only when needed. English, like
+  `rules/{layer}.md` and its index row, then write the code.
+- `SKILL.md` stays short — structure, never-break rules, rules index.
+  Detail lives in `rules/` so it loads only when needed. English, like
   code.

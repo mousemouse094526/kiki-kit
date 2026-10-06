@@ -3,7 +3,7 @@
 From Matt Pocock's `tdd` ([mattpocock/skills](https://github.com/mattpocock/skills),
 MIT). The method is the same in every project. The runner, the mocking
 library, and where tests live come from the project's conventions skill
-(`patterns/testing.md`) and spec.md › Testing decisions — on tooling, the
+(`rules/testing.md`) and spec.md › Testing decisions — on tooling, the
 project wins. Examples are TypeScript only for illustration.
 
 ## What a good test is

@@ -1,4 +1,4 @@
-# Template: docs/debug/{YYYY-MM-DD}-{slug}.md
+# Template: docs/features/{feature}/bugs/{YYYY-MM-DD}-{slug}.md (or docs/bugs/…)
 
 One file per bug, opened in Phase 0 and filled in as you go. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md). Headings

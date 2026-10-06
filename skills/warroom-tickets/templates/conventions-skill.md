@@ -8,8 +8,8 @@ throughout. Follow
 ## Rules
 
 - **SKILL.md stays short** — what the area is, the folder structure, the
-  never-break rules, and the pattern index. Under ~200 lines.
-- **One `patterns/{layer}.md` per layer** the surface has: what the layer
+  never-break rules, and the rules index. Under ~200 lines.
+- **One `rules/{layer}.md` per layer** the surface has: what the layer
   owns, what it must not do, one short example in this project's code, and
   the files that follow it best. Always include `testing.md` — the test
   runner, where tests live, and the e2e tool when the surface has a UI.
@@ -54,13 +54,13 @@ description: >-
 
 - {a rule a reviewer would block a merge for}
 
-## Patterns
+## Rules by layer
 
 | File | Covers |
 |---|---|
-| [patterns/{layer}.md](patterns/{layer}.md) | {what this layer's file covers} |
+| [rules/{layer}.md](rules/{layer}.md) | {what this layer's file covers} |
 
-A layer with no pattern file → stop and ask before writing it.
+A layer with no rules file → stop and ask before writing it.
 ````
 
 ## Folder structure by surface
@@ -115,7 +115,7 @@ src/
 
 Flow: screen → feature component → hook → api client.
 
-## patterns/{layer}.md
+## rules/{layer}.md
 
 ````markdown
 # {Layer}
@@ -136,6 +136,6 @@ Flow: screen → feature component → hook → api client.
 
 ## Good examples
 
-- `{path to a file that follows this pattern well}` — or `None yet — the
+- `{path to a file that follows these rules well}` — or `None yet — the
   first ticket that touches this layer sets it.`
 ````

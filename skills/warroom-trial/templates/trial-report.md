@@ -1,4 +1,4 @@
-# Template: docs/features/{slug}/trial/{YYYY-MM-DD}.md
+# Template: docs/features/{slug}/user-trials/{YYYY-MM-DD}.md
 
 One file per trial run. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md). Headings,

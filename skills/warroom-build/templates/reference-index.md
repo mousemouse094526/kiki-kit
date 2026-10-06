@@ -1,4 +1,4 @@
-# Template: docs/reference/README.md
+# Template: docs/library-notes/README.md
 
 The project's index of language, runtime, and library docs, one row per
 entry. Follow

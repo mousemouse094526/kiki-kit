@@ -30,8 +30,8 @@ Diff: `git diff {fixed point}` (include uncommitted work); commits:
 - **Spec source** — per the table above: tickets, the `D{n}`, the ADRs,
   spec.md › Seams and the Implementation sections touched, the legal items.
 - **Standards source** — the project's conventions skill (SKILL.md and the
-  patterns for the layers touched), `.claude/rules/`, `CLAUDE.md`, lint
-  config, the `docs/reference/` notes for what the diff touches — plus the
+  `rules/` files for the layers touched), `.claude/rules/`, `CLAUDE.md`, lint
+  config, the `docs/library-notes/` notes for what the diff touches — plus the
   smell baseline below.
 
 <smell-baseline>

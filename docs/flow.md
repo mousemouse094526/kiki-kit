@@ -184,7 +184,7 @@ chat.
 | Step | Does | You |
 |---|---|---|
 | Pick | the named ticket or the lowest one that can start · one left `in-progress` → reads its open-items rows, asks to resume | — |
-| Prepare | conventions (none → stop → `/warroom-tickets`) · version table · `docs/reference/` notes for the installed version | answer upgrades (recommended: stay) |
+| Prepare | conventions (none → stop → `/warroom-tickets`) · version table · `docs/library-notes/` notes for the installed version | answer upgrades (recommended: stay) |
 | TDD | one criterion at a time, red → green, at the agreed seams | — |
 | e2e | `(e2e)` criteria once the code is green | — |
 | Check | full suite + typecheck + lint · **Standards / Spec / Newcomer** review in parallel | — |
@@ -213,7 +213,7 @@ during build skips the red team and legal.
 | Case | Build does |
 |---|---|
 | found by searching (all decisions, ADRs, spec, conventions, reference) | uses it, no question |
-| only this ticket's how (error wording, a default, a new layer's pattern) | asks, saying where it looked → a new D or conventions, settled completely → carries on |
+| only this ticket's how (error wording, a default, a new layer's rules) | asks, saying where it looked → a new D or conventions, settled completely → carries on |
 | touches the spec / another ticket / legal / an ADR / an old D · can't build as cut · docs contradict · unsure | stops → open-items row (`→ /warroom` or `→ /warroom-tickets`) |
 | unexplained error | calls debug → fix → carries on |
 | test already broken | doesn't fix → row `→ /warroom-debug` |
@@ -238,7 +238,7 @@ flowchart LR
 ```
 
 No guessing before it fails reliably · every step goes into
-`docs/debug/{date}-{slug}.md` as it happens.
+`bugs/{date}-{slug}.md` in the feature folder (or `docs/bugs/`) as it happens.
 
 - Can't make it fail → stops, asks for logs · row `→ /warroom-debug`.
 - Code does exactly what the docs say → a spec gap, not a bug · row `→ /warroom`.
@@ -269,7 +269,7 @@ browser, and answer in the app's language · trial fixes nothing itself.
 | **friction** | matches the spec, hard to use | new ticket with an `(e2e)` criterion |
 | **works as intended** | expected something a D ruled out | noted, citing the D |
 
-Unpicked → `open` in `trial/{date}.md` · trial doesn't commit.
+Unpicked → `open` in `user-trials/{date}.md` · trial doesn't commit.
 
 ## 9. `open-items.md` — everything unfinished, one place
 
@@ -290,6 +290,24 @@ Unpicked → `open` in `trial/{date}.md` · trial doesn't commit.
 The closing skill updates Status · no build prompt while a `→ /warroom` or
 `→ /warroom-tickets` row is open · `--review-feature` won't recommend merge
 while any row is `open`.
+
+## The folders it leaves
+
+```
+docs/
+├── README.md                    ← map: what each folder is, who writes it, when to read it
+├── features/{slug}/             ← everything for one feature, in one place
+│   ├── spec.md  decisions.md  flow.md  legal.md  open-items.md  (map.md)
+│   ├── tickets/                 ← the work, one ticket per file
+│   ├── user-trials/             ← role-played user trial reports
+│   └── bugs/                    ← bug investigations for this feature
+├── adr/                         ← rules every feature must follow
+├── library-notes/               ← what each library's docs recommend/warn, for the installed version
+└── bugs/                        ← bugs outside any feature (appears on the first one)
+.claude/skills/{framework}-{surface}/
+├── SKILL.md                     ← folder layout + never-break rules for that code
+└── rules/{layer}.md             ← the rules for each layer
+```
 
 ## Words
 
@@ -312,6 +330,8 @@ while any row is `open`.
 | `warroom` | `docs/features/{slug}/` spec, decisions, flow (+ `map.md` for big plans) · `docs/adr/` · `CONTEXT.md` |
 | `warroom-legal` | `legal.md` |
 | `warroom-tickets` | `tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` |
-| `warroom-build` | code + tests, one commit per ticket · `docs/reference/` · `open-items.md` rows |
-| `warroom-debug` | `docs/debug/{date}-{slug}.md` · `open-items.md` rows |
-| `warroom-trial` | `trial/{date}.md` · new tickets · `open-items.md` rows |
+| `warroom-build` | code + tests, one commit per ticket · `docs/library-notes/` · `open-items.md` rows |
+| `warroom-debug` | `bugs/{date}-{slug}.md` · `open-items.md` rows |
+| `warroom-trial` | `user-trials/{date}.md` · new tickets · `open-items.md` rows |
+
+Every skill that creates a folder under `docs/` adds its row to `docs/README.md`.

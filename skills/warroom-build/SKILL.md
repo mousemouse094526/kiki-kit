@@ -64,7 +64,7 @@ the domain. Then:
 - Only now set `**Status:** in-progress` — a ticket stopped before this
   point was never started.
 
-Code, comments, test names, commits, and `docs/reference/` notes are
+Code, comments, test names, commits, and `docs/library-notes/` notes are
 English; replies follow the user's language.
 
 ## 3. Build test-first
@@ -77,7 +77,7 @@ criterion at a time: red → green, then the typecheck and the test file.
   with the project's e2e tool, through the real UI. No e2e setup yet → set
   it up first as the conventions describe.
 - **New code goes where the conventions say.** A ticket that sets or
-  changes a pattern updates the pattern file in the same commit.
+  changes a layer's rules updates its `rules/{layer}.md` in the same commit.
 - **A ticket too big for one session** → stop at the end of a criteria
   group: commit what is green as `wip({slug}): {title} (#{NN}, part n)`,
   never half a group; leave it `in-progress` and add a row `From: build
@@ -90,10 +90,10 @@ A decision made here skips the red team and the legal check, and lands
 halfway through code. When something is not settled:
 
 1. **Look it up before asking.** The whole decisions.md (not only Covers),
-   the ADRs, spec.md, the conventions, `docs/reference/`. Answered → use it
+   the ADRs, spec.md, the conventions, `docs/library-notes/`. Answered → use it
    and add the `D{n}` to Covers.
 2. **Only this ticket's own how** — an error message's wording, a default
-   page size, a new pattern file for a layer no ticket had yet — and
+   page size, a rules file for a layer no ticket had yet — and
    nothing else changes because of it → ask with AskUserQuestion,
    recommended answer first, saying where you looked. Record the whole
    answer as the next `D{n}` (`**From:** build ticket NN`) or in the

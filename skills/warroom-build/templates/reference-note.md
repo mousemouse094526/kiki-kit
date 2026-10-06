@@ -1,4 +1,4 @@
-# Template: docs/reference/{name}.md
+# Template: docs/library-notes/{name}.md
 
 One note per language, runtime, or library: what its official docs
 recommend and warn against, and the traps this project hit with it.
@@ -14,7 +14,7 @@ Follow [markdown-style.md](../../warroom/references/markdown-style.md).
   not copied from the docs — with the page it follows.
 - **No project choices** — folders, layers, and patterns go in the
   project's conventions skill.
-- **Traps** link the doc page or `docs/debug/` record that proves them.
+- **Traps** link the doc page or bug record (`bugs/`) that proves them.
 - **Sources** lists every page fetched for this note, with its access date.
   Each bullet above links the page it came from.
 - Sections with nothing to say are dropped (Sources never is).
@@ -45,7 +45,7 @@ Follows [{page}]({url}).
 
 ## Traps
 
-- {behaviour that surprised us} — [{source}]({doc link or docs/debug/… record})
+- {behaviour that surprised us} — [{source}]({doc link or bug record})
 
 ## Sources
 

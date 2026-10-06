@@ -2,7 +2,7 @@
 
 Before writing code, every language, runtime, and library the ticket
 touches has a **reference note for the installed version** in
-`docs/reference/` — fetched first, then coded against. Model memory is often
+`docs/library-notes/` — fetched first, then coded against. Model memory is often
 a version behind, and a wrong guess about a library is the most common
 reason a build breaks.
 
@@ -23,7 +23,7 @@ plus anything new) — and show:
 
 Installed from the lockfile; Latest from the registry (`npm view {pkg}
 version`, PyPI, the Go proxy, the release page); Note version from
-`docs/reference/{name}.md`, or `—`.
+`docs/library-notes/{name}.md`, or `—`.
 
 - **Up to date or patch** → nothing to decide.
 - **Minor or major** → read the changelog between the two, sum up the
@@ -35,7 +35,7 @@ version`, PyPI, the Go proxy, the release page); Note version from
 
 ## 2. Notes — for the installed version
 
-`docs/reference/README.md` indexes the notes
+`docs/library-notes/README.md` indexes the notes
 ([templates/reference-index.md](../templates/reference-index.md)); create
 it when missing. Note version equals installed → use it. Older or missing
 → fetch and write before any code:
@@ -50,7 +50,7 @@ it when missing. Note version equals installed → use it. Older or missing
    in use, plus the project's lint and compiler settings.
 4. **Blogs and Q&A** → only to find an official page, never as the source.
 
-Write `docs/reference/{name}.md` from
+Write `docs/library-notes/{name}.md` from
 [templates/reference-note.md](../templates/reference-note.md): best
 practices and what the docs warn against, one pattern in this project's
 style, traps. Summarise and link, in English; its Version equals the

@@ -8,7 +8,7 @@ description: >-
   a separate subagent that has not seen the code or the spec, use the app
   through the browser on a local dev server. A dev-lead pass then sorts every
   finding into bug, spec gap, friction, or works-as-intended and writes one
-  trial report under docs/features/{slug}/trial/. Nothing is fixed without
+  trial report under docs/features/{slug}/user-trials/. Nothing is fixed without
   the user's pick: bugs go to warroom-debug, spec gaps to warroom, friction
   to new tickets. Invoke with /warroom-trial {slug}, after warroom-build has
   landed tickets someone can demo. Use only when the user explicitly asks
@@ -96,7 +96,7 @@ one finding, seen three times. That count is its weight. Rank by
 
 ## 6. Write the report
 
-`docs/features/{slug}/trial/{YYYY-MM-DD}.md` from
+`docs/features/{slug}/user-trials/{YYYY-MM-DD}.md` from
 [templates/trial-report.md](templates/trial-report.md). Run the self-check
 in [markdown-style.md](../warroom/references/markdown-style.md).
 

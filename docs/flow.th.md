@@ -180,7 +180,7 @@ flowchart LR
 | ขั้น | ทำอะไร | คุณ |
 |---|---|---|
 | เลือก | ใบที่ระบุ หรือเลขต่ำสุดที่เริ่มได้ · ใบค้าง `in-progress` → อ่านแถวใน open-items แล้วถามทำต่อไหม | — |
-| เตรียม | conventions (ไม่มี → หยุด → `/warroom-tickets`) · ตารางเวอร์ชัน · โน้ต `docs/reference/` ของเวอร์ชันที่ติดตั้ง | ตอบเรื่องอัปเกรด (แนะนำ: อยู่เดิม) |
+| เตรียม | conventions (ไม่มี → หยุด → `/warroom-tickets`) · ตารางเวอร์ชัน · โน้ต `docs/library-notes/` ของเวอร์ชันที่ติดตั้ง | ตอบเรื่องอัปเกรด (แนะนำ: อยู่เดิม) |
 | TDD | เกณฑ์ทีละข้อ red → green ที่ seam ที่ตกลงไว้ | — |
 | e2e | เกณฑ์ `(e2e)` เขียนหลังโค้ดผ่าน | — |
 | ตรวจ | full suite + typecheck + lint · review **Standards / Spec / Newcomer** พร้อมกัน | — |
@@ -209,7 +209,7 @@ flowchart LR
 | กรณี | build ทำ |
 |---|---|
 | ค้นแล้วเจอ (decisions ทั้งไฟล์, ADR, spec, conventions, reference) | ใช้เลย ไม่ถาม |
-| วิธีทำในใบนี้เท่านั้น (ข้อความ error, ค่า default, pattern ของ layer ใหม่) | ถาม บอกว่าค้นที่ไหนแล้ว → D ใหม่ หรือ conventions ตอบให้จบ → ทำต่อ |
+| วิธีทำในใบนี้เท่านั้น (ข้อความ error, ค่า default, rules ของ layer ใหม่) | ถาม บอกว่าค้นที่ไหนแล้ว → D ใหม่ หรือ conventions ตอบให้จบ → ทำต่อ |
 | กระทบ spec / ใบอื่น / legal / ADR / D เดิม · หั่นมาทำไม่ได้ · เอกสารขัดกัน · ไม่แน่ใจ | หยุด → แถวใน open-items (`→ /warroom` หรือ `→ /warroom-tickets`) |
 | error อธิบายไม่ได้ | เรียก debug → ได้ fix → ทำต่อ |
 | test พังอยู่ก่อนแล้ว | ไม่แก้ → แถว `→ /warroom-debug` |
@@ -233,7 +233,7 @@ flowchart LR
     RP --> SC --> FP --> H --> FX --> PM
 ```
 
-ไม่เดาก่อนทำ fail ได้ · ทุกขั้นจดใน `docs/debug/{date}-{slug}.md` ทันที
+ไม่เดาก่อนทำ fail ได้ · ทุกขั้นจดใน `bugs/{date}-{slug}.md` ในโฟลเดอร์ feature (หรือ `docs/bugs/`) ทันที
 
 - ทำ fail ไม่ได้ → หยุด ขอ log · แถว `→ /warroom-debug`
 - โค้ดตรงเอกสารเป๊ะ → ไม่ใช่ bug แต่ spec gap · แถว `→ /warroom`
@@ -264,7 +264,7 @@ trial ไม่แก้อะไรเอง
 | **friction** | ตรง spec แต่ใช้ยาก | ticket ใหม่ มีเกณฑ์ `(e2e)` |
 | **works as intended** | คาดหวังสิ่งที่ D ตัดไปแล้ว | จดไว้ อ้าง D |
 
-ข้อที่ไม่เลือก → `open` ใน `trial/{date}.md` · trial ไม่ commit
+ข้อที่ไม่เลือก → `open` ใน `user-trials/{date}.md` · trial ไม่ commit
 
 ## 9. `open-items.md` — งานค้างทั้ง feature ที่เดียว
 
@@ -284,6 +284,24 @@ trial ไม่แก้อะไรเอง
 
 skill ที่ปิดเป็นคนแก้ Status · build prompt ไม่ออกถ้ามีแถว `→ /warroom` หรือ
 `→ /warroom-tickets` ค้าง · `--review-feature` ไม่แนะนำ merge ถ้ายังมีแถว `open`
+
+## โฟลเดอร์ที่ได้
+
+```
+docs/
+├── README.md                    ← แผนผัง: แต่ละโฟลเดอร์คืออะไร ใครเขียน อ่านเมื่อไหร่
+├── features/{slug}/             ← ทุกอย่างของ feature อยู่ที่เดียว
+│   ├── spec.md  decisions.md  flow.md  legal.md  open-items.md  (map.md)
+│   ├── tickets/                 ← งานทีละใบ
+│   ├── user-trials/             ← ผล trial ของผู้ใช้สมมุติ
+│   └── bugs/                    ← บันทึกการไล่ bug ของ feature นี้
+├── adr/                         ← กฎที่ทุก feature ต้องตาม
+├── library-notes/               ← สิ่งที่ docs ของ library แนะนำ/เตือน ตามเวอร์ชันที่ติดตั้ง
+└── bugs/                        ← bug ที่ไม่อยู่ใน feature ไหน (มีเมื่อเจอครั้งแรก)
+.claude/skills/{framework}-{surface}/
+├── SKILL.md                     ← โครงโฟลเดอร์ + กฎห้ามละเมิดของโค้ดส่วนนั้น
+└── rules/{layer}.md             ← กฎของแต่ละ layer
+```
 
 ## ศัพท์
 
@@ -306,6 +324,8 @@ skill ที่ปิดเป็นคนแก้ Status · build prompt ไ�
 | `warroom` | `docs/features/{slug}/` spec, decisions, flow (+ `map.md` งานใหญ่) · `docs/adr/` · `CONTEXT.md` |
 | `warroom-legal` | `legal.md` |
 | `warroom-tickets` | `tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` |
-| `warroom-build` | code + test หนึ่ง commit ต่อใบ · `docs/reference/` · แถวใน `open-items.md` |
-| `warroom-debug` | `docs/debug/{date}-{slug}.md` · แถวใน `open-items.md` |
-| `warroom-trial` | `trial/{date}.md` · ticket ใหม่ · แถวใน `open-items.md` |
+| `warroom-build` | code + test หนึ่ง commit ต่อใบ · `docs/library-notes/` · แถวใน `open-items.md` |
+| `warroom-debug` | `bugs/{date}-{slug}.md` · แถวใน `open-items.md` |
+| `warroom-trial` | `user-trials/{date}.md` · ticket ใหม่ · แถวใน `open-items.md` |
+
+ทุก skill ที่สร้างโฟลเดอร์ใหม่ใต้ `docs/` เพิ่มแถวใน `docs/README.md`
