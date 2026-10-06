@@ -184,7 +184,7 @@ during build skips the red team and legal.
 | unexplained error | calls debug → fix → carries on |
 | test already broken | doesn't fix → row `→ /warroom-debug` |
 | review outside the ticket | row `→ feature review` |
-| too big for one session | stops at the end of a criteria group, commits what's green |
+| too big for one session | stops at the end of a criteria group, commits what's green as `wip` · row `→ /warroom-build` |
 
 **Never ends a session with uncommitted code** — asks: keep it on branch
 `wip/{slug}-{NN}` (recommended) or discard · notes the branch in the row.
@@ -250,7 +250,7 @@ Unpicked → `open` in `trial/{date}.md` · trial doesn't commit.
 | Column | Meaning |
 |---|---|
 | **From** | where it came from: `build stop`, `decision`, `review: {axis}`, `feature review`, `full suite`, `debug`, `trial` |
-| **Next** | the flow that closes it: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ feature review` |
+| **Next** | the flow that closes it: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ /warroom-build`, `→ feature review` |
 | **Status** | `open` until that flow closes it → `→ ticket NN` / `→ D{n}` / `done (sha)` / `dropped (why)` |
 
 The closing skill updates Status · no build prompt while a `→ /warroom` or
@@ -264,7 +264,7 @@ while any row is `open`.
 | **D{n}** | one decision in `decisions.md` |
 | **ADR** | a project-wide rule later features must follow (`docs/adr/`) |
 | **seam** | where a test observes behaviour (a route, a service), agreed in the spec |
-| **(e2e)** | behaviour only visible on screen, checked with Playwright |
+| **(e2e)** | behaviour only visible on screen, checked with the project's e2e tool (e.g. Playwright) |
 | **Blocked by** | tickets that must be done first; always lower numbers |
 | **frontier** | tickets that can start now |
 | **prefactor** | a ticket that tidies existing code first; numbered first |

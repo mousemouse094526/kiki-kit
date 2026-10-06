@@ -62,7 +62,8 @@ the reply. Cite or mark UNVERIFIED — no third state.
 
 **One markdown file per run.** No spec files, no companion files, no
 per-zone files — everything lives in this one document. A re-run of the
-same topic overwrites it.
+same topic rewrites it; a re-run on a re-opened feature updates only the
+items it was asked about and keeps every other verdict.
 
 Path: `docs/features/{slug}/legal.md` when checking a feature (warroom
 included); otherwise `docs/legal/{topic-slug}.md`.

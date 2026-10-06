@@ -39,8 +39,9 @@ build, the most expensive place to answer them.
 `tickets/` already exists → ask: re-cut the tickets not yet `done`, or
 stop. A re-cut **renumbers every ticket that is not `done`** in dependency
 order after the `done` ones — a new blocker never gets a higher number than
-the tickets it blocks. Update every reference to a renumbered ticket.
-Fold every `open` row in `open-items.md` whose Next is `→
+the tickets it blocks. Update every reference to a renumbered ticket,
+including the Ticket column of `open-items.md` (a `wip/` branch keeps its
+old name; its row says which ticket it now belongs to). Fold every `open` row in `open-items.md` whose Next is `→
 /warroom-tickets` into the new cut, and set its Status to `→ ticket NN`.
 
 ### 2. Explore the codebase
@@ -148,4 +149,4 @@ show the steps that apply, then one ready-to-paste **English** prompt for
 `/warroom-build {slug} {first frontier ticket}` in a new session.
 
 Leave the files uncommitted — the build prompt's first step commits them.
-Do NOT edit spec.md or decisions.md.
+Do NOT edit spec.md; decisions.md gets only the conventions `D{n}`.

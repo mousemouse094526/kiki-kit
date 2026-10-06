@@ -24,7 +24,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   one is a new `D{n}`; the old entry keeps its text and only its Status
   changes (`superseded by D10`, `changed by D21`, `extended by D25`).
 - **Footer on every entry:** `From` (`interview`, `code`, `legal`,
-  `red team`, `gate`, `warroom-tickets`, or `build ticket NN` for a decision made while
+  `red team`, `gate`, `warroom-tickets`, `build ticket NN`, or
+  `open-items #{n}` for a re-opened feature for a decision made while
   building), `Status` (`active` unless changed), `ADR` (`—` until
   the gate writes one).
 - **Sources** on an entry links the outside facts it rests on (a library

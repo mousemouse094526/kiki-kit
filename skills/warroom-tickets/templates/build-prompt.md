@@ -6,8 +6,8 @@ one, so the prompt carries what it can't find by itself. Fill it from what
 you checked, not from guesses. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md).
 
-Conventions, test setup, and library versions are the build's own first
-steps — don't repeat them here.
+Conventions were set up before slicing; test setup and library versions
+are the build's own first steps — don't repeat them here.
 
 ## What to check first
 

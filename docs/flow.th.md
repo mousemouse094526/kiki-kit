@@ -181,7 +181,7 @@ flowchart LR
 | error อธิบายไม่ได้ | เรียก debug → ได้ fix → ทำต่อ |
 | test พังอยู่ก่อนแล้ว | ไม่แก้ → แถว `→ /warroom-debug` |
 | review เกินขอบเขตใบ | แถว `→ feature review` |
-| ใหญ่ ทำไม่จบ | หยุดท้ายกลุ่มเกณฑ์ commit ส่วนที่ผ่าน |
+| ใหญ่ ทำไม่จบ | หยุดท้ายกลุ่มเกณฑ์ commit ส่วนที่ผ่านเป็น `wip` · แถว `→ /warroom-build` |
 
 **ไม่จบ session ทั้งที่โค้ดยังไม่ commit** — ถาม: เก็บไว้ branch `wip/{slug}-{NN}`
 (แนะนำ) หรือทิ้ง · จดชื่อ branch ในแถว
@@ -246,7 +246,7 @@ trial ไม่แก้อะไรเอง
 | คอลัมน์ | ความหมาย |
 |---|---|
 | **From** | มาจากไหน: `build stop`, `decision`, `review: {แกน}`, `feature review`, `full suite`, `debug`, `trial` |
-| **Next** | flow ที่ปิดมัน: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ feature review` |
+| **Next** | flow ที่ปิดมัน: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ /warroom-build`, `→ feature review` |
 | **Status** | `open` จน flow นั้นปิด → `→ ticket NN` / `→ D{n}` / `done (sha)` / `dropped (เหตุผล)` |
 
 skill ที่ปิดเป็นคนแก้ Status · build prompt ไม่ออกถ้ามีแถว `→ /warroom` หรือ
@@ -259,7 +259,7 @@ skill ที่ปิดเป็นคนแก้ Status · build prompt ไ�
 | **D{n}** | decision หนึ่งข้อใน `decisions.md` |
 | **ADR** | กฎระดับโปรเจคที่ feature ถัดไปต้องตาม (`docs/adr/`) |
 | **seam** | จุดที่ test เช็คพฤติกรรม (route, service) ตกลงไว้ใน spec |
-| **(e2e)** | พฤติกรรมที่เห็นได้บนจอเท่านั้น เช็คด้วย Playwright |
+| **(e2e)** | พฤติกรรมที่เห็นได้บนจอเท่านั้น เช็คด้วยเครื่องมือ e2e ของโปรเจค (เช่น Playwright) |
 | **Blocked by** | ticket ที่ต้องเสร็จก่อน ชี้เลขต่ำกว่าเสมอ |
 | **frontier** | ticket ที่เริ่มได้ตอนนี้ |
 | **prefactor** | ticket จัดโค้ดเดิมก่อน เลขแรกเสมอ |

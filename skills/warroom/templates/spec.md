@@ -31,7 +31,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   building; then `ready-to-build`. warroom-tickets and the build refuse a
   `draft` — fog found mid-build costs far more than a question asked now.
 - **Library assumptions** — every library behaviour the plan relies on,
-  one row each, linked to the doc page of the installed version. A row with
+  one row each, linked to the doc page of the installed version (or the
+  version to be added). A row with
   no link is an unchecked guess: make it an Open Question.
 - **Testing decisions** — the existing tests this feature's tests should
   copy, by path (the one place paths are wanted: "go read this file"), and

@@ -39,12 +39,14 @@ State them in one line before asking anything:
 ## Re-opening a feature
 
 `docs/features/{slug}/spec.md` exists → this is a change, not a new plan.
-Read the folder and its `open-items.md`; the rows that are `open` with
-`Next: → /warroom` are the agenda, plus the spec's own Open Questions.
-Interview only on those. Each answer is a new `D{n}` (`From:` the row's
-source); then run warroom-legal on what it touches and give it to The
-Breaker alone instead of the full red team, and go to the gate. On Approve,
-set each row's Status to `→ D{n}`; warroom-tickets re-cuts.
+Set the spec back to `draft` while it changes. Read the folder and its
+`open-items.md`; the rows that are `open` with `Next: → /warroom` are the
+agenda, plus the spec's own Open Questions. Interview only on those. Each
+answer is a new `D{n}` (`From: open-items #{n}`); then run warroom-legal on
+the items it touches (it updates those verdicts in legal.md and keeps the
+rest) and give it to The Breaker alone instead of the full red team, and go
+to the gate. On Approve, set each row's Status to `→ D{n}`, or `done (docs
+fixed)` when only the docs needed correcting; warroom-tickets re-cuts.
 
 ## Phase 1 — Interview, one question at a time
 

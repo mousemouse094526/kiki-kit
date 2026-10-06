@@ -11,8 +11,8 @@ statuses stay in English; the text is in the user's language.
   hit it.
 - **Each finding quotes the persona** in one line, in the language they
   reported in — never translated; their words are the evidence.
-- **Status** per finding: `open`, `→ debug`, `→ warroom`, `→ ticket NN`, or
-  `note`. Update it when the user picks.
+- **Status** per finding: `open`, `→ /warroom-debug`, `→ /warroom`, `→ ticket NN`,
+  or `note`. Update it when the user picks.
 - **Persona reports are kept as returned**, trimmed only for length.
 - **Scope lines explain themselves** — say what was tried, what was
   skipped, and why, in the user's language. Every ticket done → `none —

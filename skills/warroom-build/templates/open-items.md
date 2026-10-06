@@ -20,12 +20,15 @@ words stay in English; **Found** is in the docs language.
 - **Found** — one short line: what, and where; a stopped build adds its
   `wip/{slug}-{NN}` branch.
 - **Next** — the one flow that closes it: `→ /warroom-tickets` (re-cut),
-  `→ /warroom` (docs or a wide decision), `→ /warroom-debug`,
-  `→ feature review`.
+  `→ /warroom` (docs or a decision), `→ /warroom-debug`, `→ /warroom-build`
+  (finish a ticket stopped part-way), `→ feature review`.
 - **Status** — `open` until a flow closes it, then `→ ticket NN`,
-  `→ D{n}`, `done ({short sha})`, or `dropped ({why})`.
+  `→ D{n}`, `done ({short sha})`, `done (docs fixed)`, or
+  `dropped ({why})` when the user says so.
 - The skill that closes a row updates its Status; nothing else edits it.
 - Created on the first row; no file while there is nothing open.
+- Trial findings the user didn't pick stay in the trial report only —
+  they are observations, not work yet.
 
 ## Template
 

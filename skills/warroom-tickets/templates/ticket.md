@@ -17,9 +17,8 @@ All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
   decisions, ADRs, seams (by number in spec.md › Seams), user stories,
   legal items. warroom-tickets' coverage check reads these.
 - **One observable behaviour per bullet**: `{situation} → {result}`. A
-  behaviour proven through the UI ends with `(e2e)`.
-  **Status** says whether the ticket is done. More than eight → group
-  them under `###` sub-headings by area, or split the ticket.
+  behaviour proven through the UI ends with `(e2e)`. More than eight →
+  group them under `###` sub-headings by area, or split the ticket.
 - **Status** is `ready-for-agent`, `in-progress`, or `done`.
 - No file paths or code snippets — they go stale fast. A snippet that
   encodes a decision lives in the spec; cite it.

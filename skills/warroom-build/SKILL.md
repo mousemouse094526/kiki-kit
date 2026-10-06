@@ -54,7 +54,6 @@ the domain. Then:
   or stay.
 - State the typecheck, single-test-file, full-suite, and lint commands in
   one line.
-- Set `**Status:** in-progress`.
 - **Conventions** — read the project's conventions for the area touched
   ([conventions.md](../warroom-tickets/references/conventions.md) says
   where). None for this area → stop and recommend `/warroom-tickets
@@ -64,6 +63,8 @@ the domain. Then:
   language, runtime, and library the ticket touches has a reference note
   for the installed version **before writing code** — model memory is
   often a version behind.
+- Only now set `**Status:** in-progress` — a ticket stopped before this
+  point was never started.
 
 Code, comments, test names, commits, and `docs/reference/` notes are
 English; replies follow the user's language.
@@ -80,7 +81,10 @@ criterion at a time: red → green, then the typecheck and the test file.
 - **New code goes where the conventions say.** A ticket that sets or
   changes a pattern updates the pattern file in the same commit.
 - **A ticket too big for one session** → stop at the end of a criteria
-  group and commit what is green; never commit half a group.
+  group: commit what is green as `wip({slug}): {title} (#{NN}, part n)`,
+  never half a group; leave it `in-progress` and add a row `From: build
+  stop · Next: → /warroom-build` naming the groups left. The full suite
+  and review run once, in the session that finishes it.
 
 ### The build implements decisions; it doesn't make them
 
@@ -111,7 +115,9 @@ code nobody can account for. Before stopping, ask: keep the work on branch
 **Unexplained failure → warroom-debug.** A test that fails for a reason you
 can't name in one look, a green test that breaks, behaviour that
 contradicts the spec → call the Skill tool with `warroom-debug`, then come
-back with its fix and regression test.
+back with its fix and regression test. Debug ends `blocked` or finds a spec
+gap → it has added the row; stop as in rule 3 (ticket `in-progress`, clean
+tree).
 
 ## 4. Full suite
 
@@ -152,7 +158,8 @@ concept, a seam one ticket tested and another bypassed.
    axes over the whole branch, the whole feature folder as the spec.
 3. Show the findings with every `open` row whose Next is `→ feature
    review`. Ask which to fix now; fix them, run focused checks, commit
-   `refactor({slug}): feature review fixes`. Fixed rows → `done ({sha})`;
-   findings not picked → new rows `From: feature review`.
-4. Rows still `open` anywhere → list them with their Next before
-   recommending merge.
+   `refactor({slug}): feature review fixes`. Fixed rows → `done ({sha})`.
+   Findings not picked → new rows `From: feature review · Next: →
+   /warroom-tickets`, or `dropped ({why})` when the user says so.
+4. Any row still `open` → list it with its Next and don't recommend merge
+   until each is closed or dropped.
