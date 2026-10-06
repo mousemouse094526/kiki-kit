@@ -27,6 +27,9 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   the UI — a user flow across pages, or across apps (one user acts in one
   app, another sees it in another). Those are proven with the project's
   e2e tool; every other seam is proven below the UI.
+- **Library assumptions** — every library behaviour the plan relies on,
+  one row each, linked to the page that promises it (warroom Phase 2.4).
+  A row with no link is an unchecked guess.
 - **Out of Scope** bullets cite the `D{n}` that ruled them out.
 
 ## Template
@@ -65,6 +68,11 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 ### Data
 {schema block when the schema is the decision}
+
+### Library assumptions
+| Library | Version | The plan needs | Docs |
+|---|---|---|---|
+| {name} | {installed} | {behaviour, one line} | [{page}]({url}) |
 
 ### {API group / client / ops area}
 | {column} | {column} |

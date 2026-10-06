@@ -86,13 +86,14 @@ run; "you" means the skill stops and waits for you.**
 flowchart LR
     I["Interview<br/>one question at a time"]
     DOC["Write docs<br/>spec · decisions · flow"]
+    LIB["Library check<br/>real docs"]
     LG["warroom-legal"]
     RT["Red team<br/>5 subagents"]
     S["ADR sweep"]
     G{"Gate<br/>you choose"}
     TK["warroom-tickets"]
 
-    I --> DOC --> LG --> RT --> S --> G
+    I --> DOC --> LIB --> LG --> RT --> S --> G
     G -->|Approve| TK
 ```
 
@@ -102,6 +103,7 @@ Every step runs in one session — the gate is the only place you decide.
 |---|---|---|
 | Interview | One question at a time, choices with a recommended one | answer / pick |
 | Write docs | `spec.md` (what), `decisions.md` (D1, D2, …), `flow.md` (diagrams) | — |
+| Library check | Reads the docs for the installed version, writes `docs/reference/` notes · Library assumptions table in the spec | docs contradict the plan → answer → new D |
 | warroom-legal | Checks Thai law item by item → `legal.md` | answer if an item is ambiguous |
 | Red team | 5 subagents look for holes: Advocate (the user), Builder (buildable?), Breaker (attacks), Tester (testable?), Skeptic (needed?) | — |
 | ADR sweep | Finds decisions that should become project rules; drafts ADRs | — |
@@ -143,11 +145,12 @@ flowchart LR
     CV["Set conventions<br/>if missing"]
     EX["Explore code<br/>find prefactors"]
     DR["Draft tickets"]
+    CH["Ask the choices<br/>the build will face"]
     Q{"You<br/>approve?"}
     WR["Write ticket files"]
     BP["Build prompt"]
 
-    C --> CV --> EX --> DR --> Q
+    C --> CV --> EX --> DR --> CH --> Q
     Q -->|yes| WR --> BP
 ```
 
@@ -160,6 +163,7 @@ written.
 | Conventions | An area with no rules yet (e.g. `tanstack-start-web`) → proposes folders and test tools | accept / adjust |
 | Explore code | Finds existing code to tidy first → prefactor tickets numbered first | — |
 | Draft | Each ticket works end to end, screen to DB (not "all the DB first") | — |
+| Build choices | Walks every ticket: new lib or in-house, where shared pieces live, defaults, error wording → asks one at a time, records a D or conventions; settled, never left to a later ticket | answer |
 | Quiz | Too big or small? Blocked by right? Merge or split? | answer until happy |
 | Write | `tickets/NN-*.md`, all `ready-for-agent` | — |
 | Build prompt | Checks the project (docs committed? branch, docker, tests, library versions, secrets) and gives an English prompt | run the steps it lists, paste the prompt in a new session |
@@ -228,6 +232,12 @@ flowchart LR
 
 The build never redesigns — anything it doesn't finish goes in
 `open-items.md` with where it goes next.
+
+**Before every question** the build searches the whole decisions.md, the
+ADRs, the spec, the conventions, and `docs/reference/` — found → uses it,
+no question · not found → the question says where it looked. Most
+questions should already be answered at warroom (libraries) and tickets
+(build choices).
 
 | Hits | Build does | Next |
 |---|---|---|

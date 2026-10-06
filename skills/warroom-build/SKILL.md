@@ -104,13 +104,19 @@ updates the project's pattern file in the same commit.
 `docs/features/{slug}/open-items.md`
 ([templates/open-items.md](templates/open-items.md)) — never only in chat.
 
-**Decisions.** A real choice the docs don't answer — first sort it:
+**Decisions.** Before asking anything, search for the answer: the whole
+`decisions.md` (not only the Covers), the ADRs, spec.md, the conventions
+skill, `docs/reference/`. Found → use it and add the `D{n}` to Covers;
+never re-ask what the docs answer. Not found → the question says where you
+looked. Then sort it:
 
 - **Local** — it changes only how this ticket does its own work; no other
   ticket, seam, legal item, ADR, or active `D{n}` changes (wording of an
   error, a default page size). → ask with AskUserQuestion, recommended
   answer first; append the next `D{n}` with `**From:** build ticket NN`;
-  add it to this ticket's Covers; carry on.
+  add it to this ticket's Covers; carry on. The ruling is complete — it
+  never leaves part of the choice to a later ticket; a part that can't be
+  settled now is wide.
 - **Wide** — it changes what the spec, another ticket, a legal item, or an
   ADR says, or contradicts an active `D{n}`. → never decided here: it
   skips the red team and legal check. Stop, leave the ticket

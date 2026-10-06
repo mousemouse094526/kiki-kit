@@ -18,7 +18,7 @@ description: >-
 
 # Warroom — plan one feature, on paper, until it's approved
 
-Interview → docs → legal → red team → ADR sweep → one approval gate → tickets. Output: a docs folder a
+Interview → docs → library check → legal → red team → ADR sweep → one approval gate → tickets. Output: a docs folder a
 stranger could build from.
 
 ## Per-project knobs — resolve once, before the interview
@@ -100,6 +100,25 @@ writing its file, copy its skeleton, and follow its rules:
 | `flow.md` | how it runs — mermaid diagrams drawn with the **mermaid-flow** skill (this plugin) | [templates/flow.md](templates/flow.md) |
 
 Every doc also follows [references/markdown-style.md](references/markdown-style.md).
+
+## Phase 2.4 — Library check, every feature
+
+The plan must not rest on library behaviour nobody has read. For every
+library, runtime, and platform the Implementation relies on, follow
+warroom-build's [library-docs.md](../warroom-build/references/library-docs.md)
+steps 1, 3, 4, and 5 — installed version, `llms.txt` and the docs for that
+version, a note in `docs/reference/` — without the upgrade question (the
+build asks it). A library the project doesn't have yet → the latest
+version's docs.
+
+Then fill spec.md › **Library assumptions**: one row per behaviour the plan
+needs from a library, each linked to the doc page that promises it.
+
+- **The docs confirm it** → the row stands.
+- **The docs contradict it or are silent** → it is a decision, not a
+  detail: ask the user now (AskUserQuestion, recommended answer first),
+  record a `D{n}`, and rewrite the spec around what the library really
+  does.
 
 ## Phase 2.5 — Legal check, every feature
 

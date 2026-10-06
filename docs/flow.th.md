@@ -83,13 +83,14 @@ flowchart LR
 flowchart LR
     I["สัมภาษณ์<br/>ทีละคำถาม"]
     DOC["เขียนเอกสาร<br/>spec · decisions · flow"]
+    LIB["เช็ค library<br/>จาก docs จริง"]
     LG["warroom-legal"]
     RT["Red team<br/>5 subagent"]
     S["ADR sweep"]
     G{"Gate<br/>คุณเลือก"}
     TK["warroom-tickets"]
 
-    I --> DOC --> LG --> RT --> S --> G
+    I --> DOC --> LIB --> LG --> RT --> S --> G
     G -->|Approve| TK
 ```
 
@@ -99,6 +100,7 @@ flowchart LR
 |---|---|---|
 | สัมภาษณ์ | ถามทีละข้อ มีตัวเลือกพร้อมตัวที่แนะนำ | ตอบ / เลือก |
 | เขียนเอกสาร | `spec.md` (ทำอะไร), `decisions.md` (D1, D2, …), `flow.md` (แผนภาพ) | — |
+| เช็ค library | เปิด docs เวอร์ชันที่ติดตั้ง เขียนโน้ต `docs/reference/` · ตาราง Library assumptions ใน spec | docs ค้านแผน → ตอบ → D ใหม่ |
 | warroom-legal | เช็คกฎหมายไทยทีละเรื่อง ได้ `legal.md` | ตอบถ้าข้อไหนกำกวม |
 | Red team | subagent 5 ตัวหาช่องโหว่: Advocate (ผู้ใช้), Builder (ทำได้จริงไหม), Breaker (เจาะ), Tester (test ได้ไหม), Skeptic (จำเป็นไหม) | — |
 | ADR sweep | หา decision ที่ควรเป็นกฎระดับโปรเจค ร่าง ADR | — |
@@ -140,11 +142,12 @@ flowchart LR
     CV["ตั้ง conventions<br/>ถ้ายังไม่มี"]
     EX["สำรวจโค้ด<br/>หา prefactor"]
     DR["ร่าง ticket"]
+    CH["ถามทางเลือก<br/>ที่ build จะเจอ"]
     Q{"คุณ<br/>อนุมัติ?"}
     WR["เขียนไฟล์ ticket"]
     BP["build prompt"]
 
-    C --> CV --> EX --> DR --> Q
+    C --> CV --> EX --> DR --> CH --> Q
     Q -->|ใช่| WR --> BP
 ```
 
@@ -156,6 +159,7 @@ flowchart LR
 | conventions | ส่วนไหนของแอปยังไม่มีกติกา (เช่น `tanstack-start-web`) → เสนอโครงโฟลเดอร์ + เครื่องมือ test | อนุมัติ / ปรับ |
 | สำรวจโค้ด | หาโค้ดเดิมที่ต้องจัดก่อน → ticket prefactor เลขแรกๆ | — |
 | ร่าง ticket | แต่ละใบทำงานได้ครบตั้งแต่หน้าจอถึง DB (ไม่ใช่ "ทำ DB ก่อนทั้งหมด") | — |
+| ทางเลือก build | ไล่ทุกใบ: lib ใหม่หรือเขียนเอง, ชิ้นที่ใช้ร่วมอยู่ไหน, ค่า default, ข้อความ error → ถามทีละข้อ บันทึกเป็น D / conventions ตอบจบ ไม่ทิ้งให้ใบหลัง | ตอบ |
 | ถาม | ใหญ่/เล็กไปไหม, ลำดับ Blocked by ถูกไหม, รวม/แยกใบไหน | ตอบจนพอใจ |
 | เขียน | `tickets/NN-*.md` ทุกใบ `ready-for-agent` | — |
 | build prompt | เช็คโปรเจค (commit เอกสารหรือยัง, branch, docker, test, เวอร์ชัน library, secret) แล้วให้ prompt ภาษาอังกฤษ | commit ตามขั้นที่บอก แล้ววาง prompt ใน session ใหม่ |
@@ -220,6 +224,8 @@ flowchart LR
 ```
 
 build ไม่ออกแบบเอง — ทุกเรื่องที่ไม่จบในใบ ลง `open-items.md` พร้อมบอกว่าไปต่อทางไหน
+
+**ก่อนถามทุกครั้ง** build ค้น decisions.md ทั้งไฟล์, ADR, spec, conventions, `docs/reference/` — เจอ → ใช้เลย ไม่ถาม · ไม่เจอ → คำถามบอกว่าค้นที่ไหนแล้ว · คำถามส่วนใหญ่ควรถูกถามไปแล้วตอน warroom (library) และ tickets (ทางเลือก build)
 
 | เจอ | build ทำ | ไปต่อ |
 |---|---|---|

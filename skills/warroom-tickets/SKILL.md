@@ -102,6 +102,18 @@ criteria tagged `(e2e)`. The first such ticket also sets up the e2e
 package if the project has none. A gap the docs don't answer is a missing decision: say so and send
 it back to warroom instead of guessing.
 
+**Warroom addition — answer the build's choices now.** Walk each drafted
+ticket as its builder would and list every choice the docs, the ADRs, and
+the conventions don't answer yet: a new dependency or writing it in-house,
+where a piece shared by several tickets lives, a default value, an error
+wording, a library behaviour with no row in spec.md › Library assumptions.
+Ask them in the quiz below, one per call, recommended answer first. Record
+each answer in one place — a `D{n}` (`**From:** warroom-tickets`) for
+behaviour, the conventions skill for structure — and add the `D{n}` to the
+Covers of every ticket it touches. Each ruling is final: never "ticket NN
+decides". A choice that changes the spec, a legal item, or an ADR → stop
+and send it back to warroom.
+
 ### 4. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each ticket, show:
