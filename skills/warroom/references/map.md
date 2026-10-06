@@ -1,39 +1,38 @@
 # Map mode — a plan too big for one session
 
-A warroom that runs out of context mid-interview loses every decision still
-in its head. When the plan is too big to finish in one session, chart a
-**map** first — one markdown file a cold session can pick up — and resolve
-it over several sessions before the gate.
+A session that runs out of context mid-interview loses every decision not
+yet written down. So when the plan is too big for one session, first chart
+a **map** — one markdown file a cold session can pick up — and resolve it
+over several sessions before the gate.
 
 ## When to chart one
 
-After the first few questions, not before — you can't size what you
-haven't probed. Chart a map when you count roughly **five or more open
-decisions** and can see that answering early ones will raise questions you
-can't phrase yet. Below that, just interview: a map for three questions is
-bureaucracy. Say why in one line and ask before writing the file.
+After the first few questions — you can't size what you haven't probed.
+Chart a map when you count roughly **five or more open decisions** and can
+see that early answers will raise questions you can't phrase yet. Below
+that, just interview. Say why in one line and ask before writing the file.
 
 ## The file — `docs/features/{slug}/map.md`
 
-The map is an **index, not a store**. A decision lives in decisions.md, a
-word in `CONTEXT.md`; the map gives each one line and a link. Two copies
-drift. Follow [markdown-style.md](markdown-style.md).
+The map is an **index, not a store**: a decision lives in decisions.md, a
+word in `CONTEXT.md`, and the map gives each one line and a link. Two
+copies drift. Follow [markdown-style.md](markdown-style.md).
 
 ```markdown
 # Map: {feature slug}
 
 ## Destination
 
-{What the end of this map looks like — usually "a ready-to-build spec for
-…". One or two lines; it fixes the scope.}
+{What "done" means for this map, one or two lines — usually "a
+ready-to-build spec for …". It fixes the scope.}
 
 ## Notes
 
-{What a cold session must know before it asks anything.}
+{What a session starting cold must know before it asks anything.}
 
 ## Decided
 
-- **{question title}** — {one-line answer} → D{n}
+- **{question title}** — {the answer, one line} → D{n}
 
 ## Open
 
@@ -50,27 +49,31 @@ drift. Follow [markdown-style.md](markdown-style.md).
 ```
 
 - **Open or fog?** Open when you can *state* it sharply now, even if
-  something blocks it; fog when you can't. Don't slice fog into questions
+  something blocks it; fog when you can't. Don't split fog into questions
   early — one patch may become three questions or none.
-- **Out of scope** is past the destination. It never comes back; if it
+- **Out of scope** is past the destination and never comes back. If it
   must, the destination was wrong — redraw it.
-- Refer to questions by **title**, never by number alone — titles read at a
-  glance.
+- Refer to questions by **title**, never by number alone.
 
-**Kinds:** `interview` (the default — the user decides), `sketch` (the user
-needs something to react to: a state table, a text mockup), `research`
-(you alone: docs, a library, an API — summarise into the feature folder),
-`task` (manual work that unblocks a decision, e.g. signing up to judge an
-API). Never answer an `interview` question on the user's behalf.
+**Kinds:**
+
+- `interview` — the default; the user decides. Never answer one on the
+  user's behalf.
+- `sketch` — the user needs something to react to: a state table, a text
+  mockup.
+- `research` — you alone: docs, a library, an API. Summarise into the
+  feature folder.
+- `task` — manual work that unblocks a decision, e.g. signing up to judge
+  an API.
 
 ## Session 1 — chart and stop
 
 1. Agree the destination.
-2. Fan out across the whole space — breadth, not depth — to find the sharp
+2. Survey the whole space — breadth, not depth — to find the sharp
    questions and the fog.
 3. No fog → no map: say so and just interview.
-4. Write `map.md`, show it, and stop. Charting and resolving in one session
-   means the tail gets resolved by a tired context.
+4. Write `map.md`, show it, and stop. Resolving in the same session leaves
+   the last questions to a tired context.
 
 ## Later sessions — `/warroom {slug}` with a map
 
@@ -80,12 +83,13 @@ API). Never answer an `interview` question on the user's behalf.
 3. Resolve it by its kind, then **record before anything else**: the
    `D{n}` or `CONTEXT.md` entry, the line under Decided, the question struck
    from Open.
-4. Redraw: fog that became sharp → new open questions (delete the fog
-   line); a question now past the destination → Out of scope; one the
-   answer invalidated → strike or rewrite it.
-5. Keep going while the context holds; stop cleanly between questions,
-   never in the middle of one.
+4. Redraw:
+   - fog that became sharp → new open questions (delete the fog line);
+   - a question now past the destination → Out of scope;
+   - a question the answer invalidated → strike or rewrite it.
+5. Keep going while the context holds. Stop between questions, never in
+   the middle of one.
 
 Open and fog both empty → the map is done: write the docs (Phase 2) and run
-legal, the red team, the ADR sweep, and the gate as usual. The map stays as
+legal, the red team, the ADR sweep, and the gate as usual. Keep the map as
 the record of how the plan was reached.

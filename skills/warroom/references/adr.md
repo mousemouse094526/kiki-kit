@@ -10,28 +10,25 @@ fact instead of asking again.
 
 ## When a decision earns an ADR
 
-All three must be true:
+All three must be true; if one is missing, skip it:
 
-1. **Hard to reverse** — the cost of changing your mind later is meaningful.
-2. **Surprising without context** — a future reader will look at the code and
-   wonder "why on earth did they do it this way?"
-3. **The result of a real trade-off** — there were genuine alternatives and
+1. **Hard to reverse** — changing your mind later would cost something real.
+2. **Surprising without context** — a future reader of the code would ask
+   "why did they do it this way?"
+3. **The result of a real trade-off** — there were real alternatives and
    you picked one for specific reasons.
-
-If any one is missing, skip it.
 
 ### What qualifies
 
 - **Architectural shape.**
 - **Integration patterns between contexts.**
 - **Technology choices that carry lock-in** — database, auth provider,
-  deployment target. Not every library: just the ones that would take a
-  quarter to swap out.
-- **Boundary and scope decisions** — who owns which data. The explicit no-s
-  are as valuable as the yes-s.
+  deployment target. Only libraries that would take a quarter to swap out.
+- **Boundary and scope decisions** — who owns which data. The explicit
+  no-s count as much as the yes-s.
 - **Deliberate deviations from the obvious path** — anything a reasonable
-  reader would assume the opposite of. These stop the next engineer from
-  "fixing" something that was deliberate.
+  reader would assume the opposite of, so the next engineer doesn't "fix"
+  it.
 - **Constraints not visible in the code** — compliance, infrastructure,
   partner contracts.
 - **Rejected alternatives when the rejection is non-obvious.**
@@ -40,8 +37,6 @@ If any one is missing, skip it.
   is the decision, even when this feature's own use of it looks small.
 
 ### Not an ADR, even when it feels important
-
-An ADR is not a diary of every choice made this session.
 
 - Tunable numbers — thresholds, limits, durations, defaults.
 - This feature's own behaviour — UX, messages, scope cuts.
@@ -52,7 +47,7 @@ An ADR is not a diary of every choice made this session.
 
 ## Where candidates hide
 
-The interview is not the only source. Check:
+Not only in the interview. Check:
 
 - Every `D{n}` — **each bullet** of a bundled one (e.g. "decided from code,
   not asked"), and the ones the red team added.
@@ -63,10 +58,9 @@ The interview is not the only source. Check:
   "until we have …".
 
 One ADR = one decision. Several `D{n}` that make one decision → one ADR
-citing all of them. The source `D{n}` stays in `decisions.md` either way.
-A draft whose `Source:` lists more than three `D{n}`, or that needs "and"
-to state its title, is usually a summary of the feature, not one decision:
-split it or cut it down to the rule.
+citing all of them; the source `D{n}` stays in `decisions.md` either way.
+A draft whose `Source:` lists more than three `D{n}`, or whose title needs
+"and", is usually a feature summary: split it or cut it down to the rule.
 
 ## The Successor — sweep subagent
 
@@ -84,8 +78,8 @@ Do not edit files.
 
 ## Format
 
-`docs/adr/NNNN-slug.md` — scan `docs/adr/` for the highest number and add
-one. Create the folder lazily, on the first ADR. Skeleton:
+`docs/adr/NNNN-slug.md` — the highest number in `docs/adr/` plus one.
+Create the folder on the first ADR. Skeleton:
 [../templates/adr.md](../templates/adr.md).
 
 **Hard limit: three sentences.** No key names, header names, or numbers

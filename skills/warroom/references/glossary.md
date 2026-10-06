@@ -5,11 +5,12 @@ Adapted from Matt Pocock's `domain-modeling` skill
 
 ## Where the glossary lives
 
-- `CONTEXT-MAP.md` at the repo root → multiple contexts; read it to find each
-  context's `CONTEXT.md`. Infer which context the feature belongs to; if unclear, ask.
+- `CONTEXT-MAP.md` at the repo root → multiple contexts; it points to each
+  context's `CONTEXT.md`. Infer which context the feature belongs to; if
+  unclear, ask.
 - Only a root `CONTEXT.md` → single context.
-- Neither → create a root `CONTEXT.md` when the first term is resolved. Never create
-  an empty one.
+- Neither → create a root `CONTEXT.md` when the first term is resolved.
+  Never create an empty one.
 
 ## CONTEXT.md format
 
@@ -31,18 +32,19 @@ _Avoid_: Client, buyer, account
 
 Rules:
 
-- **One canonical word per concept.** List the rejected synonyms under `_Avoid_`.
-- **Definitions one or two sentences.** Define what it IS, not what it does.
-- **Project-specific terms only.** No general programming concepts (timeouts, error
-  types, utility patterns).
-- **Glossary only.** No implementation details, no decisions, no scratch notes.
-- **Group under subheadings** when natural clusters emerge; otherwise a flat list.
-- **Term names match the code** (usually English). Descriptions follow the docs
-  language rule in SKILL.md.
+- **One canonical word per concept.** List rejected synonyms under `_Avoid_`.
+- **Definitions are one or two sentences.** Say what it IS, not what it does.
+- **Project-specific terms only.** No general programming concepts
+  (timeouts, error types, utility patterns).
+- **Glossary only.** No implementation details, decisions, or scratch notes.
+- **Group under subheadings** when natural clusters appear; otherwise a
+  flat list.
+- **Term names match the code** (usually English). Descriptions follow the
+  docs language rule in markdown-style.md.
 
-Multi-context `CONTEXT-MAP.md` lists each context with a link and one line, plus a
-Relationships section (`**Ordering → Billing**: Ordering emits OrderPlaced; Billing
-consumes it`).
+A multi-context `CONTEXT-MAP.md` lists each context with a link and one
+line, plus a Relationships section (`**Ordering → Billing**: Ordering emits
+OrderPlaced; Billing consumes it`).
 
 ## ADRs
 

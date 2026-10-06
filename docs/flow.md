@@ -57,7 +57,7 @@ flowchart LR
 ```
 
 A question not asked while planning gets asked mid-build — halfway through
-code, with a tired context, and no red team or legal check behind the
+code, with a nearly full context, and no red team or legal check behind the
 answer. So it's stopped upstream.
 
 - The spec has `Status: draft | ready-to-build` and `## Open Questions`.

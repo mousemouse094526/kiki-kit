@@ -10,41 +10,39 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 - **Cite, don't retell.** A decision appears as `(D3)`; its reasoning lives
   in decisions.md.
-- **One idea per bullet.** Nest bullets for steps or sub-cases instead of
-  writing long lines.
-- **Contracts as tables** — routes, error codes, endpoints and their
-  actions, settings.
-- **Ordered steps as numbered lists** — checks in order, transaction steps.
+- **Tables for contracts** — routes, error codes, endpoints and their
+  actions, settings. **Numbered lists for ordered steps** — checks in
+  order, transaction steps.
 - **Implementation is split by `###` area** (modules touched, data, each
-  API group, client, ops). One area per heading.
-- **Name modules and packages, not files.** `apps/api`, `packages/db`, a
-  feature folder are fine; file-level paths and code snippets are not —
-  they go stale fast. Exception: a snippet that IS the decision — a state
-  machine, a schema.
+  API group, client, ops), one area per heading.
+- **Name modules and packages, not files.** `apps/api`, `packages/db`, or a
+  feature folder are fine; file paths and code snippets go stale fast.
+  Exception: a snippet that IS the decision — a state machine, a schema.
 - **Seams are numbered**, one seam per number, each with observable
   pass/fail bullets. warroom-tickets and the build read this section.
-- **Pick seams on purpose**, in this order: reuse a seam that already
-  exists (two contracts for one thing drift); take the **highest** one that
-  works (everything below stays free to change, and tests survive
-  refactors); **fewer is better**, one is the target — each seam is a
-  contract kept forever. The set is a `D{n}` with its reason, cited
-  above the list.
+- **Pick seams on purpose**, in this order:
+  1. Reuse a seam that already exists — two contracts for one thing drift.
+  2. Take the **highest** one that works — everything below stays free to
+     change, and tests survive refactors.
+  3. **Fewer is better**; one is the target — each seam is a contract kept
+     forever.
+
+  The chosen set is a `D{n}` with its reason, cited above the list.
 - **Tag a seam `(e2e)`** when its behaviour can only be observed through
   the UI — a user flow across pages, or across apps (one user acts in one
   app, another sees it in another). Those are proven with the project's
   e2e tool; every other seam is proven below the UI.
 - **Status** is `draft` until Open Questions holds nothing that blocks
   building; then `ready-to-build`. warroom-tickets and the build refuse a
-  `draft` — fog found mid-build costs far more than a question asked now.
+  `draft`.
 - **Library assumptions** — every library behaviour the plan relies on,
   one row each, linked to the doc page of the installed version (or the
-  version to be added). A row with
-  no link is an unchecked guess: make it an Open Question.
-- **Testing decisions** — the existing tests this feature's tests should
-  copy, by path (the one place paths are wanted: "go read this file"), and
-  anything unusual about what gets tested. Nothing to decide → say "follow
-  {path}" in one line rather than dropping the section.
-- **Open Questions** — numbered, each one sentence. One that doesn't block
+  version to be added). A row with no link is an unchecked guess: make it
+  an Open Question.
+- **Testing decisions** — the existing tests to copy, by path (the one
+  place paths are wanted), and anything unusual about what gets tested.
+  Nothing to decide → one line, "follow {path}"; don't drop the section.
+- **Open Questions** — numbered, one sentence each. One that doesn't block
   building says why after ` — non-blocking: `. Empty → write `None.`
 - **Out of Scope** bullets cite the `D{n}` that ruled them out.
 
@@ -53,17 +51,17 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 ```markdown
 # Spec: {feature slug}
 
-{One line: what this feature is.}
+{What this feature lets the user do, one sentence.}
 
 **Status:** draft
 
 ## Problem
 
-{From the user's perspective.}
+{What goes wrong for the user today, in their words.}
 
 ## Solution
 
-- {From the user's perspective, one bullet per capability.}
+- {One thing the user will be able to do, one bullet per capability.}
 
 ## User Stories
 
@@ -72,25 +70,25 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 ## Expected Outcome
 
-{What exists once this ships — what the user can do that they couldn't before.}
+{What the user can do after this ships that they couldn't before, one sentence.}
 - **{Scenario}:** {what the user sees}
 
 **How success is judged:**
-- {checkable outcome}
+- {an outcome someone can check, pass or fail}
 
 ## Implementation
 
 ### Modules touched
 - **{module}**
-  - {change} (D2)
+  - {what changes in it} (D2)
 
 ### Data
-{schema block when the schema is the decision}
+{schema block, only when the schema is the decision}
 
 ### Library assumptions
 | Library | Version | The plan needs | Docs |
 |---|---|---|---|
-| {name} | {installed} | {behaviour, one line} | [{page}]({url}) |
+| {name} | {installed version} | {the behaviour relied on, one line} | [{page}]({url}) |
 
 ### {API group / client / ops area}
 | {column} | {column} |
@@ -99,7 +97,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 ## Seams
 
-{One line: why this set of seams (D{n}).}
+{Why these seams, one line (D{n}).}
 
 1. **{seam name}** `{interface}`
    - {input or situation} → {observable result}
@@ -113,7 +111,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 ## Out of Scope
 
-- {what this feature deliberately does not do} (D4)
+- {something this feature deliberately does not do} (D4)
 
 ## Open Questions
 

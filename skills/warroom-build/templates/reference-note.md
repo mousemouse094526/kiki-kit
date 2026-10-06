@@ -15,8 +15,8 @@ Follow [markdown-style.md](../../warroom/references/markdown-style.md).
 - **No project choices** — folders, layers, and patterns go in the
   project's conventions skill.
 - **Traps** link the doc page or `docs/debug/` record that proves them.
-- **Sources** lists every page fetched for this note, with its access date;
-  each bullet above links the page it came from.
+- **Sources** lists every page fetched for this note, with its access date.
+  Each bullet above links the page it came from.
 - Sections with nothing to say are dropped (Sources never is).
 
 ## Template
@@ -32,7 +32,7 @@ Follow [markdown-style.md](../../warroom/references/markdown-style.md).
 
 ## Best practices
 
-- {recommended idiom} — [{page}]({url})
+- {what the docs recommend doing} — [{page}]({url})
 - **Avoid:** {what the docs warn against} — [{page}]({url})
 
 ## Pattern

@@ -1,9 +1,9 @@
 # Red team reviewers
 
 Five reviewers, each a separate subagent. Each reads the feature folder
-(`spec.md`, `decisions.md`, `flow.md`, `legal.md`) and `CONTEXT.md`. Read-only:
-reviewers never edit files. Legality belongs to warroom-legal — no reviewer
-rules on law.
+(`spec.md`, `decisions.md`, `flow.md`, `legal.md`) and `CONTEXT.md`.
+Reviewers never edit files. No reviewer rules on law — that is
+warroom-legal's job.
 
 ## Prompt template (fill per reviewer)
 
@@ -39,8 +39,8 @@ answer. Do not edit any file.
   another?
 - Open the page linked in each spec › Library assumptions row: does it
   really promise that, for the installed version? Does the Implementation
-  lean on library behaviour with no row? Either is a finding — a plan
-  built on an unread library is the most common reason a build stops.
+  rely on library behaviour with no row? Either is a finding — an unread
+  library is the most common reason a build stops.
 - Walk one ticket's worth of the work as its builder: which choice would
   you have to ask about (a new dependency, where a shared piece lives, a
   default, an error message)? Each is a finding.
@@ -55,9 +55,9 @@ answer. Do not edit any file.
 ## The Tester — has to prove it works
 
 - Is every Seam observable from outside (API, UI, event, stored record)?
-- Could a seam be an existing one, or sit higher, or be merged with
-  another? More than about three seams usually means the feature was cut
-  before anyone knew where the joints were.
+- Could a seam be an existing one, sit higher, or merge with another?
+  More than about three seams usually means the feature was cut before
+  anyone knew where the joints were.
 - Does each user story have a checkable pass/fail condition?
 - Which edge cases have no stated expected behaviour?
 - Does flow.md match spec.md step for step?
@@ -71,6 +71,6 @@ answer. Do not edit any file.
 
 - Is there a simpler way to reach the same Expected Outcome?
 - Which part could move to Out of Scope without hurting the outcome?
-- Does anything already existing (in the codebase or a common service)
+- Does anything that already exists (in the codebase or a common service)
   cover this?
 - Is any decision justified only by assumption, not by a stated need?

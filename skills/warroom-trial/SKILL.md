@@ -20,19 +20,19 @@ description: >-
 Personas → goals → each persona uses the app alone → dev-lead triage → one
 report → the user picks what to act on.
 
-Tests prove the code does what the spec says. A trial asks whether the
-spec was right: can a real kind of person reach their goal, and where do
-they get stuck?
+Tests check that the code matches the spec. A trial checks that the spec
+was right: can a real kind of person reach their goal, and where do they
+get stuck?
 
 ## 1. Before starting
 
 - **Feature folder** `docs/features/{slug}/` with spec.md and tickets.
-  Trial what is `done`; say which tickets are not built yet and leave their
-  stories out. Tell the user in one line, plainly: which tickets were
-  tried, which were skipped and why. No tickets → stop and recommend
+  Trial only tickets that are `done`; leave out the stories of tickets not
+  built yet. Tell the user in one line which tickets were tried, which
+  were skipped, and why. No tickets → stop and recommend
   `/warroom-tickets {slug}`.
-- **The app runs locally.** Start it the project's way (a launch config, the
-  `run` skill, the setup docs). Trials run **only on a local development
+- **The app runs locally.** Start it the project's way (a launch config,
+  the `run` skill, the setup docs). Trials run **only on a local development
   host** (`localhost`, `127.0.0.1`, `*.localhost`, `*.test`) — never staging
   or production, never real user data.
 - **Mobile apps run as the project's dev build in a simulator or
@@ -48,20 +48,21 @@ they get stuck?
 Read [references/personas.md](references/personas.md). Propose a cast:
 
 - every actor in spec.md › User Stories (Admin, Employee, …);
-- the real-world roles the user named or the domain implies — the ones who
-  will judge the product (a manager checking on staff, a sales rep showing
-  it to a client, a first-day employee, someone on a phone in a hurry).
+- the real-world roles the user named or the domain implies: the people
+  who will judge the product (a manager checking on staff, a sales rep
+  showing it to a client, a first-day employee, someone on a phone in a
+  hurry).
 
-Ask with AskUserQuestion (multiSelect, recommended ones first): which
+Ask with AskUserQuestion (multiSelect, recommended ones first) which
 personas to run. Three to five is usually enough.
 
 ## 3. Write the goals
 
-For each persona, 3–6 **goals in the persona's own words** — what they want
-done, not how: "I need to get the new hire into the system before she
-starts Monday", not "click Create Employee". Draw them from User Stories,
+For each persona, 3–6 **goals in the persona's own words**: what they want
+done, not how. "I need to get the new hire into the system before she
+starts Monday", not "click Create Employee". Take them from User Stories,
 Expected Outcome, and flow.md, plus one or two the spec never mentions but
-the persona would plausibly try. Show the cast and goals in chat before
+the persona would likely try. Show the cast and goals in chat before
 running.
 
 ## 4. Run each persona
@@ -69,11 +70,11 @@ running.
 One subagent per persona, **one at a time** (they share the browser). Each
 gets only the brief from [references/personas.md](references/personas.md):
 who they are, their goals, the app URL, their test account, the device.
-**Never the code, the spec, or another persona's report** — a persona who
+**Never the code, the spec, or another persona's report**: a persona who
 knows how it was built can't get lost the way a real user does.
 
-Each persona uses the app like that person would — skims, guesses, misreads,
-gives up when that person would — and returns the report format in the
+Each persona uses the app as that person would (skims, guesses, misreads,
+gives up when they would give up) and returns the report format in the
 brief. A phone persona uses the mobile viewport for a website, or the
 project's dev build in the simulator for a mobile app.
 
@@ -89,9 +90,9 @@ decisions.md, and the ADRs, and sort each finding:
 | **friction** | works as specified, but the persona struggled | a new ticket |
 | **works as intended** | the persona expected something the docs ruled out | note it, cite the `D{n}` |
 
-Merge duplicates across personas — the same finding from three personas is
-one finding seen three times, and that count is its weight. Rank by
-**blocked goal** first, then how many personas hit it.
+Merge duplicates across personas: the same finding from three personas is
+one finding, seen three times. That count is its weight. Rank by
+**blocked goal** first, then by how many personas hit it.
 
 ## 6. Write the report
 
@@ -114,8 +115,8 @@ next step. Ask with AskUserQuestion (multiSelect) which to act on now:
   `**Status:** ready-for-agent`, with the persona's goal as an `(e2e)`
   acceptance criterion so the fix stays fixed.
 
-A trial is exploratory and is not a test suite; the `(e2e)` criteria it
-leaves behind are what keep its findings from coming back.
+A trial is not a test suite; the `(e2e)` criteria it leaves behind keep
+its findings from coming back.
 
 Everything not picked stays in the report as `open`. No code, no branch,
 no commit from this skill.
@@ -128,7 +129,7 @@ no commit from this skill.
 - **Personas run one at a time**, each in a fresh subagent.
 - **Nothing is fixed without the user's pick.** The default is a report.
 - **Report in the user's language**; kinds, status words, and `D{n}` stay
-  in English. Persona briefs are English, but each persona **answers in the
-  language its real users speak** (the app's UI language, e.g. Thai), so
-  their words go into the report as evidence without translation. They
+  in English. Persona briefs are in English, but each persona **answers in
+  the language its real users speak** (the app's UI language, e.g. Thai),
+  so its words go into the report untranslated, as evidence. Personas
   quote the app's UI text exactly as shown.

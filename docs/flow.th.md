@@ -56,7 +56,7 @@ flowchart LR
     G -->|ยังมีข้อที่บล็อก| DR
 ```
 
-คำถามที่ไม่ถูกถามตอนวางแผน จะไปโผล่ตอน build — กลางโค้ด, context เหนื่อย,
+คำถามที่ไม่ถูกถามตอนวางแผน จะไปโผล่ตอน build — กลางโค้ด, context ใกล้เต็ม,
 ไม่มี red team กับ legal เช็ค เลยกันไว้ที่ต้นทาง
 
 - spec มี `Status: draft | ready-to-build` และ `## Open Questions`

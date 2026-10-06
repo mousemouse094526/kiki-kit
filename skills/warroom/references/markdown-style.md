@@ -34,6 +34,25 @@ wins.
 - **Language** — see the next section.
 - No emoji, no raw HTML.
 
+## Plain words — a reader who wasn't in the room
+
+Every doc is read later by someone who missed the conversation, often
+skimming. Write for them.
+
+- **Lead with the point.** The first line of a doc or section says what it
+  is or what was decided; detail comes after.
+- **Short sentences, everyday words.** One idea per sentence. Prefer "use"
+  to "leverage", "check" to "validate the correctness of".
+- **No filler or hype.** Drop "robust", "seamless", "comprehensive",
+  "it is important to note", "in order to", and sentences that only
+  restate the heading.
+- **Concrete over abstract.** A real name, number, or example beats a
+  general description: "Admin locked out after 5 wrong passwords" beats
+  "account security is enforced".
+- **Say each thing once.** Cite where it already lives (`D3`, spec.md ›
+  Seams) instead of repeating it.
+- **Define a project term on first use**, or link `CONTEXT.md`.
+
 ## Language — English except the docs
 
 One rule for every warroom skill:
@@ -61,6 +80,9 @@ Re-open every file you wrote or changed in this run, then:
 4. **Rule pass** — read each bullet against the rules above and the
    template's own rules (length limits, one fact per bullet, citations,
    the language table).
-5. Fix what fails, then re-run 1–4 on the fixed files.
+5. **Cold read** — read it as someone who missed the conversation. Any
+   sentence you'd have to explain, or could delete without losing a fact →
+   rewrite or delete it.
+6. Fix what fails, then re-run 1–5 on the fixed files.
 
 Report "self-check: passed" or what was fixed in one line of the reply.

@@ -8,29 +8,30 @@ From fields stay in English; everything else is in the docs language.
 
 All of [markdown-style.md](../references/markdown-style.md), plus:
 
-- **Index first.** The table at the top lists every decision. Update its row
-  whenever a decision is added or its Status or ADR changes.
-- **Chosen and Why are one or two sentences each.** Anything longer belongs
+- **Index first.** The table at the top lists every decision. Update its
+  row whenever a decision is added or its Status or ADR changes.
+- **Chosen and Why are one or two sentences each.** Anything longer goes
   in Details.
-- **Rejected lists every real alternative with its reason**, one per bullet:
-  `{option} — {why not}`.
-- **Details holds at most eight bullets.** More than that is spec material:
-  move it to spec.md › Implementation and cite the `D{n}` there.
+- **Rejected lists every real alternative with its reason**, one per
+  bullet: `{option} — {why not}`.
+- **Details holds at most eight bullets.** More is spec material: move it
+  to spec.md › Implementation and cite the `D{n}` there.
 - **Bundle form** for many small rulings from one source (decided from the
   code, red-team fixes): Chosen says what the bundle covers; each Details
-  bullet is `**{topic}:** {ruling} — {why}`. Skip Why and Rejected unless one
-  applies to the whole bundle.
+  bullet is `**{topic}:** {ruling} — {why}`. Skip Why and Rejected unless
+  one applies to the whole bundle.
 - **Append-only.** A new decision takes the next number. Changing an older
   one is a new `D{n}`; the old entry keeps its text and only its Status
   changes (`superseded by D10`, `changed by D21`, `extended by D25`).
-- **Footer on every entry:** `From` (`interview`, `code`, `legal`,
-  `red team`, `gate`, `warroom-tickets`, `build ticket NN` for a decision
-  made while building, or `open-items #{n}` for a re-opened feature),
-  `Status` (`active` unless changed), `ADR` (`—` until the gate writes
-  one).
+- **Footer on every entry:**
+  - `From` — `interview`, `code`, `legal`, `red team`, `gate`,
+    `warroom-tickets`, `build ticket NN` (decided while building), or
+    `open-items #{n}` (a re-opened feature);
+  - `Status` — `active` unless changed;
+  - `ADR` — `—` until the gate writes one.
 - **Never invent a Why.** A decision that arrived without its reason gets
-  `**Why:** rationale not recorded` — an honest gap prompts someone to ask;
-  a guessed reason gets read as fact.
+  `**Why:** rationale not recorded`. An honest gap gets asked about; a
+  guessed reason gets read as fact.
 - **Sources** on an entry links the outside facts it rests on (a library
   limit, a law, a vendor constraint); the file's `## Sources` at the end
   collects them all.
@@ -46,22 +47,22 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 | D1 | {title} | active | — |
 | D2 | {title} | superseded by D5 | — |
 
-## D1: {title — the decision as a short statement}
+## D1: {the decision as a short statement, e.g. "Log in with email links, not passwords"}
 
-**Chosen:** {what we do, one or two sentences}
+**Chosen:** {what we will do, one or two sentences}
 
-**Why:** {the reason, one or two sentences}
+**Why:** {the reason the user gave, one or two sentences — or `rationale not recorded`}
 
 **Rejected:**
-- {option} — {why not}
-- {option} — {why not}
+- {an option we considered} — {why not}
+- {another option} — {why not}
 
 **Details:**
 - {one fact per bullet}
 
-**Accepted risk:** {only when a known risk was accepted, and why it is tolerable}
+**Accepted risk:** {a known risk we accepted, and why it is tolerable — only if there is one}
 
-**Sources:** {only when the decision rests on an outside fact — [page](url), …}
+**Sources:** {[page](url) for each outside fact this rests on — only if there is one}
 
 **From:** interview · **Status:** active · **ADR:** —
 

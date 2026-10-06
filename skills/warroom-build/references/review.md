@@ -5,13 +5,13 @@ Standards and Spec are from Matt Pocock's `code-review`
 is warroom's. The spec source is the warroom ticket and the docs it covers.
 
 - **Standards** — does the code follow this repo's documented standards?
-- **Spec** — does the code faithfully implement the ticket?
+- **Spec** — does the code do what the ticket asks?
 - **Newcomer** — can a developer who knows nothing about the ticket tell
   what the code does?
 
-All three run as **parallel subagents** so they don't pollute each other's
-context. Report them side by side; never merge or rerank across axes — a
-change can pass one and fail another.
+All three run as **parallel subagents** so each keeps a clean context.
+Report them side by side; never merge or rerank across axes — a change can
+pass one and fail another.
 
 ## Two scopes
 
@@ -89,5 +89,5 @@ Each "had to guess" item is a finding too.
 
 Show the reports under `## Standards`, `## Spec`, and `## Newcomer`, then
 one line: findings per axis and the worst in each. Review runs once per
-scope — after fixing, check only the fixed findings; a second broad review
-never ends.
+scope — after fixing, recheck only the fixed findings, because a second
+broad review never ends.

@@ -9,15 +9,15 @@ Follow [markdown-style.md](../references/markdown-style.md).
 ## Template
 
 ```markdown
-# {Short title of the decision}
+# {The decision, as a short title}
 
-{1-3 sentences: what's the context, what did we decide, and why.}
+{1-3 sentences: what we decided, then why, then the context a reader needs.}
 
 Source: {feature slug} D1, D2 · legal 3
 
 Links: [{title}]({url}) — only when the decision rests on an outside fact
 ```
 
-Optional, only when they add genuine value: **Status** (`proposed |
+Optional, only when they add real value: **Status** (`proposed |
 accepted | deprecated | superseded by ADR-NNNN`), **Considered Options**,
 **Consequences**.

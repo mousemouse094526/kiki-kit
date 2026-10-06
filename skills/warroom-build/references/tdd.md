@@ -1,17 +1,16 @@
 # TDD — the red → green loop
 
 From Matt Pocock's `tdd` ([mattpocock/skills](https://github.com/mattpocock/skills),
-MIT). Methodology every project shares; which runner, which mocking
+MIT). The method is the same in every project. The runner, the mocking
 library, and where tests live come from the project's conventions skill
 (`patterns/testing.md`) and spec.md › Testing decisions — on tooling, the
-project wins. Examples use TypeScript only to illustrate.
+project wins. Examples are TypeScript only for illustration.
 
 ## What a good test is
 
-A test verifies behaviour through a public interface, so the code under it
-can change entirely and the test still holds. It reads like a
-specification: "user can checkout with a valid cart" says what capability
-exists.
+A test checks behaviour through a public interface, so the code under it
+can change completely and the test still holds. It reads like a spec:
+"user can checkout with a valid cart" says what the user can do.
 
 ```typescript
 // BAD: verifies through a side channel — breaks on any storage change
@@ -32,7 +31,7 @@ test("createUser makes user retrievable", async () => {
 A **seam** is the public boundary you observe behaviour at. Tests live at
 seams, never against internals — and only at **pre-agreed** seams:
 spec.md › Seams, named in the ticket's Covers. Agreeing them once, at the
-gate, is what stops every build from inventing its own.
+gate, stops each build inventing its own.
 
 ## Anti-patterns
 
@@ -43,7 +42,7 @@ gate, is what stops every build from inventing its own.
   computes it, so it passes by construction. Use an independent literal:
   `expect(calculateTotal([{ price: 10 }, { price: 5 }])).toBe(15)`.
 - **Horizontal slicing** — all tests first, then all code. Bulk tests
-  verify imagined behaviour; one test → one implementation lets each cycle
+  check imagined behaviour; one test → one implementation lets each cycle
   learn from the last.
 
 ## Mock only at system boundaries

@@ -20,46 +20,45 @@ Adapted from Matt Pocock's `to-tickets`
 process; the source is a warroom feature folder and the tracker is local
 files beside it.
 
-Break the approved feature into a set of **tickets**: tracer-bullet
-vertical slices, each declaring the tickets that **block** it.
+Split the approved feature into **tickets**: tracer-bullet vertical slices,
+each naming the tickets that **block** it.
 
 ## Process
 
 ### 1. Gather context
 
 Work from the feature folder: `docs/features/{slug}/` (or wherever warroom
-put it). Called from warroom → it's the feature just approved. Standalone
-without a slug → list the feature folders and ask which.
+put it). Called from warroom → the feature just approved. Standalone with
+no slug → list the feature folders and ask which.
 
 Read `spec.md`, `decisions.md`, `flow.md`, `legal.md`, and `CONTEXT.md` in
 full. No `spec.md`, or its Status is `draft` → stop and recommend
-`/warroom {slug}`: tickets cut from open questions push them into the
-build, the most expensive place to answer them.
+`/warroom {slug}`: open questions left in tickets get answered mid-build,
+where they cost the most.
 
 `tickets/` already exists → ask: re-cut the tickets not yet `done`, or
 stop. A re-cut **renumbers every ticket that is not `done`** in dependency
 order after the `done` ones — a new blocker never gets a higher number than
 the tickets it blocks. Update every reference to a renumbered ticket,
 including the Ticket column of `open-items.md` (a `wip/` branch keeps its
-old name; its row says which ticket it now belongs to). Fold every `open` row in `open-items.md` whose Next is `→
-/warroom-tickets` into the new cut, and set its Status to `→ ticket NN`.
+old name; its row says which ticket it now belongs to). Fold every `open`
+row in `open-items.md` whose Next is `→ /warroom-tickets` into the new cut,
+and set its Status to `→ ticket NN`.
 
 ### 2. Explore the codebase
 
-If you have not already explored the codebase, do so to understand the
-current state of the code. Ticket titles and descriptions use the
-`CONTEXT.md` glossary vocabulary and respect the feature's `D{n}`
-decisions and any ADRs in the area you're touching.
+Explore the codebase if you haven't yet. Ticket titles and descriptions
+use the `CONTEXT.md` glossary terms and follow the feature's `D{n}`
+decisions and any ADRs in the area touched.
 
 **Conventions first.** Read the project's conventions for every area the
-spec touches; an area with planned code and none → set them up now, before
-slicing, as [references/conventions.md](references/conventions.md)
-describes. Tickets are then cut against that structure.
+spec touches. An area with planned code and no conventions → set them up
+now, before slicing, as [references/conventions.md](references/conventions.md)
+describes. Cut the tickets against that structure.
 
-Look for opportunities to prefactor the code to make the implementation
-easier — including existing code that doesn't match the conventions.
-"Make the change easy, then make the easy change." Prefactor tickets are
-numbered first.
+Look for prefactors that make the build easier, including existing code
+that doesn't match the conventions. "Make the change easy, then make the
+easy change." Prefactor tickets are numbered first.
 
 ### 3. Draft vertical slices
 
@@ -75,9 +74,8 @@ Break the work into **tracer bullet** tickets.
 
 </vertical-slice-rules>
 
-Give each ticket its **blocking edges**: the other tickets that must
-complete before it can start. A ticket with no blockers can start
-immediately.
+Give each ticket its **blocking edges**: the tickets that must finish
+before it can start. A ticket with no blockers can start now.
 
 **Wide refactors are the exception to vertical slicing.** A **wide
 refactor** is one mechanical change (rename a column, retype a shared
@@ -87,34 +85,34 @@ vertical slice can land green. Sequence it as **expand–contract**: expand
 in batches sized by blast radius (each its own ticket, blocked by the
 expand), contract (delete the old form; blocked by every migrate batch).
 
-**Warroom addition — cover the docs.** Before the quiz, check every User
-Story, every Seam, and every CONDITIONAL requirement in `legal.md` lands in
-at least one ticket's acceptance criteria, and nothing from Out of Scope
-does. Every `(e2e)` seam lands in the ticket that completes its flow — the
+**Warroom addition — cover the docs.** Before the quiz, check that every
+User Story, every Seam, and every CONDITIONAL requirement in `legal.md`
+lands in at least one ticket's acceptance criteria, and nothing from Out of
+Scope does. Every `(e2e)` seam lands in the ticket that completes its flow — the
 first ticket where every page and app it crosses exists — as acceptance
 criteria tagged `(e2e)`. The first such ticket also sets up the e2e
 package if the project has none.
 
-**Warroom addition — walk each ticket as its builder.** Any choice the
-docs, ADRs, and conventions leave open would stop that build halfway. A
-structural one (where a shared piece lives) → settle it now in the
-conventions. One about behaviour → it's an open question: stop and send it
-back to `/warroom` instead of guessing or leaving it for "ticket NN".
+**Warroom addition — walk each ticket as its builder.** A choice the docs,
+ADRs, and conventions leave open would stop that build halfway. Structural
+(where a shared piece lives) → settle it now in the conventions. About
+behaviour → it's an open question: stop and send it back to `/warroom`;
+don't guess or leave it for "ticket NN".
 
 ### 4. Quiz the user
 
-Present the proposed breakdown as a numbered list. For each ticket, show:
+Show the breakdown as a numbered list. For each ticket:
 
 - **Title**: short descriptive name
-- **Blocked by**: which other tickets (if any) must complete first
+- **Blocked by**: the tickets (if any) that must finish first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 
 Ask the user with AskUserQuestion, one question per call, recommended
 answer first marked "(Recommended)":
 
 - Does the granularity feel right? (too coarse / too fine)
-- Are the blocking edges correct: does each ticket only depend on tickets
-  that genuinely gate it?
+- Are the blocking edges right: does each ticket depend only on tickets
+  that really gate it?
 - Should any tickets be merged or split further?
 
 Iterate until the user approves the breakdown.
@@ -122,18 +120,18 @@ Iterate until the user approves the breakdown.
 ### 5. Write the tickets
 
 Write one file per ticket under `docs/features/{slug}/tickets/<NN>-<slug>.md`,
-numbered from `01` in dependency order (blockers first). One ticket per
-file, never a single combined file.
+numbered from `01` in dependency order (blockers first) — never one
+combined file.
 
 **Language = the docs language** (the language the user writes in, same as
 warroom). Fixed tokens stay as-is: the file names, the template's labels
 and headings, status values, `D{n}` ids, glossary terms, code identifiers.
 
-Read [templates/ticket.md](templates/ticket.md) before writing, copy its
-skeleton, and follow its rules.
+Read [templates/ticket.md](templates/ticket.md) first, copy its skeleton,
+and follow its rules.
 
-Work the **frontier**: any ticket whose blockers are all done. For a
-purely linear chain that means top to bottom.
+Work the **frontier**: the tickets whose blockers are all done. A linear
+chain runs top to bottom.
 
 Before finishing, check that every **Blocked by** points only to
 lower-numbered tickets, then run the self-check in

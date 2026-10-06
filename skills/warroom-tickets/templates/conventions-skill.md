@@ -1,15 +1,14 @@
 # Template: .claude/skills/{framework}-{surface}/
 
-A project's own conventions skill. Lives in the project repo, is loaded by
-Claude Code like any skill, and is read by warroom-build before coding.
-English throughout. Follow
+A project's own conventions skill. It lives in the project repo, loads
+like any skill, and warroom-build reads it before coding. English
+throughout. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md).
 
 ## Rules
 
 - **SKILL.md stays short** — what the area is, the folder structure, the
-  rules that must never be broken, and the pattern index. Target under
-  ~200 lines.
+  never-break rules, and the pattern index. Under ~200 lines.
 - **One `patterns/{layer}.md` per layer** the surface has: what the layer
   owns, what it must not do, one short example in this project's code, and
   the files that follow it best. Always include `testing.md` — the test
@@ -20,9 +19,9 @@ English throughout. Follow
   follow yet is a prefactor ticket, not a convention.
 - **No code yet → write the rules agreed with the user**, and put
   `None yet — the first ticket that touches this layer sets it.` under Good
-  examples. The first ticket replaces it with real files.
-- **Never-break rules are few** — the ones a reviewer should block a merge
-  for.
+  examples. That first ticket replaces it with real files.
+- **Never-break rules are few** — only those a reviewer should block a
+  merge for.
 - Named `{framework}-{surface}` (see [conventions.md](../references/conventions.md) › Naming), not after
   the project.
 - No other project's name, paths, or code.
@@ -39,7 +38,7 @@ description: >-
 
 # {Framework} {surface}
 
-{One or two sentences: what lives here and the stack.}
+{1–2 sentences: what code lives here and which stack it uses.}
 
 ## Folder structure
 
@@ -49,25 +48,25 @@ description: >-
 
 ## Flow
 
-{how a request or a user action moves through the layers, one line per layer}
+{how a request or user action passes through the layers, one line per layer}
 
 ## Never break
 
-- {rule}
+- {a rule a reviewer would block a merge for}
 
 ## Patterns
 
 | File | Covers |
 |---|---|
-| [patterns/{layer}.md](patterns/{layer}.md) | {what it covers} |
+| [patterns/{layer}.md](patterns/{layer}.md) | {what this layer's file covers} |
 
 A layer with no pattern file → stop and ask before writing it.
 ````
 
 ## Folder structure by surface
 
-Examples to adapt, not to copy — keep the feature-first idea, name the
-layers after what the framework calls them.
+Adapt these, don't copy them: keep the feature-first idea and name the
+layers what the framework calls them.
 
 **API** (`elysia-api`, `fastapi-api`, …)
 
@@ -123,7 +122,7 @@ Flow: screen → feature component → hook → api client.
 
 **Owns:** {what this layer is responsible for}
 
-**Must not:** {what belongs to another layer}
+**Must not:** {what this layer must leave to another layer, and which}
 
 ## Shape
 
@@ -133,7 +132,7 @@ Flow: screen → feature component → hook → api client.
 
 ## Rules
 
-- {rule}
+- {one rule for code in this layer}
 
 ## Good examples
 

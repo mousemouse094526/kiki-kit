@@ -22,11 +22,10 @@ description: >-
 
 Adapted from Matt Pocock's `implement`, `tdd`, and `code-review`
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT): a simple
-work → feedback → commit loop over one ticket. One session per ticket,
-because a fresh context reads only what this ticket needs, the review diffs
-only this ticket, and one commit per ticket can be reverted alone. Memory
-between sessions lives in files — the ticket, decisions.md, open-items.md —
-never in chat.
+work → feedback → commit loop over one ticket. One session per ticket: a
+fresh context reads only what the ticket needs, the review diffs only this
+ticket, and its one commit can be reverted alone. Memory between sessions
+lives in files — the ticket, decisions.md, open-items.md — never in chat.
 
 ## 1. Pick the ticket
 
@@ -61,8 +60,7 @@ the domain. Then:
 - **Library docs** — follow [references/library-docs.md](references/library-docs.md):
   show the version table, ask before any upgrade, and make sure every
   language, runtime, and library the ticket touches has a reference note
-  for the installed version **before writing code** — model memory is
-  often a version behind.
+  for the installed version **before writing code**.
 - Only now set `**Status:** in-progress` — a ticket stopped before this
   point was never started.
 
@@ -88,8 +86,8 @@ criterion at a time: red → green, then the typecheck and the test file.
 
 ### The build implements decisions; it doesn't make them
 
-A decision made here skips the red team and the legal check, and it lands
-halfway through code. So when something is not settled:
+A decision made here skips the red team and the legal check, and lands
+halfway through code. When something is not settled:
 
 1. **Look it up before asking.** The whole decisions.md (not only Covers),
    the ADRs, spec.md, the conventions, `docs/reference/`. Answered → use it
@@ -97,9 +95,9 @@ halfway through code. So when something is not settled:
 2. **Only this ticket's own how** — an error message's wording, a default
    page size, a new pattern file for a layer no ticket had yet — and
    nothing else changes because of it → ask with AskUserQuestion,
-   recommended answer first, saying where you looked. Record the answer
-   completely, as the next `D{n}` (`**From:** build ticket NN`) or in the
-   conventions, never leaving a part "for ticket NN". Carry on.
+   recommended answer first, saying where you looked. Record the whole
+   answer as the next `D{n}` (`**From:** build ticket NN`) or in the
+   conventions — no part left "for ticket NN". Carry on.
 3. **Anything else** — it changes the spec, another ticket, a legal item,
    an ADR, or an active `D{n}`; the ticket can't be built as cut; the docs
    contradict each other; or you're unsure which → **stop**. Add a row to
@@ -109,11 +107,11 @@ halfway through code. So when something is not settled:
    `in-progress`, and recommend that flow.
 
 **Never end a session with a dirty tree** — the next session would start on
-code nobody can account for. Before stopping, ask: keep the work on branch
+code nobody can explain. Before stopping, ask: keep the work on branch
 `wip/{slug}-{NN}` (Recommended) or discard it. Note the branch in the row.
 
 **Unexplained failure → warroom-debug.** A test that fails for a reason you
-can't name in one look, a green test that breaks, behaviour that
+can't name at a glance, a green test that breaks, behaviour that
 contradicts the spec → call the Skill tool with `warroom-debug`, then come
 back with its fix and regression test. Debug ends `blocked` or finds a spec
 gap → it has added the row; stop as in rule 3 (ticket `in-progress`, clean
@@ -131,8 +129,8 @@ add a row `From: full suite · Next: → /warroom-debug`.
 Follow [references/review.md](references/review.md), ticket scope: fixed
 point = the start commit. Three subagents in parallel — **Standards**,
 **Spec**, **Newcomer** — reported side by side. Fix findings inside the
-ticket; refactoring happens here, not in the TDD loop. Run focused checks
-on what you fixed — never a second broad review. A finding left → a row
+ticket; refactoring happens here, not in the TDD loop. Recheck only what
+you fixed — never a second broad review. A finding left → a row
 `From: review: {axis} · Next: → feature review`.
 
 ## 6. Commit
@@ -148,9 +146,9 @@ it; every ticket `done` → recommend `--review-feature`.
 
 ## Feature review — `/warroom-build {slug} --review-feature`
 
-Once every ticket is `done`, before merge. Ticket reviews can't see what
-goes wrong across tickets: the same thing built twice, two names for one
-concept, a seam one ticket tested and another bypassed.
+Once every ticket is `done`, before merge. It catches what ticket reviews
+can't see: the same thing built twice, two names for one concept, a seam
+one ticket tested and another bypassed.
 
 1. Fixed point = `git merge-base HEAD {default branch}`. Run the full
    suite, typecheck, and lint first.
