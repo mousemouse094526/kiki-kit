@@ -4,9 +4,9 @@ Claude Code skills, packaged as a plugin.
 
 | Skill | Does |
 |---|---|
-| `warroom` | Plan one feature on paper: interview, spec/decisions/flow/legal docs, five-reviewer red team, approval gate, then tickets. No code |
-| `warroom-tickets` | Split approved warroom docs into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
-| `warroom-build` | Build one ticket per session: language and library best-practice notes from current docs (`llms.txt` first, fetched and written when missing, indexed in `docs/reference/`), TDD at the agreed seams, full suite, three-axis review (Standards, Spec, Newcomer), commit. `--review-feature` reviews the whole branch before merge |
+| `warroom` | Plan one feature on paper until nothing is left to decide: interview, spec/decisions/flow/legal docs, five-reviewer red team, ADR sweep; only a `ready-to-build` spec (no blocking Open Questions) passes the gate. No code |
+| `warroom-tickets` | Set up the project's conventions skill where missing, then split a ready spec into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
+| `warroom-build` | Build one ticket per session: reference notes for the installed library versions (`llms.txt` first), TDD at the agreed seams, full suite, three-axis review (Standards, Spec, Newcomer), commit. Implements decisions, never makes them — anything undecided goes to `open-items.md`. `--review-feature` reviews the whole branch before merge |
 | `warroom-debug` | Debug any failure: reproduce, narrow scope, falsify ranked hypotheses with an Outsider subagent, ledger, regression test, postmortem record in `docs/debug/` |
 | `warroom-trial` | Role-played users (from the spec's actors and real-world roles) try the running app on localhost without seeing the code; findings triaged into bug / spec gap / friction in one trial report |
 | `warroom-legal` | "Can we do this under Thai law?" Per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with sources, in one `legal.md` |

@@ -22,23 +22,17 @@ change can pass one and fail another.
 | Spec source | the ticket + what its Covers names | the whole feature folder + ADRs |
 | Newcomer compares against | the ticket's **What to build** | spec.md › Solution |
 
-## 1. Pin the diff
+## 1. Pin the diff and the sources
 
 Diff: `git diff {fixed point}` (include uncommitted work); commits:
-`git log {fixed point}..HEAD --oneline`. Empty diff → stop, nothing to
-review.
+`git log {fixed point}..HEAD --oneline`. Empty diff → nothing to review.
 
-## 2. Gather the sources
-
-- **Spec source** — per the table above: tickets, the `D{n}` in
-  decisions.md, the ADRs, spec.md › Seams and the Implementation sections
-  touched, the legal items.
-- **Standards source** — the project's conventions skill under
-  `.claude/skills/` (SKILL.md and the patterns for the layers touched),
-  `.claude/rules/`, `CLAUDE.md`, `CODING_STANDARDS.md`,
-  `CONTRIBUTING.md`, lint config, the best practices in `docs/reference/`
-  notes for what the diff touches — plus the smell
-  baseline below.
+- **Spec source** — per the table above: tickets, the `D{n}`, the ADRs,
+  spec.md › Seams and the Implementation sections touched, the legal items.
+- **Standards source** — the project's conventions skill (SKILL.md and the
+  patterns for the layers touched), `.claude/rules/`, `CLAUDE.md`, lint
+  config, the `docs/reference/` notes for what the diff touches — plus the
+  smell baseline below.
 
 <smell-baseline>
 
@@ -60,7 +54,7 @@ never a hard violation. Skip anything tooling enforces.
 
 </smell-baseline>
 
-## 3. Spawn all three in parallel
+## 2. Spawn all three in parallel
 
 **Standards** gets the diff command, the standards sources, the smell
 baseline pasted in full, and: "Report each place the diff violates a
@@ -85,26 +79,15 @@ that misled you, logic you couldn't follow, a test whose purpose wasn't
 clear. Don't read anything under docs/. Under 300 words. Do not edit
 files."
 
-## 4. Compare the Newcomer's summary
+## 3. Compare and report
 
-Put the Newcomer's summary next to **What to build** (ticket review) or
-spec.md › Solution (feature review):
+Put the Newcomer's summary next to **What to build** (ticket) or spec.md ›
+Solution (feature). Matches → the code explains itself. Differs → a
+finding: either the code says something other than what it does (rename,
+restructure, clarify the test) or it does something other than intended.
+Each "had to guess" item is a finding too.
 
-- **Matches** → the code explains itself.
-- **Differs** → a finding. Either the code says something other than what
-  it does (rename, restructure, clarify the test) or it does something
-  other than intended (a Spec problem the Spec axis may have missed).
-
-Each "had to guess" item is a finding on its own.
-
-## 5. Aggregate
-
-Show the reports under `## Standards`, `## Spec`, and `## Newcomer` (its
-summary, the comparison, its guesses). End with one line: findings per axis
-and the worst issue within each axis.
-
-## Once per scope
-
-Review compares code against the spec, so it runs when the behaviour is
-complete. After fixing, run focused checks on the fixed findings only — a
-second broad review turns into an endless loop.
+Show the reports under `## Standards`, `## Spec`, and `## Newcomer`, then
+one line: findings per axis and the worst in each. Review runs once per
+scope — after fixing, check only the fixed findings; a second broad review
+never ends.

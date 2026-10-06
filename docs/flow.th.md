@@ -2,40 +2,11 @@
 
 [English](flow.md) · **ไทย**
 
-คู่มือนี้ตอบ 3 คำถาม: ทำ feature หนึ่งตัวต้องรันอะไรตามลำดับไหน, แต่ละ skill
-ข้างในทำอะไรบ้าง, และจุดไหนที่มันหยุดรอให้คุณตัดสินใจ
+รันอะไร ลำดับไหน, แต่ละ skill ทำอะไร, หยุดรอคุณตรงไหน
 
-ตัวอย่างทั้งหมดใช้ feature `auth-user-company` ของ SKOPIA
-
-## อ่านก่อน — ภาพรวมในหนึ่งย่อหน้า
-
-คุณเล่าว่าอยากได้อะไร → **warroom** ถามทีละข้อแล้วเขียนแผนเป็นเอกสาร
-→ **warroom-tickets** หั่นแผนเป็นงานชิ้นเล็กเรียงเลข 01, 02, …
-→ **warroom-build** เขียนโค้ดทีละชิ้น ชิ้นละ session
-→ ครบทุกชิ้นแล้ว **--review-feature** ตรวจทั้งก้อน
-→ **warroom-trial** ให้ "ผู้ใช้สมมุติ" ลองใช้แอปจริง แล้วสรุปว่าติดตรงไหน
-→ สิ่งที่เจอกลายเป็นงานชิ้นใหม่ แล้ววนกลับไป build
-
-**warroom-legal** (กฎหมายไทย) กับ **warroom-debug** (ไล่หาสาเหตุ bug) เป็นตัวช่วย
-ที่ skill อื่นเรียกใช้ระหว่างทาง
-
-## ศัพท์ที่ต้องรู้
-
-| คำ | ความหมาย |
-|---|---|
-| **feature / slug** | งานหนึ่งก้อน ตั้งชื่อเป็น slug เช่น `auth-user-company` เอกสารอยู่ที่ `docs/features/{slug}/` |
-| **D{n}** | การตัดสินใจหนึ่งข้อใน `decisions.md` เช่น D28 "never expires = 400 วัน" |
-| **ADR** | การตัดสินใจระดับโปรเจคที่ feature ถัดไปต้องทำตาม อยู่ใน `docs/adr/` |
-| **seam** | จุดที่ test เข้าไปเช็คพฤติกรรมได้ (route ของ API, ฟังก์ชัน service) กำหนดไว้ใน spec.md |
-| **(e2e)** | พฤติกรรมที่เห็นได้เฉพาะบนหน้าจอ ใช้ Playwright เปิด browser จริงเช็ค |
-| **ticket** | งานหนึ่งชิ้นที่ทำแล้วใช้งานได้ตั้งแต่หน้าจอถึง database ไฟล์ `tickets/NN-*.md` |
-| **Status** | สถานะ ticket: `ready-for-agent` (รอทำ) → `in-progress` → `done` |
-| **Blocked by** | ticket ที่ต้องเสร็จก่อนถึงจะเริ่มใบนี้ได้ ชี้ไปเลขที่ต่ำกว่าเสมอ |
-| **frontier** | ticket ที่เริ่มได้ตอนนี้: เลขต่ำสุดที่รอทำ และใบที่บล็อกมัน `done` หมดแล้ว |
-| **prefactor** | ticket จัดโค้ดเดิมให้พร้อมก่อน เลขขึ้นก่อนเสมอ |
-| **conventions** | กติกาเขียนโค้ดของโปรเจค เก็บใน `.claude/skills/{framework}-{surface}/` เช่น `elysia-api` |
-| **persona** | ผู้ใช้สมมุติใน trial เช่น "เจ้าของบริษัทที่รีบเพิ่มพนักงานก่อนวันจันทร์" |
-| **subagent** | Claude อีกตัวที่ skill ปล่อยออกไปทำงานแยก เห็นเฉพาะข้อมูลที่ส่งให้ |
+**หลักจำง่าย:** วางแผนต่อกันเอง (warroom → legal → tickets) · build ทีละ
+ticket ทีละ **session ใหม่** · debug เริ่มเองเมื่อ build เจอ error ที่อธิบายไม่ได้ ·
+trial คุณสั่งเสมอ
 
 ## 1. เส้นทางทั้งหมด
 
@@ -57,314 +28,251 @@ flowchart LR
     R -->|คุณ, แอปรันบนเครื่อง| TR
 ```
 
-**จากแผนถึง trial: ลูกศรที่เขียนว่า "auto" เกิดใน run เดียวกัน ส่วน "คุณ"
-คือ skill หยุดรอคุณ**
-- รัน `/warroom-build` ทีละ ticket แต่ละครั้งใน session ใหม่ จนทุก ticket
-  เป็น `done` — build จะบอก ticket ถัดไปเมื่อเสร็จ
-- warroom-debug ส่ง fix และ regression test กลับให้ build ที่เรียกมัน ถ้าเป็น
-  bug นอก build ให้รัน `/warroom-debug` เอง
-- warroom-legal รันเดี่ยวได้ด้วย `/warroom-legal {items หรือ slug}`
-- trial เจออะไร → ดูหัวข้อ 7 ข้อที่คุณเลือกกลายเป็น ticket ใหม่ แล้ววนกลับไป
-  `/warroom-build` → `--review-feature` → `/warroom-trial` อีกรอบ จนไม่มีอะไรสำคัญค้าง
-  แล้วค่อย merge
+**"auto" = ต่อกันใน session เดียว · "คุณ" = skill หยุดรอคุณ**
+- `/warroom-build` ทีละ ticket แต่ละครั้ง session ใหม่ จนครบ
+- trial เจออะไร → หัวข้อ 8 · ข้อที่เลือกกลายเป็น ticket ใหม่ แล้ววน build →
+  review → trial จนเรียบร้อย แล้ว merge
+- legal กับ debug รันเดี่ยวได้: `/warroom-legal`, `/warroom-debug`
 
-**คำสั่งที่คุณพิมพ์จริง ตามลำดับ:**
+**คำสั่งที่พิมพ์จริง:**
 
 ```
-/warroom                                        ← วางแผน + ได้ ticket (session เดียว)
-/warroom-build auth-user-company                ← session ใหม่ ต่อ ticket หนึ่งใบ, ทำซ้ำจนครบ
+/warroom                                          ← วางแผน + ได้ ticket
+/warroom-build auth-user-company                  ← session ใหม่ต่อ ticket, ทำซ้ำจนครบ
 /warroom-build auth-user-company --review-feature
 /warroom-trial auth-user-company
 ```
 
-## 2. warroom — วางแผน
+## 2. ด่านเดียวที่ต้นทาง — spec ต้อง ready ก่อน
+
+```mermaid
+flowchart LR
+    G{"Gate"}
+    RD["ready-to-build"]
+    DR["draft<br/>→ /warroom รอบหน้า"]
+    TK["warroom-tickets"]
+
+    G -->|Open Questions ว่าง| RD --> TK
+    G -->|ยังมีข้อที่บล็อก| DR
+```
+
+คำถามที่ไม่ถูกถามตอนวางแผน จะไปโผล่ตอน build — กลางโค้ด, context เหนื่อย,
+ไม่มี red team กับ legal เช็ค เลยกันไว้ที่ต้นทาง
+
+- spec มี `Status: draft | ready-to-build` และ `## Open Questions`
+- gate กด **Approve** ได้เมื่อ Open Questions ว่าง (หรือทุกข้อบอกว่าไม่บล็อก)
+- ยังไม่พร้อม → **Stop as draft** ได้ prompt กลับมา `/warroom` พร้อมรายการคำถาม
+- tickets และ build **ไม่รับ** spec ที่เป็น `draft`
+
+## 3. warroom — วางแผน
 
 ```mermaid
 flowchart LR
     I["สัมภาษณ์<br/>ทีละคำถาม"]
-    DOC["เขียนเอกสาร<br/>spec · decisions · flow"]
-    LIB["เช็ค library<br/>จาก docs จริง"]
+    DOC["เขียนเอกสาร"]
     LG["warroom-legal"]
     RT["Red team<br/>5 subagent"]
     S["ADR sweep"]
-    G{"Gate<br/>คุณเลือก"}
+    G{"Gate"}
     TK["warroom-tickets"]
 
-    I --> DOC --> LIB --> LG --> RT --> S --> G
+    I --> DOC --> LG --> RT --> S --> G
     G -->|Approve| TK
 ```
 
-ทุกขั้นอยู่ใน session เดียว — gate คือจุดเดียวที่คุณตัดสินใจ
+ทุกขั้นใน session เดียว — gate คือจุดเดียวที่คุณตัดสิน
 
-| ขั้น | มันทำอะไร | คุณทำอะไร |
+| ขั้น | ทำอะไร | คุณ |
 |---|---|---|
-| สัมภาษณ์ | ถามทีละข้อ มีตัวเลือกพร้อมตัวที่แนะนำ | ตอบ / เลือก |
-| เขียนเอกสาร | `spec.md` (ทำอะไร), `decisions.md` (D1, D2, …), `flow.md` (แผนภาพ) | — |
-| เช็ค library | เปิด docs เวอร์ชันที่ติดตั้ง เขียนโน้ต `docs/reference/` · ตาราง Library assumptions ใน spec | docs ค้านแผน → ตอบ → D ใหม่ |
-| warroom-legal | เช็คกฎหมายไทยทีละเรื่อง ได้ `legal.md` | ตอบถ้าข้อไหนกำกวม |
-| Red team | subagent 5 ตัวหาช่องโหว่: Advocate (ผู้ใช้), Builder (ทำได้จริงไหม), Breaker (เจาะ), Tester (test ได้ไหม), Skeptic (จำเป็นไหม) | — |
-| ADR sweep | หา decision ที่ควรเป็นกฎระดับโปรเจค ร่าง ADR | — |
-| Gate | สรุปให้ดู | **Approve** = ไปต่อ / **Adjust** = แก้แล้วแสดง gate ใหม่ |
+| สัมภาษณ์ | ถามทีละข้อ มีตัวเลือกแนะนำ · ค้นโค้ด / ADR / docs ก่อนถาม · ตอบไม่ได้ → Open Question | ตอบ |
+| เขียนเอกสาร | spec (มี Library assumptions + Testing decisions), decisions (D1…), flow | — |
+| legal | กฎหมายไทยทีละเรื่อง → `legal.md` | ตอบถ้ากำกวม |
+| Red team | Advocate (ผู้ใช้) · **Builder** (เปิด docs library จริง, เดินงานแทนคนทำหาเรื่องที่ต้องถาม) · Breaker (เจาะ) · Tester (test ได้ไหม) · Skeptic (จำเป็นไหม) | ตอบเรื่องที่ต้องตัดสิน |
+| ADR sweep | หา decision ที่เป็นกฎระดับโปรเจค ร่าง ADR | — |
+| Gate | สรุป + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
 
-**ได้อะไร:** `docs/features/{slug}/` spec.md, decisions.md, flow.md, legal.md ·
-`docs/adr/` · `CONTEXT.md`
+**ได้:** `docs/features/{slug}/` spec, decisions, flow, legal · `docs/adr/` · `CONTEXT.md`
 
-## 3. warroom-legal — กฎหมายไทย
+**เปิด feature เดิม** (`/warroom {slug}`): ถามเฉพาะแถว `→ /warroom` ใน
+`open-items.md` + Open Questions → D ใหม่ → legal + Breaker → gate → ตัด ticket ใหม่
 
-```mermaid
-flowchart LR
-    IN["รายการที่จะเช็ค"]
-    Q{"กำกวม?"}
-    ASK["ถามคุณ<br/>แยกเป็นตัวเลือก"]
-    RS["ค้นกฎหมาย<br/>จากแหล่งจริง"]
-    V["ตัดสินทีละข้อ"]
-    F["legal.md"]
+## 4. warroom-legal — กฎหมายไทย
 
-    IN --> Q
-    Q -->|ใช่| ASK --> RS
-    Q -->|ไม่| RS
-    RS --> V --> F
-```
+ทีละเรื่อง ได้คำตัดสินเดียว: **ALLOWED** (อ้างมาตรา) · **NOT ALLOWED** (เหตุผล) ·
+**CONDITIONAL** (ต้องมีอะไร → เข้า spec และ ticket) · ข้อกำกวมถามคุณ ไม่เดา ·
+ไม่ใช่คำปรึกษาทางกฎหมาย
 
-ทุกข้อได้คำตัดสินหนึ่งในสาม
-
-- **ALLOWED** — ทำได้ บอกแค่มาตราอ้างอิง
-- **NOT ALLOWED** — ทำไม่ได้ บอกเหตุผล
-- **CONDITIONAL** — ทำได้ถ้ามีสิ่งที่ระบุ เช่น "ต้องมี privacy notice" — สิ่งเหล่านี้จะไปอยู่ใน spec และ ticket
-
-รันเองได้: `/warroom-legal {รายการ หรือ slug}` · ไม่ใช่คำปรึกษาทางกฎหมาย
-
-## 4. warroom-tickets — หั่นงาน
+## 5. warroom-tickets — หั่นงาน
 
 ```mermaid
 flowchart LR
-    C["อ่านเอกสาร<br/>ของ feature"]
+    C["อ่านเอกสาร<br/>spec ต้อง ready"]
     CV["ตั้ง conventions<br/>ถ้ายังไม่มี"]
     EX["สำรวจโค้ด<br/>หา prefactor"]
     DR["ร่าง ticket"]
-    CH["ถามทางเลือก<br/>ที่ build จะเจอ"]
-    Q{"คุณ<br/>อนุมัติ?"}
-    WR["เขียนไฟล์ ticket"]
-    BP["build prompt"]
+    Q{"คุณอนุมัติ?"}
+    WR["เขียน ticket<br/>+ build prompt"]
 
-    C --> CV --> EX --> DR --> CH --> Q
-    Q -->|ใช่| WR --> BP
+    C --> CV --> EX --> DR --> Q
+    Q -->|ใช่| WR
 ```
 
-ร่างแล้วถามจนคุณพอใจ — แก้ได้หลายรอบก่อนเขียนไฟล์จริง
-
-| ขั้น | มันทำอะไร | คุณทำอะไร |
+| ขั้น | ทำอะไร | คุณ |
 |---|---|---|
-| อ่านเอกสาร | spec, decisions, flow, legal, CONTEXT ถ้ามี `tickets/` แล้วถามว่าจะตัดใหม่ไหม | ตอบ |
-| conventions | ส่วนไหนของแอปยังไม่มีกติกา (เช่น `tanstack-start-web`) → เสนอโครงโฟลเดอร์ + เครื่องมือ test | อนุมัติ / ปรับ |
-| สำรวจโค้ด | หาโค้ดเดิมที่ต้องจัดก่อน → ticket prefactor เลขแรกๆ | — |
-| ร่าง ticket | แต่ละใบทำงานได้ครบตั้งแต่หน้าจอถึง DB (ไม่ใช่ "ทำ DB ก่อนทั้งหมด") | — |
-| ทางเลือก build | ไล่ทุกใบ: lib ใหม่หรือเขียนเอง, ชิ้นที่ใช้ร่วมอยู่ไหน, ค่า default, ข้อความ error → ถามทีละข้อ บันทึกเป็น D / conventions ตอบจบ ไม่ทิ้งให้ใบหลัง | ตอบ |
-| ถาม | ใหญ่/เล็กไปไหม, ลำดับ Blocked by ถูกไหม, รวม/แยกใบไหน | ตอบจนพอใจ |
-| เขียน | `tickets/NN-*.md` ทุกใบ `ready-for-agent` | — |
-| build prompt | เช็คโปรเจค (commit เอกสารหรือยัง, branch, docker, test, เวอร์ชัน library, secret) แล้วให้ prompt ภาษาอังกฤษ | commit ตามขั้นที่บอก แล้ววาง prompt ใน session ใหม่ |
+| อ่าน | spec `draft` → หยุด ส่ง `/warroom` · มี ticket อยู่แล้ว → ถามตัดใหม่ไหม (ใบที่ยังไม่ done เรียงเลขใหม่) | ตอบ |
+| conventions | ส่วนไหนยังไม่มีกติกา → เสนอโครงโฟลเดอร์ + เครื่องมือ test → `.claude/skills/{framework}-{surface}/` | อนุมัติ / ปรับ |
+| สำรวจโค้ด | โค้ดเดิมที่ต้องจัด → ticket prefactor เลขแรก | — |
+| ร่าง | แต่ละใบครบหน้าจอถึง DB · เดินทุกใบแทนคนทำ: เรื่องโครงสร้าง → ใส่ conventions เลย · เรื่องพฤติกรรม → ส่งกลับ `/warroom` | — |
+| อนุมัติ | ใหญ่/เล็ก, Blocked by, รวม/แยก | ตอบจนพอใจ |
+| เขียน | `tickets/NN-*.md` + build prompt (เช็ค commit เอกสาร, branch, docker, secret, งานค้าง) | commit แล้ววาง prompt ใน session ใหม่ |
 
-**ได้อะไร:** `tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` (ถ้าเพิ่งตั้ง) · ไม่ commit เอง
-
-## 5. warroom-build — เขียนโค้ดหนึ่ง ticket
+## 6. warroom-build — ทีละ ticket
 
 ```mermaid
 flowchart LR
-    P["เลือก ticket<br/>frontier"]
-    CX["เตรียม<br/>conventions · เวอร์ชัน · docs"]
+    P["เลือก ticket"]
+    CX["อ่าน conventions<br/>+ docs library"]
     TDD["TDD<br/>red → green"]
-    E2E["e2e test"]
-    FS["test ทั้งหมด"]
-    RV["review<br/>3 subagent"]
-    CM["commit<br/>done"]
+    E2E["e2e"]
+    RV["test ทั้งหมด<br/>+ review 3 แกน"]
+    CM["commit · done"]
 
-    P --> CX --> TDD --> E2E --> FS --> RV --> CM
+    P --> CX --> TDD --> E2E --> RV --> CM
 ```
 
-หนึ่ง session = หนึ่ง ticket — จบด้วย commit บน branch feature, ไม่ push
+**ทำไมทีละ ticket ทีละ session:** context สะอาด อ่านเฉพาะที่ใบนั้นใช้ · review
+ดูเฉพาะ diff ของใบนั้น · หนึ่งใบหนึ่ง commit ย้อนได้ทีละใบ · ความจำอยู่ในไฟล์
+(ticket, decisions, open-items) ไม่ใช่แชท
 
-| ขั้น | มันทำอะไร | คุณทำอะไร |
+| ขั้น | ทำอะไร | คุณ |
 |---|---|---|
-| เลือก ticket | ใบที่ระบุ หรือ frontier ถ้าใบที่บล็อกยังไม่ done → หยุด | — |
-| เตรียม | อ่าน conventions ของโปรเจค · ตารางเวอร์ชัน library (ติดตั้ง vs ล่าสุด) · อ่าน docs จริงของ library (`llms.txt` ก่อน) เขียนโน้ตใน `docs/reference/` | ตอบถ้าถามเรื่องอัปเกรด (แนะนำ: อยู่เวอร์ชันเดิม) |
-| TDD | เกณฑ์ทีละข้อ: เขียน test ให้ fail (red) → เขียนโค้ดให้ผ่าน (green) | ตอบถ้ามีเรื่องที่เอกสารไม่ได้ตอบ → กลายเป็น D ใหม่ |
-| e2e | เกณฑ์ที่มีป้าย `(e2e)` เขียน Playwright test หลังโค้ดผ่านแล้ว | — |
-| test ทั้งหมด | full suite + typecheck + lint (+ e2e) | — |
-| review | 3 subagent พร้อมกัน: **Standards** (ตรงกติกาไหม), **Spec** (ตรง ticket ไหม), **Newcomer** (คนไม่รู้เรื่องอ่านเข้าใจไหม) แก้ที่อยู่ในขอบเขต | — |
-| commit | ticket เป็น `done` · `feat({slug}): {title} (#NN)` | ปิด session, เปิดใหม่สำหรับใบถัดไป |
+| เลือก | ใบที่ระบุ หรือเลขต่ำสุดที่เริ่มได้ · ใบค้าง `in-progress` → อ่านแถวใน open-items แล้วถามทำต่อไหม | — |
+| เตรียม | conventions (ไม่มี → หยุด → `/warroom-tickets`) · ตารางเวอร์ชัน · โน้ต `docs/reference/` ของเวอร์ชันที่ติดตั้ง | ตอบเรื่องอัปเกรด (แนะนำ: อยู่เดิม) |
+| TDD | เกณฑ์ทีละข้อ red → green ที่ seam ที่ตกลงไว้ | — |
+| e2e | เกณฑ์ `(e2e)` เขียนหลังโค้ดผ่าน | — |
+| ตรวจ | full suite + typecheck + lint · review **Standards / Spec / Newcomer** พร้อมกัน | — |
+| commit | `feat({slug}): {title} (#NN)` · ไม่ push | session ใหม่ ใบถัดไป |
 
-- **test fail แบบอธิบายไม่ได้** → เรียก warroom-debug แล้วกลับมาทำต่อ
-- **ครบทุกใบ** → `/warroom-build {slug} --review-feature`: review 3 แกนเดิมแต่ทั้ง branch
-  หาปัญหาข้าม ticket (ทำซ้ำ 2 ที่, ตั้งชื่อต่างกัน) คุณเลือกข้อที่จะแก้ → commit `refactor({slug}): feature review fixes`
+**ครบทุกใบ** → `--review-feature`: review 3 แกนทั้ง branch + แถว `→ feature review`
+ใน open-items → คุณเลือกข้อที่แก้
 
-**ทำไมทีละ ticket ทีละ session**
-- **context สะอาด** — session ยาวๆ Claude จะเริ่มลืมหรือสับสนของเก่ากับใหม่ เริ่มใหม่ทุกใบ อ่านเฉพาะที่ใบนั้นต้องใช้
-- **review ได้ตรงจุด** — review ดู diff ตั้งแต่ commit ที่เริ่มใบนั้น ไม่ปนกับใบอื่น
-- **ย้อนได้** — หนึ่งใบ = หนึ่ง commit ใบไหนพังก็ revert ใบนั้น
-- **ความจำอยู่ในไฟล์ ไม่ใช่ในแชท** — ticket, decisions.md, `open-items.md` คือสิ่งที่ส่งต่อให้ session ถัดไป
-
-## 5.1 build เจอเรื่องไม่ปกติ
+### 6.1 build เจอเรื่องที่เอกสารไม่ได้ตัดสิน
 
 ```mermaid
 flowchart LR
-    X{"build เจอ"}
-    L["ถามคุณ → D ใหม่<br/>ทำต่อ"]
-    WD["หยุด<br/>→ /warroom"]
-    DB["warroom-debug<br/>แก้แล้วทำต่อ"]
-    RC["หยุด<br/>→ /warroom-tickets"]
-    BL["หยุด<br/>รอใบที่บล็อก"]
-    OI["open-items.md<br/>→ feature review"]
+    X{"เรื่องที่<br/>ยังไม่ตัดสิน"}
+    U["ใช้คำตอบนั้น"]
+    A["ถามคุณ → บันทึก<br/>ทำต่อ"]
+    S["หยุด · open-items<br/>→ flow ที่ปิดได้"]
 
-    X -->|decision เฉพาะใบนี้| L
-    X -->|decision กระทบที่อื่น| WD
-    X -->|error อธิบายไม่ได้| DB
-    X -->|หั่นมาทำไม่ได้| RC
-    X -->|ใบที่บล็อกยังไม่ done| BL
-    X -->|review เกินขอบเขต| OI
+    X -->|เอกสารตอบแล้ว| U
+    X -->|วิธีทำในใบนี้เท่านั้น| A
+    X -->|อย่างอื่นทั้งหมด| S
 ```
 
-build ไม่ออกแบบเอง — ทุกเรื่องที่ไม่จบในใบ ลง `open-items.md` พร้อมบอกว่าไปต่อทางไหน
+**build ทำตาม decision ไม่สร้าง decision** — decision ที่ทำตอน build ข้าม red team
+และ legal
 
-**ก่อนถามทุกครั้ง** build ค้น decisions.md ทั้งไฟล์, ADR, spec, conventions, `docs/reference/` — เจอ → ใช้เลย ไม่ถาม · ไม่เจอ → คำถามบอกว่าค้นที่ไหนแล้ว · คำถามส่วนใหญ่ควรถูกถามไปแล้วตอน warroom (library) และ tickets (ทางเลือก build)
+| กรณี | build ทำ |
+|---|---|
+| ค้นแล้วเจอ (decisions ทั้งไฟล์, ADR, spec, conventions, reference) | ใช้เลย ไม่ถาม |
+| วิธีทำในใบนี้เท่านั้น (ข้อความ error, ค่า default, pattern ของ layer ใหม่) | ถาม บอกว่าค้นที่ไหนแล้ว → D ใหม่ หรือ conventions ตอบให้จบ → ทำต่อ |
+| กระทบ spec / ใบอื่น / legal / ADR / D เดิม · หั่นมาทำไม่ได้ · เอกสารขัดกัน · ไม่แน่ใจ | หยุด → แถวใน open-items (`→ /warroom` หรือ `→ /warroom-tickets`) |
+| error อธิบายไม่ได้ | เรียก debug → ได้ fix → ทำต่อ |
+| test พังอยู่ก่อนแล้ว | ไม่แก้ → แถว `→ /warroom-debug` |
+| review เกินขอบเขตใบ | แถว `→ feature review` |
+| ใหญ่ ทำไม่จบ | หยุดท้ายกลุ่มเกณฑ์ commit ส่วนที่ผ่าน |
 
-| เจอ | build ทำ | ไปต่อ |
-|---|---|---|
-| decision **เฉพาะใบนี้** (ข้อความ error, ค่า default) | ถามคุณ → D ใหม่ `From: build ticket NN` | ทำต่อ |
-| decision **กระทบที่อื่น** (spec, ใบอื่น, กฎหมาย, ADR, D เดิม) | หยุด · ไม่ตัดสินเอง | `/warroom` → legal + Breaker เช็ค → ตัดใหม่ |
-| ไม่แน่ใจว่าแบบไหน | ถือว่ากระทบที่อื่น | `/warroom` |
-| error อธิบายไม่ได้ | เรียก debug | ได้ fix → ทำต่อ |
-| debug ทำ fail ซ้ำไม่ได้ | record `blocked` | คุณส่ง log ที่ขอ |
-| ticket หั่นมาทำไม่ได้ | หยุด · `in-progress` | `/warroom-tickets` ตัดใหม่ |
-| เอกสารผิด / ขัดกัน | หยุด | `/warroom` |
-| ใบที่บล็อกยังไม่ done | หยุด · บอกชื่อใบ | build ใบนั้นก่อน |
-| test พังอยู่ก่อนแล้ว | ไม่แก้ | `/warroom-debug` |
-| review เกินขอบเขตใบ | แก้เฉพาะในใบ | `--review-feature` |
-| ใหญ่ ทำไม่จบใน session | หยุดท้ายกลุ่มเกณฑ์ | session ใหม่ ทำต่อ |
+**ไม่จบ session ทั้งที่โค้ดยังไม่ commit** — ถาม: เก็บไว้ branch `wip/{slug}-{NN}`
+(แนะนำ) หรือทิ้ง · จดชื่อ branch ในแถว
 
-**`open-items.md` — งานค้างทั้ง feature ในตารางเดียว**
-
-```
-| # | Ticket | From         | Found                       | Next               | Status    |
-| 1 | 04     | build stop   | ต้องมี session store ก่อน      | → /warroom-tickets | → ticket 05 |
-| 2 | 04     | review: Spec | ...                         | → feature review   | open      |
-| 3 | 06     | decision     | suspend แล้ว logout ทันทีไหม  | → /warroom         | → D32     |
-```
-
-- **From** มาจากไหน · **Next** flow ที่ปิดมัน · **Status** `open` จนกว่า flow นั้นปิด
-- skill ที่ปิดเป็นคนแก้ Status: `/warroom-tickets` → `→ ticket NN` · `/warroom` → `→ D{n}` · `--review-feature` → `done (sha)`
-
-**งานค้างอยู่ตรงไหน**
-
-| ค้างที่ | มาจาก | ใครปิด |
-|---|---|---|
-| `open-items.md` | build, review, feature review | ตาม Next ของแต่ละแถว |
-| ticket `in-progress` | build ที่หยุด | `/warroom-build` อ่านแถวของใบนั้นแล้วถามว่าทำต่อไหม |
-| `trial/{date}.md` แถว `open` | trial ที่คุณไม่ได้เลือก | trial รอบหน้า / คุณเลือกทีหลัง |
-| `docs/debug/` `blocked` | debug ที่ติด | `/warroom-debug` เมื่อได้ข้อมูล |
-| `docs/debug/` `spec gap → warroom` | debug ที่พบว่าเอกสารผิด | `/warroom` |
-
-`/warroom` บน feature เดิม: รวบรวมแถว `→ /warroom` ทุกแหล่ง ถามเฉพาะเรื่องนั้น →
-D ใหม่ → legal + Breaker → gate → ตัด ticket ใหม่
-
-## 6. warroom-debug — ไล่หาสาเหตุ bug
+## 7. warroom-debug — หาสาเหตุ bug
 
 ```mermaid
 flowchart LR
-    R["0 · เปิด record"]
-    RP["1 · ทำให้ fail<br/>ได้ทุกครั้ง"]
-    SC["2 · บีบขอบเขต<br/>docs · git"]
-    FP["3 · หาจุดพัง"]
-    H["4 · สมมติฐาน<br/>ลองล้มก่อน"]
-    FX["6 · แก้ + test<br/>กันกลับมา"]
-    PM["7 · postmortem"]
+    RP["ทำให้ fail<br/>ทุกครั้ง"]
+    SC["บีบขอบเขต<br/>docs · git"]
+    FP["หาจุดพัง"]
+    H["สมมติฐาน<br/>ลองล้มก่อน"]
+    FX["แก้ + test"]
+    PM["postmortem"]
 
-    R --> RP --> SC --> FP --> H --> FX --> PM
+    RP --> SC --> FP --> H --> FX --> PM
 ```
 
-ห้ามเดาสาเหตุก่อนทำให้ fail ได้ทุกครั้ง — ทุกขั้นเขียนลง `docs/debug/{date}-{slug}.md` ทันที
+ไม่เดาก่อนทำ fail ได้ · ทุกขั้นจดใน `docs/debug/{date}-{slug}.md` ทันที
 
-- **ขั้น 1 ทำ fail ไม่ได้** → หยุด ขอ log / ข้อมูลเพิ่มจากคุณ ไม่เดา
-- **ขั้น 2 โค้ดทำตามเอกสารเป๊ะ** → ไม่ใช่ bug แต่เป็น spec gap → แนะนำ `/warroom`
-- **ขั้น 4–5** ทุกการทดลองจดลง ledger (ตาราง) สมมติฐานต้องอธิบายได้ทุกแถว
-  มี subagent **Outsider** อ่านแค่ record แล้วให้ความเห็นมุมคนนอก
-- **ขั้น 7** สรุปแบบไม่โทษใคร: ระบบปล่อยให้เกิดได้อย่างไร กันไม่ให้เกิดซ้ำอย่างไร
-  งานกันที่ต้องทำเพิ่ม → ถามคุณก่อน ตอบใช่ถึงเป็น ticket ใหม่
-- **commit:** ถูก build เรียก → fix เข้า commit ของ ticket · รันเอง → commit fix + test + record พร้อมกัน
+- ทำ fail ไม่ได้ → หยุด ขอ log · แถว `→ /warroom-debug`
+- โค้ดตรงเอกสารเป๊ะ → ไม่ใช่ bug แต่ spec gap · แถว `→ /warroom`
+- ทุกการทดลองจดลง ledger · subagent **Outsider** อ่านแค่ record ให้ความเห็นคนนอก
+- postmortem ไม่โทษใคร · งานป้องกันถามคุณก่อน ตอบใช่ถึงเป็น ticket
 
-## 7. warroom-trial — ผู้ใช้สมมุติลองแอปจริง
+## 8. warroom-trial — ผู้ใช้สมมุติลองแอป
 
 ```mermaid
 flowchart LR
-    S["เตรียม<br/>ticket done · แอปรัน"]
+    S["ticket done<br/>+ แอปรัน local"]
     C["เลือก persona"]
-    G["เขียนเป้าหมาย<br/>ภาษาคน"]
-    RUN["persona ลองแอป<br/>ทีละคน"]
-    TRI["คัดแยก finding"]
-    REP["เขียน report"]
-    P{"คุณเลือก<br/>ข้อที่จะแก้"}
-
-    S --> C --> G --> RUN --> TRI --> REP --> P
-```
-
-trial ไม่แก้อะไรเอง — เขียน report แล้วให้คุณเลือก
-
-| ขั้น | มันทำอะไร | คุณทำอะไร |
-|---|---|---|
-| เตรียม | ลองเฉพาะ ticket `done` บอกว่าข้ามใบไหนเพราะอะไร · รันแอปบนเครื่อง (localhost เท่านั้น, ข้อมูลทดสอบเท่านั้น) · mobile ใช้ dev build ใน simulator | สั่ง docker / ตอบถ้าถาม |
-| เลือก persona | จาก actor ใน spec + บทบาทจริงที่คุณบอก (ผู้จัดการ, พนักงานวันแรก, คนรีบใช้บนมือถือ) 3–5 คน | ติ๊กเลือก |
-| เป้าหมาย | 3–6 ข้อต่อคน เป็นภาษาคน เช่น "ต้องเพิ่มพนักงานใหม่ก่อนวันจันทร์" ไม่ใช่ "กดปุ่ม Create" | ดู / ปรับ |
-| ลองแอป | subagent ละคน **ไม่เห็นโค้ด ไม่เห็น spec** ใช้ browser จริง ตอบเป็นภาษาไทยเหมือนผู้ใช้จริง | — |
-| คัดแยก | ทำตัวเป็น dev lead เทียบกับ spec แล้วแยกประเภท (ตารางล่าง) รวมข้อซ้ำ นับคนที่เจอ | — |
-| report | `trial/{date}.md` เรียงข้อที่ทำให้งานไม่สำเร็จก่อน | — |
-| เลือก | ถามว่าจะจัดการข้อไหนตอนนี้ | ติ๊กเลือก |
-
-**finding แต่ละแบบไปไหน:**
-
-```mermaid
-flowchart LR
+    G["เป้าหมาย<br/>ภาษาคน"]
+    RUN["persona ลอง<br/>ทีละคน"]
+    TRI["คัดแยก"]
     P{"คุณเลือก"}
-    D["warroom-debug<br/>แก้ทันที"]
-    W["/warroom<br/>เพิ่ม D ใหม่"]
-    NT["ticket ใหม่"]
-    B["/warroom-build"]
 
-    P -->|bug| D
-    P -->|spec gap| W
-    P -->|friction| NT
-    NT -->|คุณ, session ใหม่| B
+    S --> C --> G --> RUN --> TRI --> P
 ```
 
-ข้อที่ไม่เลือกค้างใน report เป็น `open`
+persona เป็น subagent **ไม่เห็นโค้ด ไม่เห็น spec** ใช้ browser จริง ตอบภาษาเดียวกับแอป ·
+trial ไม่แก้อะไรเอง
 
-| ประเภท | ความหมาย | ไปต่อ |
+| ประเภท | ความหมาย | เลือกแล้วไปไหน |
 |---|---|---|
-| **bug** | แอปทำไม่ตรง spec | debug ทำ repro จากขั้นตอน persona แก้พร้อม test (e2e ถ้าเจอบนจอ) แล้ว commit |
-| **spec gap** | spec ไม่ได้พูดถึง หรือผิด สำหรับงานจริง | trial ไม่แก้ spec · คุณรัน `/warroom` เพิ่ม D แล้วตัด ticket |
-| **friction** | ตรง spec แต่ใช้ยาก / งง | ticket ใหม่ต่อเลขสุดท้าย มีเป้าหมาย persona เป็นเกณฑ์ `(e2e)` |
-| **works as intended** | ผู้ใช้คาดหวังสิ่งที่ D ตัดออกไปแล้ว | จดไว้ อ้าง D |
+| **bug** | แอปไม่ตรง spec | debug ทันที แก้ + test (e2e ถ้าเห็นบนจอ) |
+| **spec gap** | spec ไม่ได้พูด / ผิด | แถว `→ /warroom` |
+| **friction** | ตรง spec แต่ใช้ยาก | ticket ใหม่ มีเกณฑ์ `(e2e)` |
+| **works as intended** | คาดหวังสิ่งที่ D ตัดไปแล้ว | จดไว้ อ้าง D |
 
-**หลังเลือก:** trial ไม่ commit — commit report + ticket ใหม่เอง แล้ว build ticket ใหม่ →
-`--review-feature` → trial อีกรอบ
+ข้อที่ไม่เลือก → `open` ใน `trial/{date}.md` · trial ไม่ commit
 
-## แต่ละ skill โดยย่อ
+## 9. `open-items.md` — งานค้างทั้ง feature ที่เดียว
 
-| Skill | คุณเริ่มด้วย | เรียกต่อเอง | หยุดเมื่อ | แล้วคุณ |
-|---|---|---|---|---|
-| `warroom` | `/warroom` | warroom-legal, red-team 5 subagent, Successor subagent, warroom-tickets | เขียน ticket เสร็จ | วาง build prompt ใน session ใหม่ |
-| `warroom-legal` | รันใน warroom หรือ `/warroom-legal` | — | เขียน `legal.md` เสร็จ | — (warroom ทำต่อ) |
-| `warroom-tickets` | รันหลัง gate ของ warroom หรือ `/warroom-tickets {slug}` | — | แสดง ticket + build prompt | commit เอกสาร แล้ววาง prompt |
-| `warroom-build` | `/warroom-build {slug} [NN]` หรือ prompt ที่วาง | review subagent Standards / Spec / Newcomer, warroom-debug | commit ticket หนึ่งใบแล้ว | เปิด session ใหม่สำหรับใบถัดไป |
-| `warroom-build --review-feature` | `/warroom-build {slug} --review-feature` | review subagent สามตัวเดิม | commit fix ที่เลือกแล้ว | รัน trial หรือ merge |
-| `warroom-debug` | build / trial เรียก หรือ `/warroom-debug` | Outsider subagent | fix + test + record | — (build ทำต่อ) |
-| `warroom-trial` | `/warroom-trial {slug}` | persona subagent ทีละตัว, warroom-debug | report + ส่งข้อที่เลือกต่อแล้ว | commit, build ticket ใหม่ หรือรัน warroom |
+```
+| # | Ticket | From         | Found                       | Next               | Status      |
+| 1 | 04     | build stop   | ต้องมี session store ก่อน      | → /warroom-tickets | → ticket 05 |
+| 2 | 04     | review: Spec | ...                         | → feature review   | open        |
+| 3 | 06     | decision     | suspend แล้ว logout ทันทีไหม  | → /warroom         | → D32       |
+| 4 | —      | trial        | ...                         | → /warroom         | open        |
+```
 
-## แต่ละตัวทิ้งไฟล์อะไรไว้
+| คอลัมน์ | ความหมาย |
+|---|---|
+| **From** | มาจากไหน: `build stop`, `decision`, `review: {แกน}`, `feature review`, `full suite`, `debug`, `trial` |
+| **Next** | flow ที่ปิดมัน: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ feature review` |
+| **Status** | `open` จน flow นั้นปิด → `→ ticket NN` / `→ D{n}` / `done (sha)` / `dropped (เหตุผล)` |
+
+skill ที่ปิดเป็นคนแก้ Status · build prompt ไม่ออกถ้ามีแถว `→ /warroom` หรือ
+`→ /warroom-tickets` ค้าง · `--review-feature` ไม่แนะนำ merge ถ้ายังมีแถว `open`
+
+## ศัพท์
+
+| คำ | ความหมาย |
+|---|---|
+| **D{n}** | decision หนึ่งข้อใน `decisions.md` |
+| **ADR** | กฎระดับโปรเจคที่ feature ถัดไปต้องตาม (`docs/adr/`) |
+| **seam** | จุดที่ test เช็คพฤติกรรม (route, service) ตกลงไว้ใน spec |
+| **(e2e)** | พฤติกรรมที่เห็นได้บนจอเท่านั้น เช็คด้วย Playwright |
+| **Blocked by** | ticket ที่ต้องเสร็จก่อน ชี้เลขต่ำกว่าเสมอ |
+| **frontier** | ticket ที่เริ่มได้ตอนนี้ |
+| **prefactor** | ticket จัดโค้ดเดิมก่อน เลขแรกเสมอ |
+| **conventions** | กติกาเขียนโค้ดของโปรเจค `.claude/skills/{framework}-{surface}/` |
+| **persona** | ผู้ใช้สมมุติใน trial |
+
+## แต่ละ skill ทิ้งอะไรไว้
 
 | Skill | ไฟล์ |
 |---|---|
-| `warroom` | `docs/features/{slug}/` spec.md, decisions.md, flow.md · `docs/adr/` · `CONTEXT.md` |
-| `warroom-legal` | `docs/features/{slug}/legal.md` |
-| `warroom-tickets` | `docs/features/{slug}/tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` (เมื่อยังไม่มี) |
-| `warroom-build` | code + test หนึ่ง commit ต่อ ticket · โน้ตใน `docs/reference/` · `docs/features/{slug}/open-items.md` (เมื่อมีงานค้าง) |
-| `warroom-debug` | `docs/debug/{date}-{slug}.md` |
-| `warroom-trial` | `docs/features/{slug}/trial/{date}.md` · ticket ใหม่จาก friction ที่เลือก |
+| `warroom` | `docs/features/{slug}/` spec, decisions, flow · `docs/adr/` · `CONTEXT.md` |
+| `warroom-legal` | `legal.md` |
+| `warroom-tickets` | `tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` |
+| `warroom-build` | code + test หนึ่ง commit ต่อใบ · `docs/reference/` · แถวใน `open-items.md` |
+| `warroom-debug` | `docs/debug/{date}-{slug}.md` · แถวใน `open-items.md` |
+| `warroom-trial` | `trial/{date}.md` · ticket ใหม่ · แถวใน `open-items.md` |
