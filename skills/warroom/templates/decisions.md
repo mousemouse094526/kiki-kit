@@ -24,10 +24,13 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   one is a new `D{n}`; the old entry keeps its text and only its Status
   changes (`superseded by D10`, `changed by D21`, `extended by D25`).
 - **Footer on every entry:** `From` (`interview`, `code`, `legal`,
-  `red team`, `gate`, `warroom-tickets`, `build ticket NN`, or
-  `open-items #{n}` for a re-opened feature for a decision made while
-  building), `Status` (`active` unless changed), `ADR` (`—` until
-  the gate writes one).
+  `red team`, `gate`, `warroom-tickets`, `build ticket NN` for a decision
+  made while building, or `open-items #{n}` for a re-opened feature),
+  `Status` (`active` unless changed), `ADR` (`—` until the gate writes
+  one).
+- **Never invent a Why.** A decision that arrived without its reason gets
+  `**Why:** rationale not recorded` — an honest gap prompts someone to ask;
+  a guessed reason gets read as fact.
 - **Sources** on an entry links the outside facts it rests on (a library
   limit, a law, a vendor constraint); the file's `## Sources` at the end
   collects them all.

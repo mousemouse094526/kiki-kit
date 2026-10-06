@@ -96,6 +96,39 @@ flowchart LR
 **เปิด feature เดิม** (`/warroom {slug}`): ถามเฉพาะแถว `→ /warroom` ใน
 `open-items.md` + Open Questions → D ใหม่ → legal + Breaker → gate → ตัด ticket ใหม่
 
+### 3.1 map mode — งานใหญ่เกิน session เดียว
+
+```mermaid
+flowchart LR
+    I["ถามไม่กี่ข้อ<br/>ประเมินขนาด"]
+    M["session 1<br/>วาด map.md แล้วหยุด"]
+    R["session ถัดไป<br/>ตอบทีละคำถาม"]
+    DOC["map ว่าง<br/>→ เขียนเอกสาร"]
+    G{"Gate"}
+
+    I -->|decision ค้าง ≥ 5| M --> R
+    R -->|Open + Fog หมด| DOC --> G
+```
+
+decision ค้างราว 5 ข้อขึ้นไป และตอบแล้วจะมีคำถามใหม่ตามมา → วาดแผนที่ก่อน
+แทนที่จะถามจน context หมด
+
+| ส่วนใน `map.md` | มีอะไร |
+|---|---|
+| Destination | ปลายทาง เช่น "spec ที่ ready-to-build สำหรับ …" กำหนดขอบเขต |
+| Decided | หนึ่งบรรทัดต่อข้อ ลิงก์ไป D |
+| Open | คำถามที่พูดได้ชัดแล้ว + ชนิด (interview / sketch / research / task) + รอข้อไหน |
+| Fog | เรื่องที่รู้ว่ามาแน่ แต่ยังตั้งเป็นคำถามไม่ได้ |
+| Out of scope | เลยปลายทาง ไม่กลับมาอีก |
+
+- session 1 วาดแล้ว **หยุด** · session ถัดไป `/warroom {slug}` ตอบทีละข้อ **บันทึกก่อนทำอย่างอื่น**
+- Open + Fog หมด → เขียนเอกสาร → legal → red team → ADR → gate ตามปกติ
+
+**เพิ่มในการสัมภาษณ์ทุกแบบ:** ถามเรื่องคุณภาพ 2–3 ข้อที่ feature นี้กระทบจริง
+(เร็ว/โหลด, ระบบที่พึ่งล่ม, ใครเห็นข้อมูล) · ไม่แต่งเหตุผลให้ — ไม่มีก็เขียน
+`rationale not recorded` · พูดไม่พอ → ร่างหยาบ (ตารางสถานะ, mockup ข้อความ) ไม่ใช่โค้ด ·
+seam เลือกตัวที่มีอยู่แล้ว สูงสุด น้อยสุด · เปลี่ยนทิศทั้งก้อน = feature ใหม่
+
 ## 4. warroom-legal — กฎหมายไทย
 
 ทีละเรื่อง ได้คำตัดสินเดียว: **ALLOWED** (อ้างมาตรา) · **NOT ALLOWED** (เหตุผล) ·
@@ -270,7 +303,7 @@ skill ที่ปิดเป็นคนแก้ Status · build prompt ไ�
 
 | Skill | ไฟล์ |
 |---|---|
-| `warroom` | `docs/features/{slug}/` spec, decisions, flow · `docs/adr/` · `CONTEXT.md` |
+| `warroom` | `docs/features/{slug}/` spec, decisions, flow (+ `map.md` งานใหญ่) · `docs/adr/` · `CONTEXT.md` |
 | `warroom-legal` | `legal.md` |
 | `warroom-tickets` | `tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` |
 | `warroom-build` | code + test หนึ่ง commit ต่อใบ · `docs/reference/` · แถวใน `open-items.md` |

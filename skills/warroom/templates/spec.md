@@ -23,6 +23,12 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   machine, a schema.
 - **Seams are numbered**, one seam per number, each with observable
   pass/fail bullets. warroom-tickets and the build read this section.
+- **Pick seams on purpose**, in this order: reuse a seam that already
+  exists (two contracts for one thing drift); take the **highest** one that
+  works (everything below stays free to change, and tests survive
+  refactors); **fewer is better**, one is the target — each seam is a
+  contract kept forever. The set is a `D{n}` with its reason, cited
+  above the list.
 - **Tag a seam `(e2e)`** when its behaviour can only be observed through
   the UI — a user flow across pages, or across apps (one user acts in one
   app, another sees it in another). Those are proven with the project's
@@ -92,6 +98,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 | {row} | {row} |
 
 ## Seams
+
+{One line: why this set of seams (D{n}).}
 
 1. **{seam name}** `{interface}`
    - {input or situation} → {observable result}

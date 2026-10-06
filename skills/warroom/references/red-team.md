@@ -55,6 +55,9 @@ answer. Do not edit any file.
 ## The Tester — has to prove it works
 
 - Is every Seam observable from outside (API, UI, event, stored record)?
+- Could a seam be an existing one, or sit higher, or be merged with
+  another? More than about three seams usually means the feature was cut
+  before anyone knew where the joints were.
 - Does each user story have a checkable pass/fail condition?
 - Which edge cases have no stated expected behaviour?
 - Does flow.md match spec.md step for step?

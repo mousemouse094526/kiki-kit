@@ -4,7 +4,7 @@ Claude Code skills, packaged as a plugin.
 
 | Skill | Does |
 |---|---|
-| `warroom` | Plan one feature on paper until nothing is left to decide: interview, spec/decisions/flow/legal docs, five-reviewer red team, ADR sweep; only a `ready-to-build` spec (no blocking Open Questions) passes the gate. No code |
+| `warroom` | Plan one feature on paper until nothing is left to decide (a map over several sessions when it is too big for one): interview, spec/decisions/flow/legal docs, five-reviewer red team, ADR sweep; only a `ready-to-build` spec (no blocking Open Questions) passes the gate. No code |
 | `warroom-tickets` | Set up the project's conventions skill where missing, then split a ready spec into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
 | `warroom-build` | Build one ticket per session: reference notes for the installed library versions (`llms.txt` first), TDD at the agreed seams, full suite, three-axis review (Standards, Spec, Newcomer), commit. Implements decisions, never makes them — anything undecided goes to `open-items.md`. `--review-feature` reviews the whole branch before merge |
 | `warroom-debug` | Debug any failure: reproduce, narrow scope, falsify ranked hypotheses with an Outsider subagent, ledger, regression test, postmortem record in `docs/debug/` |

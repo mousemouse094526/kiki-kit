@@ -98,6 +98,40 @@ One session — the gate is the only place you decide.
 rows in `open-items.md` + Open Questions → new D → legal + Breaker → gate →
 re-cut.
 
+### 3.1 Map mode — too big for one session
+
+```mermaid
+flowchart LR
+    I["A few questions<br/>size it"]
+    M["Session 1<br/>chart map.md, stop"]
+    R["Later sessions<br/>one question at a time"]
+    DOC["Map empty<br/>→ write docs"]
+    G{"Gate"}
+
+    I -->|≥ 5 open decisions| M --> R
+    R -->|Open + Fog empty| DOC --> G
+```
+
+About five or more open decisions, with answers that will raise new
+questions → chart a map instead of interviewing until the context runs out.
+
+| Section of `map.md` | Holds |
+|---|---|
+| Destination | where it ends, e.g. "a ready-to-build spec for …"; fixes the scope |
+| Decided | one line each, linked to its D |
+| Open | sharp questions + kind (interview / sketch / research / task) + what blocks them |
+| Fog | areas you know are coming but can't phrase yet |
+| Out of scope | past the destination; never comes back |
+
+- Session 1 charts and **stops** · later `/warroom {slug}` sessions resolve one question at a time and **record before anything else**.
+- Open + Fog empty → docs → legal → red team → ADR → gate as usual.
+
+**In every interview:** ask the 2–3 qualities this feature really stresses
+(speed/load, a dependency down, who sees the data) · never invent a why —
+write `rationale not recorded` · words run out → a rough sketch (state
+table, text mockup), never code · seams: reuse, highest, fewest · a pivot is
+a new feature.
+
 ## 4. warroom-legal — Thai law
 
 One verdict per item: **ALLOWED** (the citation) · **NOT ALLOWED** (the
@@ -275,7 +309,7 @@ while any row is `open`.
 
 | Skill | Files |
 |---|---|
-| `warroom` | `docs/features/{slug}/` spec, decisions, flow · `docs/adr/` · `CONTEXT.md` |
+| `warroom` | `docs/features/{slug}/` spec, decisions, flow (+ `map.md` for big plans) · `docs/adr/` · `CONTEXT.md` |
 | `warroom-legal` | `legal.md` |
 | `warroom-tickets` | `tickets/NN-*.md` · `.claude/skills/{framework}-{surface}/` |
 | `warroom-build` | code + tests, one commit per ticket · `docs/reference/` · `open-items.md` rows |

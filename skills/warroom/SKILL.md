@@ -9,7 +9,9 @@ description: >-
   subagents (Advocate, Builder, Breaker, Tester, Skeptic) challenge them,
   and has a Successor subagent draft ADRs for docs/adr/. The spec stays
   `draft` while it has Open Questions; only a `ready-to-build` spec passes
-  the gate and goes to warroom-tickets. Also re-opens an existing feature
+  the gate and goes to warroom-tickets. A plan too big for one session is
+  charted as a map (docs/features/{slug}/map.md) and resolved over several
+  sessions first. Also re-opens an existing feature
   for the items routed back to it in open-items.md. Invoke with /warroom,
   or whenever a feature needs its plan laid out before anyone builds it.
 ---
@@ -36,7 +38,19 @@ State them in one line before asking anything:
 - **ADRs** — `docs/adr/`. Read the titles of existing ADRs now, and the
   full text of any that touch this feature.
 
+## Map mode — too big for one session
+
+About five or more open decisions, with answers that will raise questions
+you can't phrase yet → chart a map instead of interviewing until the
+context runs out: [references/map.md](references/map.md). Session one
+charts and stops; later sessions resolve it one question at a time. `/warroom
+{slug}` on a folder with an unfinished `map.md` continues the map.
+
 ## Re-opening a feature
+
+**A pivot is a new feature.** What is being built turned into something
+else → a new feature folder whose spec says it supersedes the old one;
+never rewrite one spec through three products.
 
 `docs/features/{slug}/spec.md` exists → this is a change, not a new plan.
 Set the spec back to `draft` while it changes. Read the folder and its
@@ -71,7 +85,21 @@ recommended answer first, marked "(Recommended)".
   with decisions only in its head leaves nothing behind. Append-only, never
   renumber. Don't sort them into ADRs yet; the sweep does that.
 - **Make it checkable.** "Fast", "secure", "simple" are placeholders: push
-  until each is a number, a scenario, or a named threat.
+  until each is a number, a scenario, or a named threat. A requirement no
+  observation could ever fail is not one — make it checkable or drop it.
+- **Ask about the qualities nobody brought up.** Plans get argued in terms
+  of what the system does; what hurts a year later is how well — speed
+  under load, behaviour when a dependency is down, who may see the data,
+  how it's operated once live. Pick the two or three this feature actually
+  stresses; running the whole list past a settings page is noise.
+- **Never supply a why you weren't given.** A decision that came without
+  its reason is recorded with `rationale not recorded`, and the reason
+  becomes the next question. A guessed reason reads as fact six months on.
+- **Words run out → sketch.** When "how should it look or behave" stops
+  yielding to talk, make something rough to react to — a state table, a
+  text mockup, a sample request and response. Save it in the feature
+  folder, link it from the `D{n}` it settled. It is argued with, never
+  shipped.
 - **A question the user can't answer yet** goes into spec.md › Open
   Questions, never into a guess.
 
@@ -159,9 +187,9 @@ Leave everything uncommitted — committing is the user's call.
 
 ## Operating rules
 
-- **No code**, not a prototype, not a stub, not "just the schema". A
-  request for code gets one sentence: this skill plans; the build reads the
-  approved spec.
+- **No code**, not a prototype, not a stub, not "just the schema" — a
+  sketch is a table or text, never something that runs. A request for code
+  gets one sentence: this skill plans; the build reads the approved spec.
 - **Nothing leaves as `ready-to-build` with a blocking question in it.**
 - **Legal, red team, and ADR sweep run every time.** "No ADR" needs a
   reason.
