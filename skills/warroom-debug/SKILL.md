@@ -52,7 +52,9 @@ request, or a throwaway harness.
   window. 50% is debuggable; 1% is not.
 - **Can't make it fail** → stop. Say so plainly, list what you tried, and
   ask for a log, HAR, core dump, or access to the environment where it
-  fails. **Do not guess a cause.**
+  fails. **Do not guess a cause.** Status `blocked: {what is needed}`; in a
+  warroom feature also a row `From: debug · Next: → /warroom-debug` so the
+  stuck bug shows where all unfinished work does.
 
 Done when the command is red-capable (it asserts the user's exact symptom),
 deterministic, fast (seconds), and you have run it at least once. Then
@@ -65,8 +67,9 @@ Before reading code for a theory, shrink where the bug can be:
 
 - **Docs** — what do spec.md, decisions.md, and the ADRs say should
   happen? If the code does what the docs say, this is a spec gap, not a
-  bug: set the record's Status to `spec gap → warroom`, stop, and
-  recommend `/warroom` on the feature.
+  bug: set the record's Status to `spec gap → warroom`, add a row to the
+  feature's `open-items.md` (`From: debug · Next: → /warroom`, citing the
+  record), stop, and recommend `/warroom` on the feature.
 - **History** — find the last known good state (a commit, tag, branch, or
   ticket). `git log` and `git diff` since then; if the window is wide,
   `git bisect run` with the Phase 1 command.

@@ -106,8 +106,9 @@ next step. Ask with AskUserQuestion (multiSelect) which to act on now:
 
 - **bug** → call `warroom-debug` with the persona's steps as the repro;
   when the persona hit it on screen, its regression test is an e2e test.
-- **spec gap** → recommend `/warroom` on this feature; don't edit the spec
-  here.
+- **spec gap** → add a row to `open-items.md` (`From: trial · Next: →
+  /warroom`, citing the finding) and recommend `/warroom` on this feature;
+  don't edit the spec here.
 - **friction** → write a new ticket after the highest number, in
   [warroom-tickets' template](../warroom-tickets/templates/ticket.md),
   `**Status:** ready-for-agent`, with the persona's goal as an `(e2e)`

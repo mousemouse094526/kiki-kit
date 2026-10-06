@@ -1,25 +1,29 @@
 ---
 name: warroom
 description: >-
-  Plan one feature until the whole picture is clear and approved — documents
-  only, no code. Interviews the user one question at a time (choices with a
-  recommended answer), then writes the feature docs as markdown under
-  docs/features/{slug}/: spec.md, decisions.md, flow.md, plus legal.md via
-  the warroom-legal skill and glossary terms in CONTEXT.md, then has five
-  red-team reviewer subagents (Advocate, Builder, Breaker, Tester, Skeptic)
-  challenge the docs, then a Successor subagent sweeps decisions, legal
-  findings, and spec constraints for ADR-worthy decisions and drafts them
-  for docs/adr/. After the user approves at the gate,
-  hands off to the warroom-tickets skill to split the docs into tickets —
-  building, testing, and review are later skills that read these files.
-  Invoke with /warroom, or whenever a feature needs its plan and docs laid
-  out before anyone builds it.
+  Plan one feature until nothing is left to decide — documents only, no
+  code. Interviews the user one question at a time (choices with a
+  recommended answer), writes the feature docs as markdown under
+  docs/features/{slug}/ (spec.md, decisions.md, flow.md, legal.md via the
+  warroom-legal skill, glossary terms in CONTEXT.md), has five red-team
+  subagents (Advocate, Builder, Breaker, Tester, Skeptic) challenge them,
+  and has a Successor subagent draft ADRs for docs/adr/. The spec stays
+  `draft` while it has Open Questions; only a `ready-to-build` spec passes
+  the gate and goes to warroom-tickets. Also re-opens an existing feature
+  for the items routed back to it in open-items.md. Invoke with /warroom,
+  or whenever a feature needs its plan laid out before anyone builds it.
 ---
 
-# Warroom — plan one feature, on paper, until it's approved
+# Warroom — plan one feature, on paper, until nothing is left to decide
 
-Interview → docs → library check → legal → red team → ADR sweep → one approval gate → tickets. Output: a docs folder a
-stranger could build from.
+Interview → docs → legal → red team → ADR sweep → gate → tickets. Output: a
+docs folder a stranger could build from **without asking anything**.
+
+**Why the bar is that high:** every question the plan leaves open gets
+asked later, by a build session that is halfway through code, with a tired
+context, and with no red team or legal check behind its answer. Fog that
+leaves this skill turns into rework. So the spec carries an honest
+`## Open Questions` list and a `Status`, and nothing builds from a `draft`.
 
 ## Per-project knobs — resolve once, before the interview
 
@@ -32,176 +36,132 @@ State them in one line before asking anything:
 - **ADRs** — `docs/adr/`. Read the titles of existing ADRs now, and the
   full text of any that touch this feature.
 
-## Re-opening a feature that already has docs
+## Re-opening a feature
 
 `docs/features/{slug}/spec.md` exists → this is a change, not a new plan.
-Read the folder, then gather what sent the user back:
-
-- `open-items.md` rows that are `open` with `Next: → /warroom`;
-- trial findings in `trial/*.md` with Status `→ warroom`;
-- a `docs/debug/` record with Status `spec gap → warroom`.
-
-List them, then interview only on those items. Each answer is a new `D{n}`
-(`From:` the item's source); skip straight to the gate's **Adjust** path —
-warroom-legal and The Breaker on each new `D{n}` — instead of the full red
-team. On Approve: set each source row's Status to `→ D{n}` (the trial
-finding's and the debug record's too), then warroom-tickets re-cuts.
+Read the folder and its `open-items.md`; the rows that are `open` with
+`Next: → /warroom` are the agenda, plus the spec's own Open Questions.
+Interview only on those. Each answer is a new `D{n}` (`From:` the row's
+source); then run warroom-legal on what it touches and give it to The
+Breaker alone instead of the full red team, and go to the gate. On Approve,
+set each row's Status to `→ D{n}`; warroom-tickets re-cuts.
 
 ## Phase 1 — Interview, one question at a time
 
 Ask with AskUserQuestion: ONE question per call, choices with your
 recommended answer first, marked "(Recommended)".
 
-- **Facts are your job, decisions are theirs.** Anything the codebase can
-  answer, look up before asking. Only genuine decisions reach the user.
+- **Facts are your job, decisions are theirs.** Anything the codebase, the
+  ADRs, or a library's docs can answer, look up before asking. Only
+  genuine decisions reach the user.
 - **Walk the design tree in dependency order.** Ask the question whose
   answer unblocks the most next questions.
 - **Sharpen the language as terms appear** (format and rules in
-  [references/glossary.md](references/glossary.md)):
-  - Term conflicts with `CONTEXT.md` → call it out immediately: "Glossary
-    defines 'cancellation' as X, you seem to mean Y. Which?"
-  - Vague or overloaded word → propose one precise term: "'account' — the
-    Customer or the User?"
-  - Relationship between concepts → probe it with invented edge-case
-    scenarios until the boundary is precise.
-  - User states how something works → check the code; surface any
-    contradiction.
-  - Term resolved → write it into `CONTEXT.md` right then, not batched.
-- **Existing ADRs are facts.** Answer from them instead of asking. A
-  choice that contradicts one → say so at once and ask: follow the ADR, or
-  supersede it.
-- Interview decisions land in this feature's decisions.md. Don't sort them
-  into ADRs mid-interview — the sweep does that with the whole picture.
-- **Record each decision the moment it lands** as a `D{n}` entry in the
-  format of [templates/decisions.md](templates/decisions.md). Append-only,
-  never renumber.
-- Done when nothing is left silently assumed: a stranger with the spec
-  would build the same thing.
+  [references/glossary.md](references/glossary.md)): call out a term that
+  conflicts with `CONTEXT.md`, propose one precise word for a vague one,
+  probe relationships with invented edge cases, check the code when the
+  user says how something works. Write a resolved term into `CONTEXT.md`
+  right then.
+- **Existing ADRs are facts.** A choice that contradicts one → say so at
+  once and ask: follow the ADR, or supersede it.
+- **Record each decision the moment it lands** as a `D{n}` in
+  [templates/decisions.md](templates/decisions.md) — a session that dies
+  with decisions only in its head leaves nothing behind. Append-only, never
+  renumber. Don't sort them into ADRs yet; the sweep does that.
+- **Make it checkable.** "Fast", "secure", "simple" are placeholders: push
+  until each is a number, a scenario, or a named threat.
+- **A question the user can't answer yet** goes into spec.md › Open
+  Questions, never into a guess.
 
-Large feature → longer plan, no problem. Interview reveals several features
-under one name → say so and propose the split: separate feature folders,
-one warroom each.
+Interview reveals several features under one name → propose the split:
+separate feature folders, one warroom each.
 
 ## Phase 2 — Write the docs
 
-**Docs language = the language the user writes in.** Thai prompts → Thai
-docs. Keep fixed tokens as-is: file names, the `##` section headings of
-spec.md and decisions.md, the field labels and Status / From words of
-decisions.md, `D{n}` ids, glossary term names, code
-identifiers, and verdict words (ALLOWED / NOT ALLOWED / CONDITIONAL).
-
-One file per topic in `docs/features/{slug}/`. Read each template before
-writing its file, copy its skeleton, and follow its rules:
+Docs are in the user's language; fixed tokens (file names, `##` headings,
+field labels, status words, `D{n}`, glossary term names, code identifiers,
+verdict words) stay as they are.
 
 | File | What it holds | Template |
 |---|---|---|
 | `decisions.md` | the why — every decision, its rejected options and reasons | [templates/decisions.md](templates/decisions.md) |
-| `spec.md` | the what and how — problem, stories, outcome, implementation, seams, out of scope | [templates/spec.md](templates/spec.md) |
+| `spec.md` | the what and how — and its Status and Open Questions | [templates/spec.md](templates/spec.md) |
 | `flow.md` | how it runs — mermaid diagrams drawn with the **mermaid-flow** skill (this plugin) | [templates/flow.md](templates/flow.md) |
 
-Every doc also follows [references/markdown-style.md](references/markdown-style.md).
+Read each template before writing its file. Every doc follows
+[references/markdown-style.md](references/markdown-style.md).
 
-## Phase 2.4 — Library check, every feature
+The spec names what a builder would otherwise have to ask: the seams,
+the **Library assumptions** (each behaviour the plan needs from a library,
+linked to the doc page of the installed version — `llms.txt` first), and
+the **Testing decisions** (the existing tests to copy, by path). Anything
+you can't fill in is an Open Question.
 
-The plan must not rest on library behaviour nobody has read. For every
-library, runtime, and platform the Implementation relies on, follow
-warroom-build's [library-docs.md](../warroom-build/references/library-docs.md)
-steps 1, 3, 4, and 5 — installed version, `llms.txt` and the docs for that
-version, a note in `docs/reference/` — without the upgrade question (the
-build asks it). A library the project doesn't have yet → the latest
-version's docs.
-
-Then fill spec.md › **Library assumptions**: one row per behaviour the plan
-needs from a library, each linked to the doc page that promises it.
-
-- **The docs confirm it** → the row stands.
-- **The docs contradict it or are silent** → it is a decision, not a
-  detail: ask the user now (AskUserQuestion, recommended answer first),
-  record a `D{n}`, and rewrite the spec around what the library really
-  does.
-
-## Phase 2.5 — Legal check, every feature
+## Phase 2.5 — Legal check
 
 Invoke the **warroom-legal** skill (this plugin) on the drafted feature. It
-researches the governing law with web sources, rules each legally relevant
-action ALLOWED / NOT ALLOWED / CONDITIONAL, and writes one `legal.md` into
-the same folder in the docs language — or reports "no legal surface". Fold every CONDITIONAL
-requirement into the spec's Implementation section. Run it before the gate.
+writes `legal.md` or reports "no legal surface". Fold every CONDITIONAL
+requirement into the spec's Implementation. Runs every time — risk is not
+something to guess.
 
-## Phase 3 — Red team, every feature
+## Phase 3 — Red team
 
-Spawn five reviewers as separate subagents, in parallel, each with its own
-checklist from [references/red-team.md](references/red-team.md):
-**The Advocate** (end user), **The Builder** (implementer), **The Breaker**
-(failure and abuse), **The Tester** (provability), **The Skeptic** (scope).
-Label each subagent with its name. Give each only the docs — never another
-reviewer's output.
+Spawn five reviewers as separate subagents, in parallel, each with its
+checklist from [references/red-team.md](references/red-team.md): **The
+Advocate**, **The Builder**, **The Breaker**, **The Tester**, **The
+Skeptic**. Each gets only the docs — never another reviewer's output.
 
-Then merge the findings yourself, dropping duplicates:
+Merge the findings yourself, dropping duplicates:
 
-- **Doc gap or contradiction with an obvious fix** → fix the docs.
-- **Needs a decision** (including two reviewers pulling opposite ways) →
-  ask the user with AskUserQuestion, recommended answer first; record it
-  as a new `D{n}`.
+- **Doc gap with an obvious fix** → fix the docs.
+- **Needs a decision** → ask the user now; record a `D{n}`. The user wants
+  to wait → an Open Question.
 - **Noise** (already answered, out of scope, pure taste) → dismiss.
 
-Runs once per warroom. Another round only if the user asks for one.
+Runs once per warroom.
 
-## Phase 4 — ADR sweep, every feature
+## Phase 4 — ADR sweep
 
-One question at a time, every decision looks local to the feature; which
-ones reach beyond it only shows once the whole plan exists. So after the
-red team merge, spawn one subagent, **The Successor** — the engineer who
-builds the next feature here — with the prompt and criteria in
-[references/adr.md](references/adr.md).
+Which decisions reach beyond this feature only shows once the whole plan
+exists. Spawn one subagent, **The Successor** — the engineer who builds the
+next feature here — with [references/adr.md](references/adr.md). Drop
+candidates that fail its tests, merge duplicates, and draft each survivor
+(title + 1–3 sentences + `Source:`). Hold the drafts for the gate. A
+conflict with an existing ADR → ask: follow it or supersede it; record a
+`D{n}`.
 
-Then, yourself: drop candidates that fail a test or hit "Not an ADR",
-merge candidates that are one decision, and draft each survivor (title +
-1–3 sentences + `Source:`). Hold the drafts for the gate — no files yet.
-A conflict with an existing ADR → ask the user with AskUserQuestion:
-follow it or supersede it; record the answer as a new `D{n}`.
+## The Gate
 
-## The Gate — approve the plan
-
-First run the self-check in
+Run the self-check in
 [references/markdown-style.md](references/markdown-style.md) on every file
-this warroom wrote or changed — docs, ADR drafts, and `CONTEXT.md`. Then
-show the whole picture in chat: the doc folder path, the decision list
-(`D1: title` per line), the legal summary (verdict per item — ALLOWED /
-NOT ALLOWED / CONDITIONAL with its requirements — or "no legal surface"),
-the red team line (`Red team: x fixed, y decided (D7, D8), z dismissed`,
-plus one line per BLOCKER and how it was resolved), the ADR block (each
-draft in full, any conflict with an existing ADR and how it was decided —
-or `ADR: none — {reason}`), and the rough build shape (modules touched,
-estimated size). Then ask with AskUserQuestion: **Approve / Adjust**.
+this run wrote. Then show in chat: the folder path, the decision list
+(`D1: title` per line), the legal summary, the red team line (`x fixed, y
+decided (D7, D8), z dismissed`, plus each BLOCKER and how it was resolved),
+the ADR drafts, the **Open Questions**, and the rough build shape.
 
-- **Adjust** → fold the changes into the docs — including cutting or
-  rewording an ADR draft — and gate again. An adjustment that adds or
-  changes a `D{n}` (more than ADR wording) skipped the red team: rerun
-  warroom-legal on the items it touches, give that `D{n}` to The Breaker
-  alone, fold the findings, re-check it against the ADR criteria, then
-  gate again.
-- **Approve** → the docs are done. Write each ADR draft to
-  `docs/adr/NNNN-slug.md` ([templates/adr.md](templates/adr.md)) and set
-  the `ADR` field of each source `D{n}` and its index row in decisions.md;
-  self-check those files. Name the doc and ADR files in the reply, then
-  invoke the **warroom-tickets** skill (this plugin) on this feature right
-  away — it quizzes the user on the breakdown before writing anything.
-  Stop after the tickets are written. Leave everything uncommitted —
-  committing is the user's call.
+Ask with AskUserQuestion:
 
-A request for code at any point gets one sentence — this skill plans; a
-build skill reads the approved spec — and the interview continues.
+- **Approve** — offered only when Open Questions is empty, or every entry
+  says why it doesn't block building. Set the spec's Status to
+  `ready-to-build`, write the ADRs to `docs/adr/NNNN-slug.md`
+  ([templates/adr.md](templates/adr.md)) and their `ADR` field in
+  decisions.md, self-check those files, then invoke **warroom-tickets**
+  (this plugin) right away.
+- **Adjust** — fold the change into the docs and gate again. A new or
+  changed `D{n}` skipped the red team: run warroom-legal on what it
+  touches and give it to The Breaker alone first.
+- **Stop as draft** — the spec stays `draft`. End with a prompt to paste
+  in a new session: `/warroom {slug}` plus the open questions, numbered.
+
+Leave everything uncommitted — committing is the user's call.
 
 ## Operating rules
 
-- **No code, no exceptions.** Not a prototype, not a stub, not "just the
-  schema".
-- **The gate is the only exit.** Never present unapproved docs as finished.
-- **Legal runs every time.** Never skip it on a hunch that nothing is risky.
-- **Red team runs every time**, after legal, before the gate.
-- **ADR sweep runs every time**, after the red team. "None" needs a reason.
-- **Self-check before every gate**, and again after writing ADR files.
+- **No code**, not a prototype, not a stub, not "just the schema". A
+  request for code gets one sentence: this skill plans; the build reads the
+  approved spec.
+- **Nothing leaves as `ready-to-build` with a blocking question in it.**
+- **Legal, red team, and ADR sweep run every time.** "No ADR" needs a
+  reason.
 - **Every decision has a number.**
-- **Docs and chat in the user's language**; fixed tokens stay as-is.
-- **One feature per session.** A second feature gets its own warroom.
+- **One feature per session.**

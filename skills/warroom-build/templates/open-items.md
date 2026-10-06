@@ -1,7 +1,8 @@
 # Template: docs/features/{slug}/open-items.md
 
-Everything the build found but did not finish, in one table per feature —
-so nothing lives only in chat. Follow
+Everything found but not finished for one feature, in one table — so
+nothing lives only in chat, and "what's left?" has one answer. Build,
+debug, and trial write rows; the skill that closes a row updates it. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md). Column
 words stay in English; **Found** is in the docs language.
 
@@ -10,11 +11,14 @@ words stay in English; **Found** is in the docs language.
 - **One row per item**, numbered in order, never renumbered or deleted.
 - **From** — where it came from:
   - `build stop` — the ticket can't be built as cut;
-  - `decision` — a wide decision the build must not make (see SKILL.md › Decisions);
+  - `decision` — a choice that reaches beyond the ticket, which the build must not make;
   - `review: Standards` / `review: Spec` / `review: Newcomer` — a ticket review finding outside the ticket;
   - `feature review` — a finding the user didn't pick;
-  - `full suite` — a failure that was already there.
-- **Found** — one short line: what, and where.
+  - `full suite` — a failure that was already there;
+  - `debug` — a spec gap or a bug blocked on missing data;
+  - `trial` — a spec gap the user picked.
+- **Found** — one short line: what, and where; a stopped build adds its
+  `wip/{slug}-{NN}` branch.
 - **Next** — the one flow that closes it: `→ /warroom-tickets` (re-cut),
   `→ /warroom` (docs or a wide decision), `→ /warroom-debug`,
   `→ feature review`.

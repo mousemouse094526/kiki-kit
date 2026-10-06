@@ -1,59 +1,68 @@
 # TDD — the red → green loop
 
 From Matt Pocock's `tdd` ([mattpocock/skills](https://github.com/mattpocock/skills),
-MIT). The glossary is `CONTEXT.md`; the seams come from the warroom spec.
-
-This is the reference that makes the loop produce tests worth keeping. Every
-section applies on every cycle: consult it before and during the loop, not
-after.
+MIT). Methodology every project shares; which runner, which mocking
+library, and where tests live come from the project's conventions skill
+(`patterns/testing.md`) and spec.md › Testing decisions — on tooling, the
+project wins. Examples use TypeScript only to illustrate.
 
 ## What a good test is
 
-Tests verify behaviour through public interfaces, not implementation
-details. Code can change entirely; tests shouldn't. A good test reads like a
-specification: "user can checkout with valid cart" says exactly what
-capability exists, and it survives refactors because it doesn't care about
-internal structure.
+A test verifies behaviour through a public interface, so the code under it
+can change entirely and the test still holds. It reads like a
+specification: "user can checkout with a valid cart" says what capability
+exists.
 
-Examples in [tests.md](tests.md); mocking in [mocking.md](mocking.md).
+```typescript
+// BAD: verifies through a side channel — breaks on any storage change
+test("createUser saves to database", async () => {
+  await createUser({ name: "Alice" });
+  expect(await db.query("SELECT * FROM users WHERE name = ?", ["Alice"])).toBeDefined();
+});
+
+// GOOD: verifies through the interface
+test("createUser makes user retrievable", async () => {
+  const user = await createUser({ name: "Alice" });
+  expect((await getUser(user.id)).name).toBe("Alice");
+});
+```
 
 ## Seams: where tests go
 
-A **seam** is the public boundary you test at: the interface where you
-observe behaviour without reaching inside. Tests live at seams, never
-against internals.
-
-**Test only at pre-agreed seams.** In a warroom feature they were agreed at
-the gate — spec.md › Seams, named in the ticket's Covers. No test is written
-at an unconfirmed seam.
+A **seam** is the public boundary you observe behaviour at. Tests live at
+seams, never against internals — and only at **pre-agreed** seams:
+spec.md › Seams, named in the ticket's Covers. Agreeing them once, at the
+gate, is what stops every build from inventing its own.
 
 ## Anti-patterns
 
 - **Implementation-coupled** — mocks internal collaborators, tests private
-  methods, or verifies through a side channel (querying the database instead
-  of using the interface). The tell: the test breaks on a refactor that
-  didn't change behaviour.
-- **Tautological** — the assertion recomputes the expected value the way the
-  code does (`expect(add(a, b)).toBe(a + b)`), so it passes by construction.
-  Expected values come from an independent source: a known-good literal, a
-  worked example, the spec.
-- **Horizontal slicing** — all tests first, then all code. Bulk tests verify
-  imagined behaviour. Work in vertical slices: one test → one implementation
-  → repeat, each test a tracer bullet that responds to what the last cycle
-  taught you.
+  methods, asserts call counts, or checks through a side channel. The tell:
+  it breaks on a refactor that changed no behaviour.
+- **Tautological** — the expected value is computed the way the code
+  computes it, so it passes by construction. Use an independent literal:
+  `expect(calculateTotal([{ price: 10 }, { price: 5 }])).toBe(15)`.
+- **Horizontal slicing** — all tests first, then all code. Bulk tests
+  verify imagined behaviour; one test → one implementation lets each cycle
+  learn from the last.
+
+## Mock only at system boundaries
+
+External APIs, time, randomness, sometimes the database or file system —
+never your own modules. At a boundary, pass the dependency in, and prefer
+one function per external operation (`api.getUser`, `api.createOrder`) over
+one generic `fetch`, so each mock returns one shape.
 
 ## Rules of the loop
 
-- **Red before green.** Write the failing test, watch it fail for the right
-  reason (an assertion, not an import error), then only enough code to pass
-  it. No speculative features.
-- **One slice at a time.** One seam, one test, one minimal implementation per
-  cycle.
-- **Refactoring is not part of the loop.** It belongs to the review stage.
-- **Stay in the ticket.** Behaviour that belongs to another ticket is not
-  built here, even when it sits next to the code you're touching.
-- **Browser / end-to-end tests come after the behaviour works**, not first —
-  too slow for red → green. The project's `CLAUDE.md` overrides this.
-- **No independent truth, no loop.** Pure wiring, config, type annotations:
-  there is nothing to assert that doesn't restate the code. Let the
-  typecheck and the seam tests of the behaviour it wires cover it.
+- **Red before green.** Watch the test fail for the right reason (an
+  assertion, not an import error), then write only enough code to pass.
+- **One slice at a time.** One seam, one test, one minimal implementation.
+- **Refactoring is not part of the loop.** It belongs to the review.
+- **Stay in the ticket.** Another ticket's behaviour is not built here,
+  even when it sits next to the code you're touching.
+- **End-to-end tests come after the behaviour works** — too slow for
+  red → green.
+- **No independent truth, no loop.** Pure wiring, config, and types have
+  nothing to assert that doesn't restate the code; the typecheck and the
+  seam tests of the behaviour they wire cover them.

@@ -38,8 +38,12 @@ answer. Do not edit any file.
 - Is any decision cited but missing from decisions.md, or contradicting
   another?
 - Open the page linked in each spec › Library assumptions row: does it
-  really promise that, for that version? Does the Implementation lean on
-  any library behaviour that has no row? Either is a finding.
+  really promise that, for the installed version? Does the Implementation
+  lean on library behaviour with no row? Either is a finding — a plan
+  built on an unread library is the most common reason a build stops.
+- Walk one ticket's worth of the work as its builder: which choice would
+  you have to ask about (a new dependency, where a shared piece lives, a
+  default, an error message)? Each is a finding.
 
 ## The Breaker — tries to make it fail
 
@@ -54,6 +58,8 @@ answer. Do not edit any file.
 - Does each user story have a checkable pass/fail condition?
 - Which edge cases have no stated expected behaviour?
 - Does flow.md match spec.md step for step?
+- Does Testing decisions name an existing test to copy, or say why there
+  is none?
 - Does every user story the user performs on a screen have an `(e2e)`
   seam, and is every `(e2e)` seam really UI-only (not provable by an API
   test)?

@@ -1,11 +1,11 @@
 # Language and library docs — read the real docs, not memory
 
 Reference notes hold what the **library** does and recommends. How **this
-project** uses it — folders, layers, which validator, which pattern — lives
-in the project's conventions skill ([conventions.md](conventions.md)), not
-here. The only coding guidance this skill carries itself is methodology
-that holds in every project: TDD ([tdd.md](tdd.md), [tests.md](tests.md),
-[mocking.md](mocking.md)) and the review smells ([review.md](review.md)).
+project** uses it — folders, layers, which validator — lives in the
+project's conventions skill
+([conventions.md](../../warroom-tickets/references/conventions.md)). The
+only coding guidance this skill carries itself is methodology that holds in
+every project: [tdd.md](tdd.md) and the review smells ([review.md](review.md)).
 
 Model memory of a language's idioms or a library's API is often a version
 behind. Before writing code, read the current docs of every language,

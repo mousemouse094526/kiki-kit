@@ -23,7 +23,7 @@ English throughout. Follow
   examples. The first ticket replaces it with real files.
 - **Never-break rules are few** — the ones a reviewer should block a merge
   for.
-- Named `{framework}-{surface}` (see conventions.md › Naming), not after
+- Named `{framework}-{surface}` (see [conventions.md](../references/conventions.md) › Naming), not after
   the project.
 - No other project's name, paths, or code.
 

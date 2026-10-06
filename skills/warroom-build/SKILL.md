@@ -3,186 +3,156 @@ name: warroom-build
 description: >-
   Implement ONE warroom ticket into committed code, in this session. Picks
   the frontier ticket from docs/features/{slug}/tickets/ (or the one named),
-  reads the project's own conventions (CLAUDE.md, .claude/skills/), checks
-  installed versions against the latest and asks before any upgrade, makes
-  sure every language, runtime, and library it touches has a reference note
-  for the installed version (llms.txt first, indexed in docs/reference/) —
-  fetching and writing any that are missing — then builds it test-first at the seams agreed in
-  spec.md, runs typecheck and single test files regularly and the full
-  suite once at the end, reviews the diff on three axes (Standards, Spec,
-  and a Newcomer who knows nothing about the ticket) with parallel
-  subagents, marks the ticket done, and commits to the current branch. An
-  unexplained failure hands off to warroom-debug. One ticket per session.
-  Invoke with /warroom-build {slug} [ticket-number]; /warroom-build {slug}
-  --review-feature reviews the whole feature branch before merge. Use only
-  when the user explicitly asks to build a warroom ticket or review a
-  warroom feature — including a pasted build prompt — never on your own
-  initiative.
+  reads the project's conventions skill and the reference notes for the
+  installed library versions (fetching any that are missing, llms.txt
+  first, asking before any upgrade), builds test-first at the seams agreed
+  in spec.md, runs the full suite once at the end, reviews the diff on
+  three axes (Standards, Spec, Newcomer) with parallel subagents, and
+  commits. It implements decisions, it doesn't make them: anything the
+  docs don't settle stops the build and is routed through open-items.md.
+  An unexplained failure hands off to warroom-debug. One ticket per
+  session. Invoke with /warroom-build {slug} [ticket-number];
+  /warroom-build {slug} --review-feature reviews the whole feature branch
+  before merge. Use only when the user explicitly asks to build a warroom
+  ticket or review a warroom feature — including a pasted build prompt —
+  never on your own initiative.
 ---
 
 # Warroom Build
 
 Adapted from Matt Pocock's `implement`, `tdd`, and `code-review`
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT): a simple
-work → feedback → commit loop over one ticket. You are the dispatcher — one
-session per ticket, clearing context between tickets.
-
-Implement the work described in the ticket. Use TDD at pre-agreed seams.
-Run typechecking regularly, single test files regularly, and the full test
-suite once at the end. Once done, review the work. Commit to the current
-branch.
+work → feedback → commit loop over one ticket. One session per ticket,
+because a fresh context reads only what this ticket needs, the review diffs
+only this ticket, and one commit per ticket can be reverted alone. Memory
+between sessions lives in files — the ticket, decisions.md, open-items.md —
+never in chat.
 
 ## 1. Pick the ticket
 
-Tickets live in `docs/features/{slug}/tickets/`. No folder → tell the user
-to run `/warroom-tickets {slug}` first.
+Tickets live in `docs/features/{slug}/tickets/`. No folder, or spec.md is
+still `draft` → stop and name the skill to run first (`/warroom-tickets`,
+`/warroom`).
 
 - A number given → that ticket. A **Blocked by** ticket not `done` → say
   which, stop.
-- None given → the **frontier**: the lowest-numbered ticket at
-  `**Status:** ready-for-agent` whose every blocker is `done`. A ticket left
-  `in-progress` → read its rows in `open-items.md` first, then ask:
-  resume it (Recommended) or pick another.
+- None given → the **frontier**: the lowest-numbered `ready-for-agent`
+  ticket whose blockers are all `done`. One left `in-progress` → read its
+  rows in `open-items.md`, then ask: resume it (Recommended) or pick
+  another.
 - Nothing ready → report what blocks the rest, stop.
 
 ## 2. Load the context
 
-Read the ticket, then what its **Covers** names: the `D{n}` in
-decisions.md, the ADRs in `docs/adr/`, the Seams in spec.md, the legal
-items. Read `CONTEXT.md` so names match the domain. Then:
+Read the ticket and what its **Covers** names (the `D{n}`, ADRs, Seams,
+legal items), spec.md › Testing decisions, and `CONTEXT.md` so names match
+the domain. Then:
 
 - Record the **start commit** (`git rev-parse HEAD`) — the review diffs
   from it.
 - On the default branch → ask once: new branch `feat/{slug}` (Recommended)
   or stay.
-- Find the typecheck, single-test-file, full-suite, and lint commands
-  (package.json scripts, Makefile, CI config). State them in one line.
+- State the typecheck, single-test-file, full-suite, and lint commands in
+  one line.
 - Set `**Status:** in-progress`.
-- **Project conventions** — follow
-  [references/conventions.md](references/conventions.md): read the
-  project's `CLAUDE.md`, `.claude/rules/`, and its conventions skill under
-  `.claude/skills/` for the area this ticket touches. None yet → propose
-  one, get the user's OK, and write it into the project before coding.
-  They live in the project, never in this skill.
-- **Versions, then language and library docs** — follow
-  [references/library-docs.md](references/library-docs.md) for every
-  language, runtime, and library this ticket's code touches:
-  1. Show the version table (installed, latest, gap, note version); a
-     minor or major gap → read the changelog and ask: stay (Recommended)
-     or upgrade now as its own commit or a prefactor ticket. Never upgrade
-     silently or inside the ticket's commit.
-  2. Note version equals installed → use it. Older or missing → fetch the
-     docs for the installed version (`llms.txt` first; versioned docs or the
-     changelog when installed ≠ latest) and update the note and index row
-     **before writing any code**.
+- **Conventions** — read the project's conventions for the area touched
+  ([conventions.md](../warroom-tickets/references/conventions.md) says
+  where). None for this area → stop and recommend `/warroom-tickets
+  {slug}`: structure is set up before slicing, not mid-ticket.
+- **Library docs** — follow [references/library-docs.md](references/library-docs.md):
+  show the version table, ask before any upgrade, and make sure every
+  language, runtime, and library the ticket touches has a reference note
+  for the installed version **before writing code** — model memory is
+  often a version behind.
 
-Language: code, comments, test names, commits, and `docs/reference/` notes
-are English; replies to the user follow their language — see
-[markdown-style.md](../warroom/references/markdown-style.md#language--english-except-the-docs).
+Code, comments, test names, commits, and `docs/reference/` notes are
+English; replies follow the user's language.
 
 ## 3. Build test-first
 
-Follow [references/tdd.md](references/tdd.md). The seams are the ones the
-ticket's Covers names from spec.md › Seams — agreed at the warroom gate, so
-don't re-ask. A behaviour no agreed seam can observe → ask the user which
-seam to add, with each option's trade-off.
+Follow [references/tdd.md](references/tdd.md) at the seams the ticket's
+Covers names — agreed at the gate, so don't re-ask. One acceptance
+criterion at a time: red → green, then the typecheck and the test file.
 
-One acceptance criterion at a time: red → green. Run the typecheck and the
-test file after each green.
+- **`(e2e)` criteria come last**, once the behaviour below them is green,
+  with the project's e2e tool, through the real UI. No e2e setup yet → set
+  it up first as the conventions describe.
+- **New code goes where the conventions say.** A ticket that sets or
+  changes a pattern updates the pattern file in the same commit.
+- **A ticket too big for one session** → stop at the end of a criteria
+  group and commit what is green; never commit half a group.
 
-**`(e2e)` criteria come last.** Once the behaviour below them is green,
-write the e2e test for each `(e2e)` criterion with the project's e2e tool,
-where the conventions say, through the real UI against the running apps.
-No e2e setup yet and this ticket has `(e2e)` criteria → set it up first,
-as the conventions describe.
+### The build implements decisions; it doesn't make them
 
-**Follow the project conventions:** new code goes where the folder
-structure says, in the layers it names. A ticket that sets a new pattern
-updates the project's pattern file in the same commit.
+A decision made here skips the red team and the legal check, and it lands
+halfway through code. So when something is not settled:
 
-**Never redesign.** Anything unfinished goes in
-`docs/features/{slug}/open-items.md`
-([templates/open-items.md](templates/open-items.md)) — never only in chat.
+1. **Look it up before asking.** The whole decisions.md (not only Covers),
+   the ADRs, spec.md, the conventions, `docs/reference/`. Answered → use it
+   and add the `D{n}` to Covers.
+2. **Only this ticket's own how** — an error message's wording, a default
+   page size, a new pattern file for a layer no ticket had yet — and
+   nothing else changes because of it → ask with AskUserQuestion,
+   recommended answer first, saying where you looked. Record the answer
+   completely, as the next `D{n}` (`**From:** build ticket NN`) or in the
+   conventions, never leaving a part "for ticket NN". Carry on.
+3. **Anything else** — it changes the spec, another ticket, a legal item,
+   an ADR, or an active `D{n}`; the ticket can't be built as cut; the docs
+   contradict each other; or you're unsure which → **stop**. Add a row to
+   `open-items.md` ([templates/open-items.md](templates/open-items.md))
+   whose Next names the flow that closes it (`→ /warroom` for docs and
+   decisions, `→ /warroom-tickets` for the cut), leave the ticket
+   `in-progress`, and recommend that flow.
 
-**Decisions.** Before asking anything, search for the answer: the whole
-`decisions.md` (not only the Covers), the ADRs, spec.md, the conventions
-skill, `docs/reference/`. Found → use it and add the `D{n}` to Covers;
-never re-ask what the docs answer. Not found → the question says where you
-looked. Then sort it:
-
-- **Local** — it changes only how this ticket does its own work; no other
-  ticket, seam, legal item, ADR, or active `D{n}` changes (wording of an
-  error, a default page size). → ask with AskUserQuestion, recommended
-  answer first; append the next `D{n}` with `**From:** build ticket NN`;
-  add it to this ticket's Covers; carry on. The ruling is complete — it
-  never leaves part of the choice to a later ticket; a part that can't be
-  settled now is wide.
-- **Wide** — it changes what the spec, another ticket, a legal item, or an
-  ADR says, or contradicts an active `D{n}`. → never decided here: it
-  skips the red team and legal check. Stop, leave the ticket
-  `in-progress`, add a row `From: decision · Next: → /warroom`, and
-  recommend `/warroom {slug}` — its Adjust records the `D{n}`, re-runs
-  warroom-legal and The Breaker on it, then re-cuts.
-- Unsure which → treat it as wide.
-
-**Can't be built as cut** (too big, needs work no ticket has) → stop,
-leave it `in-progress`, add a row `From: build stop · Next: →
-/warroom-tickets`, and recommend `/warroom-tickets {slug}` to re-cut. The
-docs themselves wrong → `Next: → /warroom` instead.
+**Never end a session with a dirty tree** — the next session would start on
+code nobody can account for. Before stopping, ask: keep the work on branch
+`wip/{slug}-{NN}` (Recommended) or discard it. Note the branch in the row.
 
 **Unexplained failure → warroom-debug.** A test that fails for a reason you
-can't name in one look, a previously green test that breaks, or behaviour
-that contradicts the spec → call the Skill tool with `warroom-debug`. Come
-back here with its fix and regression test.
+can't name in one look, a green test that breaks, behaviour that
+contradicts the spec → call the Skill tool with `warroom-debug`, then come
+back with its fix and regression test.
 
 ## 4. Full suite
 
 Run the full suite, typecheck, and lint once — plus the e2e suite when the
 ticket has `(e2e)` criteria or touched a page an e2e test covers. Fix what
-this ticket broke.
-Failures that were already there → don't fix; add a row `From: full suite
-· Next: → /warroom-debug`.
+this ticket broke. A failure that was already there isn't this ticket's:
+add a row `From: full suite · Next: → /warroom-debug`.
 
 ## 5. Review on three axes
 
 Follow [references/review.md](references/review.md), ticket scope: fixed
-point = the start commit; spec = this ticket plus the docs it covers. Three
-subagents in parallel — **Standards**, **Spec**, and **Newcomer** — reported
-side by side.
-
-Fix findings inside the ticket's scope; refactoring happens here, not in
-the TDD loop. Then run focused checks on what you fixed — never a second
-broad review. Each finding left → a row `From: review: {axis} · Next: →
-feature review`.
+point = the start commit. Three subagents in parallel — **Standards**,
+**Spec**, **Newcomer** — reported side by side. Fix findings inside the
+ticket; refactoring happens here, not in the TDD loop. Run focused checks
+on what you fixed — never a second broad review. A finding left → a row
+`From: review: {axis} · Next: → feature review`.
 
 ## 6. Commit
 
 Every acceptance criterion holds → `**Status:** done`. Commit code, tests,
-and the ticket file to the current branch:
+the ticket, and any doc this ticket changed:
 `feat({slug}): {ticket title} (#{NN})` — `refactor` for prefactor tickets.
 Don't push, don't open a PR.
 
-Report: what landed, new `D{n}`, library notes added, any debug record
-written, rows added to `open-items.md`, and the next frontier ticket. Recommend
-clearing context before the next `/warroom-build {slug}`. Every ticket
-`done` → recommend `/warroom-build {slug} --review-feature`.
+Report: what landed, new `D{n}`, reference notes added, rows added to
+`open-items.md`, and the next frontier ticket. Recommend a new session for
+it; every ticket `done` → recommend `--review-feature`.
 
 ## Feature review — `/warroom-build {slug} --review-feature`
 
-Run once every ticket is `done`, before merge or PR. Ticket reviews can't
-see what goes wrong across tickets: the same thing built twice, two names
-for one concept, a seam one ticket tested and another bypassed.
+Once every ticket is `done`, before merge. Ticket reviews can't see what
+goes wrong across tickets: the same thing built twice, two names for one
+concept, a seam one ticket tested and another bypassed.
 
-1. Fixed point = `git merge-base HEAD {default branch}`. Run the full suite,
-   typecheck, and lint first.
-2. Follow [references/review.md](references/review.md), feature scope —
-   the three axes over the whole branch, with the whole feature folder as
-   the spec source.
-3. Show the findings together with every `open` row in `open-items.md`
-   whose Next is `→ feature review`. Ask with AskUserQuestion which to fix
-   now. Fix the picked ones, run focused checks, commit as
-   `refactor({slug}): feature review fixes`. Picked rows → `done ({sha})`;
-   new findings not picked → new rows `From: feature review`. No second
-   broad review.
-4. Any row still `open` → list it with its Next before recommending
-   merge.
+1. Fixed point = `git merge-base HEAD {default branch}`. Run the full
+   suite, typecheck, and lint first.
+2. [references/review.md](references/review.md), feature scope — the three
+   axes over the whole branch, the whole feature folder as the spec.
+3. Show the findings with every `open` row whose Next is `→ feature
+   review`. Ask which to fix now; fix them, run focused checks, commit
+   `refactor({slug}): feature review fixes`. Fixed rows → `done ({sha})`;
+   findings not picked → new rows `From: feature review`.
+4. Rows still `open` anywhere → list them with their Next before
+   recommending merge.

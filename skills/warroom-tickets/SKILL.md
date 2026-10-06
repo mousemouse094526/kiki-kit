@@ -1,17 +1,16 @@
 ---
 name: warroom-tickets
 description: >-
-  Break an approved warroom feature into tracer-bullet tickets, each
+  Break a ready-to-build warroom feature into tracer-bullet tickets, each
   declaring the tickets that block it — one markdown file per ticket under
-  docs/features/{slug}/tickets/. Reads the feature docs (spec.md,
-  decisions.md, flow.md, legal.md) and CONTEXT.md, explores the codebase
-  for prefactoring, drafts vertical slices, quizzes the user on
-  granularity and blocking edges, and writes the tickets only after the
-  user approves the breakdown. Ends with a ready-to-paste prompt for
-  warroom-build, checked against the project (uncommitted docs, branch,
-  services, test setup, conventions, reference notes and library
-  versions, secrets, ticket size). No code. Warroom runs it right after its
-  approval gate; also runs standalone as /warroom-tickets {slug}.
+  docs/features/{slug}/tickets/. Refuses a draft spec. Sets up the
+  project's conventions skill (.claude/skills/{framework}-{surface}/) for
+  any area that has none, explores the codebase for prefactoring, drafts
+  vertical slices, quizzes the user on granularity and blocking edges, and
+  writes the tickets only after the user approves. Re-cuts fold in the
+  open-items.md rows routed to it. Ends with a ready-to-paste prompt for
+  warroom-build. No code. Warroom runs it right after its approval gate;
+  also runs standalone as /warroom-tickets {slug}.
 ---
 
 # Warroom Tickets
@@ -33,7 +32,9 @@ put it). Called from warroom → it's the feature just approved. Standalone
 without a slug → list the feature folders and ask which.
 
 Read `spec.md`, `decisions.md`, `flow.md`, `legal.md`, and `CONTEXT.md` in
-full. No `spec.md` → stop and tell the user to run `/warroom` first.
+full. No `spec.md`, or its Status is `draft` → stop and recommend
+`/warroom {slug}`: tickets cut from open questions push them into the
+build, the most expensive place to answer them.
 
 `tickets/` already exists → ask: re-cut the tickets not yet `done`, or
 stop. A re-cut **renumbers every ticket that is not `done`** in dependency
@@ -50,17 +51,9 @@ current state of the code. Ticket titles and descriptions use the
 decisions and any ADRs in the area you're touching.
 
 **Conventions first.** Read the project's conventions for every area the
-spec touches — `CLAUDE.md`, `.claude/rules/`, its conventions skill under
-`.claude/skills/` (see warroom-build's
-[conventions.md](../warroom-build/references/conventions.md)). An area with
-code planned but no conventions → set them up now, before slicing: propose
-the folder structure, layers, and testing stack (runner, and the e2e tool
-and its location when the spec has `(e2e)` seams), get the user's OK with
-AskUserQuestion,
-write the project skill from
-[conventions-skill.md](../warroom-build/templates/conventions-skill.md), and
-record it as a `D{n}`. Tickets are then cut against that structure, so no
-build invents one and no prefactor ticket appears later out of order.
+spec touches; an area with planned code and none → set them up now, before
+slicing, as [references/conventions.md](references/conventions.md)
+describes. Tickets are then cut against that structure.
 
 Look for opportunities to prefactor the code to make the implementation
 easier — including existing code that doesn't match the conventions.
@@ -99,20 +92,13 @@ at least one ticket's acceptance criteria, and nothing from Out of Scope
 does. Every `(e2e)` seam lands in the ticket that completes its flow — the
 first ticket where every page and app it crosses exists — as acceptance
 criteria tagged `(e2e)`. The first such ticket also sets up the e2e
-package if the project has none. A gap the docs don't answer is a missing decision: say so and send
-it back to warroom instead of guessing.
+package if the project has none.
 
-**Warroom addition — answer the build's choices now.** Walk each drafted
-ticket as its builder would and list every choice the docs, the ADRs, and
-the conventions don't answer yet: a new dependency or writing it in-house,
-where a piece shared by several tickets lives, a default value, an error
-wording, a library behaviour with no row in spec.md › Library assumptions.
-Ask them in the quiz below, one per call, recommended answer first. Record
-each answer in one place — a `D{n}` (`**From:** warroom-tickets`) for
-behaviour, the conventions skill for structure — and add the `D{n}` to the
-Covers of every ticket it touches. Each ruling is final: never "ticket NN
-decides". A choice that changes the spec, a legal item, or an ADR → stop
-and send it back to warroom.
+**Warroom addition — walk each ticket as its builder.** Any choice the
+docs, ADRs, and conventions leave open would stop that build halfway. A
+structural one (where a shared piece lives) → settle it now in the
+conventions. One about behaviour → it's an open question: stop and send it
+back to `/warroom` instead of guessing or leaving it for "ticket NN".
 
 ### 4. Quiz the user
 
@@ -157,11 +143,9 @@ file against [templates/ticket.md](templates/ticket.md).
 
 List the ticket files and the frontier (the tickets that can start now).
 Then generate the **build prompt** from
-[templates/build-prompt.md](templates/build-prompt.md): run its checks on
-the project — uncommitted docs, branch, services, test setup,
-conventions, reference notes and versions, secrets, ticket size — and show the steps that apply followed by one
-ready-to-paste **English** prompt for `/warroom-build {slug} {first frontier ticket}` in
-a new session.
+[templates/build-prompt.md](templates/build-prompt.md): run its checks and
+show the steps that apply, then one ready-to-paste **English** prompt for
+`/warroom-build {slug} {first frontier ticket}` in a new session.
 
 Leave the files uncommitted — the build prompt's first step commits them.
 Do NOT edit spec.md or decisions.md.
