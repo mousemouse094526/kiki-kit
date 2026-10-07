@@ -104,8 +104,9 @@ python3 <skill-dir>/scripts/lint_mermaid.py path/to/file.md
 
 Reads `.md` (```mermaid fences) or `.mmd`. Flags: too many nodes, dense edge/node ratio,
 bidirectional edges, self-loops, orphan nodes, subgraphs missing a `direction`, overlong
-labels. Add `--render` to render with mermaid-cli (via `npx`, no install needed) and
-catch syntax errors:
+labels. Add `--render` to render with mermaid-cli (via `npx`, pinned in the script's
+`MERMAID_CLI`; needs Node.js) and catch syntax errors. No `npx` → it says "NOT
+render-checked" — that is not a pass:
 
 ```bash
 python3 <skill-dir>/scripts/lint_mermaid.py path/to/file.md --render

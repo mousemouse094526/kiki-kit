@@ -16,7 +16,8 @@ What it checks (flowchart / graph blocks):
   - subgraph without direction    (undirected subgraphs wander)
   - overlong node labels          (push width, force wraps)
 
-It also (optionally) does a REAL syntax check by rendering with mermaid-cli.
+It also (optionally) does a REAL syntax check by rendering with mermaid-cli,
+pinned to MERMAID_CLI below so a new major release can't change the result.
 
 Usage:
   python3 lint_mermaid.py FILE [FILE ...]          # lint .md (```mermaid fences) or .mmd
@@ -25,6 +26,8 @@ Usage:
 
 Exit code: 0 = clean/warnings only, 1 = at least one ERROR (or render failure).
 """
+from __future__ import annotations  # `str | None` on Python 3.9 (macOS system python3)
+
 import argparse
 import re
 import subprocess
@@ -52,6 +55,8 @@ LABEL_PATTERNS = [
 ]
 NODE_ID = re.compile(r"^([A-Za-z0-9_]+)")
 FLOW_HEADER = re.compile(r"^\s*(flowchart|graph)\b", re.I)
+# Pinned: npx would otherwise fetch and run whatever is latest on every call.
+MERMAID_CLI = "@mermaid-js/mermaid-cli@12.0.0"
 DIAGRAM_KEYWORDS = (
     "flowchart", "graph", "sequenceDiagram", "erDiagram", "stateDiagram",
     "stateDiagram-v2", "classDiagram", "gantt", "journey", "mindmap",
@@ -149,7 +154,7 @@ def node_ids(token: str):
     out = []
     for piece in token.split("&"):
         piece = piece.strip()
-        if not piece or piece == "LINKSPLIT":
+        if not piece:
             continue
         m = NODE_ID.match(piece)
         if m:
@@ -206,15 +211,22 @@ def lint_flow(name, code, max_nodes):
     return errors, warns, (n, e)
 
 
+class RendererMissing(Exception):
+    """npx is not installed, so nothing was rendered."""
+
+
 def render_check(code: str) -> str | None:
-    """Return an error string if mermaid-cli fails to render; None if OK/unavailable."""
+    """Return an error string if mermaid-cli fails to render; None if it rendered.
+
+    Raises RendererMissing when npx is absent — that is "not checked", not "passed".
+    """
     with tempfile.TemporaryDirectory() as d:
         src = Path(d) / "in.mmd"
         out = Path(d) / "out.svg"
         src.write_text(code)
         try:
             r = subprocess.run(
-                ["npx", "-y", "@mermaid-js/mermaid-cli", "-i", str(src), "-o", str(out)],
+                ["npx", "-y", MERMAID_CLI, "-i", str(src), "-o", str(out)],
                 capture_output=True, text=True, timeout=180,
                 # Run from the temp dir, NOT the caller's cwd: a repo package.json that
                 # pins a packageManager (e.g. bun) makes npm abort with EBADDEVENGINES,
@@ -222,12 +234,15 @@ def render_check(code: str) -> str | None:
                 cwd=str(Path(d)),
             )
         except FileNotFoundError:
-            return None  # npx missing; skip silently
+            raise RendererMissing from None
         except subprocess.TimeoutExpired:
             return "render timed out"
         if r.returncode != 0:
-            tail = (r.stderr or r.stdout).strip().splitlines()
-            return "render failed: " + (tail[-1] if tail else "unknown error")
+            lines = [l.strip() for l in (r.stderr or r.stdout).splitlines() if l.strip()]
+            # The parser's message ("Error: Parse error on line N" + "Expecting …"),
+            # not the last line, which is a stack frame pointing into node_modules.
+            msg = [l for l in lines if l.startswith(("Error", "Expecting"))]
+            return "render failed: " + (" | ".join(msg) or (lines[-1] if lines else "unknown error"))
     return None
 
 
@@ -239,6 +254,7 @@ def main():
     args = ap.parse_args()
 
     total_err = 0
+    unrendered = 0
     for f in args.files:
         text = Path(f).read_text()
         for name, code in extract_blocks(text, f):
@@ -257,14 +273,21 @@ def main():
             else:
                 print("  (structural lint only supports flowchart/graph; syntax checked via --render)")
             if args.render:
-                err = render_check(code)
+                try:
+                    err = render_check(code)
+                except RendererMissing:
+                    print("  ⚠ NOT render-checked: npx not found (install Node.js)")
+                    unrendered += 1
+                    continue
                 if err is None:
-                    print("  ✓ renders (or renderer unavailable)")
+                    print("  ✓ renders")
                 else:
                     print(f"  ✖ ERROR: {err}")
                     total_err += 1
 
     print(f"\n{'✖' if total_err else '✓'} done — {total_err} error(s)")
+    if unrendered:
+        print(f"⚠ {unrendered} diagram(s) were not render-checked: npx not found")
     sys.exit(1 if total_err else 0)
 
 
