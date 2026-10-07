@@ -24,7 +24,9 @@ words stay in English; **Found** is in the docs language.
   `→ /warroom` (docs or a decision), `→ /warroom-debug`, `→ /warroom-build`
   (finish a ticket stopped part-way), `→ feature review`.
 - **Status** — `open` until a flow closes it, then `→ ticket NN`,
-  `→ D{n}`, `done ({short sha})`, `done (docs fixed)`, or
+  `→ D{n}`, `done ({short sha})`, `done (docs fixed)`,
+  `done (ticket NN)` (closed in that ticket's own commit),
+  `done (bugs/{record})` (closed in the fix's commit), or
   `dropped ({why})` when the user says so.
 - The skill that closes a row updates its Status; nothing else edits it.
 - Created on the first row; no file while there is nothing open.

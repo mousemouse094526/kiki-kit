@@ -149,8 +149,10 @@ break a test the review never looked at. A finding left → a row
 
 ## 6. Commit
 
-Every acceptance criterion holds → `**Status:** done`. Commit code, tests,
-the ticket, and any doc this ticket changed:
+Every acceptance criterion holds → `**Status:** done`. This ticket's
+`open` rows in `open-items.md` whose Next is `→ /warroom-build` →
+`done (ticket NN)`. Commit code, tests, the ticket, open-items, and any doc
+this ticket changed:
 `feat({slug}): {ticket title} (#{NN})` — `refactor` for prefactor tickets.
 Don't push, don't open a PR.
 

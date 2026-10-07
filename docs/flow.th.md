@@ -293,10 +293,41 @@ trial ไม่แก้อะไรเอง
 |---|---|
 | **From** | มาจากไหน: `tickets`, `build stop`, `decision`, `review: {แกน}`, `feature review`, `full suite`, `debug`, `trial` |
 | **Next** | flow ที่ปิดมัน: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ /warroom-build`, `→ feature review` |
-| **Status** | `open` จน flow นั้นปิด → `→ ticket NN` / `→ D{n}` / `done (sha)` / `dropped (เหตุผล)` |
+| **Status** | `open` จน flow นั้นปิด → `→ ticket NN` / `→ D{n}` / `done (sha)` / `done (ticket NN)` / `done (bugs/{record})` / `dropped (เหตุผล)` |
 
 skill ที่ปิดเป็นคนแก้ Status · build prompt ไม่ออกถ้ามีแถว `→ /warroom` หรือ
 `→ /warroom-tickets` ค้าง · `--review-feature` ไม่แนะนำ merge ถ้ายังมีแถว `open`
+
+### 9.1 กลับไปแก้ — เมื่อ skill หยุดแล้วส่งคุณไปที่อื่น
+
+```mermaid
+flowchart LR
+    B["/warroom-build<br/>ticket 04 หยุด"]
+    OI["แถวใน open-items<br/>Next → /warroom"]
+    W["/warroom slug<br/>เปิด feature เดิม"]
+    G{"Gate"}
+    T["warroom-tickets<br/>หั่นใหม่ถ้าต้อง"]
+    B2["/warroom-build<br/>ทำ 04 ต่อ"]
+
+    B -->|เขียนแถว commit เอกสาร| OI
+    OI -->|คุณ session ใหม่| W
+    W -->|ถามเฉพาะแถวนั้น| G
+    G -->|Approve: แถว → D| T
+    T -->|คุณวาง build prompt| B2
+```
+
+**หยุดไม่ใช่ทางตัน: แถวบอกว่าคุณต้องรันคำสั่งไหนต่อ**
+- รันทันทีหลังหยุด ใน session ใหม่ ไม่ต้องรอ ticket อื่นเสร็จ
+- `/warroom` เปิด feature เดิม: spec กลับเป็น `draft` ถามเฉพาะแถวที่ส่งมา ได้ D ใหม่ legal กับ Breaker แล้วเข้า gate กด Approve แล้วปิดแถวให้
+- ระหว่างนั้น ticket ที่ไม่ขึ้นกับใบที่หยุด build ต่อได้
+
+| Next ของแถว | คุณรัน | ปิดแถวเป็น |
+|---|---|---|
+| `→ /warroom` | `/warroom {slug}` | `→ D{n}` หรือ `done (docs fixed)` |
+| `→ /warroom-tickets` | `/warroom-tickets {slug}` | `→ ticket NN` |
+| `→ /warroom-build` | `/warroom-build {slug}` (ทำใบที่ `in-progress` ต่อ) | `done (ticket NN)` |
+| `→ /warroom-debug` | `/warroom-debug` กับ bug ในแถว | `done (bugs/{record})` |
+| `→ feature review` | ยังไม่ต้องทำ — `--review-feature` หยิบเอง | `done ({sha})` หรือแถวใหม่ |
 
 ## โฟลเดอร์ที่ได้
 

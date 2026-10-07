@@ -299,11 +299,42 @@ browser, and answer in the app's language · trial fixes nothing itself.
 |---|---|
 | **From** | where it came from: `tickets`, `build stop`, `decision`, `review: {axis}`, `feature review`, `full suite`, `debug`, `trial` |
 | **Next** | the flow that closes it: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ /warroom-build`, `→ feature review` |
-| **Status** | `open` until that flow closes it → `→ ticket NN` / `→ D{n}` / `done (sha)` / `dropped (why)` |
+| **Status** | `open` until that flow closes it → `→ ticket NN` / `→ D{n}` / `done (sha)` / `done (ticket NN)` / `done (bugs/{record})` / `dropped (why)` |
 
 The closing skill updates Status · no build prompt while a `→ /warroom` or
 `→ /warroom-tickets` row is open · `--review-feature` won't recommend merge
 while any row is `open`.
+
+### 9.1 Going back — when a skill stops and sends you elsewhere
+
+```mermaid
+flowchart LR
+    B["/warroom-build<br/>ticket 04 stops"]
+    OI["open-items row<br/>Next → /warroom"]
+    W["/warroom slug<br/>re-opens the feature"]
+    G{"Gate"}
+    T["warroom-tickets<br/>re-cut if needed"]
+    B2["/warroom-build<br/>resumes 04"]
+
+    B -->|writes the row, commits docs| OI
+    OI -->|you, new session| W
+    W -->|asks only that row| G
+    G -->|Approve: row → D| T
+    T -->|you paste the build prompt| B2
+```
+
+**A stop is not a dead end: the row says which command you run next.**
+- Run it right after the stop, in a new session. No need to finish other tickets first.
+- `/warroom` re-opens the feature: spec back to `draft`, asks only the rows sent to it, new D, legal and Breaker, gate. On Approve it closes the row.
+- Until then, tickets that don't depend on the stopped one can still be built.
+
+| The row's Next | You run | It closes the row as |
+|---|---|---|
+| `→ /warroom` | `/warroom {slug}` | `→ D{n}` or `done (docs fixed)` |
+| `→ /warroom-tickets` | `/warroom-tickets {slug}` | `→ ticket NN` |
+| `→ /warroom-build` | `/warroom-build {slug}` (resumes the `in-progress` ticket) | `done (ticket NN)` |
+| `→ /warroom-debug` | `/warroom-debug` with the row's bug | `done (bugs/{record})` |
+| `→ feature review` | nothing now — `--review-feature` picks it up | `done ({sha})` or a new row |
 
 ## The folders it leaves
 
