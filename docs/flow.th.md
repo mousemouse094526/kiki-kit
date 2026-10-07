@@ -61,6 +61,7 @@ flowchart LR
 
 - spec มี `Status: draft | ready-to-build` และ `## Open Questions`
 - gate กด **Approve** ได้เมื่อ Open Questions ว่าง (หรือทุกข้อบอกว่าไม่บล็อก)
+- verdict กฎหมายที่เป็น `UNVERIFIED` ก็บล็อก — จนกว่าจะมีแหล่งอ้างอิง หรือคุณยอมรับความเสี่ยง
 - ยังไม่พร้อม → **Stop as draft** ได้ prompt กลับมา `/warroom` พร้อมรายการคำถาม
 - tickets และ build **ไม่รับ** spec ที่เป็น `draft`
 
@@ -86,10 +87,13 @@ flowchart LR
 |---|---|---|
 | สัมภาษณ์ | ถามทีละข้อ มีตัวเลือกแนะนำ · ค้นโค้ด / ADR / docs ก่อนถาม · ตอบไม่ได้ → Open Question | ตอบ |
 | เขียนเอกสาร | spec (มี Library assumptions + Testing decisions), decisions (D1…), flow | — |
-| legal | กฎหมายไทยทีละเรื่อง → `legal.md` | ตอบถ้ากำกวม |
+| legal | กฎหมายไทยทีละเรื่อง → `legal.md` · `UNVERIFIED` บล็อก gate | ตอบถ้ากำกวม |
 | Red team | Advocate (ผู้ใช้) · **Builder** (เปิด docs library จริง, เดินงานแทนคนทำหาเรื่องที่ต้องถาม) · Breaker (เจาะ) · Tester (test ได้ไหม) · Skeptic (จำเป็นไหม) | ตอบเรื่องที่ต้องตัดสิน |
 | ADR sweep | หา decision ที่เป็นกฎระดับโปรเจค ร่าง ADR | — |
 | Gate | สรุป + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
+
+**หลัง Approve:** หั่น ticket ต่อใน session เดิม — หรือถ้า context ยาวแล้ว
+ได้ `/warroom-tickets {slug}` ไปวางใน session ใหม่
 
 **ได้:** `docs/features/{slug}/` spec, decisions, flow, legal · `docs/adr/` · `CONTEXT.md`
 
@@ -155,7 +159,7 @@ flowchart LR
 | อ่าน | spec `draft` → หยุด ส่ง `/warroom` · มี ticket อยู่แล้ว → ถามตัดใหม่ไหม (ใบที่ยังไม่ done เรียงเลขใหม่) | ตอบ |
 | conventions | ส่วนไหนยังไม่มีกติกา → เสนอโครงโฟลเดอร์ + เครื่องมือ test → `.claude/skills/{framework}-{surface}/` | อนุมัติ / ปรับ |
 | สำรวจโค้ด | โค้ดเดิมที่ต้องจัด → ticket prefactor เลขแรก | — |
-| ร่าง | แต่ละใบครบหน้าจอถึง DB · เดินทุกใบแทนคนทำ: เรื่องโครงสร้าง → ใส่ conventions เลย · เรื่องพฤติกรรม → ส่งกลับ `/warroom` | — |
+| ร่าง | แต่ละใบครบหน้าจอถึง DB · เดินทุกใบแทนคนทำ: เรื่องโครงสร้าง → ใส่ conventions เลย · เรื่องพฤติกรรม → แถว `→ /warroom` ใน open-items หยุดโดยไม่เขียน ticket | — |
 | อนุมัติ | ใหญ่/เล็ก, Blocked by, รวม/แยก | ตอบจนพอใจ |
 | เขียน | `tickets/NN-*.md` + build prompt (เช็ค commit เอกสาร, branch, docker, secret, งานค้าง) | commit แล้ววาง prompt ใน session ใหม่ |
 
@@ -179,11 +183,12 @@ flowchart LR
 
 | ขั้น | ทำอะไร | คุณ |
 |---|---|---|
+| เริ่ม | มีงานค้างไม่ commit → ถาม: commit แยกก่อน หรือ stash | ตอบ |
 | เลือก | ใบที่ระบุ หรือเลขต่ำสุดที่เริ่มได้ · ใบค้าง `in-progress` → อ่านแถวใน open-items แล้วถามทำต่อไหม | — |
 | เตรียม | conventions (ไม่มี → หยุด → `/warroom-tickets`) · ตารางเวอร์ชัน · โน้ต `docs/library-notes/` ของเวอร์ชันที่ติดตั้ง | ตอบเรื่องอัปเกรด (แนะนำ: อยู่เดิม) |
 | TDD | เกณฑ์ทีละข้อ red → green ที่ seam ที่ตกลงไว้ | — |
 | e2e | เกณฑ์ `(e2e)` เขียนหลังโค้ดผ่าน | — |
-| ตรวจ | full suite + typecheck + lint · review **Standards / Spec / Newcomer** พร้อมกัน | — |
+| ตรวจ | full suite + typecheck + lint · review **Standards / Spec / Newcomer** พร้อมกัน · แก้แล้วโค้ดเปลี่ยน → รัน suite อีกรอบ | — |
 | commit | `feat({slug}): {title} (#NN)` · ไม่ push | session ใหม่ ใบถัดไป |
 
 **ครบทุกใบ** → `--review-feature`: review 3 แกนทั้ง branch + แถว `→ feature review`
@@ -216,8 +221,12 @@ flowchart LR
 | review เกินขอบเขตใบ | แถว `→ feature review` |
 | ใหญ่ ทำไม่จบ | หยุดท้ายกลุ่มเกณฑ์ commit ส่วนที่ผ่านเป็น `wip` · แถว `→ /warroom-build` |
 
-**ไม่จบ session ทั้งที่โค้ดยังไม่ commit** — ถาม: เก็บไว้ branch `wip/{slug}-{NN}`
-(แนะนำ) หรือทิ้ง · จดชื่อ branch ในแถว
+**ไม่จบ session ทั้งที่โค้ดยังไม่ commit** ตอนหยุด:
+
+1. ถาม: เก็บโค้ดไว้ branch `wip/{slug}-{NN}` (แนะนำ) หรือทิ้ง
+2. commit เอกสาร — สถานะ ticket, แถวใน open-items — บน branch ของ feature
+   ซึ่ง flow ถัดไปอ่านจากตรงนั้น
+3. ย้ายโค้ดไป `wip/` หรือทิ้ง
 
 ## 7. warroom-debug — หาสาเหตุ bug
 
@@ -239,6 +248,8 @@ flowchart LR
 - โค้ดตรงเอกสารเป๊ะ → ไม่ใช่ bug แต่ spec gap · แถว `→ /warroom`
 - ทุกการทดลองจดลง ledger · subagent **Outsider** อ่านแค่ record ให้ความเห็นคนนอก
 - postmortem ไม่โทษใคร · งานป้องกันถามคุณก่อน ตอบใช่ถึงเป็น ticket
+- รันเดี่ยว → ถามก่อน commit · อยู่บน default branch → เสนอ branch `fix/{slug}`
+- bug ที่เห็นสาเหตุทันทีไม่ต้องใช้ skill นี้ แก้ได้เลย
 
 ## 8. warroom-trial — ผู้ใช้สมมุติลองแอป
 
@@ -264,7 +275,9 @@ trial ไม่แก้อะไรเอง
 | **friction** | ตรง spec แต่ใช้ยาก | ticket ใหม่ มีเกณฑ์ `(e2e)` |
 | **works as intended** | คาดหวังสิ่งที่ D ตัดไปแล้ว | จดไว้ อ้าง D |
 
-ข้อที่ไม่เลือก → `open` ใน `user-trials/{date}.md` · trial ไม่ commit
+- ข้อที่ไม่เลือก → `open` ใน `user-trials/{date}.md`
+- trial ไม่ commit: ลิสต์ไฟล์ที่เขียนไว้ แล้ว build รอบถัดไปจะถามเรื่อง commit
+- subagent เปิด browser ไม่ได้ → หยุด ไม่เล่นเป็น persona เอง
 
 ## 9. `open-items.md` — งานค้างทั้ง feature ที่เดียว
 

@@ -62,6 +62,7 @@ answer. So it's stopped upstream.
 
 - The spec has `Status: draft | ready-to-build` and `## Open Questions`.
 - **Approve** is offered only when Open Questions is empty (or every entry says why it doesn't block).
+- An `UNVERIFIED` legal verdict blocks too — until a source is cited or you accept the risk.
 - Not ready → **Stop as draft** gives a prompt to resume `/warroom` with the questions listed.
 - tickets and build **refuse** a `draft` spec.
 
@@ -87,10 +88,14 @@ One session — the gate is the only place you decide.
 |---|---|---|
 | Interview | one question at a time, a recommended choice · looks up code / ADRs / docs first · can't answer yet → Open Question | answer |
 | Write docs | spec (with Library assumptions + Testing decisions), decisions (D1…), flow | — |
-| legal | Thai law item by item → `legal.md` | answer if ambiguous |
+| legal | Thai law item by item → `legal.md` · `UNVERIFIED` blocks the gate | answer if ambiguous |
 | Red team | Advocate (user) · **Builder** (opens the real library docs, walks the work as its builder to find what would be asked) · Breaker (attacks) · Tester (testable?) · Skeptic (needed?) | decide what needs deciding |
 | ADR sweep | finds project-wide decisions, drafts ADRs | — |
 | Gate | summary + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
+
+**After Approve:** tickets are cut in the same session — or, when the
+context is already long, you get `/warroom-tickets {slug}` to paste in a
+new one.
 
 **Leaves:** `docs/features/{slug}/` spec, decisions, flow, legal · `docs/adr/` · `CONTEXT.md`
 
@@ -158,7 +163,7 @@ flowchart LR
 | Read | spec `draft` → stop, send to `/warroom` · tickets exist → asks whether to re-cut (tickets not done are renumbered) | answer |
 | Conventions | an area with no rules → proposes folders + test tools → `.claude/skills/{framework}-{surface}/` | accept / adjust |
 | Explore | existing code to tidy → prefactor tickets first | — |
-| Draft | each ticket screen to DB · walks each as its builder: structural choice → into conventions now · behaviour → back to `/warroom` | — |
+| Draft | each ticket screen to DB · walks each as its builder: structural choice → into conventions now · behaviour → open-items row `→ /warroom`, stops without tickets | — |
 | Approve | size, Blocked by, merge / split | answer until happy |
 | Write | `tickets/NN-*.md` + build prompt (checks docs committed, branch, docker, secrets, open items) | commit, paste the prompt in a new session |
 
@@ -183,11 +188,12 @@ chat.
 
 | Step | Does | You |
 |---|---|---|
+| Start | uncommitted changes → asks: commit them first or stash | answer |
 | Pick | the named ticket or the lowest one that can start · one left `in-progress` → reads its open-items rows, asks to resume | — |
 | Prepare | conventions (none → stop → `/warroom-tickets`) · version table · `docs/library-notes/` notes for the installed version | answer upgrades (recommended: stay) |
 | TDD | one criterion at a time, red → green, at the agreed seams | — |
 | e2e | `(e2e)` criteria once the code is green | — |
-| Check | full suite + typecheck + lint · **Standards / Spec / Newcomer** review in parallel | — |
+| Check | full suite + typecheck + lint · **Standards / Spec / Newcomer** review in parallel · a fix changed code → suite again | — |
 | Commit | `feat({slug}): {title} (#NN)` · no push | new session, next ticket |
 
 **Every ticket done** → `--review-feature`: the three axes over the whole
@@ -220,8 +226,12 @@ during build skips the red team and legal.
 | review outside the ticket | row `→ feature review` |
 | too big for one session | stops at the end of a criteria group, commits what's green as `wip` · row `→ /warroom-build` |
 
-**Never ends a session with uncommitted code** — asks: keep it on branch
-`wip/{slug}-{NN}` (recommended) or discard · notes the branch in the row.
+**Never ends a session with uncommitted code.** When it stops:
+
+1. Asks: keep the code on branch `wip/{slug}-{NN}` (recommended) or discard.
+2. Commits the docs — ticket status, open-items row — on the feature
+   branch, where the next flow reads them.
+3. Moves the code to `wip/`, or discards it.
 
 ## 7. warroom-debug — find a bug's cause
 
@@ -244,6 +254,8 @@ No guessing before it fails reliably · every step goes into
 - Code does exactly what the docs say → a spec gap, not a bug · row `→ /warroom`.
 - Every experiment goes in the ledger · an **Outsider** subagent reads only the record for a fresh view.
 - Blameless postmortem · prevention work is asked first; only a yes makes a ticket.
+- Run on its own → asks before committing · on the default branch offers a `fix/{slug}` branch.
+- Not for a bug whose cause is plain at a glance — that just gets fixed.
 
 ## 8. warroom-trial — role-played users try the app
 
@@ -269,7 +281,9 @@ browser, and answer in the app's language · trial fixes nothing itself.
 | **friction** | matches the spec, hard to use | new ticket with an `(e2e)` criterion |
 | **works as intended** | expected something a D ruled out | noted, citing the D |
 
-Unpicked → `open` in `user-trials/{date}.md` · trial doesn't commit.
+- Unpicked → `open` in `user-trials/{date}.md`.
+- Trial doesn't commit: it lists the files it wrote, and the next build asks how to commit them.
+- Subagents can't reach the browser → stops; it never plays the personas itself.
 
 ## 9. `open-items.md` — everything unfinished, one place
 
