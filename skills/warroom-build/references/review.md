@@ -27,6 +27,12 @@ pass one and fail another.
 Diff: `git diff {fixed point}` (include uncommitted work); commits:
 `git log {fixed point}..HEAD --oneline`. Empty diff → nothing to review.
 
+`git diff` skips untracked files, so a file this ticket created and never
+added is invisible to all three reviewers. First check `git status`: mark
+each new file that belongs to this change with `git add -N {path}` (it only
+makes the file show in the diff; nothing is staged), and delete or ignore
+the ones that don't.
+
 - **Spec source** — per the table above: tickets, the `D{n}`, the ADRs,
   spec.md › Seams and the Implementation sections touched, the legal items.
 - **Standards source** — the project's conventions skill (SKILL.md and the

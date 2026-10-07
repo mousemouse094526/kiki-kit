@@ -278,7 +278,7 @@ trial ไม่แก้อะไรเอง
 
 | คอลัมน์ | ความหมาย |
 |---|---|
-| **From** | มาจากไหน: `build stop`, `decision`, `review: {แกน}`, `feature review`, `full suite`, `debug`, `trial` |
+| **From** | มาจากไหน: `tickets`, `build stop`, `decision`, `review: {แกน}`, `feature review`, `full suite`, `debug`, `trial` |
 | **Next** | flow ที่ปิดมัน: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ /warroom-build`, `→ feature review` |
 | **Status** | `open` จน flow นั้นปิด → `→ ticket NN` / `→ D{n}` / `done (sha)` / `dropped (เหตุผล)` |
 

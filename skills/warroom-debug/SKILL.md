@@ -8,9 +8,11 @@ description: >-
   test, then close with a blameless postmortem. Everything is written to one
   record file — in the feature's bugs/ folder, or docs/bugs/ — that can be
   read cold the next morning.
-  Use when the user says debug / diagnose / something is broken, throwing,
-  failing, flaky, or slow, pastes a stack trace or error log, or when
-  warroom-build hits a failure it can't explain.
+  Use when the user asks to debug or diagnose a bug, a failing or flaky
+  test, or slow behaviour, or pastes a stack trace or error log and asks
+  why — or when warroom-build hits a failure it can't explain. Not for a
+  failure whose cause is plain at a glance (a typo, a missing import):
+  just fix that.
 ---
 
 # Warroom Debug
@@ -51,7 +53,7 @@ request, or a throwaway harness.
 - **Fails every time** → go on.
 - **Fails sometimes** → not debuggable yet. Raise the rate: loop the
   trigger, run in parallel, add load, add sleeps to widen the timing
-  window. 50% is debuggable; 1% is not.
+  window (tagged like the probes in Phase 3, so cleanup finds them). 50% is debuggable; 1% is not.
 - **Can't make it fail** → stop. Say so, list what you tried, and ask for
   a log, HAR, core dump, or access to the environment where it fails.
   **Do not guess a cause.** Status `blocked: {what is needed}`; in a
@@ -74,7 +76,10 @@ Before reading code for a theory, shrink where the bug can be:
   record), stop, and recommend `/warroom` on the feature.
 - **History** — find the last known good state (a commit, tag, branch, or
   ticket). `git log` and `git diff` since then; if the window is wide,
-  `git bisect run` with the Phase 1 command.
+  `git bisect run` with the Phase 1 command. Bisect needs a clean tree:
+  commit or stash tracked changes first (the untracked record and repro
+  can stay), keep the repro outside tracked files, and `git bisect reset`
+  when done.
 - **Branches** — does it fail on the default branch too, or only here?
   Comparing two states is the cheapest way to narrow.
 
@@ -160,5 +165,6 @@ Report one line per phase, plus the record path.
 - **Redact secrets** in everything shown or recorded — write `<REDACTED>`.
 - **The record is committed with the fix.** Called from warroom-build →
   return the fix, the regression test, and the record to it; they go in
-  the ticket's commit, not a separate one. Run on its own → commit all
-  three together.
+  the ticket's commit, not a separate one. Run on its own → ask first:
+  commit all three together (Recommended) or leave them uncommitted. On
+  the default branch, offer a `fix/{slug}` branch before committing.

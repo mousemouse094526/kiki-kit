@@ -1,8 +1,8 @@
 # Template: docs/features/{slug}/open-items.md
 
 One table of everything found but not finished for a feature, so nothing
-lives only in chat and "what's left?" has one answer. Build, debug, and
-trial add rows. Follow
+lives only in chat and "what's left?" has one answer. Tickets, build,
+debug, and trial add rows. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md). Column
 words stay in English; **Found** is in the docs language.
 
@@ -10,6 +10,7 @@ words stay in English; **Found** is in the docs language.
 
 - **One row per item**, numbered in order, never renumbered or deleted.
 - **From** — where it came from:
+  - `tickets` — a behaviour choice found while cutting tickets, which only warroom may make;
   - `build stop` — the ticket can't be built as cut;
   - `decision` — a choice that reaches beyond the ticket, which the build must not make;
   - `review: Standards` / `review: Spec` / `review: Newcomer` — a ticket review finding outside the ticket;

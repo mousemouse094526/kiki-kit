@@ -283,7 +283,7 @@ Unpicked → `open` in `user-trials/{date}.md` · trial doesn't commit.
 
 | Column | Meaning |
 |---|---|
-| **From** | where it came from: `build stop`, `decision`, `review: {axis}`, `feature review`, `full suite`, `debug`, `trial` |
+| **From** | where it came from: `tickets`, `build stop`, `decision`, `review: {axis}`, `feature review`, `full suite`, `debug`, `trial` |
 | **Next** | the flow that closes it: `→ /warroom`, `→ /warroom-tickets`, `→ /warroom-debug`, `→ /warroom-build`, `→ feature review` |
 | **Status** | `open` until that flow closes it → `→ ticket NN` / `→ D{n}` / `done (sha)` / `dropped (why)` |
 

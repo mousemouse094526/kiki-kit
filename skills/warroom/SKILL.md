@@ -140,6 +140,12 @@ writes `legal.md` or reports "no legal surface". Fold every CONDITIONAL
 requirement into the spec's Implementation. Run it every time — don't guess
 at risk.
 
+Every verdict marked `UNVERIFIED` goes into spec.md › Open Questions as
+blocking: a verdict from memory can't carry a feature to
+`ready-to-build`. It closes when a re-run cites a source, or when the user
+accepts the risk at the gate — recorded as a `D{n}` with
+**Accepted risk**.
+
 ## Phase 3 — Red team
 
 Spawn five reviewers as separate subagents, in parallel, each with its
@@ -177,7 +183,7 @@ this run wrote. Then show in chat:
 
 - the folder path;
 - the decision list (`D1: title` per line);
-- the legal summary;
+- the legal summary, each `UNVERIFIED` verdict named;
 - the red team line (`x fixed, y decided (D7, D8), z dismissed`), plus each
   BLOCKER and how it was resolved;
 - the ADR drafts;
@@ -191,7 +197,9 @@ Ask with AskUserQuestion:
   `ready-to-build`, write the ADRs to `docs/adr/NNNN-slug.md`
   ([templates/adr.md](templates/adr.md)) and their `ADR` field in
   decisions.md, self-check those files, then invoke **warroom-tickets**
-  (this plugin) right away.
+  (this plugin) right away. Context already long (a map, many red-team
+  rounds) → instead end with `/warroom-tickets {slug}` to paste in a new
+  session; cutting tickets on a nearly full context is how they go wrong.
 - **Adjust** — fold the change into the docs and gate again. A new or
   changed `D{n}` skipped the red team: first run warroom-legal on what it
   touches and give it to The Breaker alone.
@@ -202,9 +210,11 @@ Leave everything uncommitted — committing is the user's call.
 
 ## Operating rules
 
-- **No code** — not a prototype, a stub, or "just the schema". A sketch is
-  a table or text, never something that runs. A request for code gets one
-  sentence: this skill plans; the build reads the approved spec.
+- **No code** — not a prototype, a stub, or a migration. A sketch is a
+  table or text, never something that runs. A schema appears only inside
+  spec.md, and only when the schema itself is the decision. A request for
+  code gets one sentence: this skill plans; the build reads the approved
+  spec.
 - **Nothing leaves as `ready-to-build` with a blocking question in it.**
 - **Legal, red team, and ADR sweep run every time.** "No ADR" needs a
   reason.

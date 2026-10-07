@@ -47,6 +47,10 @@ Read the ticket and what its **Covers** names (the `D{n}`, ADRs, Seams,
 legal items), spec.md › Testing decisions, and `CONTEXT.md` so names match
 the domain. Then:
 
+- **Clean tree first.** `git status` shows changes → list them and ask:
+  commit them as their own commit (Recommended for warroom docs — tickets,
+  a trial report, open-items rows, seed accounts) or stash them. Never
+  start on top of them: they would land in this ticket's review and commit.
 - Record the **start commit** (`git rev-parse HEAD`) — the review diffs
   from it.
 - On the default branch → ask once: new branch `feat/{slug}` (Recommended)
@@ -58,9 +62,9 @@ the domain. Then:
   where). None for this area → stop and recommend `/warroom-tickets
   {slug}`: structure is set up before slicing, not mid-ticket.
 - **Library docs** — follow [references/library-docs.md](references/library-docs.md):
-  show the version table, ask before any upgrade, and make sure every
-  language, runtime, and library the ticket touches has a reference note
-  for the installed version **before writing code**.
+  show the version table, ask before any upgrade, and make sure the
+  language and every library whose API this ticket's new code calls has a
+  reference note for the installed version **before writing code**.
 - Only now set `**Status:** in-progress` — a ticket stopped before this
   point was never started.
 
@@ -107,8 +111,16 @@ halfway through code. When something is not settled:
    `in-progress`, and recommend that flow.
 
 **Never end a session with a dirty tree** — the next session would start on
-code nobody can explain. Before stopping, ask: keep the work on branch
-`wip/{slug}-{NN}` (Recommended) or discard it. Note the branch in the row.
+code nobody can explain. Before stopping:
+
+1. Ask about the code: keep it on branch `wip/{slug}-{NN}` (Recommended) or
+   discard it. Note the answer in the row.
+2. Commit the docs **on the feature branch**: the ticket's
+   `**Status:** in-progress`, the open-items row, and any new `D{n}` —
+   `docs({slug}): stop ticket {NN}`. The next flow reads them from here; on
+   the `wip/` branch nobody would see them.
+3. Then move the code to `wip/{slug}-{NN}` and commit it there, or discard
+   it. The feature branch is left clean.
 
 **Unexplained failure → warroom-debug.** A test that fails for a reason you
 can't name at a glance, a green test that breaks, behaviour that
@@ -130,7 +142,9 @@ Follow [references/review.md](references/review.md), ticket scope: fixed
 point = the start commit. Three subagents in parallel — **Standards**,
 **Spec**, **Newcomer** — reported side by side. Fix findings inside the
 ticket; refactoring happens here, not in the TDD loop. Recheck only what
-you fixed — never a second broad review. A finding left → a row
+you fixed — never a second broad review. Any fix changed code → run the
+full suite, typecheck, and lint again before the commit; a refactor can
+break a test the review never looked at. A finding left → a row
 `From: review: {axis} · Next: → feature review`.
 
 ## 6. Commit
@@ -155,7 +169,8 @@ one ticket tested and another bypassed.
 2. [references/review.md](references/review.md), feature scope — the three
    axes over the whole branch, the whole feature folder as the spec.
 3. Show the findings with every `open` row whose Next is `→ feature
-   review`. Ask which to fix now; fix them, run focused checks, commit
+   review`. Ask which to fix now; fix them, run the full suite, typecheck,
+   and lint again, commit
    `refactor({slug}): feature review fixes`. Fixed rows → `done ({sha})`.
    Findings not picked → new rows `From: feature review · Next: →
    /warroom-tickets`, or `dropped ({why})` when the user says so.

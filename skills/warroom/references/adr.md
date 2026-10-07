@@ -82,6 +82,7 @@ Do not edit files.
 Create the folder on the first ADR. Skeleton:
 [../templates/adr.md](../templates/adr.md).
 
-**Hard limit: three sentences.** No key names, header names, or numbers
-unless that exact name or number is the decision. Over three → split the
-ADR or move the detail back to the spec.
+**Hard limit: three sentences** in the body. No key names, header names,
+or numbers unless that exact name or number is the decision. Over three →
+split the ADR or move the detail back to the spec. The template's optional
+sections are short bullet lists, never a way around the limit.

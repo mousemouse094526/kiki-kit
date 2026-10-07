@@ -8,8 +8,7 @@ description: >-
   item is never guessed: it is split out and put to the user as
   AskUserQuestion choices with a proposal per option, then ruled. Writes
   exactly ONE markdown file per run — per-item verdicts, a summary table an
-  AI can act on, numbered references at the bottom — and sends it for
-  download. Companion to the warroom skill — warroom runs it on every
+  AI can act on, numbered references at the bottom. Companion to the warroom skill — warroom runs it on every
   feature before its approval gate; also runs standalone as
   /warroom-legal {items or feature-slug}. Not legal advice.
 ---
@@ -75,7 +74,8 @@ After writing:
 1. Run the self-check in
    [markdown-style.md](../warroom/references/markdown-style.md) against
    [templates/legal.md](templates/legal.md).
-2. **Send the file with SendUserFile.**
+2. **Run on its own and SendUserFile is available → send the file with
+   it.** Called from warroom, or no such tool → give the path only.
 3. Reply in chat, in the conversation's language: one line per item with
    its verdict — reasons only for NOT ALLOWED and CONDITIONAL — plus any
    UNVERIFIED marks and the file path.

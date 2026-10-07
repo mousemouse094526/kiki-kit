@@ -96,8 +96,16 @@ package if the project has none.
 **Warroom addition — walk each ticket as its builder.** A choice the docs,
 ADRs, and conventions leave open would stop that build halfway. Structural
 (where a shared piece lives) → settle it now in the conventions. About
-behaviour → it's an open question: stop and send it back to `/warroom`;
-don't guess or leave it for "ticket NN".
+behaviour → it's an open question, and only warroom may answer it:
+
+1. Add a row to `open-items.md`
+   ([template](../warroom-build/templates/open-items.md)):
+   `From: tickets · Next: → /warroom`, the question in Found.
+2. Write no tickets — a cut around a hole gets re-cut anyway.
+3. Stop and recommend `/warroom {slug}`; its re-open answers the row, and
+   its Approve runs this skill again.
+
+Don't guess, and don't leave it for "ticket NN".
 
 ### 4. Quiz the user
 

@@ -39,6 +39,10 @@ get stuck?
   emulator**, pointed at the local api — never a store build, never an
   installed production app. Check the api URL the build uses before the
   first persona starts.
+- **The browser reaches the personas.** Persona subagents need the browser
+  tools. Before casting, check that a subagent can open the app URL. It
+  can't → stop and tell the user. Never play the personas yourself — you
+  have read the spec, and that blindness is the point.
 - **Test accounts** come from the project's seed or fixture data, or are
   created in the local app for this trial. Write any you create into the
   project's seed or example config, not into chat.
@@ -118,8 +122,11 @@ next step. Ask with AskUserQuestion (multiSelect) which to act on now:
 A trial is not a test suite; the `(e2e)` criteria it leaves behind keep
 its findings from coming back.
 
-Everything not picked stays in the report as `open`. No code, no branch,
-no commit from this skill.
+Everything not picked stays in the report as `open`. No product code, no
+branch, no commit from this skill: it writes only the report, open-items
+rows, new tickets, and any test account added to seed or example config.
+List those files at the end — the next build's clean-tree check asks how
+to commit them.
 
 ## Operating rules
 

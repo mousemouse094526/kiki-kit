@@ -27,5 +27,6 @@ What each folder is for. Start with `features/` to see what is being built.
 | `adr/` | rules every feature must follow (architecture decision records), one short file each | warroom, at its gate | starting any feature |
 | `library-notes/` | what each library's docs recommend and warn about, for the installed version | warroom-build | writing code that uses the library |
 | `bugs/` | investigations of bugs that don't belong to one feature | warroom-debug | the same bug seems to be back |
+| `legal/` | Thai-law checks that don't belong to one feature | warroom-legal | before building anything those checks cover |
 | `{folder}/` | {what is inside} | {who or what writes it} | {when someone needs it} |
 ```
