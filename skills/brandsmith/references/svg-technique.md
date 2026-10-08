@@ -3,6 +3,26 @@
 Math and code patterns for the brandsmith pipeline. Defaults — deviate only with a
 reason.
 
+## Choosing the font — license first
+
+Outlining a font's glyphs into a logo is use of that font, so its license must
+allow it, and the font file must travel with the generators so they regenerate on
+any machine.
+
+- **Default: an open-licensed font** — SIL OFL 1.1 or Apache 2.0, which allow
+  logos and commercial use. Most of Google Fonts qualifies: Inter, Poppins, Manrope,
+  and for Thai Noto Sans Thai, IBM Plex Sans Thai, Sarabun, Prompt, Kanit.
+- **Never a system font** (Arial, Helvetica, SF Pro, Thonburi, Sukhumvit…): it is
+  licensed for use on that computer, not for a logo, and it isn't on the next
+  machine.
+- **The user's own commercial font** → only after they confirm their license covers
+  logo or trademark use. Record "license confirmed by the user" in the concept doc.
+- **Vendor it:** download the `.ttf` from the official source (the
+  [google/fonts](https://github.com/google/fonts) repo or the foundry's own) into
+  `brand/tools/fonts/`, together with its license file (`OFL.txt`, `LICENSE`). The
+  generators load it from there, never from a system path.
+- **Record it** in the concept doc: font name, version, license, source URL.
+
 ## Extracting font glyphs as paths (fontTools)
 
 Needs `fonttools` (`pip install fonttools` into a venv if the system python lacks it).
@@ -13,7 +33,7 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.misc.transform import Transform
 
-font = TTFont(FONT_PATH)          # e.g. /System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf
+font = TTFont(FONT_PATH)          # vendored, e.g. brand/tools/fonts/Inter-Bold.ttf (OFL)
 cmap = font.getBestCmap()
 glyf = font.getGlyphSet()
 
@@ -46,8 +66,8 @@ metrics; rounded fonts often report generic values. Scale factor to get cap heig
 misplaces combining marks — Thai vowels/tone marks (สระ/วรรณยุกต์ เช่น ป้า, รี่)
 will sit wrong. Shape with `uharfbuzz` first (it returns positioned glyph ids with
 x/y offsets), then draw each glyph through SVGPathPen at its shaped position.
-`pip install uharfbuzz` alongside fonttools; macOS has Thai fonts in
-`/System/Library/Fonts/Supplemental/` (e.g. SukhumvitSet.ttc).
+`pip install uharfbuzz` alongside fonttools. Use a vendored open-licensed Thai
+font (see Choosing the font), not the macOS system Thai fonts.
 
 ## Container geometry (1024 tile)
 
@@ -99,6 +119,6 @@ intentional where `#000000` looks like a missing asset.
 
 `reportlab` + `svglib` can embed the generated SVGs directly (svglib renders a
 drawing object reportlab can place). Thai/non-Latin text in the PDF needs a TTF
-registered via `pdfmetrics.registerFont(TTFont(...))` — on macOS,
-`/System/Library/Fonts/Supplemental/` has Thonburi etc. Keep every doc string in the
+registered via `pdfmetrics.registerFont(TTFont(...))` — use the vendored font in
+`brand/tools/fonts/` so the PDF builds on any machine. Keep every doc string in the
 build script so the PDF regenerates from one command.

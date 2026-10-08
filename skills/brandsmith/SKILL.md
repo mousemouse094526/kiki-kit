@@ -63,6 +63,7 @@ brand/
 │   └── mark/   standalone marks for profiles: transparent + full-bleed bg (+ png/)
 ├── preview/    preview.html — all variants on light AND dark strips side by side
 └── tools/      the generator scripts + README with regen order
+    └── fonts/  the vendored font file(s) + their license file
 ```
 
 Technique rules (details and math in
@@ -70,6 +71,11 @@ Technique rules (details and math in
 
 - **Path-based text only.** Convert wordmark text to outlines (fontTools glyph
   extraction). `<text>` renders differently on every machine.
+- **A font licensed for logo use, vendored.** Open-licensed (OFL / Apache) by
+  default, never a system font; the file and its license live in
+  `brand/tools/fonts/`. A commercial font only once the user confirms their license
+  covers logos. Rules in
+  [references/svg-technique.md](references/svg-technique.md) › Choosing the font.
 - **Geometry by container.** Square tile ≈ 57% cap-height, circle ≈ 52%, leave room
   below (~40%) when a text label joins the mark. Center optically on the main
   letterform, not the bounding box of letter + ornament.
@@ -101,7 +107,8 @@ then headless Chrome; transparent variants keep their alpha).
    `package.json`). A finding → fix the **generator** and rerun, never hand-edit the
    output. Don't silence a rule or exclude `brand/` without asking the user.
 3. Write `brand/concept/logo-concept.md`: the concept story (what is hidden where and
-   why), color table with hex + usage, variant/file table, geometry constants used,
+   why), color table with hex + usage, font (name, version, license, source URL),
+   variant/file table, geometry constants used,
    similarity-check findings, and how to regenerate. Then **always build the PDF
    version too**. `reportlab` + `svglib` are rarely preinstalled: install them into
    the package venv (the same one used for fonttools —
