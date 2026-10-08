@@ -38,7 +38,7 @@ flowchart LR
 
 ```
 /warroom                                          ← วางแผน + ได้ ticket
-/warroom-build auth-user-company                  ← session ใหม่ต่อ ticket, ทำซ้ำจนครบ
+/warroom-build auth-user-company 01               ← session ใหม่ต่อ ticket; จบแต่ละใบจะได้คำสั่งของใบถัดไป
 /warroom-build auth-user-company --review-feature
 /warroom-trial auth-user-company
 ```

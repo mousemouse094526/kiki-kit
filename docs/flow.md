@@ -38,7 +38,7 @@ flowchart LR
 
 ```
 /warroom                                          ← plan + tickets
-/warroom-build auth-user-company                  ← new session per ticket, until all done
+/warroom-build auth-user-company 01               ← new session per ticket; each ends with the next command
 /warroom-build auth-user-company --review-feature
 /warroom-trial auth-user-company
 ```

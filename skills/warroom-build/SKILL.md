@@ -108,7 +108,8 @@ halfway through code. When something is not settled:
    `open-items.md` ([templates/open-items.md](templates/open-items.md))
    whose Next names the flow that closes it (`→ /warroom` for docs and
    decisions, `→ /warroom-tickets` for the cut), leave the ticket
-   `in-progress`, and recommend that flow.
+   `in-progress`, and end with that flow's command ready to paste, e.g.
+   `/warroom {slug}`.
 
 **Never end a session with a dirty tree** — the next session would start on
 code nobody can explain. Before stopping:
@@ -157,8 +158,19 @@ this ticket changed:
 Don't push, don't open a PR.
 
 Report: what landed, new `D{n}`, reference notes added, rows added to
-`open-items.md`, and the next frontier ticket. Recommend a new session for
-it; every ticket `done` → recommend `--review-feature`.
+`open-items.md`, and the next frontier ticket.
+
+**End with the next command, ready to paste in a new session** — in its
+own code block, and always with the ticket number, so the new session is
+named after its ticket:
+
+```
+/warroom-build {slug} {NN}
+```
+
+- `{NN}` is the lowest-numbered frontier ticket.
+- Every ticket `done` → `/warroom-build {slug} --review-feature`.
+- Nothing ready → no command; name what blocks the rest.
 
 ## Feature review — `/warroom-build {slug} --review-feature`
 
