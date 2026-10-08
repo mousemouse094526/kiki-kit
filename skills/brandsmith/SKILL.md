@@ -78,6 +78,12 @@ Technique rules (details and math in
   extreme points against the inscribed circle before shipping.
 - **Light/dark pairs are mandatory:** every deliverable set includes an on-light and
   an on-dark variant, and preview.html shows both strips.
+- **Generated files must pass the project's own checks.** `brand/` lands in the user's
+  repo, so its linter and CI read it too (Biome, ESLint, Prettier, html-validate…).
+  preview.html is real, accessible HTML: `<!doctype html>`, `<html lang="…">` in the
+  brand's language, a `<title>`, `<meta charset>` and viewport, and a descriptive `alt`
+  on **every** `<img>` (e.g. `alt="SKOPIA wordmark, on dark"` — never empty, never the
+  file name). Any HTML or JSON the generators emit follows the same rule.
 
 ## Phase 3 — Export PNG
 
@@ -90,18 +96,24 @@ then headless Chrome; transparent variants keep their alpha).
 1. Render PNGs and Read them as images. Check: nothing clipped, negative space reads
    at a glance, dark variant actually legible on dark. Fix and re-render — do not
    ship unviewed assets.
-2. Write `brand/concept/logo-concept.md`: the concept story (what is hidden where and
+2. Run the project's linter and formatter on `brand/` when the repo has one (look
+   for `biome.json`, `.eslintrc*`, `.prettierrc*`, a `lint` script in
+   `package.json`). A finding → fix the **generator** and rerun, never hand-edit the
+   output. Don't silence a rule or exclude `brand/` without asking the user.
+3. Write `brand/concept/logo-concept.md`: the concept story (what is hidden where and
    why), color table with hex + usage, variant/file table, geometry constants used,
    similarity-check findings, and how to regenerate. Then **always build the PDF
    version too**. `reportlab` + `svglib` are rarely preinstalled: install them into
    the package venv (the same one used for fonttools —
    `python3 -m venv brand/tools/venv && brand/tools/venv/bin/pip install reportlab svglib`)
-   and keep the PDF build as a script in `brand/tools/` so it regenerates.
+   and keep the PDF build as a script in `brand/tools/` so it regenerates. Add
+   `brand/tools/venv/` to the repo's `.gitignore` — it must never be committed or
+   linted.
    Skip the PDF only if the install itself fails (e.g. offline) — in that case tell
    the user exactly the two commands to run later.
    Non-Latin doc text (Thai etc.) needs a registered TTF — see the PDF section of
    [references/svg-technique.md](references/svg-technique.md).
-3. Show the user the result (render preview or key PNGs) and offer the natural next
+4. Show the user the result (render preview or key PNGs) and offer the natural next
    iterations: tweak motif, add role/name-labeled profile variants, favicon sizes.
 
 ## Iterating later (same brand, follow-up sessions)
