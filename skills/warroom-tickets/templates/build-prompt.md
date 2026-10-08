@@ -32,7 +32,7 @@ Show the steps that apply, then the prompt in one fenced block.
 ````markdown
 **Before the build** (only the steps that apply):
 
-1. Commit the docs:
+1. Commit the docs (the self-check already ran the CI checks on them):
 
    ```bash
    git add {paths} && git commit -m "docs({slug}): plan, ADRs, conventions, tickets"

@@ -193,7 +193,7 @@ chat.
 | Prepare | conventions (none → stop → `/warroom-tickets`) · version table · `docs/library-notes/` notes for the installed version | answer upgrades (recommended: stay) |
 | TDD | one criterion at a time, red → green, at the agreed seams | — |
 | e2e | `(e2e)` criteria once the code is green | — |
-| Check | full suite + typecheck + lint · **Standards / Spec / Newcomer** review in parallel · a fix changed code → suite again | — |
+| Check | every CI check, CI's exact commands (lint, format, typecheck, tests, build) · **Standards / Spec / Newcomer** review in parallel · a fix changed code → suite again | — |
 | Commit | `feat({slug}): {title} (#NN)` · no push | new session, next ticket |
 
 **Every ticket done** → `--review-feature`: the three axes over the whole

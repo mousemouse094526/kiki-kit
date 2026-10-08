@@ -93,6 +93,8 @@ Re-open every file you wrote or changed in this run, then:
 5. **Cold read** — read it as someone who missed the conversation. Any
    sentence you'd have to explain, or could delete without losing a fact →
    rewrite or delete it.
-6. Fix what fails, then re-run 1–5 on the fixed files.
+6. **CI checks** — run the checks CI runs on these files: format check,
+   Markdown or JSON lint ([ci-checks.md](ci-checks.md) › docs only).
+7. Fix what fails, then re-run 1–6 on the fixed files.
 
 Report "self-check: passed" or what was fixed in one line of the reply.

@@ -102,9 +102,10 @@ then headless Chrome; transparent variants keep their alpha).
 1. Render PNGs and Read them as images. Check: nothing clipped, negative space reads
    at a glance, dark variant actually legible on dark. Fix and re-render — do not
    ship unviewed assets.
-2. Run the project's linter and formatter on `brand/` when the repo has one (look
-   for `biome.json`, `.eslintrc*`, `.prettierrc*`, a `lint` script in
-   `package.json`). A finding → fix the **generator** and rerun, never hand-edit the
+2. Run what the project's CI runs on `brand/` — read the CI config first
+   (`.github/workflows/*.yml` and the like), else the repo's linter and formatter
+   (`biome.json`, `.eslintrc*`, `.prettierrc*`, a `lint` script in `package.json`).
+   Use CI's exact command and flags (`biome ci .`, `prettier --check`). A finding → fix the **generator** and rerun, never hand-edit the
    output. Don't silence a rule or exclude `brand/` without asking the user.
 3. Write `brand/concept/logo-concept.md`: the concept story (what is hidden where and
    why), color table with hex + usage, font (name, version, license, source URL),

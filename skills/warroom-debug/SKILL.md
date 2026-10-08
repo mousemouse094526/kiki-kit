@@ -134,6 +134,10 @@ in or out.
 2. Watch it fail, apply the fix, watch it pass.
 3. Re-run the original, un-minimised Phase 1 command.
 4. Remove every tagged probe (grep the prefix) and throwaway harness.
+   Then run the CI checks
+   ([ci-checks.md](../warroom/references/ci-checks.md)) — the fix must not
+   break lint, format, or another test. Called from warroom-build → it
+   runs them at its step 4.
 5. The bug has an `open` row in `open-items.md` (`→ /warroom-debug`) → set
    it to `done (bugs/{record file name})`; it goes in the fix's commit.
 

@@ -188,7 +188,7 @@ flowchart LR
 | เตรียม | conventions (ไม่มี → หยุด → `/warroom-tickets`) · ตารางเวอร์ชัน · โน้ต `docs/library-notes/` ของเวอร์ชันที่ติดตั้ง | ตอบเรื่องอัปเกรด (แนะนำ: อยู่เดิม) |
 | TDD | เกณฑ์ทีละข้อ red → green ที่ seam ที่ตกลงไว้ | — |
 | e2e | เกณฑ์ `(e2e)` เขียนหลังโค้ดผ่าน | — |
-| ตรวจ | full suite + typecheck + lint · review **Standards / Spec / Newcomer** พร้อมกัน · แก้แล้วโค้ดเปลี่ยน → รัน suite อีกรอบ | — |
+| ตรวจ | ทุก check ที่ CI รัน ด้วยคำสั่งเดียวกับ CI (lint, format, typecheck, test, build) · review **Standards / Spec / Newcomer** พร้อมกัน · แก้แล้วโค้ดเปลี่ยน → รัน suite อีกรอบ | — |
 | commit | `feat({slug}): {title} (#NN)` · ไม่ push | session ใหม่ ใบถัดไป |
 
 **ครบทุกใบ** → `--review-feature`: review 3 แกนทั้ง branch + แถว `→ feature review`

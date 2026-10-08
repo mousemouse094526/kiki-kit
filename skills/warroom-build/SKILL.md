@@ -55,8 +55,9 @@ the domain. Then:
   from it.
 - On the default branch → ask once: new branch `feat/{slug}` (Recommended)
   or stay.
-- State the typecheck, single-test-file, full-suite, and lint commands in
-  one line.
+- **The CI checks** — read the CI config and list the exact commands it
+  runs ([ci-checks.md](../warroom/references/ci-checks.md)), plus the single-test-file command, in one line. "Lint" and
+  "the full suite" below mean these commands, with CI's flags.
 - **Conventions** — read the project's conventions for the area touched
   ([conventions.md](../warroom-tickets/references/conventions.md) says
   where). None for this area → stop and recommend `/warroom-tickets
@@ -132,9 +133,9 @@ tree).
 
 ## 4. Full suite
 
-Run the full suite, typecheck, and lint once — plus the e2e suite when the
-ticket has `(e2e)` criteria or touched a page an e2e test covers. Fix what
-this ticket broke. A failure that was already there isn't this ticket's:
+Run every CI check once ([ci-checks.md](../warroom/references/ci-checks.md)): lint, format check, typecheck, the full
+suite, and the build — plus the e2e suite when the ticket has `(e2e)`
+criteria or touched a page an e2e test covers. Fix what this ticket broke. A failure that was already there isn't this ticket's:
 add a row `From: full suite · Next: → /warroom-debug`.
 
 ## 5. Review on three axes
@@ -145,7 +146,8 @@ point = the start commit. Three subagents in parallel — **Standards**,
 ticket; refactoring happens here, not in the TDD loop. Recheck only what
 you fixed — never a second broad review. Any fix changed code → run the
 full suite, typecheck, and lint again before the commit; a refactor can
-break a test the review never looked at. A finding left → a row
+break a test the review never looked at. No commit while a CI check this
+ticket caused is red. A finding left → a row
 `From: review: {axis} · Next: → feature review`.
 
 ## 6. Commit
@@ -179,12 +181,11 @@ can't see: the same thing built twice, two names for one concept, a seam
 one ticket tested and another bypassed.
 
 1. Fixed point = `git merge-base HEAD {default branch}`. Run the full
-   suite, typecheck, and lint first.
+   CI checks first.
 2. [references/review.md](references/review.md), feature scope — the three
    axes over the whole branch, the whole feature folder as the spec.
 3. Show the findings with every `open` row whose Next is `→ feature
-   review`. Ask which to fix now; fix them, run the full suite, typecheck,
-   and lint again, commit
+   review`. Ask which to fix now; fix them, run the CI checks again, commit
    `refactor({slug}): feature review fixes`. Fixed rows → `done ({sha})`.
    Findings not picked → new rows `From: feature review · Next: →
    /warroom-tickets`, or `dropped ({why})` when the user says so.
