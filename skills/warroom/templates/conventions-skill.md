@@ -3,7 +3,7 @@
 A project's own conventions skill. It lives in the project repo, loads
 like any skill, and warroom-build reads it before coding. English
 throughout. Follow
-[markdown-style.md](../../warroom/references/markdown-style.md).
+[markdown-style.md](../references/markdown-style.md).
 
 ## Rules
 

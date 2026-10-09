@@ -3,7 +3,7 @@
 Five reviewers, each a separate subagent. Each reads the feature folder
 (`spec.md`, `decisions.md`, `flow.md`, `legal.md`) and `CONTEXT.md`.
 Reviewers never edit files. No reviewer rules on law — that is
-warroom-legal's job.
+the legal check's job.
 
 ## Prompt template (fill per reviewer)
 

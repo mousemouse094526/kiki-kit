@@ -6,7 +6,7 @@ prose are in the language the user writes in.
 
 ## Rules
 
-All of [markdown-style.md](../../warroom/references/markdown-style.md), plus:
+All of [markdown-style.md](../references/markdown-style.md), plus:
 
 - **One `##` section per item**, numbered, titled with what the user wants
   to do. When checking a feature, cite the decisions it comes from

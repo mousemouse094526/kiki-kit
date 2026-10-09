@@ -9,8 +9,8 @@ description: >-
   through the browser on a local dev server. A dev-lead pass then sorts every
   finding into bug, spec gap, friction, or works-as-intended and writes one
   trial report under docs/features/{slug}/user-trials/. Nothing is fixed without
-  the user's pick: bugs go to warroom-debug, spec gaps to warroom, friction
-  to new tickets. Invoke with /warroom-trial {slug}, after warroom-build has
+  the user's pick: picked bugs and friction become one new fix ticket for
+  warroom-build, spec gaps go back to warroom. Invoke with /warroom-trial {slug}, after warroom-build has
   landed tickets someone can demo. Use only when the user explicitly asks
   for a trial — never on your own initiative.
 ---
@@ -29,8 +29,8 @@ get stuck?
 - **Feature folder** `docs/features/{slug}/` with spec.md and tickets.
   Trial only tickets that are `done`; leave out the stories of tickets not
   built yet. Tell the user in one line which tickets were tried, which
-  were skipped, and why. No tickets → stop and recommend
-  `/warroom-tickets {slug}`.
+  were skipped, and why. No tickets → stop and end with
+  `/warroom tickets {slug}`.
 - **The app runs locally.** Start it the project's way (a launch config,
   the `run` skill, the setup docs). Trials run **only on a local development
   host** (`localhost`, `127.0.0.1`, `*.localhost`, `*.test`) — never staging
@@ -89,8 +89,8 @@ decisions.md, and the ADRs, and sort each finding:
 
 | Kind | Meaning | Default next step |
 |---|---|---|
-| **bug** | the app contradicts the spec | `warroom-debug` |
-| **spec gap** | the spec is silent or wrong for a real goal | `warroom` on this feature |
+| **bug** | the app contradicts the spec | the fix ticket |
+| **spec gap** | the spec is silent or wrong for a real goal | `/warroom {slug}` |
 | **friction** | works as specified, but the persona struggled | a new ticket |
 | **works as intended** | the persona expected something the docs ruled out | note it, cite the `D{n}` |
 
@@ -109,24 +109,25 @@ in [markdown-style.md](../warroom/references/markdown-style.md).
 Show the ranked findings in chat, one line each with its kind and proposed
 next step. Ask with AskUserQuestion (multiSelect) which to act on now:
 
-- **bug** → call `warroom-debug` with the persona's steps as the repro;
-  when the persona hit it on screen, its regression test is an e2e test.
-- **spec gap** → add a row to `open-items.md` (`From: trial · Next: →
-  /warroom`, citing the finding) and recommend `/warroom` on this feature;
-  don't edit the spec here.
-- **friction** → write a new ticket after the highest number, in
-  [warroom-tickets' template](../warroom-tickets/templates/ticket.md),
-  `**Status:** ready-for-agent`, with the persona's goal as an `(e2e)`
-  acceptance criterion so the fix stays fixed.
+- **bug** and **friction** → all of them go into **one** new ticket,
+  `Trial fixes {YYYY-MM-DD}`, numbered after the highest, in
+  [the ticket template](../warroom/templates/ticket.md),
+  `**Status:** ready-for-agent`, with a row in `progress.md`. One
+  acceptance criterion per finding, each the persona's goal as an `(e2e)`
+  criterion so the fix stays fixed. A bug's criterion carries the
+  persona's steps as its repro.
+- **spec gap** → a row in `progress.md` › Blocked (Needs:
+  `/warroom {slug}`, citing the finding); don't edit the spec here.
 
 A trial is not a test suite; the `(e2e)` criteria it leaves behind keep
 its findings from coming back.
 
 Everything not picked stays in the report as `open`. No product code, no
-branch, no commit from this skill: it writes only the report, open-items
-rows, new tickets, and any test account added to seed or example config.
-List those files at the end — the next build's clean-tree check asks how
-to commit them.
+branch, no commit from this skill: it writes only the report,
+`progress.md`, the fix ticket, and any test account added to seed or
+example config. List those files, then end with the next command in its
+own code block — `/warroom-build {slug} {fix ticket NN}`, or
+`/warroom {slug}` when a spec gap must be settled first.
 
 ## Operating rules
 

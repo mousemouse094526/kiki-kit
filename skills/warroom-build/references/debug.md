@@ -1,21 +1,9 @@
----
-name: warroom-debug
-description: >-
-  Disciplined debugging for any bug, failing test, or regression — reproduce
-  it first, narrow the scope with the docs and git history, find the fail
-  path, falsify ranked hypotheses (with an Outsider subagent for a
-  third-person view), keep a ledger of every run, fix behind a regression
-  test, then close with a blameless postmortem. Everything is written to one
-  record file — in the feature's bugs/ folder, or docs/bugs/ — that can be
-  read cold the next morning.
-  Use when the user asks to debug or diagnose a bug, a failing or flaky
-  test, or slow behaviour, or pastes a stack trace or error log and asks
-  why — or when warroom-build hits a failure it can't explain. Not for a
-  failure whose cause is plain at a glance (a typo, a missing import):
-  just fix that.
----
+# Debug — find a bug's cause before fixing it
 
-# Warroom Debug
+warroom-build follows this whenever a failure has no reason it can name at
+a glance, and for any bug in its debug mode: `/warroom-build debug
+{symptom}`. Not for a failure whose cause is plain (a typo, a missing
+import): just fix that.
 
 Built from Matt Pocock's `diagnosing-bugs`
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT), the four
@@ -37,11 +25,11 @@ the phases in order:
 Create the record — `docs/features/{feature}/bugs/{YYYY-MM-DD}-{slug}.md`
 when the bug is in a warroom feature, otherwise
 `docs/bugs/{YYYY-MM-DD}-{slug}.md` — from
-[templates/debug-record.md](templates/debug-record.md) before anything
+[templates/debug-record.md](../templates/debug-record.md) before anything
 else. Fill in the symptom in the user's words. **Every later phase writes
 into this file as it happens**; someone will read it cold the next morning.
 Write in the user's language; follow
-[markdown-style.md](../warroom/references/markdown-style.md).
+[markdown-style.md](../../warroom/references/markdown-style.md).
 
 ## Phase 1 — Reproduce
 
@@ -57,8 +45,9 @@ request, or a throwaway harness.
 - **Can't make it fail** → stop. Say so, list what you tried, and ask for
   a log, HAR, core dump, or access to the environment where it fails.
   **Do not guess a cause.** Status `blocked: {what is needed}`; in a
-  warroom feature also add a row `From: debug · Next: → /warroom-debug`, so
-  the stuck bug sits with the other unfinished work.
+  warroom feature also add a row to `progress.md` › Blocked (Needs:
+  `/warroom-build debug {symptom}` once the data is in), so the stuck bug
+  sits with the other unfinished work.
 
 Done when the command checks the user's exact symptom, gives the same
 result every run, takes seconds, and you have run it at least once. Then
@@ -71,9 +60,12 @@ Before reading code for a theory, shrink where the bug can be:
 
 - **Docs** — what do spec.md, decisions.md, and the ADRs say should
   happen? If the code does what the docs say, this is a spec gap, not a
-  bug: set the record's Status to `spec gap → warroom`, add a row to the
-  feature's `open-items.md` (`From: debug · Next: → /warroom`, citing the
-  record), stop, and recommend `/warroom` on the feature.
+  bug: set the record's Status to `spec gap → warroom`. Ask the user which
+  behaviour they want (AskUserQuestion). The answer stays inside the
+  spec's intent → record a `D{n}` and carry on. It changes what the spec
+  promises, a legal item, or an ADR → add a row to `progress.md` › Blocked
+  (Needs: `/warroom {slug}`, citing the record), stop, and end with that
+  command.
 - **History** — find the last known good state (a commit, tag, branch, or
   ticket). `git log` and `git diff` since then; if the window is wide,
   `git bisect run` with the Phase 1 command. Bisect needs a clean tree:
@@ -135,11 +127,12 @@ in or out.
 3. Re-run the original, un-minimised Phase 1 command.
 4. Remove every tagged probe (grep the prefix) and throwaway harness.
    Then run the CI checks
-   ([ci-checks.md](../warroom/references/ci-checks.md)) — the fix must not
-   break lint, format, or another test. Called from warroom-build → it
-   runs them at its step 4.
-5. The bug has an `open` row in `open-items.md` (`→ /warroom-debug`) → set
-   it to `done (bugs/{record file name})`; it goes in the fix's commit.
+   ([ci-checks.md](../../warroom/references/ci-checks.md)) — the fix must
+   not break lint, format, or another test. Inside a ticket, the ticket's
+   own check step covers this.
+5. The bug has an `open` row in `progress.md` › Blocked → set it to
+   `done ({short sha})`, or `done (this ticket)` when the fix goes in the
+   ticket's commit.
 
 ## Phase 7 — Postmortem
 
@@ -153,9 +146,10 @@ system let this happen, never who.
   substitute, an automated check or test, a process change, a note. Each
   action says where it is tracked: a ticket, an ADR, a CI check. Actions
   that need new work → propose them with AskUserQuestion; each one
-  accepted becomes a new ticket after the highest
-  number, in [warroom-tickets' template](../warroom-tickets/templates/ticket.md),
-  `**Status:** ready-for-agent`. Nothing is created without the user's yes.
+  accepted becomes a new ticket after the highest number, in
+  [the ticket template](../../warroom/templates/ticket.md),
+  `**Status:** ready-for-agent`, with its row in `progress.md`. Nothing is
+  created without the user's yes.
 - **What helped** — what made this fast or slow to find.
 
 Put the confirmed hypothesis in the fix's commit message, in English.
@@ -169,8 +163,7 @@ Report one line per phase, plus the record path.
 - **No hypothesis is "the cause" until it explains every ledger row.**
 - **The record is updated as you go**, never reconstructed at the end.
 - **Redact secrets** in everything shown or recorded — write `<REDACTED>`.
-- **The record is committed with the fix.** Called from warroom-build →
-  return the fix, the regression test, and the record to it; they go in
-  the ticket's commit, not a separate one. Run on its own → ask first:
+- **The record is committed with the fix.** Inside a ticket → they go in
+  the ticket's commit, not a separate one. Debug mode → ask first:
   commit all three together (Recommended) or leave them uncommitted. On
   the default branch, offer a `fix/{slug}` branch before committing.

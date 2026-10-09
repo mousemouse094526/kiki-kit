@@ -1,7 +1,7 @@
 # Markdown style — every doc the warroom skills write
 
-Shared by every warroom skill — warroom, warroom-legal, warroom-tickets,
-warroom-build, warroom-debug, warroom-trial — and every template they use.
+Shared by every warroom skill — warroom, warroom-build, warroom-trial —
+and every template they use.
 Each template's own rules add to these; where they conflict, the template
 wins.
 
@@ -41,7 +41,7 @@ wins.
   skill that creates the folder — create the README from the template if
   it's missing. A folder nobody can explain is a folder nobody reads.
 - **A feature keeps its own things together:** spec, decisions, legal,
-  open items, `tickets/`, `user-trials/`, and `bugs/` all live in
+  progress, `tickets/`, `user-trials/`, and `bugs/` all live in
   `docs/features/{slug}/`.
 
 ## Plain words — a reader who wasn't in the room

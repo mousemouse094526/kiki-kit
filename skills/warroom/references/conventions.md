@@ -20,7 +20,7 @@ Read, in this order, whatever exists for the area a ticket touches:
 
 The build follows them; the Standards reviewer checks against them.
 
-## Set them up — warroom-tickets, before slicing
+## Set them up — warroom, before cutting tickets
 
 An area the spec puts code in with no conventions yet → set them up before
 cutting any ticket, so no build invents a structure and no prefactor turns
@@ -35,8 +35,9 @@ up later out of order.
 3. Write `.claude/skills/{framework}-{surface}/` from
    [templates/conventions-skill.md](../templates/conventions-skill.md),
    plus a short `CLAUDE.md` for the app that points at it.
-4. Record it as a `D{n}` (`**From:** warroom-tickets`).
-5. Existing code that doesn't match → prefactor tickets, numbered first.
+4. Record it as a `D{n}` (`**From:** tickets`).
+5. Existing code that doesn't match → prefactor work at the start of the
+   first ticket, or its own first ticket when it is large.
 
 **Naming:** after the stack and surface, never the project —
 `elysia-api`, `tanstack-start-web`, `expo-mobile`, `fastapi-api`. One skill

@@ -25,8 +25,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   changes (`superseded by D10`, `changed by D21`, `extended by D25`).
 - **Footer on every entry:**
   - `From` — `interview`, `code`, `legal`, `red team`, `gate`,
-    `warroom-tickets`, `build ticket NN` (decided while building), or
-    `open-items #{n}` (a re-opened feature);
+    `tickets`, `build ticket NN` (decided while building), or
+    `blocked #{n}` (a re-opened feature);
   - `Status` — `active` unless changed;
   - `ADR` — `—` until the gate writes one.
 - **Never invent a Why.** A decision that arrived without its reason gets

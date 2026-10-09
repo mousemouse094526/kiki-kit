@@ -19,7 +19,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   feature folder are fine; file paths and code snippets go stale fast.
   Exception: a snippet that IS the decision — a state machine, a schema.
 - **Seams are numbered**, one seam per number, each with observable
-  pass/fail bullets. warroom-tickets and the build read this section.
+  pass/fail bullets. The ticket cut and the build read this section.
 - **Pick seams on purpose**, in this order:
   1. Reuse a seam that already exists — two contracts for one thing drift.
   2. Take the **highest** one that works — everything below stays free to
@@ -33,7 +33,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   app, another sees it in another). Those are proven with the project's
   e2e tool; every other seam is proven below the UI.
 - **Status** is `draft` until Open Questions holds nothing that blocks
-  building; then `ready-to-build`. warroom-tickets and the build refuse a
+  building; then `ready-to-build`. The ticket cut and the build refuse a
   `draft`.
 - **Library assumptions** — every library behaviour the plan relies on,
   one row each, linked to the doc page of the installed version (or the

@@ -1,19 +1,7 @@
----
-name: warroom-legal
-description: >-
-  Answer "can we do this under Thai law?" for each item the user asks about:
-  research the governing law with web sources, then give one verdict per
-  item — ALLOWED (just the citation, no essay), NOT ALLOWED (the reason),
-  or CONDITIONAL (exactly what is required to make it allowed). An ambiguous
-  item is never guessed: it is split out and put to the user as
-  AskUserQuestion choices with a proposal per option, then ruled. Writes
-  exactly ONE markdown file per run — per-item verdicts, a summary table an
-  AI can act on, numbered references at the bottom. Companion to the warroom skill — warroom runs it on every
-  feature before its approval gate; also runs standalone as
-  /warroom-legal {items or feature-slug}. Not legal advice.
----
+# Legal check — can we do this under Thai law?
 
-# Legal Check — can we do this under Thai law?
+warroom's legal phase, and its standalone mode `/warroom legal {items}`.
+Not legal advice.
 
 Answer each thing the user wants to do — no more, no less — with one of
 three verdicts, each backed by a cited source:
@@ -37,8 +25,8 @@ ALLOWED, (c) don't store: ALLOWED". Rule after the answer.
   didn't ask about.
 - Or a feature slug — read `docs/features/{slug}/spec.md` (and `flow.md`
   if present) and take the legally relevant actions as the items.
-- From warroom, the decisions are already in context — don't re-interview;
-  take the items from what is decided.
+- From a warroom run, the decisions are already in context — don't
+  re-interview; take the items from what is decided.
 
 Jurisdiction is **Thailand** unless the user or the project docs say
 otherwise. Nothing legally relevant in the input → write no file, reply
@@ -63,19 +51,17 @@ the reply. Cite or mark UNVERIFIED — no third state.
 re-run on the same topic rewrites it; a re-run on a re-opened feature
 updates only the items it was asked about and keeps every other verdict.
 
-Path: `docs/features/{slug}/legal.md` when checking a feature (warroom
-included); otherwise `docs/legal/{topic-slug}.md`.
+Path: `docs/features/{slug}/legal.md` when checking a feature; otherwise `docs/legal/{topic-slug}.md`.
 
-Read [templates/legal.md](templates/legal.md) before writing, copy its
+Read [templates/legal.md](../templates/legal.md) before writing, copy its
 skeleton, and follow its rules. The **Summary table is the payload**.
 
 After writing:
 
-1. Run the self-check in
-   [markdown-style.md](../warroom/references/markdown-style.md) against
-   [templates/legal.md](templates/legal.md).
-2. **Run on its own and SendUserFile is available → send the file with
-   it.** Called from warroom, or no such tool → give the path only.
+1. Run the self-check in [markdown-style.md](markdown-style.md) against
+   [templates/legal.md](../templates/legal.md).
+2. **Standalone mode and SendUserFile is available → send the file with
+   it.** Inside a warroom run, or no such tool → give the path only.
 3. Reply in chat, in the conversation's language: one line per item with
    its verdict — reasons only for NOT ALLOWED and CONDITIONAL — plus any
    UNVERIFIED marks and the file path.

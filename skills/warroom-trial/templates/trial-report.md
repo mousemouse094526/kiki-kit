@@ -11,7 +11,7 @@ statuses stay in English; the text is in the user's language.
   hit it.
 - **Each finding quotes the persona** in one line, in the language they
   reported in, never translated; their words are the evidence.
-- **Status** per finding: `open`, `→ /warroom-debug`, `→ /warroom`,
+- **Status** per finding: `open`, `→ /warroom`,
   `→ ticket NN`, or `note`. Update it when the user picks.
 - **Persona reports are kept as returned**, trimmed only for length.
 - **Scope lines explain themselves**: what was tried, what was skipped,
@@ -52,7 +52,7 @@ statuses stay in English; the text is in the user's language.
 
 **Docs say:** {what spec / D{n} / ADR says, or "silent"}
 
-**Next step:** {new ticket | warroom-debug | warroom | note (D{n})}
+**Next step:** {fix ticket | /warroom | note (D{n})}
 
 ## Goals by persona
 

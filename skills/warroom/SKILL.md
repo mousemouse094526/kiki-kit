@@ -1,25 +1,37 @@
 ---
 name: warroom
 description: >-
-  Plan one feature until nothing is left to decide — documents only, no
-  code. Interviews the user one question at a time (choices with a
-  recommended answer), writes the feature docs as markdown under
-  docs/features/{slug}/ (spec.md, decisions.md, flow.md, legal.md via the
-  warroom-legal skill, glossary terms in CONTEXT.md), has five red-team
-  subagents (Advocate, Builder, Breaker, Tester, Skeptic) challenge them,
-  and has a Successor subagent draft ADRs for docs/adr/. The spec stays
-  `draft` while it has Open Questions; only a `ready-to-build` spec passes
-  the gate and goes to warroom-tickets. A plan too big for one session is
-  charted as a map (docs/features/{slug}/map.md) and resolved over several
-  sessions first. Also re-opens an existing feature
-  for the items routed back to it in open-items.md. Invoke with /warroom,
+  Plan one feature until nothing is left to decide, then cut it into a few
+  big tickets — documents only, no code. Interviews the user one question
+  at a time (choices with a recommended answer), writes the feature docs
+  under docs/features/{slug}/ (spec.md, decisions.md, flow.md, glossary
+  terms in CONTEXT.md), checks every item against Thai law (legal.md), has
+  five red-team subagents (Advocate, Builder, Breaker, Tester, Skeptic)
+  challenge the plan, and has a Successor subagent draft ADRs for
+  docs/adr/. Only a `ready-to-build` spec passes the gate; then it sets up
+  the project's conventions where missing and cuts 2–4 vertical tickets
+  plus progress.md, ending with the command for warroom-build. A plan too
+  big for one session is charted as a map first. Also re-opens a feature
+  for its Blocked rows in progress.md. Modes: /warroom [slug];
+  /warroom legal {items or slug} for a standalone Thai-law check (not
+  legal advice); /warroom tickets {slug} to re-cut. Invoke with /warroom,
   or whenever a feature needs its plan laid out before anyone builds it.
 ---
 
 # Warroom — plan one feature, on paper, until nothing is left to decide
 
 Interview → docs → legal → red team → ADR sweep → gate → tickets. Output: a
-docs folder a stranger could build from **without asking anything**.
+docs folder a stranger could build from **without asking anything**, cut
+into a few big tickets.
+
+**Modes:**
+
+- `/warroom` or `/warroom {slug}` — plan a feature; continue a map; or
+  re-open a feature that has `open` Blocked rows needing `/warroom`.
+- `/warroom legal {items or slug}` — only the legal check, standalone:
+  [references/legal.md](references/legal.md).
+- `/warroom tickets {slug}` — only the ticket cut (a re-cut):
+  [references/tickets.md](references/tickets.md).
 
 **Why the bar is that high:** any question the plan leaves open gets asked
 later, mid-build, with no red team or legal check behind the answer. So the
@@ -54,16 +66,17 @@ Never rewrite one spec through three products.
 `docs/features/{slug}/spec.md` exists → this is a change, not a new plan:
 
 1. Set the spec back to `draft` while it changes.
-2. Read the folder and its `open-items.md`. The agenda is the rows that are
-   `open` with `Next: → /warroom`, plus the spec's own Open Questions.
-   Interview only on those.
-3. Record each answer as a new `D{n}` (`From: open-items #{n}`).
-4. Run warroom-legal on the items it touches (it updates those verdicts in
-   legal.md and keeps the rest).
+2. Read the folder and its `progress.md`. The agenda is the Blocked rows
+   that are `open` with Needs `/warroom {slug}`, plus the spec's own Open
+   Questions. Interview only on those.
+3. Record each answer as a new `D{n}` (`From: blocked #{n}`).
+4. Run the legal check on the items it touches (it updates those verdicts
+   in legal.md and keeps the rest).
 5. Give it to The Breaker alone instead of the full red team, then go to
    the gate.
-6. On Approve, set each row's Status to `→ D{n}`, or `done (docs fixed)`
-   when only the docs needed correcting; warroom-tickets re-cuts.
+6. On Approve, set each row's Status to `→ D{n}`, then re-cut only if the
+   answer changes a ticket not yet `done`; otherwise the build simply
+   resumes. End with the Next command from `progress.md`.
 
 ## Phase 1 — Interview, one question at a time
 
@@ -135,8 +148,8 @@ Anything you can't fill in is an Open Question.
 
 ## Phase 2.5 — Legal check
 
-Invoke the **warroom-legal** skill (this plugin) on the drafted feature. It
-writes `legal.md` or reports "no legal surface". Fold every CONDITIONAL
+Follow [references/legal.md](references/legal.md) on the drafted feature.
+It writes `legal.md` or reports "no legal surface". Fold every CONDITIONAL
 requirement into the spec's Implementation. Run it every time — don't guess
 at risk.
 
@@ -196,17 +209,24 @@ Ask with AskUserQuestion:
   says why it doesn't block building. Set the spec's Status to
   `ready-to-build`, write the ADRs to `docs/adr/NNNN-slug.md`
   ([templates/adr.md](templates/adr.md)) and their `ADR` field in
-  decisions.md, self-check those files, then invoke **warroom-tickets**
-  (this plugin) right away. Context already long (a map, many red-team
-  rounds) → instead end with `/warroom-tickets {slug}` to paste in a new
-  session; cutting tickets on a nearly full context is how they go wrong.
+  decisions.md, self-check those files, then go straight to **Phase 5**.
+  Context already long (a map, many red-team rounds) → instead end with
+  `/warroom tickets {slug}` to paste in a new session; cutting tickets on
+  a nearly full context is how they go wrong.
 - **Adjust** — fold the change into the docs and gate again. A new or
-  changed `D{n}` skipped the red team: first run warroom-legal on what it
+  changed `D{n}` skipped the red team: first run the legal check on what it
   touches and give it to The Breaker alone.
 - **Stop as draft** — the spec stays `draft`. End with a prompt to paste
   in a new session: `/warroom {slug}` plus the open questions, numbered.
 
-Leave everything uncommitted — committing is the user's call.
+## Phase 5 — Cut the tickets
+
+Follow [references/tickets.md](references/tickets.md): conventions where
+missing, **2–4 big vertical tickets**, `progress.md`, and the hand-off
+ending with `/warroom-build {slug} 01`.
+
+Leave everything uncommitted — committing is the user's call; the hand-off
+gives the commit command.
 
 ## Operating rules
 

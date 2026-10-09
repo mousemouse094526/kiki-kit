@@ -4,18 +4,15 @@ Claude Code skills, packaged as a plugin.
 
 | Skill | Does |
 |---|---|
-| `warroom` | Plan one feature on paper until nothing is left to decide (a map over several sessions when it is too big for one): interview, spec/decisions/flow/legal docs, five-reviewer red team, ADR sweep; only a `ready-to-build` spec (no blocking Open Questions) passes the gate. No code |
-| `warroom-tickets` | Set up the project's conventions skill where missing, then split a ready spec into tracer-bullet tickets with blocking edges, under `tickets/`. Runs automatically after the warroom gate. No code |
-| `warroom-build` | Build one ticket per session: reference notes for the installed library versions (`llms.txt` first), TDD at the agreed seams, full suite, three-axis review (Standards, Spec, Newcomer), commit. Implements decisions, never makes them — anything undecided goes to `open-items.md`. `--review-feature` reviews the whole branch before merge |
-| `warroom-debug` | Debug any failure: reproduce, narrow scope, falsify ranked hypotheses with an Outsider subagent, ledger, regression test, postmortem record in the feature's `bugs/` folder |
-| `warroom-trial` | Role-played users (from the spec's actors and real-world roles) try the running app on localhost without seeing the code; findings triaged into bug / spec gap / friction in one trial report |
-| `warroom-legal` | "Can we do this under Thai law?" Per-item verdicts (ALLOWED / NOT ALLOWED / CONDITIONAL) with sources, in one `legal.md` |
+| `warroom` | Plan one feature on paper until nothing is left to decide: interview, spec/decisions/flow docs, Thai-law legal check, five-reviewer red team, ADR sweep, approval gate — then cut it into 2–4 big tickets and `progress.md`. No code. `/warroom legal {items}` runs the legal check alone; `/warroom tickets {slug}` re-cuts |
+| `warroom-build` | Build tickets one after another while the session holds: reads `progress.md` first, TDD at the agreed seams, the same checks CI runs, three-axis review (fixes what it finds), commit, and a summary in `progress.md` for the next ticket. Decides small choices itself; asks about anything the user would notice. Debugs failures reproduce-first (`/warroom-build debug {symptom}` for any bug); `--review-feature` before merge |
+| `warroom-trial` | Role-played users try the running app on localhost without seeing the code; picked bugs and friction become one fix ticket, spec gaps go back to `warroom` |
 | `mermaid-flow` | Readable Mermaid diagrams, checked for correctness before delivery |
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |
 
-Flow: `warroom` → (gate) → `warroom-tickets` automatically → `warroom-build` (once per ticket, `warroom-debug` when something fails unexplained) → `warroom-trial` once tickets can be demoed.
-Which skill calls which, and where each one hands back to you: [docs/flow.md](docs/flow.md) ([ไทย](docs/flow.th.md)).
-`warroom` uses `mermaid-flow` and `warroom-legal` from this plugin.
+Flow: `/warroom` → gate → tickets → `/warroom-build {slug} 01` (continues ticket to ticket; each session ends with the next command) → `--review-feature` → `/warroom-trial` when you want users to try it.
+Where everything stands: `docs/features/{slug}/progress.md`. How the skills fit together: [docs/flow.md](docs/flow.md) ([ไทย](docs/flow.th.md)).
+`warroom` uses `mermaid-flow` from this plugin.
 
 Credits:
 - Matt Pocock ([mattpocock/skills](https://github.com/mattpocock/skills), MIT):
