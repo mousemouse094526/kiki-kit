@@ -9,7 +9,8 @@ description: >-
   pulls the why from a warroom ticket and progress.md when there is one,
   writes the body in the user's language (Thai by default) from a fixed
   template (what changes, why, changes, deploy notes, verified, after
-  merge) with no checkboxes and no generated-by line, pushes, and opens the PR with gh. Never merges. Use
+  merge) with no checkboxes and no generated-by line, pushes, opens the PR with gh, and gives a merge commit title and description
+  ready to paste into GitHub's merge box. Never merges. Use
   when the user asks to open, create, or raise a PR, or says "/pr-open".
 ---
 
@@ -95,3 +96,17 @@ From [templates/pr-body.md](templates/pr-body.md). Rules:
    only when the user asks or a check is red.
 3. Show the PR URL and the deploy notes in chat. Don't merge, don't
    approve, don't request reviewers unless asked.
+4. **The merge message, ready to copy.** GitHub's default merge commit is
+   "Merge pull request #N from owner/branch", and deploy dashboards
+   (Railway, GitHub Deployments) show that line. Give the two fields of
+   the merge confirm box, each in its own code block:
+   - **Commit title** — the PR title plus ` (#N)`, e.g.
+     `fix(landing): หน้า landing ที่ไม่เรียก api (#14)`.
+   - **Commit description** — two or three lines: what changes, plus the
+     one deploy note that matters most (an env to set, a migration), or
+     nothing more when every deploy note is `ไม่มี`.
+
+   The repo can make this automatic: Settings → General → Pull Requests →
+   default merge (and squash) commit message → "Pull request title and
+   description". Mention it once if the repo's merge commits still use
+   GitHub's default (`git log --merges -3` on the base).
