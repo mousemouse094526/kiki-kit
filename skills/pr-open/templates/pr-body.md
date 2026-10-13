@@ -1,45 +1,48 @@
 # Template: pull request body
 
-Copy the skeleton. Every heading stays; **Screenshots** only for UI
-changes. Fill from facts gathered in SKILL.md › 2 — never from guesses.
+Copy the skeleton. Every heading stays; the screenshots section only for
+UI changes. Fill from facts gathered in SKILL.md › 2 — never from guesses.
+The skeleton is Thai; for an English body use the headings What changes,
+Why, Changes, Deploy notes, Verified, After merge, Screenshots, and
+`none` instead of `ไม่มี`.
 
 ## Template
 
 ```markdown
-## What changes
+## เปลี่ยนอะไร
 
-{One or two sentences: what a user or operator notices after this merges.}
+{หนึ่งหรือสองประโยค: ผู้ใช้หรือคนดูแลระบบจะเห็นอะไรต่างไปหลัง merge}
 
-## Why
+## ทำไม
 
-{The problem, in one or two sentences, with its evidence — a log line, a
-ticket (`docs/features/{slug}/tickets/NN-…`), an issue, a `D{n}`.}
+{ปัญหาหนึ่งหรือสองประโยค พร้อมหลักฐาน — บรรทัด log, ticket
+(`docs/features/{slug}/tickets/NN-…`), issue หรือ `D{n}`}
 
-## Changes
+## สิ่งที่แก้
 
-| Area | Change |
+| ส่วน | แก้อะไร |
 |---|---|
-| `{app or package}` | {what changed there, one line} |
+| `{app หรือ package}` | {แก้อะไรในนั้น หนึ่งบรรทัด} |
 
-## Deploy notes
+## ต้องระวังตอน deploy
 
-- **Env:** {`OLD_NAME` → `NEW_NAME` in {service}; set it on {staging and prod} before merge} — or `none`
-- **Migrations:** {what runs, and whether it is reversible} — or `none`
-- **Config:** {Dockerfile, Railway watch paths, CI, start script changes} — or `none`
-- **Dependencies:** {added / removed} — or `none`
-- **Breaking:** {removed or renamed route, field, export} — or `none`
-- **Rollback:** {revert this PR; plus anything else to undo}
+- **Env:** {`OLD_NAME` → `NEW_NAME` ใน {service}; ตั้งบน {staging และ prod} ก่อน merge} — หรือ `ไม่มี`
+- **Migration:** {อะไรจะรัน และย้อนกลับได้ไหม} — หรือ `ไม่มี`
+- **Config:** {Dockerfile, Railway watch paths, CI, start script} — หรือ `ไม่มี`
+- **Dependencies:** {เพิ่ม / ลบ} — หรือ `ไม่มี`
+- **Breaking:** {route, field, export ที่ลบหรือเปลี่ยนชื่อ} — หรือ `ไม่มี`
+- **ย้อนกลับ:** {revert PR นี้ และอะไรอื่นที่ต้องถอยด้วย}
 
-## Verified
+## ตรวจแล้ว
 
-- `{command}` — {pass, with a count when there is one}
-- {manual check} — {what you saw}
+- `{คำสั่ง}` — {ผ่าน พร้อมจำนวนถ้ามี}
+- {สิ่งที่ลองด้วยมือ} — {เห็นอะไร}
 
-## After merge
+## หลัง merge
 
-- {what to check, where} — {who} — or `none`
+- {ต้องเช็กอะไร ที่ไหน} — {ใคร} — หรือ `ไม่มี`
 
-## Screenshots
+## ภาพหน้าจอ
 
-{before / after — UI changes only}
+{ก่อน / หลัง — เฉพาะงานที่เห็นบนจอ}
 ```

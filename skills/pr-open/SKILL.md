@@ -7,9 +7,9 @@ description: >-
   exists), reads the diff for deploy-relevant changes — env vars added or
   renamed, migrations, Dockerfile and deploy config, new dependencies —
   pulls the why from a warroom ticket and progress.md when there is one,
-  writes the body from a fixed template (What changes, Why, Changes,
-  Deploy notes, Verified, After merge) with no checkboxes and no
-  generated-by line, pushes, and opens the PR with gh. Never merges. Use
+  writes the body in the user's language (Thai by default) from a fixed
+  template (what changes, why, changes, deploy notes, verified, after
+  merge) with no checkboxes and no generated-by line, pushes, and opens the PR with gh. Never merges. Use
   when the user asks to open, create, or raise a PR, or says "/pr-open".
 ---
 
@@ -65,17 +65,22 @@ From `git log {base}..HEAD` and `git diff {base}...HEAD`:
 
 ## 3. Write the body
 
-From [templates/pr-body.md](templates/pr-body.md). English. Rules:
+From [templates/pr-body.md](templates/pr-body.md). Rules:
 
-- **Title** — `{type}({scope}): {what changes for the user}`, under 70
-  characters, matching the repo's commit style.
+- **Language** — the language the user writes in; Thai unless they write
+  in English or ask for it. Code identifiers, commands, env var names,
+  file paths, and quoted log lines stay as they are.
+- **Title** — `{type}({scope}): {what changes for the user}`: the
+  `type(scope):` prefix in English, the rest in the body's language,
+  under 70 characters.
 - **Lead with the effect, not the code.** "Visitors see the landing page
   while the api is asleep" before "removed the loader".
-- **No checkboxes.** Done things go in **Verified** with their result;
-  things still to do go in **After merge** with who does them.
+- **No checkboxes.** Done things go under "ตรวจแล้ว" (Verified) with their
+  result; things still to do go under "หลัง merge" (After merge) with who
+  does them.
 - **No generated-by or attribution line** in the body.
-- **Deploy notes is never dropped.** Each line says `none` when there is
-  nothing — the reader then knows it was checked.
+- **The deploy notes section is never dropped.** Each line says `ไม่มี`
+  (`none`) when there is nothing — the reader then knows it was checked.
 - **Every env var change says where to set it** (which service, which
   environment) and whether it must be set **before** merge.
 - **Code identifiers in backticks**; no file-by-file list — the Files tab
@@ -88,5 +93,5 @@ From [templates/pr-body.md](templates/pr-body.md). English. Rules:
    asking.
 2. `gh pr create --base {base} --title "…" --body-file {tmp file}`. Draft
    only when the user asks or a check is red.
-3. Show the PR URL and the Deploy notes in chat. Don't merge, don't
+3. Show the PR URL and the deploy notes in chat. Don't merge, don't
    approve, don't request reviewers unless asked.
