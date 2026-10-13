@@ -181,7 +181,8 @@ tested and another bypassed.
    row each (Needs: `/warroom tickets {slug}`), or dropped when the user
    says so.
 4. Update `progress.md`: Now = "ready to merge", or the rows still open and
-   their commands. Recommend merging only when no Blocked row is `open`.
+   their commands. No Blocked row `open` → end with `/pr-open` as the Next
+   command.
 
 ## Debug mode — `/warroom-build debug {symptom}`
 

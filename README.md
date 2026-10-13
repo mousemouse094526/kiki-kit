@@ -7,6 +7,7 @@ Claude Code skills, packaged as a plugin.
 | `warroom` | Plan one feature on paper until nothing is left to decide: interview, spec/decisions/flow docs, Thai-law legal check, five-reviewer red team, ADR sweep, approval gate — then cut it into 2–4 big tickets and `progress.md`. No code. `/warroom legal {items}` runs the legal check alone; `/warroom tickets {slug}` re-cuts |
 | `warroom-build` | Build tickets one after another while the session holds: reads `progress.md` first, TDD at the agreed seams, the same checks CI runs, three-axis review (fixes what it finds), commit, and a summary in `progress.md` for the next ticket. Decides small choices itself; asks about anything the user would notice. Debugs failures reproduce-first (`/warroom-build debug {symptom}` for any bug); `--review-feature` before merge |
 | `warroom-trial` | Role-played users try the running app on localhost without seeing the code; picked bugs and friction become one fix ticket, spec gaps go back to `warroom` |
+| `pr-open` | Open a GitHub PR a reviewer understands in ten seconds: What changes, Why, Changes by area, Deploy notes (env, migrations, config, deps, breaking, rollback), Verified, After merge. Runs CI checks first; no checkboxes, no generated-by line; never merges |
 | `mermaid-flow` | Readable Mermaid diagrams, checked for correctness before delivery |
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |
 
