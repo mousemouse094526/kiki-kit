@@ -27,8 +27,9 @@ cutting any ticket, so no build invents a structure and no prefactor turns
 up later out of order.
 
 1. Read the existing code there and list the patterns it already follows.
-2. Propose in chat: folder tree, layers, the few rules that must never
-   break, and the testing stack — the runner, and when there is a UI the
+2. Propose in chat: folder tree (start from the trees in the template:
+   routes grouped public/private, shared code in folders named for its
+   kind), layers, the few rules that must never break, and the testing stack — the runner, and when there is a UI the
    e2e tool, where e2e tests live, and how they start the apps (one shared
    e2e package such as `apps/e2e` when flows cross apps). Ask with
    AskUserQuestion: accept (Recommended) / adjust.

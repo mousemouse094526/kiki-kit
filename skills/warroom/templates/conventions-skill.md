@@ -50,6 +50,15 @@ description: >-
 
 {how a request or user action passes through the layers, one line per layer}
 
+## Where shared code goes
+
+- Code one feature uses lives in that feature.
+- A second user appears → move it to the central folder named for its kind
+  (see the tree), in the same change. Never create a shared file ahead of
+  need.
+- Central folders never import from `features/`.
+- Code two apps share goes in a workspace package, not copied.
+
 ## Never break
 
 - {a rule a reviewer would block a merge for}
@@ -66,17 +75,27 @@ A layer with no rules file → stop and ask before writing it.
 ## Folder structure by surface
 
 Adapt these, don't copy them: keep the feature-first idea and name the
-layers what the framework calls them.
+layers what the framework calls them. Two ideas hold for every surface:
+
+- **Routes are grouped by access first** — a public group and a private
+  (signed-in) group, then the routes inside. Nothing loose at the top.
+- **Shared code sits in a folder named for its kind**, never a catch-all
+  `core/` or `common/` that mixes infrastructure, guards and domain logic.
 
 **API** (`elysia-api`, `fastapi-api`, …)
 
 ```
 src/
-├── core/                    ← env, errors, auth, clients every feature uses
-└── features/[feature]/
-    ├── [feature].routes.ts
-    ├── _common/
-    └── [module]/            ← one use case
+├── routes/                  ← public and private route groups mount the features
+├── libs/                    ← infrastructure: auth, email, cache, storage clients
+├── plugins/                 ← what runs in front of routes: guards, error handler
+├── utils/                   ← small generic helpers 2+ features use
+└── features/
+    ├── shared/              ← domain logic 2+ features use (audit, shared queries)
+    └── [feature]/
+        ├── [feature].routes.ts
+        ├── _common/         ← shared by 2+ modules of this feature
+        └── [module]/        ← one use case
         ├── [module].handler.ts
         ├── [module].service.ts
         ├── [module].repository.ts
@@ -90,13 +109,18 @@ Flow: route → handler → service → repository.
 
 ```
 src/
-├── routes/                  ← file-based routes; thin, compose features
+├── routes/
+│   ├── _public/             ← pages anyone can open
+│   └── _private/            ← pages that need a session (the guard)
 ├── features/[feature]/
 │   ├── components/          ← UI for this feature
 │   ├── hooks/               ← data fetching and state (api client calls)
 │   └── [feature].schema.ts  ← form schemas
-├── components/ui/           ← shared design-system components
-└── lib/                     ← api client setup, session, utilities
+├── components/
+│   ├── ui/                  ← design-system primitives
+│   └── common/              ← app components 2+ features use
+├── hooks/                   ← hooks 2+ features use
+└── lib/                     ← api client setup, session, non-React helpers
 ```
 
 Flow: route → feature component → hook → api client.
@@ -104,13 +128,19 @@ Flow: route → feature component → hook → api client.
 **Mobile** (`expo-mobile`, …)
 
 ```
-app/                         ← screens (expo-router) and navigation layouts
+app/
+├── (public)/                ← screens anyone can open
+└── (private)/               ← screens that need a session
 src/
 ├── features/[feature]/
 │   ├── components/
 │   └── hooks/
-├── components/ui/
-└── lib/                     ← api client setup, secure storage, utilities
+├── components/
+│   ├── ui/                  ← design-system primitives
+│   ├── common/              ← app components 2+ features use
+│   └── providers/
+├── hooks/                   ← hooks 2+ features use
+└── lib/                     ← api client setup, secure storage, non-React helpers
 ```
 
 Flow: screen → feature component → hook → api client.
