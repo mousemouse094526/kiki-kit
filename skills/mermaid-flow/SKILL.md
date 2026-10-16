@@ -1,20 +1,15 @@
 ---
 name: mermaid-flow
 description: >-
-  Author and edit Mermaid diagrams (flowcharts, sequence, ER, state, C4, gantt) that
-  stay READABLE instead of turning into crossed-wire spaghetti, and VERIFY the flow is
-  logically correct and the labels match intent before delivering. Use this skill
-  whenever you create, edit, refactor, or review any Mermaid diagram or ```mermaid code
-  block — architecture diagrams, data-flow, ERDs, sequence/state machines, CI pipelines,
-  decision trees, dependency graphs — even when the user just says "draw a diagram",
-  "make a flow", "add a mermaid chart", "map this out", or pastes a messy diagram and
-  asks to clean it up. Also use it before committing any .md/.mmd that contains Mermaid.
+  Write, edit, or review Mermaid diagrams (flowchart, sequence, ER, state,
+  C4, gantt) so they stay readable and the flow is checked correct before
+  delivery. Use for any ```mermaid block or .mmd file — even when the user
+  just says "draw a diagram", "make a flow", "map this out", or pastes a
+  messy diagram to clean up — and before committing any .md/.mmd that
+  contains Mermaid.
 ---
 
 # Mermaid Flow
-
-Prevent two failures: **messy** (crossed wires, unreadable) and **wrong** (renders fine
-but direction, names, or arrows don't match reality).
 
 ## Workflow
 
@@ -66,7 +61,7 @@ Follow this order every time. Validation is mandatory.
 
 ## Pair every diagram with a description
 
-Required part of the deliverable. Ship every diagram with:
+Ship every diagram with:
 
 - **A one-line caption** stating what it shows (e.g. "Request path: how a client call
   reaches the data stores").
@@ -78,7 +73,7 @@ Several diagrams → each gets its own caption, plus one sentence tying them tog
 
 ## Validate before delivering
 
-Two passes. Neither is skippable — "it renders" is not "it's correct".
+Two passes. Neither is skippable.
 
 ### Pass 1 — Semantic review (you, by hand)
 
@@ -92,7 +87,7 @@ Read the diagram back against the intent and check:
 - **Labels say what the arrow does** (`enqueue`, `publishes`, `reads`), not bare `-->`.
 - **No skip edge crosses the whole chain.** Restructure per the skip-edge rule above.
 - **Each diagram has caption + reading note**, and multi-diagram sets have the
-  tying-together sentence. Missing description = incomplete deliverable.
+  tying-together sentence.
 
 AI-generated structure (you invented it) → confirm the flow with the user or the code.
 

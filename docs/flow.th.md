@@ -3,8 +3,13 @@
 [English](flow.md) · **ไทย**
 
 มี 3 skill: **warroom** วางแผนและหั่น ticket, **warroom-build** สร้างตาม
-ticket, **warroom-trial** ให้ผู้ใช้สมมุติลองใช้ ความคืบหน้าทั้งหมดอยู่ในไฟล์เดียว:
-`docs/features/{slug}/progress.md`
+ticket, **warroom-trial** ให้ผู้ใช้สมมุติลองใช้ ส่วน **kiki-debug** หาสาเหตุ bug — เรียกเองด้วย
+`/kiki-debug {อาการ}` หรือ build เรียกให้ระหว่างทำ ticket มีสองไฟล์ที่ตอบสองคำถามที่ถามบ่อย:
+
+- **ตอนนี้แต่ละ feature ถึงไหนแล้ว?** `docs/progress/board.md` — feature ละแถว
+  พร้อมคำสั่งถัดไป
+- **เรื่องนี้เคยตัดสินไปแล้วหรือยัง?** `docs/decisions.md` — decision ทุกข้อของทุก
+  feature ข้อละบรรทัด จัดตามเรื่อง warroom เปิดดูก่อนถามทุกข้อ จึงไม่ถามซ้ำ
 
 ## 1. ภาพรวม
 
@@ -37,7 +42,7 @@ flowchart LR
 ```
 
 โหมดอื่น: `/warroom legal {รายการ}` (ตรวจกฎหมายอย่างเดียว) ·
-`/warroom tickets {slug}` (หั่นใหม่) · `/warroom-build debug {อาการ}`
+`/warroom tickets {slug}` (หั่นใหม่) · `/kiki-debug {อาการ}`
 (bug อะไรก็ได้)
 
 ## 2. warroom — วางแผน แล้วหั่น ticket
@@ -48,7 +53,7 @@ flowchart LR
     DOC["เขียนเอกสาร"]
     LG["ตรวจกฎหมาย"]
     RT["Red team<br/>5 subagent"]
-    S["ADR sweep"]
+    S["Scope pass"]
     G{"Gate"}
     TK["หั่น 2–4 ticket<br/>+ progress.md"]
 
@@ -58,19 +63,23 @@ flowchart LR
 
 | ขั้น | ทำอะไร | คุณ |
 |---|---|---|
-| สัมภาษณ์ | ถามทีละข้อ มีตัวเลือกแนะนำ; ค้นโค้ด ADR docs ก่อนถาม; ตอบไม่ได้ → Open Question | ตอบ |
-| เขียนเอกสาร | spec, decisions (D1…), flow | — |
+| สัมภาษณ์ | ดู `docs/decisions.md` ก่อน — เคยตัดสินแล้ว → ใช้ของเดิม ไม่ถาม; จากนั้นถามทีละข้อ มีตัวเลือกแนะนำ; ตอบไม่ได้ → Open Question | ตอบ |
+| เขียนเอกสาร | spec, decisions (D1… ลง index ใน `docs/decisions.md` ทันทีที่ได้), flow | — |
 | กฎหมาย | ทีละเรื่อง → `legal.md`; `UNVERIFIED` บล็อก gate | ตอบถ้ากำกวม |
 | Red team | Advocate, Builder, Breaker, Tester, Skeptic | ตัดสินเรื่องที่ต้องตัดสิน |
-| ADR sweep | หา decision ระดับโปรเจค ร่าง ADR | — |
+| Scope pass | ติดป้าย `system` ให้ decision ที่ feature ต่อๆ ไปต้องทำตาม | — |
 | Gate | สรุป + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
-| Ticket | ตั้ง conventions ถ้ายังไม่มี; 2–4 ticket ใบใหญ่แนวตั้ง; `progress.md` | อนุมัติ, รวม หรือแยก |
+| Ticket | ตั้ง conventions ถ้ายังไม่มี; 2–4 ticket ใบใหญ่แนวตั้ง; `progress.md`; แถวใน board | อนุมัติ, รวม หรือแยก |
 
 กด **Approve** ได้เมื่อไม่มี Open Question ที่บล็อกการ build ก่อนหน้านั้น spec
 เป็น `draft` และ build จะไม่รับ
 
-**แผนใหญ่?** ประมาณ 5 เรื่องขึ้นไปที่ยังไม่ตัดสิน → session แรกทำ `map.md` แล้ว
-หยุด session ต่อๆ ไปรัน `/warroom {slug}` ตอบทีละคำถาม แล้วค่อยทำขั้นข้างบนตามปกติ
+**feature เดียว หรือแยก?** ค่าเริ่มต้นคือต่อยอด feature เดิม (change request:
+`/warroom {slug}` ได้ ticket ใหม่ต่อจากใบที่ done) แยก feature ใหม่เฉพาะเมื่อมีผู้ใช้
+หรือข้อมูลของตัวเองและ ship แยกได้ หรือเมื่อของเดิมกลายเป็นของอื่นไปแล้ว
+
+**แผนใหญ่?** ประมาณ 5 เรื่องขึ้นไปที่ยังไม่ตัดสิน → session แรกทำ
+`docs/progress/{slug}/map.md` แล้วหยุด session ต่อๆ ไปรัน `/warroom {slug}` ตอบทีละคำถาม แล้วค่อยทำขั้นข้างบนตามปกติ
 
 ## 3. warroom-build — ทำทีละใบต่อเนื่อง
 
@@ -99,11 +108,23 @@ flowchart LR
 |---|---|
 | เอกสารตอบไว้แล้ว | ใช้คำตอบนั้น |
 | เรื่องเล็กใน feature (ค่า default, ข้อความ, limit) | ตัดสินเอง บันทึกเป็น D แล้วใส่ใน log |
-| เรื่องที่ผู้ใช้เห็น, กฎหมาย หรือ ADR | ถามคุณ; ยังอยู่ในกรอบ spec → เป็น D แล้วทำต่อ |
+| เรื่องที่ผู้ใช้เห็น, กฎหมาย หรือ decision ที่เป็น `system` | ถามคุณ; ยังอยู่ในกรอบ spec → เป็น D แล้วทำต่อ |
 | เปลี่ยนสิ่งที่ spec สัญญาไว้ หรือคุณอยากคิดก่อน | แถว Blocked → หยุดพร้อม `/warroom {slug}` |
-| error ที่อธิบายไม่ได้ | debug แบบทำให้ fail ได้ก่อน แล้วทำต่อ |
+| error ที่อธิบายไม่ได้ | เรียก skill **kiki-debug** ใน ticket นั้นเลย แล้วทำต่อ |
 
-## 4. `progress.md` — ทุกอย่างอยู่ที่นี่
+## 4. board และ `progress.md` — ทุกอย่างถึงไหนแล้ว
+
+`docs/progress/board.md` feature ละแถว:
+
+```
+| Feature        | Stage    | Left          | Next                              |
+| user-contact   | done     | —             | —                                 |
+| company-user   | building | tickets 03–04 | /warroom-build company-user 03    |
+| loyalty-points | mapping  | 4 questions   | /warroom loyalty-points           |
+```
+
+ทุก skill อัปเดตแถวของ feature ตัวเองตอนจบ session รายละเอียดต่อ feature อยู่ที่
+`docs/progress/{slug}/progress.md`:
 
 ```
 **Now:** 02 เสร็จ; ต่อไป 03
@@ -135,7 +156,7 @@ flowchart LR
 |---|---|---|
 | `/warroom {slug}` | คำสั่งที่ build ให้ตอนหยุด | `→ D{n}` |
 | `/warroom tickets {slug}` | เหมือนกัน | `→ ticket NN` |
-| `/warroom-build debug {อาการ}` | เหมือนกัน เมื่อได้ log หรือข้อมูลแล้ว | `done ({sha})` |
+| `/kiki-debug {อาการ}` | เหมือนกัน เมื่อได้ log หรือข้อมูลแล้ว | `done ({sha})` |
 
 คุณไม่ต้องแก้ `progress.md` เอง ถ้าจะทิ้งแถวไหน บอก skill
 
@@ -165,24 +186,32 @@ persona เป็น subagent ที่ **ไม่เห็นโค้ด ไ�
 ```
 docs/
 ├── README.md                    ← แต่ละโฟลเดอร์มีไว้ทำอะไร
-├── features/{slug}/
-│   ├── spec.md  decisions.md  flow.md  legal.md  progress.md  (map.md)
-│   ├── tickets/                 ← 2–4 ticket ใบละไฟล์
-│   ├── user-trials/             ← รายงาน trial
-│   └── bugs/                    ← การไล่ bug ของ feature นี้
-├── adr/                         ← กฎที่ทุก feature ต้องทำตาม
+├── decisions.md                 ← decision ทุกข้อ จัดตามเรื่อง — ดูก่อนตัดสินอะไร
+├── features/{slug}/             ← feature นี้คืออะไร
+│   └── spec.md  decisions.md  flow.md  legal.md
+├── progress/                    ← งานที่กำลังทำ
+│   ├── board.md                 ← ทุก feature: ขั้นไหน เหลืออะไร คำสั่งถัดไป
+│   └── {slug}/
+│       ├── progress.md  (map.md)
+│       ├── tickets/             ← 2–4 ticket ใบละไฟล์
+│       ├── user-trials/         ← รายงาน trial
+│       └── bugs/                ← การไล่ bug ของ feature นี้
 ├── library-notes/               ← docs library แนะนำอะไร สำหรับเวอร์ชันที่ติดตั้ง
 ├── bugs/                        ← bug นอก feature
 └── legal/                       ← ตรวจกฎหมายแบบเดี่ยว
 .claude/skills/{framework}-{surface}/   ← กติกาการเขียนโค้ดของโปรเจค
 ```
 
+โปรเจคเก่า (progress กับ ticket อยู่ใน `features/{slug}/` หรือมี `docs/adr/`) จะถูกย้าย
+เข้าโครงนี้ครั้งเดียว ตอนที่ skill warroom ตัวไหนก็ได้รันครั้งแรก ADR เดิมเก็บไว้เป็น
+ประวัติ และกลายเป็นแถว `system`
+
 ## ศัพท์
 
 | คำ | ความหมาย |
 |---|---|
-| **D{n}** | decision หนึ่งข้อใน `decisions.md` |
-| **ADR** | กฎระดับโปรเจคที่ feature ต่อไปต้องทำตาม (`docs/adr/`) |
+| **D{n}** | decision หนึ่งข้อใน `decisions.md` ของ feature; อ้างจากที่อื่นใส่ slug ด้วย: `user-contact D4` |
+| **`system`** | decision ที่ feature ต่อๆ ไปต้องทำตาม ติดป้ายไว้ใน `docs/decisions.md` |
 | **seam** | จุดที่ test สังเกตพฤติกรรม ตกลงไว้ใน spec |
 | **(e2e)** | พฤติกรรมที่เห็นได้บนจอเท่านั้น ตรวจด้วย e2e tool ของโปรเจค |
 | **Blocked** | แถวใน `progress.md` ที่ build ตัดสินเองไม่ได้ |

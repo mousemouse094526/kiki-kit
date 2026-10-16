@@ -1,4 +1,4 @@
-# Template: docs/features/{feature}/bugs/{YYYY-MM-DD}-{slug}.md (or docs/bugs/…)
+# Template: docs/progress/{feature}/bugs/{YYYY-MM-DD}-{slug}.md (or docs/bugs/…)
 
 One file per bug, opened in Phase 0 and filled in as you go. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md). Headings
@@ -9,12 +9,10 @@ and labels stay in English; the text is in the user's language.
 - **Status** moves `investigating` → `fixed`, or ends as
   `blocked: {what is needed}`, or as `spec gap → warroom` when the code
   does what the docs say and the docs are wrong.
-- **Ledger rows are never edited or deleted** — a wrong turn is still a
-  breadcrumb.
+- **Ledger rows are never edited or deleted.**
 - **Hypotheses keep their number**; mark them `alive`, `killed by #{run}`,
   or `confirmed`.
-- **The Summary is written last**: three lines a reader can act on without
-  scrolling.
+- **The Summary is written last**: three lines.
 
 ## Template
 
@@ -42,7 +40,7 @@ and labels stay in English; the text is in the user's language.
 
 ## Scope
 
-- **Docs say:** {what should happen} ({D3}, {ADR 0007})
+- **Docs say:** {what should happen} ({D3}, {user-contact D4})
 - **Last good:** {last commit / branch / ticket where it worked}
 - **Ruled out:** {area} — {how you ruled it out}
 
@@ -80,7 +78,7 @@ and labels stay in English; the text is in the user's language.
 **Root cause:** {why → why → … until you reach what the system let happen}
 
 **Prevention:**
-- {action} — tracked in {ticket / ADR / CI check}
+- {action} — tracked in {ticket / system decision / CI check}
 
 **What helped:** {what made this fast or slow to find}
 

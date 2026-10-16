@@ -14,14 +14,13 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 - **ALLOWED** → the verdict line and its citation. Nothing else.
 - **NOT ALLOWED** → one or two sentences naming the prohibition, cited.
 - **CONDITIONAL** → `**Required to be allowed:**` then one plain bullet per
-  requirement: a concrete thing that must exist or be done, cited. The
-  work itself is tracked in the spec and tickets.
+  requirement: a concrete thing that must exist or be done, cited.
 - **Assumptions** the verdicts rest on (who is controller, who is a service
   provider) go in a short list under the header, before item 1.
-- **Summary table is the payload** — verdict and requirements per item,
-  complete on its own, requirements joined with `·`.
+- **Summary table** — verdict and requirements per item, complete on its
+  own, requirements joined with `·`.
 - URLs only in **References**, each with its access date; verdicts cite
-  by `[n]`. This replaces the `## Sources` section other docs use.
+  by `[n]`. No `## Sources` section.
 - Unverifiable verdict → append
   `UNVERIFIED — from model knowledge, verify before relying`.
 - End with the disclaimer in the file's language.

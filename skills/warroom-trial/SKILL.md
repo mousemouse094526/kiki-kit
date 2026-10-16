@@ -1,18 +1,11 @@
 ---
 name: warroom-trial
+disable-model-invocation: true
 description: >-
-  Let role-played users try a built warroom feature in the running app
-  before release. Builds personas from the spec's actors plus the real-world
-  roles the user names (a manager, a sales rep, a new employee), gives each
-  one goals in their own words — never test steps — and has each persona, as
-  a separate subagent that has not seen the code or the spec, use the app
-  through the browser on a local dev server. A dev-lead pass then sorts every
-  finding into bug, spec gap, friction, or works-as-intended and writes one
-  trial report under docs/features/{slug}/user-trials/. Nothing is fixed without
-  the user's pick: picked bugs and friction become one new fix ticket for
-  warroom-build, spec gaps go back to warroom. Invoke with /warroom-trial {slug}, after warroom-build has
-  landed tickets someone can demo. Use only when the user explicitly asks
-  for a trial — never on your own initiative.
+  Role-played users try a built warroom feature in the local app through
+  the browser, without seeing the code or spec; findings are triaged into
+  one report, and picked ones become a fix ticket or go back to warroom.
+  /warroom-trial {slug}.
 ---
 
 # Warroom Trial — let the users try it before they do
@@ -20,14 +13,12 @@ description: >-
 Personas → goals → each persona uses the app alone → dev-lead triage → one
 report → the user picks what to act on.
 
-Tests check that the code matches the spec. A trial checks that the spec
-was right: can a real kind of person reach their goal, and where do they
-get stuck?
-
 ## 1. Before starting
 
-- **Feature folder** `docs/features/{slug}/` with spec.md and tickets.
-  Trial only tickets that are `done`; leave out the stories of tickets not
+- **Feature docs** in `docs/features/{slug}/` (spec.md) and its tickets in
+  `docs/progress/{slug}/tickets/`. Tickets still inside the feature folder
+  → the older layout: run [migrate.md](../warroom/references/migrate.md)
+  first. Trial only tickets that are `done`; leave out the stories of tickets not
   built yet. Tell the user in one line which tickets were tried, which
   were skipped, and why. No tickets → stop and end with
   `/warroom tickets {slug}`.
@@ -41,8 +32,7 @@ get stuck?
   first persona starts.
 - **The browser reaches the personas.** Persona subagents need the browser
   tools. Before casting, check that a subagent can open the app URL. It
-  can't → stop and tell the user. Never play the personas yourself — you
-  have read the spec, and that blindness is the point.
+  can't → stop and tell the user. Never play the personas yourself.
 - **Test accounts** come from the project's seed or fixture data, or are
   created in the local app for this trial. Write any you create into the
   project's seed or example config, not into chat.
@@ -52,10 +42,9 @@ get stuck?
 Read [references/personas.md](references/personas.md). Propose a cast:
 
 - every actor in spec.md › User Stories (Admin, Employee, …);
-- the real-world roles the user named or the domain implies: the people
-  who will judge the product (a manager checking on staff, a sales rep
-  showing it to a client, a first-day employee, someone on a phone in a
-  hurry).
+- the real-world roles the user named or the domain implies (a manager
+  checking on staff, a sales rep showing it to a client, a first-day
+  employee, someone on a phone in a hurry).
 
 Ask with AskUserQuestion (multiSelect, recommended ones first) which
 personas to run. Three to five is usually enough.
@@ -63,19 +52,17 @@ personas to run. Three to five is usually enough.
 ## 3. Write the goals
 
 For each persona, 3–6 **goals in the persona's own words**: what they want
-done, not how. "I need to get the new hire into the system before she
-starts Monday", not "click Create Employee". Take them from User Stories,
-Expected Outcome, and flow.md, plus one or two the spec never mentions but
-the persona would likely try. Show the cast and goals in chat before
-running.
+done, not how: "I need to get the new hire into the system before she
+starts Monday". Take them from User Stories, Expected Outcome, and
+flow.md, plus one or two the spec never mentions but the persona would
+likely try. Show the cast and goals in chat before running.
 
 ## 4. Run each persona
 
-One subagent per persona, **one at a time** (they share the browser). Each
-gets only the brief from [references/personas.md](references/personas.md):
-who they are, their goals, the app URL, their test account, the device.
-**Never the code, the spec, or another persona's report**: a persona who
-knows how it was built can't get lost the way a real user does.
+One subagent per persona, **one at a time**. Each gets only the brief from
+[references/personas.md](references/personas.md): who they are, their
+goals, the app URL, their test account, the device. **Never the code, the
+spec, or another persona's report.**
 
 Each persona uses the app as that person would (skims, guesses, misreads,
 gives up when they would give up) and returns the report format in the
@@ -85,22 +72,22 @@ project's dev build in the simulator for a mobile app.
 ## 5. Dev-lead triage
 
 You are now the dev lead. Read every persona report against spec.md,
-decisions.md, and the ADRs, and sort each finding:
+decisions.md, and `docs/decisions.md` (another feature's decision counts
+too), and sort each finding:
 
 | Kind | Meaning | Default next step |
 |---|---|---|
 | **bug** | the app contradicts the spec | the fix ticket |
 | **spec gap** | the spec is silent or wrong for a real goal | `/warroom {slug}` |
 | **friction** | works as specified, but the persona struggled | a new ticket |
-| **works as intended** | the persona expected something the docs ruled out | note it, cite the `D{n}` |
+| **works as intended** | the persona expected something the docs ruled out | note it, cite the `D{n}` (with its slug when another feature's) |
 
-Merge duplicates across personas: the same finding from three personas is
-one finding, seen three times. That count is its weight. Rank by
-**blocked goal** first, then by how many personas hit it.
+Merge duplicates across personas into one finding and count how many
+personas hit it. Rank by **blocked goal** first, then by that count.
 
 ## 6. Write the report
 
-`docs/features/{slug}/user-trials/{YYYY-MM-DD}.md` from
+`docs/progress/{slug}/user-trials/{YYYY-MM-DD}.md` from
 [templates/trial-report.md](templates/trial-report.md). Run the self-check
 in [markdown-style.md](../warroom/references/markdown-style.md).
 
@@ -112,32 +99,31 @@ next step. Ask with AskUserQuestion (multiSelect) which to act on now:
 - **bug** and **friction** → all of them go into **one** new ticket,
   `Trial fixes {YYYY-MM-DD}`, numbered after the highest, in
   [the ticket template](../warroom/templates/ticket.md),
-  `**Status:** ready-for-agent`, with a row in `progress.md`. One
+  `**Status:** ready-for-agent`, in `docs/progress/{slug}/tickets/`, with a
+  row in `progress.md`. One
   acceptance criterion per finding, each the persona's goal as an `(e2e)`
-  criterion so the fix stays fixed. A bug's criterion carries the
-  persona's steps as its repro.
+  criterion. A bug's criterion carries the persona's steps as its repro.
 - **spec gap** → a row in `progress.md` › Blocked (Needs:
   `/warroom {slug}`, citing the finding); don't edit the spec here.
 
-A trial is not a test suite; the `(e2e)` criteria it leaves behind keep
-its findings from coming back.
-
-Everything not picked stays in the report as `open`. No product code, no
-branch, no commit from this skill: it writes only the report,
-`progress.md`, the fix ticket, and any test account added to seed or
-example config. List those files, then end with the next command in its
+Everything not picked stays in the report as `open`. Update the feature's
+board row in `docs/progress/board.md` (Stage `building` with a fix ticket,
+`blocked` with a spec gap; Left; Next). No product code, no branch, no
+commit from this skill: it writes only the report, `progress.md`, the
+board, the fix ticket, and any test account added to seed or example
+config. List those files, then end with the next command in its
 own code block — `/warroom-build {slug} {fix ticket NN}`, or
 `/warroom {slug}` when a spec gap must be settled first.
 
 ## Operating rules
 
 - **Local only.** No staging, no production, no real user data.
-- **Personas never see the code or the spec.** That blindness is the point.
-- **Goals, not steps.** A goal written as clicks is a test, not a trial.
+- **Personas never see the code or the spec.**
+- **Goals, not steps.**
 - **Personas run one at a time**, each in a fresh subagent.
-- **Nothing is fixed without the user's pick.** The default is a report.
+- **Nothing is fixed without the user's pick.**
 - **Report in the user's language**; kinds, status words, and `D{n}` stay
   in English. Persona briefs are in English, but each persona **answers in
-  the language its real users speak** (the app's UI language, e.g. Thai),
-  so its words go into the report untranslated, as evidence. Personas
-  quote the app's UI text exactly as shown.
+  the language its real users speak** (the app's UI language, e.g. Thai);
+  its words go into the report untranslated. Personas quote the app's UI
+  text exactly as shown.

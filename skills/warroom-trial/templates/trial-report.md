@@ -1,4 +1,4 @@
-# Template: docs/features/{slug}/user-trials/{YYYY-MM-DD}.md
+# Template: docs/progress/{slug}/user-trials/{YYYY-MM-DD}.md
 
 One file per trial run. Follow
 [markdown-style.md](../../warroom/references/markdown-style.md). Headings,
@@ -10,7 +10,7 @@ statuses stay in English; the text is in the user's language.
 - **Findings are ranked**: blocked goals first, then by how many personas
   hit it.
 - **Each finding quotes the persona** in one line, in the language they
-  reported in, never translated; their words are the evidence.
+  reported in, never translated.
 - **Status** per finding: `open`, `→ /warroom`,
   `→ ticket NN`, or `note`. Update it when the user picks.
 - **Persona reports are kept as returned**, trimmed only for length.
@@ -50,7 +50,7 @@ statuses stay in English; the text is in the user's language.
 
 **What happened:** {what the persona expected vs what the app did, one or two sentences}
 
-**Docs say:** {what spec / D{n} / ADR says, or "silent"}
+**Docs say:** {what spec / D{n} / another feature's decision says, or "silent"}
 
 **Next step:** {fix ticket | /warroom | note (D{n})}
 

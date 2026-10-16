@@ -1,13 +1,18 @@
 ---
 name: brandsmith
-description: Create a complete brand logo package — wordmark, app icons, profile marks, PNG exports, and a concept document — as clean path-based SVG with light/dark theme variants. Use this whenever the user wants a logo, wordmark, lettermark, brand identity, app icon, avatar, or profile image for a brand, company, product, shop, or team, even if they only say things like "ทำโลโก้", "ออกแบบแบรนด์", "make me a logo", "I need an app icon", or asks to restyle/extend an existing logo. Also use when the user wants role- or name-labeled profile images derived from an existing brand mark.
+description: >-
+  Create a brand logo package — wordmark, app icons, profile marks, PNG
+  exports, concept document — as path-based SVG with light/dark variants.
+  Use whenever the user wants a logo, wordmark, lettermark, brand
+  identity, app icon, avatar, or profile image, even if they only say
+  "ทำโลโก้", "ออกแบบแบรนด์", "make me a logo", "I need an app icon"; also
+  to restyle or extend an existing logo, or to derive role- or name-labeled
+  profile images from it.
 ---
 
 # Brandsmith — brand logo package generator
 
-Interview first, check the landscape, generate as *code* (everything regenerable),
-verify visually, document the concept. Output goes under `brand/` in the directory
-where the skill is invoked.
+Output goes under `brand/` in the directory where the skill is invoked.
 
 ## Phase 0 — Interview (always first)
 
@@ -27,7 +32,7 @@ Also ask (same call or second call, batch to max 4 questions):
 3. **Style** — offer as choices:
    - *Wordmark with a hidden symbol* — full brand name; one letter carries an embedded
      image or negative-space element (Spotify/FedEx school)
-   - *Lettermark* — single initial as the mark (like a favicon-first brand)
+   - *Lettermark* — single initial as the mark
    - *Abstract symbol + wordmark* — separate icon and text lockup
 4. Anything genuinely ambiguous about scope (e.g. does "logo" include app icons?).
 
@@ -50,7 +55,7 @@ Tell the user what you found in one short paragraph before building.
 ## Phase 2 — Build as generators, not hand-drawn files
 
 Never hand-write final SVGs. Write Python generator scripts into `brand/tools/` that
-emit every variant, so every later change is an edit + rerun.
+emit every variant.
 
 Folder layout to produce:
 
@@ -70,7 +75,7 @@ Technique rules (details and math in
 [references/svg-technique.md](references/svg-technique.md)):
 
 - **Path-based text only.** Convert wordmark text to outlines (fontTools glyph
-  extraction). `<text>` renders differently on every machine.
+  extraction). No `<text>`.
 - **A font licensed for logo use, vendored.** Open-licensed (OFL / Apache) by
   default, never a system font; the file and its license live in
   `brand/tools/fonts/`. A commercial font only once the user confirms their license
@@ -79,13 +84,13 @@ Technique rules (details and math in
 - **Geometry by container.** Square tile ≈ 57% cap-height, circle ≈ 52%, leave room
   below (~40%) when a text label joins the mark. Center optically on the main
   letterform, not the bounding box of letter + ornament.
-- **Full-bleed profile images get square corners.** Platforms apply their own crop.
+- **Full-bleed profile images get square corners.**
 - **Anything meant for profile pictures must survive a circular crop.** Check the
   extreme points against the inscribed circle before shipping.
 - **Light/dark pairs are mandatory:** every deliverable set includes an on-light and
   an on-dark variant, and preview.html shows both strips.
-- **Generated files must pass the project's own checks.** `brand/` lands in the user's
-  repo, so its linter and CI read it too (Biome, ESLint, Prettier, html-validate…).
+- **Generated files must pass the project's own linter and CI** (Biome, ESLint,
+  Prettier, html-validate…).
   preview.html is real, accessible HTML: `<!doctype html>`, `<html lang="…">` in the
   brand's language, a `<title>`, `<meta charset>` and viewport, and a descriptive `alt`
   on **every** `<img>` (e.g. `alt="SKOPIA wordmark, on dark"` — never empty, never the
@@ -111,12 +116,10 @@ then headless Chrome; transparent variants keep their alpha).
    why), color table with hex + usage, font (name, version, license, source URL),
    variant/file table, geometry constants used,
    similarity-check findings, and how to regenerate. Then **always build the PDF
-   version too**. `reportlab` + `svglib` are rarely preinstalled: install them into
-   the package venv (the same one used for fonttools —
+   version too**. Install `reportlab` + `svglib` into the package venv (the same one used for fonttools —
    `python3 -m venv brand/tools/venv && brand/tools/venv/bin/pip install reportlab svglib`)
    and keep the PDF build as a script in `brand/tools/` so it regenerates. Add
-   `brand/tools/venv/` to the repo's `.gitignore` — it must never be committed or
-   linted.
+   `brand/tools/venv/` to the repo's `.gitignore` and exclude it from the linter.
    Skip the PDF only if the install itself fails (e.g. offline) — in that case tell
    the user exactly the two commands to run later.
    Non-Latin doc text (Thai etc.) needs a registered TTF — see the PDF section of

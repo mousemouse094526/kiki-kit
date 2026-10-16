@@ -1,27 +1,25 @@
 # Template: .claude/skills/{framework}-{surface}/
 
-A project's own conventions skill. It lives in the project repo, loads
-like any skill, and warroom-build reads it before coding. English
-throughout. Follow
-[markdown-style.md](../references/markdown-style.md).
+A project's own conventions skill, in the project repo. English
+throughout. Follow [markdown-style.md](../references/markdown-style.md).
 
 ## Rules
 
-- **SKILL.md stays short** — what the area is, the folder structure, the
-  never-break rules, and the rules index. Under ~200 lines.
+- **SKILL.md** — what the area is, the folder structure, the never-break
+  rules, and the rules index. Under ~200 lines.
 - **One `rules/{layer}.md` per layer** the surface has: what the layer
   owns, what it must not do, one short example in this project's code, and
   the files that follow it best. Always include `testing.md` — the test
   runner, where tests live, and the e2e tool when the surface has a UI.
-- **The folder structure fits the surface.** The skeleton below shows an
-  API; pick the shape for the app type (see Folder structure by surface).
+- **Folder structure:** pick the shape for the app type (see Folder
+  structure by surface).
 - **Code exists → describe it as it is.** A rule the existing code doesn't
   follow yet is a prefactor ticket, not a convention.
 - **No code yet → write the rules agreed with the user**, and put
   `None yet — the first ticket that touches this layer sets it.` under Good
   examples. That first ticket replaces it with real files.
-- **Never-break rules are few** — only those a reviewer should block a
-  merge for.
+- **Never-break rules** — only those a reviewer should block a merge
+  for.
 - Named `{framework}-{surface}` (see [conventions.md](../references/conventions.md) › Naming), not after
   the project.
 - No other project's name, paths, or code.
@@ -74,8 +72,8 @@ A layer with no rules file → stop and ask before writing it.
 
 ## Folder structure by surface
 
-Adapt these, don't copy them: keep the feature-first idea and name the
-layers what the framework calls them. Two ideas hold for every surface:
+Adapt these: keep feature-first and name the layers what the framework
+calls them. On every surface:
 
 - **Routes are grouped by access first** — a public group and a private
   (signed-in) group, then the routes inside. Nothing loose at the top.

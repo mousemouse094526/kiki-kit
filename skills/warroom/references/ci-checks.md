@@ -1,9 +1,8 @@
 # Run what CI runs — before every commit
 
-Shared by every warroom skill that writes files. "Tests pass" is not "CI
-passes": CI also runs format checks, lint over the whole repo, the build,
-and checks on Markdown and JSON. Run the same commands locally before a
-commit, so CI never finds something first.
+Shared by every warroom skill that writes files. Run the commands CI runs
+— format checks, repo-wide lint, the build, Markdown and JSON checks, not
+only tests — locally before a commit.
 
 ## 1. Find the checks
 
@@ -31,8 +30,7 @@ State the list in one line before the first commit.
 | docs, config, or generated files only | the steps that read those files: format check, Markdown or JSON lint, any repo-wide lint that covers them |
 
 A skill that leaves its files uncommitted (warroom, warroom-trial) still
-runs the second row on what it wrote,
-so the commit that follows is clean.
+runs the second row on what it wrote.
 
 ## 3. When a check fails
 

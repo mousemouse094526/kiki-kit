@@ -1,21 +1,21 @@
 # Diagram type selection
 
-Match the type to the *shape of the information*, not to whatever you drew first.
+Match the type to the shape of the information.
 
 ## Selection table
 
-| You want to show… | Use | Why |
-|---|---|---|
-| Steps, pipeline, architecture, dependencies, decision tree | `flowchart` | General directed graph; you control direction (LR/TB) |
-| Who calls whom **over time** (request/response, handshake) | `sequenceDiagram` | Time flows top→down; back-and-forth is linear, never crosses |
-| Database tables + relationships (cardinality) | `erDiagram` | Purpose-built for entities, keys, 1:N / N:M |
-| Object lifecycle, status transitions, state machine | `stateDiagram-v2` | Models states + transitions cleanly, supports nesting |
-| System context at zoom levels (system → container → component) | `C4Context`, `C4Container`, `C4Component` | Enforces the C4 leveling so each diagram stays scoped |
-| Project schedule / timeline with durations | `gantt` | Tasks on a real time axis |
-| Class model, inheritance, methods | `classDiagram` | UML class relationships |
-| User journey with sentiment | `journey` | Steps scored by satisfaction |
-| Branching ideas / hierarchy, no strict flow | `mindmap` | Radial tree, no edge routing to cross |
-| Ordered events without durations | `timeline` | Simple chronological list |
+| You want to show… | Use |
+|---|---|
+| Steps, pipeline, architecture, dependencies, decision tree | `flowchart` |
+| Who calls whom **over time** (request/response, handshake) | `sequenceDiagram` |
+| Database tables + relationships (cardinality) | `erDiagram` |
+| Object lifecycle, status transitions, state machine | `stateDiagram-v2` |
+| System context at zoom levels (system → container → component) | `C4Context`, `C4Container`, `C4Component` |
+| Project schedule / timeline with durations | `gantt` |
+| Class model, inheritance, methods | `classDiagram` |
+| User journey with sentiment | `journey` |
+| Branching ideas / hierarchy, no strict flow | `mindmap` |
+| Ordered events without durations | `timeline` |
 
 ## Decision hints
 

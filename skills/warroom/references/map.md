@@ -1,22 +1,22 @@
 # Map mode — a plan too big for one session
 
-A session that runs out of context mid-interview loses every decision not
-yet written down. So when the plan is too big for one session, first chart
-a **map** — one markdown file a cold session can pick up — and resolve it
-over several sessions before the gate.
+When the plan is too big for one session, first chart a **map** — one
+markdown file a cold session can pick up — and resolve it over several
+sessions before the gate.
 
 ## When to chart one
 
-After the first few questions — you can't size what you haven't probed.
-Chart a map when you count roughly **five or more open decisions** and can
-see that early answers will raise questions you can't phrase yet. Below
-that, just interview. Say why in one line and ask before writing the file.
+After the first few questions, chart a map when you count roughly **five
+or more open decisions** and can see that early answers will raise
+questions you can't phrase yet. Below that, just interview. Say why in one
+line and ask before writing the file.
 
-## The file — `docs/features/{slug}/map.md`
+## The file — `docs/progress/{slug}/map.md`
 
-The map is an **index, not a store**: a decision lives in decisions.md, a
-word in `CONTEXT.md`, and the map gives each one line and a link. Two
-copies drift. Follow [markdown-style.md](markdown-style.md).
+The map is an **index, not a store**: a decision lives in decisions.md
+(and its row in `docs/decisions.md`), a word in `CONTEXT.md`, and the map
+gives each one line and a link. Follow
+[markdown-style.md](markdown-style.md).
 
 ```markdown
 # Map: {feature slug}
@@ -50,7 +50,7 @@ ready-to-build spec for …". It fixes the scope.}
 
 - **Open or fog?** Open when you can *state* it sharply now, even if
   something blocks it; fog when you can't. Don't split fog into questions
-  early — one patch may become three questions or none.
+  early.
 - **Out of scope** is past the destination and never comes back. If it
   must, the destination was wrong — redraw it.
 - Refer to questions by **title**, never by number alone.
@@ -72,17 +72,19 @@ ready-to-build spec for …". It fixes the scope.}
 2. Survey the whole space — breadth, not depth — to find the sharp
    questions and the fog.
 3. No fog → no map: say so and just interview.
-4. Write `map.md`, show it, and stop. Resolving in the same session leaves
-   the last questions to a tired context.
+4. Write `map.md` and the feature's board row (Stage `mapping`), show the
+   map, and stop.
 
 ## Later sessions — `/warroom {slug}` with a map
 
-1. Read `map.md` only; open a linked file only when a question turns on it.
+1. Read `map.md` and the subjects of `docs/decisions.md` it touches; open
+   a linked file only when a question turns on it.
 2. Take the question the user names, or the first open one nothing blocks.
-   Check it still serves the destination.
+   Check it still serves the destination, and that no feature has already
+   decided it (`docs/decisions.md`) — decided → cite it under Decided.
 3. Resolve it by its kind, then **record before anything else**: the
-   `D{n}` or `CONTEXT.md` entry, the line under Decided, the question struck
-   from Open.
+   `D{n}` with its index row, or the `CONTEXT.md` entry; the line under
+   Decided; the question struck from Open.
 4. Redraw:
    - fog that became sharp → new open questions (delete the fog line);
    - a question now past the destination → Out of scope;
@@ -91,5 +93,5 @@ ready-to-build spec for …". It fixes the scope.}
    the middle of one.
 
 Open and fog both empty → the map is done: write the docs (Phase 2) and run
-legal, the red team, the ADR sweep, and the gate as usual. Keep the map as
+legal, the red team, the scope pass, and the gate as usual. Keep the map as
 the record of how the plan was reached.

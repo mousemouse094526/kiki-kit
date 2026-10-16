@@ -1,7 +1,5 @@
-# Template: docs/features/{slug}/progress.md
+# Template: docs/progress/{slug}/progress.md
 
-The one file that says where a feature stands: which tickets are done,
-what each one built, what the next one must know, and what is stuck.
 **Every build session reads it first and updates it before it ends.**
 Follow [markdown-style.md](../../warroom/references/markdown-style.md).
 Labels, status words, and commands stay in English; the text is in the
@@ -11,12 +9,15 @@ docs language.
 
 - **Created by warroom** when it cuts the tickets. A re-cut rewrites only
   the Tickets table.
+- Lives beside `tickets/` in `docs/progress/{slug}/`; the spec and
+  decisions it cites are in `docs/features/{slug}/`. The one-line summary
+  of where the feature stands also goes in `docs/progress/board.md`.
 - **Now** and **Next** are rewritten at the end of every session. Next is
   always a command ready to paste, with the ticket number.
 - **Tickets** — one row per ticket. Status is `ready`, `in-progress`, or
   `done`. A ticket's commit is found by `(#NN)` in `git log`.
 - **Log** — one entry per finished ticket, newest first, written in the
-  ticket's commit. It is how one ticket talks to the next:
+  ticket's commit:
   - **Built** — what works now, in the user's terms, two or three bullets.
   - **Decided** — each `D{n}` the build made, one line each.
   - **For the next ticket** — anything a later ticket must know: a helper
@@ -26,9 +27,9 @@ docs language.
 - **A ticket stopped part-way** gets a Log entry too, marked `stopped`:
   what is done, what is left, and the `wip/` branch if there is one.
 - **Blocked** — only what the build may not settle itself: a change to the
-  spec's behaviour, a legal item, or an ADR the user wants to wait on; a
-  bug it couldn't reproduce; a CI failure that was there before the
-  feature. Review findings are fixed in the ticket, never parked here.
+  spec's behaviour, a legal item, or a `system` decision the user wants to
+  wait on; a bug it couldn't reproduce; a CI failure that was there before
+  the feature. Review findings are fixed in the ticket, never parked here.
   - Rows are numbered, never deleted.
   - **Needs** is the one command that closes it.
   - **Status** is `open` until that command closes it, then `→ D{n}`,

@@ -23,20 +23,20 @@ The build follows them; the Standards reviewer checks against them.
 ## Set them up — warroom, before cutting tickets
 
 An area the spec puts code in with no conventions yet → set them up before
-cutting any ticket, so no build invents a structure and no prefactor turns
-up later out of order.
+cutting any ticket.
 
 1. Read the existing code there and list the patterns it already follows.
 2. Propose in chat: folder tree (start from the trees in the template:
    routes grouped public/private, shared code in folders named for its
-   kind), layers, the few rules that must never break, and the testing stack — the runner, and when there is a UI the
-   e2e tool, where e2e tests live, and how they start the apps (one shared
-   e2e package such as `apps/e2e` when flows cross apps). Ask with
+   kind), layers, the few rules that must never break, and the testing
+   stack — the runner, and when there is a UI the e2e tool, where e2e
+   tests live, and how they start the apps (one shared e2e package such
+   as `apps/e2e` when flows cross apps). Ask with
    AskUserQuestion: accept (Recommended) / adjust.
 3. Write `.claude/skills/{framework}-{surface}/` from
    [templates/conventions-skill.md](../templates/conventions-skill.md),
    plus a short `CLAUDE.md` for the app that points at it.
-4. Record it as a `D{n}` (`**From:** tickets`).
+4. Record it as a `D{n}` (`**From:** tickets`) with its index row.
 5. Existing code that doesn't match → prefactor work at the start of the
    first ticket, or its own first ticket when it is large.
 
@@ -46,12 +46,10 @@ per app type, shared by every app of that type in the repo.
 
 ## Keep them current — warroom-build
 
-- A ticket that sets or changes a layer's rules updates its `rules/{layer}.md`
-  **in the same commit** as the code, so the rule and its first example
-  match.
+- A ticket that sets or changes a layer's rules updates its
+  `rules/{layer}.md` **in the same commit** as the code.
 - A layer with no rules file yet (the first background job, the first upload)
   is a structural choice local to the ticket: ask how it should work, add
   `rules/{layer}.md` and its index row, then write the code.
 - `SKILL.md` stays short — structure, never-break rules, rules index.
-  Detail lives in `rules/` so it loads only when needed. English, like
-  code.
+  Detail lives in `rules/`. English.

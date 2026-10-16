@@ -9,9 +9,8 @@ is warroom's. The spec source is the warroom ticket and the docs it covers.
 - **Newcomer** — can a developer who knows nothing about the ticket tell
   what the code does?
 
-All three run as **parallel subagents** so each keeps a clean context.
-Report them side by side; never merge or rerank across axes — a change can
-pass one and fail another.
+All three run as **parallel subagents**. Report them side by side; never
+merge or rerank across axes.
 
 ## Two scopes
 
@@ -19,7 +18,7 @@ pass one and fail another.
 |---|---|---|
 | When | end of every ticket, before its commit | every ticket `done`, before merge or PR |
 | Fixed point | the ticket's start commit | merge-base with the default branch |
-| Spec source | the ticket + what its Covers names | the whole feature folder + ADRs |
+| Spec source | the ticket + what its Covers names | the whole feature folder + `system` decisions |
 | Newcomer compares against | the ticket's **What to build** | spec.md › Solution |
 
 ## 1. Pin the diff and the sources
@@ -27,14 +26,12 @@ pass one and fail another.
 Diff: `git diff {fixed point}` (include uncommitted work); commits:
 `git log {fixed point}..HEAD --oneline`. Empty diff → nothing to review.
 
-`git diff` skips untracked files, so a file this ticket created and never
-added is invisible to all three reviewers. First check `git status`: mark
-each new file that belongs to this change with `git add -N {path}` (it only
-makes the file show in the diff; nothing is staged), and delete or ignore
-the ones that don't.
+First check `git status`: mark each untracked file that belongs to this
+change with `git add -N {path}`, and delete or ignore the ones that don't.
 
-- **Spec source** — per the table above: tickets, the `D{n}`, the ADRs,
-  spec.md › Seams and the Implementation sections touched, the legal items.
+- **Spec source** — per the table above: tickets, the `D{n}`, the
+  `system` rows of `docs/decisions.md`, spec.md › Seams and the
+  Implementation sections touched, the legal items.
 - **Standards source** — the project's conventions skill (SKILL.md and the
   `rules/` files for the layers touched), `.claude/rules/`, `CLAUDE.md`, lint
   config, the `docs/library-notes/` notes for what the diff touches — plus the
@@ -71,7 +68,8 @@ calls. Under 400 words. Do not edit files."
 **Spec** gets the diff command, the spec-source paths, and: "Report
 (a) acceptance criteria or requirements missing or partial; (b) behaviour
 not asked for — scope creep or another ticket's work; (c) behaviour that
-looks implemented but wrong, including ADR and legal requirements;
+looks implemented but wrong, including `system` decisions and legal
+requirements;
 (d) tests outside the agreed seams, coupled to internals, or tautological.
 Feature review also: (e) the same thing done two ways or named two ways
 across tickets. Quote the ticket or spec line for each. Under 400 words. Do
@@ -88,12 +86,10 @@ files."
 ## 3. Compare and report
 
 Put the Newcomer's summary next to **What to build** (ticket) or spec.md ›
-Solution (feature). Matches → the code explains itself. Differs → a
-finding: either the code says something other than what it does (rename,
+Solution (feature). Differs → a finding: either the code says something other than what it does (rename,
 restructure, clarify the test) or it does something other than intended.
 Each "had to guess" item is a finding too.
 
 Show the reports under `## Standards`, `## Spec`, and `## Newcomer`, then
 one line: findings per axis and the worst in each. Review runs once per
-scope — after fixing, recheck only the fixed findings, because a second
-broad review never ends.
+scope — after fixing, recheck only the fixed findings.

@@ -1,32 +1,21 @@
 ---
 name: pr-open
 description: >-
-  Open a GitHub pull request whose description tells a reviewer in ten
-  seconds what changed, why, and what to watch when it deploys. Runs the
-  project's CI checks first, picks the base branch (develop when it
-  exists), reads the diff for deploy-relevant changes — env vars added or
-  renamed, migrations, Dockerfile and deploy config, new dependencies —
-  pulls the why from a warroom ticket and progress.md when there is one,
-  writes the body in the user's language (Thai by default) from a fixed
-  template (what changes, why, changes, deploy notes, verified, after
-  merge) with no checkboxes and no generated-by line, pushes, opens the PR with gh, and gives a merge commit title and description
-  ready to paste into GitHub's merge box. Never merges. Use
-  when the user asks to open, create, or raise a PR, or says "/pr-open".
+  Open a GitHub pull request with a clear body — what changes, why, deploy
+  notes, how it was verified — in the user's language (Thai by default),
+  after running the CI checks; also gives a merge commit title and
+  description. Never merges. Use when the user asks to open, create, or
+  raise a PR, or says "/pr-open".
 ---
 
 # PR open
-
-A PR description is read by someone who wasn't there, often while
-deciding whether it is safe to merge and deploy. It answers four things,
-in this order: what changes, why, what could break on deploy, and how it
-was checked.
 
 ## 1. Before writing
 
 1. **Clean tree.** Uncommitted changes → ask: commit them into this PR, or
    stash them.
-2. **Branch.** On the default branch or on `develop` → stop: a PR needs its
-   own branch. Ask for a name, or propose `{type}/{short-slug}`.
+2. **Branch.** On the default branch or on `develop` → stop. Ask for a
+   branch name, or propose `{type}/{short-slug}`.
 3. **Base.** `develop` exists on the remote → base is `develop`; otherwise
    the default branch. The user named one → that.
 4. **Checks.** Run what CI runs — read the CI config and use its exact
@@ -57,10 +46,10 @@ From `git log {base}..HEAD` and `git diff {base}...HEAD`:
     language's manifest);
   - anything breaking: a removed or renamed route, field, export, or env
     var.
-- **Why** — the warroom ticket the commits name (`(#NN)`), its
-  `progress.md` Log entry, and the `D{n}` it cites; else the issue linked
-  in the commits or branch name; else ask the user in one line. Never
-  invent a reason.
+- **Why** — the warroom ticket the commits name (`(#NN)`, in
+  `docs/progress/{slug}/tickets/`), its `progress.md` Log entry, and the
+  `D{n}` it cites; else the issue linked in the commits or branch name;
+  else ask the user in one line. Never invent a reason.
 - **UI changes** — screenshots, when the change shows on screen and the
   user can provide them or the app runs locally.
 
@@ -74,19 +63,17 @@ From [templates/pr-body.md](templates/pr-body.md). Rules:
 - **Title** — `{type}({scope}): {what changes for the user}`: the
   `type(scope):` prefix in English, the rest in the body's language,
   under 70 characters.
-- **Lead with the effect, not the code.** "Visitors see the landing page
-  while the api is asleep" before "removed the loader".
+- **Lead with the effect, not the code.**
 - **No checkboxes.** Done things go under "ตรวจแล้ว" (Verified) with their
   result; things still to do go under "หลัง merge" (After merge) with who
   does them.
 - **No generated-by or attribution line** in the body.
 - **The deploy notes section is never dropped.** Each line says `ไม่มี`
-  (`none`) when there is nothing — the reader then knows it was checked.
+  (`none`) when there is nothing.
 - **Every env var change says where to set it** (which service, which
   environment) and whether it must be set **before** merge.
-- **Code identifiers in backticks**; no file-by-file list — the Files tab
-  already has that.
-- Short: a reviewer should not need to scroll on a small PR.
+- **Code identifiers in backticks**; no file-by-file list.
+- Short: no scrolling on a small PR.
 
 ## 4. Open it
 
@@ -96,17 +83,15 @@ From [templates/pr-body.md](templates/pr-body.md). Rules:
    only when the user asks or a check is red.
 3. Show the PR URL and the deploy notes in chat. Don't merge, don't
    approve, don't request reviewers unless asked.
-4. **The merge message, ready to copy.** GitHub's default merge commit is
-   "Merge pull request #N from owner/branch", and deploy dashboards
-   (Railway, GitHub Deployments) show that line. Give the two fields of
-   the merge confirm box, each in its own code block:
+4. **The merge message, ready to copy.** Give the two fields of the merge
+   confirm box, each in its own code block:
    - **Commit title** — the PR title plus ` (#N)`, e.g.
      `fix(landing): หน้า landing ที่ไม่เรียก api (#14)`.
    - **Commit description** — two or three lines: what changes, plus the
      one deploy note that matters most (an env to set, a migration), or
      nothing more when every deploy note is `ไม่มี`.
 
-   The repo can make this automatic: Settings → General → Pull Requests →
-   default merge (and squash) commit message → "Pull request title and
-   description". Mention it once if the repo's merge commits still use
-   GitHub's default (`git log --merges -3` on the base).
+   The base's merge commits (`git log --merges -3`) still read "Merge pull
+   request #N from owner/branch" → mention once that Settings → General →
+   Pull Requests → default merge (and squash) commit message → "Pull
+   request title and description" makes this automatic.

@@ -3,8 +3,8 @@
 warroom's legal phase, and its standalone mode `/warroom legal {items}`.
 Not legal advice.
 
-Answer each thing the user wants to do — no more, no less — with one of
-three verdicts, each backed by a cited source:
+Answer each thing the user wants to do with one of three verdicts, each
+backed by a cited source:
 
 - **ALLOWED** — say it is allowed and cite the reference. Nothing else.
 - **NOT ALLOWED** — name the specific prohibition and cite it.

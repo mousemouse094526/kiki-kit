@@ -1,19 +1,18 @@
 # TDD — the red → green loop
 
 From Matt Pocock's `tdd` ([mattpocock/skills](https://github.com/mattpocock/skills),
-MIT). The method is the same in every project. The runner, the mocking
-library, and where tests live come from the project's conventions skill
-(`rules/testing.md`) and spec.md › Testing decisions — on tooling, the
-project wins. Examples are TypeScript only for illustration.
+MIT). The runner, the mocking library, and where tests live come from the
+project's conventions skill (`rules/testing.md`) and spec.md › Testing
+decisions — on tooling, the project wins. Examples are TypeScript only for
+illustration.
 
 ## What a good test is
 
-A test checks behaviour through a public interface, so the code under it
-can change completely and the test still holds. It reads like a spec:
-"user can checkout with a valid cart" says what the user can do.
+A test checks behaviour through a public interface. Its name reads like a
+spec: "user can checkout with a valid cart".
 
 ```typescript
-// BAD: verifies through a side channel — breaks on any storage change
+// BAD: verifies through a side channel
 test("createUser saves to database", async () => {
   await createUser({ name: "Alice" });
   expect(await db.query("SELECT * FROM users WHERE name = ?", ["Alice"])).toBeDefined();
@@ -30,8 +29,7 @@ test("createUser makes user retrievable", async () => {
 
 A **seam** is the public boundary you observe behaviour at. Tests live at
 seams, never against internals — and only at **pre-agreed** seams:
-spec.md › Seams, named in the ticket's Covers. Agreeing them once, at the
-gate, stops each build inventing its own.
+spec.md › Seams, named in the ticket's Covers.
 
 ## Anti-patterns
 
@@ -39,18 +37,17 @@ gate, stops each build inventing its own.
   methods, asserts call counts, or checks through a side channel. The tell:
   it breaks on a refactor that changed no behaviour.
 - **Tautological** — the expected value is computed the way the code
-  computes it, so it passes by construction. Use an independent literal:
+  computes it. Use an independent literal:
   `expect(calculateTotal([{ price: 10 }, { price: 5 }])).toBe(15)`.
-- **Horizontal slicing** — all tests first, then all code. Bulk tests
-  check imagined behaviour; one test → one implementation lets each cycle
-  learn from the last.
+- **Horizontal slicing** — all tests first, then all code. Write one test
+  → one implementation instead.
 
 ## Mock only at system boundaries
 
 External APIs, time, randomness, sometimes the database or file system —
 never your own modules. At a boundary, pass the dependency in, and prefer
 one function per external operation (`api.getUser`, `api.createOrder`) over
-one generic `fetch`, so each mock returns one shape.
+one generic `fetch`.
 
 ## Rules of the loop
 
@@ -60,8 +57,6 @@ one generic `fetch`, so each mock returns one shape.
 - **Refactoring is not part of the loop.** It belongs to the review.
 - **Stay in the ticket.** Another ticket's behaviour is not built here,
   even when it sits next to the code you're touching.
-- **End-to-end tests come after the behaviour works** — too slow for
-  red → green.
-- **No independent truth, no loop.** Pure wiring, config, and types have
-  nothing to assert that doesn't restate the code; the typecheck and the
+- **End-to-end tests come after the behaviour works**, outside the loop.
+- **No loop for pure wiring, config, or types** — the typecheck and the
   seam tests of the behaviour they wire cover them.

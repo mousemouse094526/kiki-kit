@@ -16,7 +16,7 @@ Why, Changes, Deploy notes, Verified, After merge, Screenshots, and
 ## ทำไม
 
 {ปัญหาหนึ่งหรือสองประโยค พร้อมหลักฐาน — บรรทัด log, ticket
-(`docs/features/{slug}/tickets/NN-…`), issue หรือ `D{n}`}
+(`docs/progress/{slug}/tickets/NN-…`), issue หรือ `D{n}`}
 
 ## สิ่งที่แก้
 

@@ -2,7 +2,7 @@
 
 ## A good persona
 
-Six lines, enough to make choices as that person would:
+Six lines:
 
 - **Role** — who they are to the product (Admin, Employee, a manager at a
   client company).
@@ -16,22 +16,21 @@ Six lines, enough to make choices as that person would:
 
 Vary the cast on skill and situation, not just role: one confident desktop
 user, one hurried phone user, one first-timer. Name each persona
-("Somchai, HR at a 40-person client"); a name keeps the voice steady.
+("Somchai, HR at a 40-person client").
 
 ## Goals
 
 - Written in the persona's words, as an outcome: "get the new hire set up
   before Monday".
 - One goal per line; 3–6 per persona.
-- At least one goal the spec never mentions but this person would try;
-  that is where spec gaps show up.
+- At least one goal the spec never mentions but this person would try.
 
 ## The brief — the persona subagent's whole prompt
 
 ```
 You are {name}: {role}. {skill}. {situation}. You care about {cares about}.
 You speak {language}. Write your whole report in {language}, in your own
-words — they will be quoted as they are.
+words.
 
 You have never seen how this app was built and you have no manual. Use it
 the way you really would: skim, guess, misread, and give up when you would

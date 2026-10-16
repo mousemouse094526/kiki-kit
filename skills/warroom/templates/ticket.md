@@ -1,4 +1,4 @@
-# Template: tickets/NN-slug.md
+# Template: docs/progress/{slug}/tickets/NN-slug.md
 
 Ticket shape from Matt Pocock's `to-tickets`
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT). Copy the
@@ -14,14 +14,14 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 - **Blocked by** names ticket numbers and titles, or
   `None (can start immediately)`.
 - **Covers** names exactly what this ticket delivers, one kind per bullet:
-  decisions, ADRs, seams (by number in spec.md › Seams), user stories,
-  legal items. The coverage check reads these.
+  decisions (another feature's with its slug), seams (by number in
+  spec.md › Seams), user stories, legal items.
 - **One observable behaviour per bullet**: `{situation} → {result}`. A
-  behaviour proven through the UI ends with `(e2e)`. Tickets are big, so
-  more than eight is normal: group them under `###` sub-headings by area.
+  behaviour proven through the UI ends with `(e2e)`. More than eight →
+  group them under `###` sub-headings by area.
 - **Status** is `ready-for-agent`, `in-progress`, or `done`.
-- No file paths or code snippets — they go stale. A snippet that encodes
-  a decision lives in the spec; cite it.
+- No file paths or code snippets. A snippet that encodes a decision lives
+  in the spec; cite it.
 
 ## Template
 
@@ -33,8 +33,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 **Blocked by:** {NN: title of each ticket that must be done first} | None (can start immediately)
 
 **Covers:**
-- Decisions: D1, D4
-- ADR: 0002
+- Decisions: D1, D4, user-contact D4
 - Seams: 1, 12
 - User stories: 3, 5
 - Legal: 9

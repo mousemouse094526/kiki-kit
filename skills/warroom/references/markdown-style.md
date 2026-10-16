@@ -8,14 +8,13 @@ wins.
 ## Rules
 
 - **No checkboxes.** Plain `- ` bullets only — never `- [ ]` or `- [x]`.
-  They render as raw `[ ]` in many viewers, and nobody ticks them. Whether
-  something is done lives in a `**Status:**` field.
+  Whether something is done lives in a `**Status:**` field.
 - **One fact per bullet.** A bullet that needs "and" twice is two bullets.
   Nest bullets for sub-cases and steps instead of writing long lines.
 - **No chained facts in prose.** Don't join facts with `·`, `/`, or `+` on
   one line. Allowed only in table cells, footer lines
-  (`**From:** … · **Status:** … · **ADR:** …`, a trial finding's
-  `**Kind:** …` line), an ADR's `Source:` line, and `**Covers:**` lists.
+  (`**From:** … · **Status:** …`, a trial finding's `**Kind:** …` line)
+  and `**Covers:**` lists.
 - **Pick the shape that fits:** tables for contracts and comparisons,
   numbered lists for ordered steps, bullets for everything else.
 - **Bold labels stand on their own line** with a blank line before the
@@ -27,10 +26,9 @@ wins.
   article — carries a link where it is used, and the doc lists every link
   under `## Sources` at the end: `- [{title}]({url}) — {what it backs}
   (accessed {YYYY-MM-DD})`. Facts from the project itself (code, `D{n}`,
-  ADRs) are cited by name, not linked. A doc with no outside facts has no
-  Sources section. **Exception:** `legal.md` keeps its numbered
-  `## References` section instead, cited inline as `[n]` — the same rule
-  under the name lawyers expect.
+  `user-contact D4`) are cited by name, not linked. A doc with no outside
+  facts has no Sources section. **Exception:** `legal.md` keeps its numbered
+  `## References` section instead, cited inline as `[n]`.
 - **Language** — see the next section.
 - No emoji, no raw HTML.
 
@@ -39,15 +37,21 @@ wins.
 - **Every folder under `docs/` has a row in `docs/README.md`**
   ([templates/docs-readme.md](../templates/docs-readme.md)), added by the
   skill that creates the folder — create the README from the template if
-  it's missing. A folder nobody can explain is a folder nobody reads.
-- **A feature keeps its own things together:** spec, decisions, legal,
-  progress, `tickets/`, `user-trials/`, and `bugs/` all live in
-  `docs/features/{slug}/`.
+  it's missing.
+- **What a feature is, apart from the work on it:**
+  - `docs/features/{slug}/` — spec, decisions, flow, legal, and sketches:
+    what stays true once the feature ships;
+  - `docs/progress/{slug}/` — map, `progress.md`, `tickets/`,
+    `user-trials/`, and `bugs/`: the work in flight;
+  - `docs/progress/board.md` — one row per feature;
+  - `docs/decisions.md` — one row per decision, by subject.
+- **Older layout** (progress or tickets inside `features/{slug}/`, or
+  `docs/adr/` without `docs/decisions.md`) → [migrate.md](migrate.md)
+  first.
 
 ## Plain words — a reader who wasn't in the room
 
-Every doc is read later by someone who missed the conversation, often
-skimming. Write for them.
+Write for someone who missed the conversation and skims.
 
 - **Lead with the point.** The first line of a doc or section says what it
   is or what was decided; detail comes after.
@@ -65,11 +69,9 @@ skimming. Write for them.
 
 ## Language — English except the docs
 
-One rule for every warroom skill:
-
 | Output | Language |
 |---|---|
-| **Docs the user reads** — spec, decisions, flow, legal, ADRs, tickets, debug records, trial reports, `CONTEXT.md` descriptions | the language the user writes in |
+| **Docs the user reads** — spec, decisions and their index, flow, legal, tickets, progress, the board, debug records, trial reports, `CONTEXT.md` descriptions | the language the user writes in |
 | Chat replies and AskUserQuestion choices | the language the user writes in |
 | Everything else — skill files, prompts between agents (subagent briefs, the build prompt), `docs/library-notes/` notes, code, code comments, test names, log messages, commit messages, branch names | **English** |
 

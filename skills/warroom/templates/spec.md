@@ -1,31 +1,30 @@
 # Template: spec.md
 
-The what and how. Copy the skeleton under **Template**; follow **Rules**.
-The `##` headings stay in English; everything else is in the docs language.
-Drop a section only when it would be empty.
+Copy the skeleton under **Template**; follow **Rules**. The `##` headings
+stay in English; everything else is in the docs language. Drop a section
+only when it would be empty.
 
 ## Rules
 
 All of [markdown-style.md](../references/markdown-style.md), plus:
 
-- **Cite, don't retell.** A decision appears as `(D3)`; its reasoning lives
-  in decisions.md.
+- **Cite decisions** as `(D3)`; never restate their reasoning. Another
+  feature's decision appears with its slug, `(user-contact D4)`, and is
+  never copied here.
 - **Tables for contracts** — routes, error codes, endpoints and their
   actions, settings. **Numbered lists for ordered steps** — checks in
   order, transaction steps.
 - **Implementation is split by `###` area** (modules touched, data, each
   API group, client, ops), one area per heading.
-- **Name modules and packages, not files.** `apps/api`, `packages/db`, or a
-  feature folder are fine; file paths and code snippets go stale fast.
-  Exception: a snippet that IS the decision — a state machine, a schema.
+- **Name modules and packages** (`apps/api`, `packages/db`, a feature
+  folder), not file paths or code snippets. Exception: a snippet that IS
+  the decision — a state machine, a schema.
 - **Seams are numbered**, one seam per number, each with observable
-  pass/fail bullets. The ticket cut and the build read this section.
+  pass/fail bullets.
 - **Pick seams on purpose**, in this order:
-  1. Reuse a seam that already exists — two contracts for one thing drift.
-  2. Take the **highest** one that works — everything below stays free to
-     change, and tests survive refactors.
-  3. **Fewer is better**; one is the target — each seam is a contract kept
-     forever.
+  1. Reuse a seam that already exists.
+  2. Take the **highest** one that works.
+  3. **Fewer is better**; one is the target.
 
   The chosen set is a `D{n}` with its reason, cited above the list.
 - **Tag a seam `(e2e)`** when its behaviour can only be observed through
@@ -37,10 +36,9 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   `draft`.
 - **Library assumptions** — every library behaviour the plan relies on,
   one row each, linked to the doc page of the installed version (or the
-  version to be added). A row with no link is an unchecked guess: make it
-  an Open Question.
-- **Testing decisions** — the existing tests to copy, by path (the one
-  place paths are wanted), and anything unusual about what gets tested.
+  version to be added). A row with no link → make it an Open Question.
+- **Testing decisions** — the existing tests to copy, by path (paths are
+  allowed here), and anything unusual about what gets tested.
   Nothing to decide → one line, "follow {path}"; don't drop the section.
 - **Open Questions** — numbered, one sentence each. One that doesn't block
   building says why after ` — non-blocking: `. Empty → write `None.`

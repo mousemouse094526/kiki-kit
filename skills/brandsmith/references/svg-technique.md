@@ -5,16 +5,9 @@ reason.
 
 ## Choosing the font — license first
 
-Outlining a font's glyphs into a logo is use of that font, so its license must
-allow it, and the font file must travel with the generators so they regenerate on
-any machine.
-
-- **Default: an open-licensed font** — SIL OFL 1.1 or Apache 2.0, which allow
-  logos and commercial use. Most of Google Fonts qualifies: Inter, Poppins, Manrope,
+- **Default: an open-licensed font** — SIL OFL 1.1 or Apache 2.0. Most of Google Fonts qualifies: Inter, Poppins, Manrope,
   and for Thai Noto Sans Thai, IBM Plex Sans Thai, Sarabun, Prompt, Kanit.
-- **Never a system font** (Arial, Helvetica, SF Pro, Thonburi, Sukhumvit…): it is
-  licensed for use on that computer, not for a logo, and it isn't on the next
-  machine.
+- **Never a system font** (Arial, Helvetica, SF Pro, Thonburi, Sukhumvit…).
 - **The user's own commercial font** → only after they confirm their license covers
   logo or trademark use. Record "license confirmed by the user" in the concept doc.
 - **Vendor it:** download the `.ttf` from the official source (the
@@ -58,13 +51,11 @@ for ch in text:
 # " ".join(cmds) is the word as one path; x is total advance width in font units
 ```
 
-Cap height: measure from the actual 'B'/'H' glyph bbox rather than trusting OS/2
-metrics; rounded fonts often report generic values. Scale factor to get cap height
+Cap height: measure from the actual 'B'/'H' glyph bbox, not OS/2 metrics. Scale factor to get cap height
 `H` px = `H / cap_units`.
 
-**Complex scripts (Thai, Arabic, Devanagari…):** the naive cmap+kern walk above
-misplaces combining marks — Thai vowels/tone marks (สระ/วรรณยุกต์ เช่น ป้า, รี่)
-will sit wrong. Shape with `uharfbuzz` first (it returns positioned glyph ids with
+**Complex scripts (Thai, Arabic, Devanagari…):** don't use the cmap+kern walk above.
+Shape with `uharfbuzz` first (it returns positioned glyph ids with
 x/y offsets), then draw each glyph through SVGPathPen at its shaped position.
 `pip install uharfbuzz` alongside fonttools. Use a vendored open-licensed Thai
 font (see Choosing the font), not the macOS system Thai fonts.
@@ -77,11 +68,9 @@ font (see Choosing the font), not the macOS system Thai fonts.
 | circle | 52% | 54.5% |
 | square with text label below | 40% | 42%, label baseline ≈ 80% |
 
-Why: a circle's rim curves *into* the corners a square leaves free, so an identical
-mark reads ~10% tighter — shrink it. A label needs the mark to move up, not just
-shrink. "Optical center on the main letter" means: compute translate offsets from the
-letterform's own bbox and place ornaments (sprout, accent, antenna) relative to it;
-centering the combined bbox sinks the letter visually.
+Optical center on the main letter: compute translate offsets from the letterform's
+own bbox and place ornaments (sprout, accent, antenna) relative to it, not from the
+combined bbox.
 
 ```python
 scale = (TILE * cap_frac) / letter_bbox_height
@@ -100,25 +89,23 @@ is `sqrt(512² - (y-512)²)`; keep `text_width/2 + margin(≈20px)` under it. Ch
 
 To punch a shape out of a letter (fish in a counter, star in an O): draw the cutout
 as a subpath wound the same direction inside the letter path and set
-`fill-rule="evenodd"` — one path, no masks, survives every renderer and PDF embedding.
+`fill-rule="evenodd"` — one path, no masks.
 
 ## Theming variants (minimum set)
 
 | variant | background | mark |
 |---|---|---|
 | primary | white / light | brand color (accent may differ) |
-| on-dark | dark ink (very dark tinted with brand hue beats pure #000) | white + brand-color accent |
-| mono-black | any light | #000 only — fax test |
+| on-dark | dark ink (very dark, tinted with brand hue, not pure #000) | white + brand-color accent |
+| mono-black | any light | #000 only |
 | mono-white | any dark | #FFF only |
 | brand-color | brand-color bg | white |
 
-Dark "ink" tinted toward the brand hue (e.g. green brand → `#14261A`) looks
-intentional where `#000000` looks like a missing asset.
+Tint dark ink toward the brand hue (e.g. green brand → `#14261A`).
 
 ## PDF concept doc
 
-`reportlab` + `svglib` can embed the generated SVGs directly (svglib renders a
-drawing object reportlab can place). Thai/non-Latin text in the PDF needs a TTF
-registered via `pdfmetrics.registerFont(TTFont(...))` — use the vendored font in
-`brand/tools/fonts/` so the PDF builds on any machine. Keep every doc string in the
-build script so the PDF regenerates from one command.
+Embed the generated SVGs with `reportlab` + `svglib`. Thai/non-Latin text in the PDF
+needs a TTF registered via `pdfmetrics.registerFont(TTFont(...))` — use the vendored
+font in `brand/tools/fonts/`. Keep every doc string in the build script so the PDF
+regenerates from one command.

@@ -1,15 +1,15 @@
 # Red team reviewers
 
 Five reviewers, each a separate subagent. Each reads the feature folder
-(`spec.md`, `decisions.md`, `flow.md`, `legal.md`) and `CONTEXT.md`.
-Reviewers never edit files. No reviewer rules on law — that is
-the legal check's job.
+(`spec.md`, `decisions.md`, `flow.md`, `legal.md`), `CONTEXT.md`, and
+`docs/decisions.md` (every decision in the project, by subject).
+Reviewers never edit files. No reviewer rules on law.
 
 ## Prompt template (fill per reviewer)
 
 ```
 You are {name}, reviewing a feature plan before approval.
-Read: {feature folder path}, {CONTEXT.md path}. The codebase is at {repo root}.
+Read: {feature folder path}, {CONTEXT.md path}, {docs/decisions.md path}. The codebase is at {repo root}.
 Your checklist:
 {checklist}
 Report at most 5 findings, most severe first. Each finding:
@@ -36,11 +36,10 @@ answer. Do not edit any file.
 - Does the plan match the codebase as it is (modules, names, existing
   patterns)? Check the code.
 - Is any decision cited but missing from decisions.md, or contradicting
-  another?
+  another — including another feature's in `docs/decisions.md`?
 - Open the page linked in each spec › Library assumptions row: does it
   really promise that, for the installed version? Does the Implementation
-  rely on library behaviour with no row? Either is a finding — an unread
-  library is the most common reason a build stops.
+  rely on library behaviour with no row? Either is a finding.
 - Walk one ticket's worth of the work as its builder: which choice would
   you have to ask about (a new dependency, where a shared piece lives, a
   default, an error message)? Each is a finding.
@@ -56,8 +55,7 @@ answer. Do not edit any file.
 
 - Is every Seam observable from outside (API, UI, event, stored record)?
 - Could a seam be an existing one, sit higher, or merge with another?
-  More than about three seams usually means the feature was cut before
-  anyone knew where the joints were.
+  More than about three seams → a CONCERN.
 - Does each user story have a checkable pass/fail condition?
 - Which edge cases have no stated expected behaviour?
 - Does flow.md match spec.md step for step?

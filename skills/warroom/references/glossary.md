@@ -46,6 +46,3 @@ A multi-context `CONTEXT-MAP.md` lists each context with a link and one
 line, plus a Relationships section (`**Ordering → Billing**: Ordering emits
 OrderPlaced; Billing consumes it`).
 
-## ADRs
-
-Criteria, sweep, and format in [adr.md](adr.md).

@@ -1,10 +1,8 @@
-# Language and library docs — read the real docs, not memory
+# Language and library docs
 
 Before writing code, the language and every library whose API the
-ticket's new code calls have a **reference note for the installed version** in
-`docs/library-notes/` — fetched first, then coded against. Model memory is often
-a version behind, and a wrong guess about a library is the most common
-reason a build breaks.
+ticket's new code calls have a **reference note for the installed
+version** in `docs/library-notes/` — fetched first, then coded against.
 
 Notes hold what the **library** does and recommends; how this project uses
 it lives in the conventions skill
@@ -43,10 +41,9 @@ it when missing. Note version equals installed → use it. Older or missing
 → fetch and write before any code:
 
 1. **`llms.txt`** — `{site}/llms.txt`, then `{site}/docs/llms.txt`; read
-   the index, fetch only the pages this ticket needs. It usually covers the
-   **latest** release: installed ≠ latest → prefer the versioned docs, and
-   read the changelog in between so the note never recommends an API the
-   installed version lacks.
+   the index, fetch only the pages this ticket needs. Installed ≠ latest →
+   prefer the versioned docs, and read the changelog in between; the note
+   never recommends an API the installed version lacks.
 2. **No `llms.txt`** → the official docs for the installed version.
 3. **Languages** → the official reference and style guide for the version
    in use, plus the project's lint and compiler settings.
@@ -61,5 +58,5 @@ installed version it was checked against. Later tickets extend it.
 ## 3. Use them
 
 Code follows the notes. Where code relies on non-obvious behaviour, the
-test or a short comment names the doc page so the reviewer can check it.
+test or a short comment names the doc page.
 The Standards reviewer treats the notes as project standards.
