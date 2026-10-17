@@ -46,7 +46,7 @@ wins.
   - `docs/progress/board.md` — one row per feature;
   - `docs/decisions.md` — one row per decision, by subject.
 - **Older layout** (progress or tickets inside `features/{slug}/`, or
-  `docs/adr/` without `docs/decisions.md`) → [migrate.md](migrate.md)
+  no `docs/decisions.md` while features exist) → [migrate.md](migrate.md)
   first.
 
 ## Plain words — a reader who wasn't in the room

@@ -1,7 +1,7 @@
 # Migrate an older docs layout — once per project
 
-Older warroom versions kept everything inside `docs/features/{slug}/` and
-wrote ADRs to `docs/adr/`. Moves:
+Older warroom versions kept everything inside `docs/features/{slug}/`.
+`docs/adr/` stays where it is. Moves:
 
 | Old place | New place |
 |---|---|
@@ -11,7 +11,7 @@ wrote ADRs to `docs/adr/`. Moves:
 | `features/{slug}/user-trials/` | `progress/{slug}/user-trials/` |
 | `features/{slug}/bugs/` | `progress/{slug}/bugs/` |
 | the index table on top of each `decisions.md` | rows in `docs/decisions.md`, by subject |
-| `docs/adr/NNNN-*.md` | rows in `docs/decisions.md`, Scope `system` |
+| the `· **ADR:** …` footer of each entry | the ADR column of its `docs/decisions.md` row |
 | — | `docs/progress/board.md` |
 
 `features/{slug}/` keeps spec.md, flow.md, decisions.md, legal.md, and any
@@ -25,7 +25,8 @@ own work. Any of these → migrate first:
 - a `features/*/` folder holds `progress.md`, `map.md`, `tickets/`,
   `user-trials/`, or `bugs/`;
 - a feature `decisions.md` exists and `docs/decisions.md` doesn't;
-- `docs/progress/board.md` is missing while `docs/progress/` has features.
+- `docs/progress/board.md` is missing while `docs/progress/` has features;
+- `docs/decisions.md` has a `Scope` column → only step 5b.
 
 ## How
 
@@ -43,16 +44,20 @@ own work. Any of these → migrate first:
    [templates/decisions-index.md](../templates/decisions-index.md):
    - read every feature's `decisions.md`; one row per `D{n}`, under the
      subject a later feature would look for, Status copied;
-   - Scope `system` for every `D{n}` an ADR's `Source:` names, and for
-     decisions that pass the `system` test in the template; else
-     `feature`;
-   - each ADR becomes a row (D `ADR-NNNN`, link to its file, Scope
-     `system`). Leave `docs/adr/` in place as history; nothing new goes
-     there.
+   - Used by: every other feature whose spec, flow, or tickets cite this
+     decision (search for `{slug} D{n}` and links to its `decisions.md`),
+     else `—`;
+   - ADR column: the ADR whose `Source:` names that `D{n}` (or the entry's
+     old `· **ADR:** …` footer), else `—`;
+   - an ADR with no source `D{n}` gets its own row: Feature and D `—`.
+   - **5b. A `Scope` column instead** → replace it with the Used by and
+     ADR columns as above. Rows that said `system` but have no ADR → list
+     them and ask which get an ADR now ([adr.md](adr.md)); the rest become
+     `—`. A row
+     whose D was `ADR-NNNN` → Feature and D `—`, ADR `NNNN`. If
+     `docs/adr/` was deleted, restore it from git history first.
 6. **Trim each feature `decisions.md`.** Delete the index table at its
-   top. In each entry's footer, drop
-   `· **ADR:** …`; an ADR it named is now cited in that entry's Details as
-   `ADR-NNNN` when it matters.
+   top. In each entry's footer, drop `· **ADR:** …`.
 7. **Build `docs/progress/board.md`** from
    [templates/board.md](../templates/board.md): one row per feature, Stage
    and Next from its `progress.md` (or map.md, or spec Status).

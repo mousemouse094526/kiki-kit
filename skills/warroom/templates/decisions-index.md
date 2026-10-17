@@ -20,18 +20,31 @@ the docs language.
 - **Feature** links the feature's `decisions.md`; **D** is its number there.
   Numbers are per feature, so outside its own folder a decision is always
   cited with its slug: `user-contact D4`.
-- **Scope** is `feature` or `system`:
-  - `system` — a rule every later feature must follow: who owns which data,
-    a technology with real lock-in, a pattern between modules, a
-    compliance or partner constraint the code doesn't show, a deliberate
-    break from the obvious path. Every warroom reads all `system` rows in
-    full before its first question.
-  - `feature` — everything else, including tunable numbers and this
-    feature's own behaviour.
+- **Used by** lists every other feature whose docs cite this decision
+  (`checkout`), else `—`. Add a feature the moment it reuses the decision;
+  remove it when it stops citing it.
+- **ADR** is the ADR number the gate wrote from this decision (`0003`),
+  else `—`. An ADR with no source decision gets its own row: Feature and
+  D are `—`.
 - **Status** mirrors the entry: `active`, `superseded by {slug} D{n}`,
   `changed by …`, `extended by …`.
-- **Old ADRs** (from before this index) are rows too: Feature links the
-  ADR file, D is `ADR-NNNN`, Scope is `system`. No new ADRs are written.
+
+## Changing a decision someone uses
+
+Any skill that supersedes or changes a decision whose row has Used by or
+an ADR:
+
+1. Show the owner and every Used-by feature, with what each cites it for.
+2. Record the new `D{n}` in the deciding feature; the old row's Status
+   becomes `superseded by {slug} D{n}`. The new row takes over Used by and
+   ADR (the ADR is superseded as `references/adr.md` says).
+3. In every Used-by feature: rewrite the citation to the new decision in
+   its spec, flow, and open tickets.
+4. A Used-by feature whose behaviour changes because of it, and that has
+   tickets `done` or `in-progress` → add a row to its `progress.md` ›
+   Blocked (`follow {slug} D{n}`, Needs `/warroom {its slug}`) and set its
+   board row's Stage to `blocked`. Docs-only changes need no row.
+5. List every file changed and every feature now blocked.
 
 ## Template
 
@@ -43,8 +56,8 @@ question; the full entry is in the feature's decisions.md.
 
 ## {Subject, e.g. Phone numbers}
 
-| Decision | Feature | D | Scope | Status |
-|---|---|---|---|---|
-| {e.g. Store phone numbers in E.164} | [user-contact](features/user-contact/decisions.md) | D4 | system | active |
-| {e.g. Show the country picker first} | [phone-international](features/phone-international/decisions.md) | D2 | feature | active |
+| Decision | Feature | D | Used by | ADR | Status |
+|---|---|---|---|---|---|
+| {e.g. Store phone numbers in E.164} | [user-contact](features/user-contact/decisions.md) | D4 | checkout, sms-otp | [0003](adr/0003-phone-e164.md) | active |
+| {e.g. Show the country picker first} | [user-contact](features/user-contact/decisions.md) | D9 | — | — | active |
 ```

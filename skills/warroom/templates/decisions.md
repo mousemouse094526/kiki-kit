@@ -27,14 +27,17 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   only its Status changes (`superseded by D10`, `changed by D21`,
   `extended by D25`).
 - **Another feature's decision** is cited with its slug: `user-contact D4`.
-  Reusing it needs no new entry — the spec cites it. Superseding it is a
-  new entry here whose Details says `supersedes user-contact D4`; that old
-  entry's Status becomes `superseded by {this slug} D{n}`.
+  Reusing it needs no new entry — the spec cites it, and this feature goes
+  in that row's Used by. Superseding it is a new entry here whose Details
+  says `supersedes user-contact D4`; that old entry's Status becomes
+  `superseded by {this slug} D{n}`.
 - **Footer on every entry:**
   - `From` — `interview`, `code`, `legal`, `red team`, `gate`,
     `tickets`, `build ticket NN` (decided while building),
     `blocked #{n}` (a re-opened feature), or `change request`;
   - `Status` — `active` unless changed.
+- **No ADR field.** An ADR the gate writes from an entry is recorded in
+  its `docs/decisions.md` row.
 - **Never invent a Why.** A decision that arrived without its reason gets
   `**Why:** rationale not recorded`.
 - **Sources** on an entry links the outside facts it rests on (a library

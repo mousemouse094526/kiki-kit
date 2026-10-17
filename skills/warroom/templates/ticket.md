@@ -14,7 +14,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 - **Blocked by** names ticket numbers and titles, or
   `None (can start immediately)`.
 - **Covers** names exactly what this ticket delivers, one kind per bullet:
-  decisions (another feature's with its slug), seams (by number in
+  decisions (another feature's with its slug), ADRs, seams (by number in
   spec.md › Seams), user stories, legal items.
 - **One observable behaviour per bullet**: `{situation} → {result}`. A
   behaviour proven through the UI ends with `(e2e)`. More than eight →
@@ -34,6 +34,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 **Covers:**
 - Decisions: D1, D4, user-contact D4
+- ADR: 0002
 - Seams: 1, 12
 - User stories: 3, 5
 - Legal: 9

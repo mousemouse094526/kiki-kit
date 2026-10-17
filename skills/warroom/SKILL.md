@@ -3,8 +3,9 @@ name: warroom
 description: >-
   Plan one feature on paper until nothing is left to decide, then cut it
   into 2–4 big tickets — documents only, no code. Interview,
-  spec/decisions/flow docs, Thai-law check, red team, approval gate;
-  checks docs/decisions.md so nothing already decided is asked again.
+  spec/decisions/flow docs, Thai-law check, red team, ADR sweep, approval
+  gate; checks docs/decisions.md and docs/adr/ so nothing already decided
+  is asked again.
   Modes: /warroom [slug] (new plan, map, change request, Blocked rows);
   /warroom legal {items or slug} (Thai-law check only, not legal advice);
   /warroom tickets {slug} (re-cut). Use with /warroom, or whenever a
@@ -13,7 +14,7 @@ description: >-
 
 # Warroom — plan one feature, on paper, until nothing is left to decide
 
-Interview → docs → legal → red team → scope pass → gate → tickets. Output:
+Interview → docs → legal → red team → ADR sweep → gate → tickets. Output:
 a docs folder a stranger could build from **without asking anything**, cut
 into a few big tickets.
 
@@ -34,6 +35,7 @@ Nothing builds from a `draft`.
 | Path | Holds |
 |---|---|
 | `docs/decisions.md` | every decision in the project, one line each, by subject ([template](templates/decisions-index.md)) |
+| `docs/adr/` | the rules every feature must follow, one short file each ([references/adr.md](references/adr.md)) |
 | `docs/features/{slug}/` | what the feature is: spec, decisions, flow, legal, sketches |
 | `docs/progress/board.md` | where every feature stands, one row each ([template](templates/board.md)) |
 | `docs/progress/{slug}/` | the work in flight: map, tickets, `progress.md`, user trials, bugs |
@@ -41,18 +43,20 @@ Nothing builds from a `draft`.
 
 The project keeps feature docs somewhere else already → match that, same
 split. An older layout (progress or tickets inside `features/{slug}/`, or
-`docs/adr/` without `docs/decisions.md`) →
+no `docs/decisions.md` while features exist) →
 [references/migrate.md](references/migrate.md) before anything else.
 
 ## Before the first question
 
-1. **Read `docs/decisions.md`**: every `system` row, and every row under a
-   subject this feature touches. Open the full entry of any row a question
-   may turn on. These are facts, not options.
-2. **Read the board.** The feature already has a row → this is a re-open
+1. **Read the ADR titles** in `docs/adr/`, and the full text of any that
+   touch this feature.
+2. **Read `docs/decisions.md`**: every row under a subject this feature
+   touches. Open the full entry of any row a question may turn on. ADRs
+   and these rows are facts, not options.
+3. **Read the board.** The feature already has a row → this is a re-open
    (below), not a new plan. Another feature in `planning` or `building`
    covers the same ground → say so and ask whether this belongs inside it.
-3. State in one line what you read and where the docs will go.
+4. State in one line what you read and where the docs will go.
 
 ## Map mode — too big for one session
 
@@ -89,8 +93,9 @@ recommended answer first, marked "(Recommended)".
 
 - **Check the index before every question.** Look under the subject in
   `docs/decisions.md`. Decided there → don't ask: cite it in the spec
-  (`(user-contact D4)`), tell the user in one line that you're reusing it,
-  and move on — no new `D{n}`, no copy. Ask only when this feature has a
+  (`(user-contact D4)`), add this feature to its row's **Used by**, tell
+  the user in one line that you're reusing it, and move on — no new
+  `D{n}`, no copy. Ask only when this feature has a
   concrete reason to differ; then it is follow-or-supersede (below).
 - **Facts are your job, decisions are theirs.** Look up anything the
   codebase, the index, or a library's docs can answer. Only real decisions
@@ -106,16 +111,18 @@ recommended answer first, marked "(Recommended)".
 
   Write a resolved term into `CONTEXT.md` right then.
 - **Contradicting a decision already made** — this feature's, another
-  feature's, or an old ADR row → say so at once, name it (`user-contact
-  D4`, `ADR-0004`), and ask: follow it, or supersede it. Superseding is a
-  new `D{n}` here that names the old one; the old entry's Status, in its
-  feature file and in the index, becomes `superseded by {this slug} D{n}` —
-  the only edit ever made in another feature's folder. An old ADR is
-  superseded in the index row only; its file stays as history.
+  feature's, or an ADR → say so at once, name it (`user-contact D4`,
+  `ADR-0004`), and ask: follow it, or supersede it. Superseding is a new
+  `D{n}` here that names the old one; the old entry's Status, in its
+  feature file and in the index, becomes `superseded by {this slug} D{n}`.
+  The old row has Used by or an ADR → follow
+  [templates/decisions-index.md](templates/decisions-index.md) › Changing
+  a decision someone uses — the only edit warroom makes in another
+  feature's folder.
 - **Record each decision the moment it lands** — the `D{n}` in
   [templates/decisions.md](templates/decisions.md), then its row in
-  `docs/decisions.md` under its subject, Scope `feature` for now.
-  Append-only, never renumber.
+  `docs/decisions.md` under its subject. Append-only, never renumber. ADRs
+  come later, in the sweep.
 - **Make it checkable.** Push "fast", "secure", "simple" until each is a
   number, a scenario, or a named threat. Can't be made checkable → drop
   it.
@@ -185,16 +192,17 @@ Merge the findings yourself and drop duplicates:
 
 Runs once per warroom.
 
-## Phase 4 — Scope pass
+## Phase 4 — ADR sweep
 
-Go through this feature's index rows and set each one's
-Scope by the test in
-[templates/decisions-index.md](templates/decisions-index.md): `system` for
-a rule every later feature must follow, else `feature`. Look beyond the
-`D{n}` too — a CONDITIONAL requirement in `legal.md` or a contract in spec
-› Implementation that later features must honour becomes a `D{n}` with
-Scope `system`. For each decision this feature reused from another one,
-check whether its row should now be `system`.
+Spawn one subagent, **The Successor** — the engineer who builds the next
+feature here — with [references/adr.md](references/adr.md), plus every
+decision this feature reused from another one (each is a candidate). Then:
+
+- drop candidates that fail its tests and merge duplicates;
+- draft each survivor (title + 1–3 sentences + `Source:`) and hold the
+  drafts for the gate;
+- a conflict with an existing ADR → ask: follow it or supersede it; record
+  a `D{n}`.
 
 ## The Gate
 
@@ -208,7 +216,7 @@ this run wrote. Then show in chat:
 - the legal summary, each `UNVERIFIED` verdict named;
 - the red team line (`x fixed, y decided (D7, D8), z dismissed`), plus each
   BLOCKER and how it was resolved;
-- the decisions marked `system`;
+- the ADR drafts;
 - the **Open Questions**;
 - the rough build shape.
 
@@ -216,7 +224,10 @@ Ask with AskUserQuestion:
 
 - **Approve** — offered only when Open Questions is empty, or every entry
   says why it doesn't block building. Set the spec's Status to
-  `ready-to-build`, then go straight to **Phase 5**. Context already long
+  `ready-to-build`, write the ADRs to `docs/adr/NNNN-slug.md`
+  ([templates/adr.md](templates/adr.md)) and each source row's ADR column
+  in `docs/decisions.md`, self-check those files, then go straight to
+  **Phase 5**. Context already long
   (a map, many red-team rounds) → instead end with `/warroom tickets
   {slug}` to paste in a new session, and that as the board row's Next.
 - **Adjust** — fold the change into the docs and gate again. A new or
@@ -248,6 +259,7 @@ Next command in its own code block. Only this feature's next step.
   spec.
 - **Never ask what the index already answers.**
 - **Nothing leaves as `ready-to-build` with a blocking question in it.**
-- **Legal, red team, and the scope pass run every time.**
+- **Legal, red team, and ADR sweep run every time.** "No ADR" needs a
+  reason.
 - **Every decision has a number and an index row.**
 - **One feature per session.**

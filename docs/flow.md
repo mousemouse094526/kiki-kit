@@ -12,7 +12,8 @@ answer the two questions you keep asking:
   feature, with the command that moves it next.
 - **Did we already decide this?** `docs/decisions.md` — every decision of
   every feature, one line each, by subject. The warroom checks it before
-  every question, so nothing is asked twice.
+  every question, so nothing is asked twice. Each row lists the features
+  that reuse it (**Used by**), so changing a decision updates all of them.
 
 ## 1. The whole path
 
@@ -56,7 +57,7 @@ flowchart LR
     DOC["Write docs"]
     LG["Legal check"]
     RT["Red team<br/>5 subagents"]
-    S["Scope pass"]
+    S["ADR sweep"]
     G{"Gate"}
     TK["Cut 2–4 tickets<br/>+ progress.md"]
 
@@ -70,7 +71,7 @@ flowchart LR
 | Write docs | spec, decisions (D1…, each indexed in `docs/decisions.md` as it lands), flow | — |
 | Legal | Thai law item by item → `legal.md`; `UNVERIFIED` blocks the gate | answer if ambiguous |
 | Red team | Advocate, Builder, Breaker, Tester, Skeptic | decide what needs deciding |
-| Scope pass | marks the decisions every later feature must follow as `system` | — |
+| ADR sweep | finds project-wide decisions, drafts ADRs | — |
 | Gate | summary + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
 | Tickets | conventions where missing; 2–4 big vertical tickets; `progress.md`; the board row | approve, merge, or split |
 
@@ -113,7 +114,7 @@ flowchart LR
 |---|---|
 | the docs answer it | uses the answer |
 | small, inside the feature (a default, a message, a limit) | decides, records a D, lists it in the log |
-| something the user would notice, a legal item, or a `system` decision | asks you; stays inside the spec → a D, carries on |
+| something the user would notice, a legal item, or an ADR | asks you; stays inside the spec → a D, carries on |
 | it changes what the spec promises, or you want to wait | Blocked row → stops with `/warroom {slug}` |
 | a failure it can't explain | calls the **kiki-debug** skill inside the ticket, then carries on |
 
@@ -201,22 +202,24 @@ docs/
 │       ├── tickets/             ← 2–4 tickets, one file each
 │       ├── user-trials/         ← trial reports
 │       └── bugs/                ← bug investigations for this feature
+├── adr/                         ← rules every feature must follow
 ├── library-notes/               ← what each library's docs recommend, for the installed version
 ├── bugs/                        ← bugs outside any feature
 └── legal/                       ← standalone legal checks
 .claude/skills/{framework}-{surface}/   ← the project's coding conventions
 ```
 
-An older project (progress and tickets inside `features/{slug}/`, or
-`docs/adr/`) is moved to this layout once, the first time any warroom
-skill runs there. Old ADRs stay as history and become `system` rows.
+An older project (progress and tickets inside `features/{slug}/`) is moved
+to this layout once, the first time any warroom skill runs there.
+`docs/adr/` stays as it is.
 
 ## Words
 
 | Word | Meaning |
 |---|---|
 | **D{n}** | one decision in a feature's `decisions.md`; outside it, cited with the slug: `user-contact D4` |
-| **`system`** | a decision every later feature must follow, marked in `docs/decisions.md` |
+| **ADR** | a project-wide rule later features must follow (`docs/adr/`) |
+| **Used by** | the features that reuse a decision; changing it updates them all |
 | **seam** | where a test observes behaviour, agreed in the spec |
 | **(e2e)** | behaviour only visible on screen, checked with the project's e2e tool |
 | **Blocked** | a row in `progress.md` the build may not settle itself |

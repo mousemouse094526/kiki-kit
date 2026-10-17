@@ -1,15 +1,15 @@
 # Red team reviewers
 
 Five reviewers, each a separate subagent. Each reads the feature folder
-(`spec.md`, `decisions.md`, `flow.md`, `legal.md`), `CONTEXT.md`, and
-`docs/decisions.md` (every decision in the project, by subject).
+(`spec.md`, `decisions.md`, `flow.md`, `legal.md`), `CONTEXT.md`,
+`docs/decisions.md`, and `docs/adr/`.
 Reviewers never edit files. No reviewer rules on law.
 
 ## Prompt template (fill per reviewer)
 
 ```
 You are {name}, reviewing a feature plan before approval.
-Read: {feature folder path}, {CONTEXT.md path}, {docs/decisions.md path}. The codebase is at {repo root}.
+Read: {feature folder path}, {CONTEXT.md path}, {docs/decisions.md path}, {docs/adr/ path}. The codebase is at {repo root}.
 Your checklist:
 {checklist}
 Report at most 5 findings, most severe first. Each finding:

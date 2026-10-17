@@ -54,9 +54,8 @@ spec.md is `draft` → stop and end with `/warroom {slug}`.
 ### Load
 
 Read the ticket, what its **Covers** names (the `D{n}` — another
-feature's through `docs/decisions.md` — Seams, legal items), spec.md ›
-Testing decisions, every `system` row in `docs/decisions.md`, and
-`CONTEXT.md`. Then:
+feature's through `docs/decisions.md` — ADRs, Seams, legal items),
+spec.md › Testing decisions, and `CONTEXT.md`. Then:
 
 - **Conventions** for the area touched
   ([conventions.md](../warroom/references/conventions.md) says where).
@@ -86,16 +85,18 @@ a layer's rules updates its `rules/{layer}.md` in the same commit.
 1. **Look it up first** — `docs/decisions.md` under the subject (every
    feature's decisions, not only this one's), this feature's decisions.md,
    spec.md, the conventions, `docs/library-notes/`, and `progress.md`.
-   Answered → use it and cite it.
+   Answered → use it and cite it; another feature's → add this feature to
+   its row's Used by. A choice that would change a decision with Used by
+   or an ADR → step 3, never step 2.
 2. **A small implementation choice** that stays inside this feature and
    doesn't change what the spec promises — a default, a message's wording,
    a limit, where a helper lives → **decide it yourself**, the way the
    conventions and the existing code point. Record it as the next `D{n}`
    (`**From:** build ticket NN`, with its why) with its index row, and
    list it in the ticket's Log entry. Don't stop, don't ask.
-3. **Anything the user would notice, or that touches a legal item or a
-   `system` decision** → ask now with AskUserQuestion: your recommendation
-   first, and where you looked. The answer stays inside the spec's intent
+3. **Anything the user would notice, or that touches a legal item or an
+   ADR** → ask now with AskUserQuestion: your recommendation first, and
+   where you looked. The answer stays inside the spec's intent
    → record a `D{n}` with its index row and carry on. It changes what the
    spec promises, the user wants to think about it, or the docs contradict
    each other → add a Blocked
@@ -152,8 +153,8 @@ After each commit, ask with AskUserQuestion:
   still short — usually after the first ticket);
 - **Stop** — end with the Next command for a new session.
 
-After two big tickets in one session, recommend Stop. Every ticket `done` → offer the
-feature review instead.
+After two big tickets in one session, recommend Stop. Every ticket `done`
+→ offer the feature review instead.
 
 ## 4. Stopping part-way
 
@@ -168,8 +169,8 @@ Context running low, or a Blocked row stops the ticket:
    The board row: Stage `blocked` when a Blocked row stopped it, Next.
 4. Commit `progress.md`, the board, the ticket, and any new `D{n}` with
    its index row **on the feature branch** —
-   `docs({slug}): stop ticket {NN}`. Then move the code to the `wip/` branch, or discard it. The tree
-   ends clean.
+   `docs({slug}): stop ticket {NN}`. Then move the code to the `wip/`
+   branch, or discard it. The tree ends clean.
 5. End with the Next command in its own code block.
 
 ## Feature review — `/warroom-build {slug} --review-feature`
@@ -179,9 +180,9 @@ Every ticket `done`, before merge.
 1. Run the CI checks. Fixed point = `git merge-base HEAD {default
    branch}`.
 2. [references/review.md](references/review.md), feature scope — the three
-   axes over the whole branch, the whole feature folder and the
-   `system` decisions as the spec — plus
-   every **For the next ticket** item in the Log that was never picked up.
+   axes over the whole branch, the whole feature folder and the ADRs as
+   the spec — plus every **For the next ticket** item in the Log that was
+   never picked up.
 3. Show the findings; ask which to fix now. Fix them, run the CI checks,
    commit `refactor({slug}): feature review fixes`. The rest → a Blocked
    row each (Needs: `/warroom tickets {slug}`), or dropped when the user

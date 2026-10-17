@@ -9,7 +9,8 @@ ticket, **warroom-trial** ให้ผู้ใช้สมมุติลอง
 - **ตอนนี้แต่ละ feature ถึงไหนแล้ว?** `docs/progress/board.md` — feature ละแถว
   พร้อมคำสั่งถัดไป
 - **เรื่องนี้เคยตัดสินไปแล้วหรือยัง?** `docs/decisions.md` — decision ทุกข้อของทุก
-  feature ข้อละบรรทัด จัดตามเรื่อง warroom เปิดดูก่อนถามทุกข้อ จึงไม่ถามซ้ำ
+  feature ข้อละบรรทัด จัดตามเรื่อง warroom เปิดดูก่อนถามทุกข้อ จึงไม่ถามซ้ำ แต่ละแถวบอกว่า
+  feature ไหนใช้ข้อนั้นอยู่ (**Used by**) เปลี่ยน decision แล้วแก้ตามได้ทุก feature
 
 ## 1. ภาพรวม
 
@@ -53,7 +54,7 @@ flowchart LR
     DOC["เขียนเอกสาร"]
     LG["ตรวจกฎหมาย"]
     RT["Red team<br/>5 subagent"]
-    S["Scope pass"]
+    S["ADR sweep"]
     G{"Gate"}
     TK["หั่น 2–4 ticket<br/>+ progress.md"]
 
@@ -67,7 +68,7 @@ flowchart LR
 | เขียนเอกสาร | spec, decisions (D1… ลง index ใน `docs/decisions.md` ทันทีที่ได้), flow | — |
 | กฎหมาย | ทีละเรื่อง → `legal.md`; `UNVERIFIED` บล็อก gate | ตอบถ้ากำกวม |
 | Red team | Advocate, Builder, Breaker, Tester, Skeptic | ตัดสินเรื่องที่ต้องตัดสิน |
-| Scope pass | ติดป้าย `system` ให้ decision ที่ feature ต่อๆ ไปต้องทำตาม | — |
+| ADR sweep | หา decision ระดับโปรเจค ร่าง ADR | — |
 | Gate | สรุป + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
 | Ticket | ตั้ง conventions ถ้ายังไม่มี; 2–4 ticket ใบใหญ่แนวตั้ง; `progress.md`; แถวใน board | อนุมัติ, รวม หรือแยก |
 
@@ -108,7 +109,7 @@ flowchart LR
 |---|---|
 | เอกสารตอบไว้แล้ว | ใช้คำตอบนั้น |
 | เรื่องเล็กใน feature (ค่า default, ข้อความ, limit) | ตัดสินเอง บันทึกเป็น D แล้วใส่ใน log |
-| เรื่องที่ผู้ใช้เห็น, กฎหมาย หรือ decision ที่เป็น `system` | ถามคุณ; ยังอยู่ในกรอบ spec → เป็น D แล้วทำต่อ |
+| เรื่องที่ผู้ใช้เห็น, กฎหมาย หรือ ADR | ถามคุณ; ยังอยู่ในกรอบ spec → เป็น D แล้วทำต่อ |
 | เปลี่ยนสิ่งที่ spec สัญญาไว้ หรือคุณอยากคิดก่อน | แถว Blocked → หยุดพร้อม `/warroom {slug}` |
 | error ที่อธิบายไม่ได้ | เรียก skill **kiki-debug** ใน ticket นั้นเลย แล้วทำต่อ |
 
@@ -196,22 +197,24 @@ docs/
 │       ├── tickets/             ← 2–4 ticket ใบละไฟล์
 │       ├── user-trials/         ← รายงาน trial
 │       └── bugs/                ← การไล่ bug ของ feature นี้
+├── adr/                         ← กฎที่ทุก feature ต้องทำตาม
 ├── library-notes/               ← docs library แนะนำอะไร สำหรับเวอร์ชันที่ติดตั้ง
 ├── bugs/                        ← bug นอก feature
 └── legal/                       ← ตรวจกฎหมายแบบเดี่ยว
 .claude/skills/{framework}-{surface}/   ← กติกาการเขียนโค้ดของโปรเจค
 ```
 
-โปรเจคเก่า (progress กับ ticket อยู่ใน `features/{slug}/` หรือมี `docs/adr/`) จะถูกย้าย
-เข้าโครงนี้ครั้งเดียว ตอนที่ skill warroom ตัวไหนก็ได้รันครั้งแรก ADR เดิมเก็บไว้เป็น
-ประวัติ และกลายเป็นแถว `system`
+โปรเจคเก่า (progress กับ ticket อยู่ใน `features/{slug}/`) จะถูกย้าย
+เข้าโครงนี้ครั้งเดียว ตอนที่ skill warroom ตัวไหนก็ได้รันครั้งแรก ส่วน `docs/adr/`
+คงไว้ตามเดิม
 
 ## ศัพท์
 
 | คำ | ความหมาย |
 |---|---|
 | **D{n}** | decision หนึ่งข้อใน `decisions.md` ของ feature; อ้างจากที่อื่นใส่ slug ด้วย: `user-contact D4` |
-| **`system`** | decision ที่ feature ต่อๆ ไปต้องทำตาม ติดป้ายไว้ใน `docs/decisions.md` |
+| **ADR** | กฎระดับโปรเจคที่ feature ต่อไปต้องทำตาม (`docs/adr/`) |
+| **Used by** | feature ที่ใช้ decision นั้นซ้ำ; เปลี่ยน decision แล้วแก้ตามได้ทุกตัว |
 | **seam** | จุดที่ test สังเกตพฤติกรรม ตกลงไว้ใน spec |
 | **(e2e)** | พฤติกรรมที่เห็นได้บนจอเท่านั้น ตรวจด้วย e2e tool ของโปรเจค |
 | **Blocked** | แถวใน `progress.md` ที่ build ตัดสินเองไม่ได้ |

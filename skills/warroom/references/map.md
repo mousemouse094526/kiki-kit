@@ -93,5 +93,5 @@ ready-to-build spec for …". It fixes the scope.}
    the middle of one.
 
 Open and fog both empty → the map is done: write the docs (Phase 2) and run
-legal, the red team, the scope pass, and the gate as usual. Keep the map as
+legal, the red team, the ADR sweep, and the gate as usual. Keep the map as
 the record of how the plan was reached.

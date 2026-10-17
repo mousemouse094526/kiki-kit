@@ -17,8 +17,10 @@ Then:
    agenda.
 3. Record each answer as a new `D{n}` with its index row. An answer that
    changes an older `D{n}` supersedes it
-   ([templates/decisions.md](../templates/decisions.md) › Append-only). Edit
-   the spec sections it touches.
+   ([templates/decisions.md](../templates/decisions.md) › Append-only); one
+   with Used by or an ADR also follows
+   [decisions-index.md](../templates/decisions-index.md) › Changing a
+   decision someone uses. Edit the spec sections it touches.
 4. Run the legal check on the items it touches (it updates those verdicts
    in legal.md and keeps the rest).
 5. Give it to The Breaker alone instead of the full red team, then go to

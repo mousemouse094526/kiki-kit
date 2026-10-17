@@ -9,7 +9,7 @@ when to read it. Written in the docs language. Follow
 - **One row per folder**, added by the skill that creates the folder, the
   first time it does — plus one for `decisions.md`, the only file listed.
   Folders the project made itself get a row too when you find them without
-  one. The `adr/` row only where that folder exists.
+  one.
 - **Holds** says what is inside in plain words, not the folder's name
   again.
 - Never list individual files.
@@ -27,7 +27,7 @@ feature stands, and `decisions.md` before deciding anything.
 | `decisions.md` | every decision in the project, one line each, by subject, linking its full entry | warroom skills, as each decision lands | before asking or deciding anything |
 | `features/{slug}/` | what one feature is: spec, decisions, flow, legal check | warroom | working on that feature |
 | `progress/` | the work in flight: `board.md` for every feature, then per feature its map, tickets, progress log, user trials, bugs | warroom skills | picking up or checking on work |
-| `adr/` | old architecture decision records, kept as history; now rows in `decisions.md` | — (no longer written) | an old decision cites one |
+| `adr/` | rules every feature must follow (architecture decision records), one short file each | warroom, at its gate | starting any feature |
 | `library-notes/` | what each library's docs recommend and warn about, for the installed version | warroom-build | writing code that uses the library |
 | `bugs/` | investigations of bugs that don't belong to one feature | kiki-debug | the same bug seems to be back |
 | `legal/` | Thai-law checks that don't belong to one feature | `/warroom legal` | before building anything those checks cover |

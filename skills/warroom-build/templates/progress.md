@@ -27,7 +27,7 @@ docs language.
 - **A ticket stopped part-way** gets a Log entry too, marked `stopped`:
   what is done, what is left, and the `wip/` branch if there is one.
 - **Blocked** — only what the build may not settle itself: a change to the
-  spec's behaviour, a legal item, or a `system` decision the user wants to
+  spec's behaviour, a legal item, or an ADR the user wants to
   wait on; a bug it couldn't reproduce; a CI failure that was there before
   the feature. Review findings are fixed in the ticket, never parked here.
   - Rows are numbered, never deleted.

@@ -59,13 +59,13 @@ ticket that completes its flow, tagged `(e2e)`. The first such ticket also
 sets up the e2e package if the project has none.
 
 **Walk each ticket as its builder.** A choice the docs, `docs/decisions.md`,
-and conventions leave open:
+ADRs, and conventions leave open:
 
 - **structural** (where a shared piece lives) → settle it now in the
   conventions;
 - **small and inside this feature** (a default, a message, a limit) →
   leave it: the build decides and records it;
-- **behaviour the user sees, a legal item, or a `system` decision** → ask
+- **behaviour the user sees, a legal item, or an ADR** → ask
   the user now (AskUserQuestion) and record a `D{n}` (`**From:** tickets`)
   with its index row. The user wants it to wait → stop: add a row to
   `progress.md` › Blocked (`→ /warroom {slug}`) and write no tickets.
@@ -99,7 +99,8 @@ Don't edit spec.md. decisions.md and `docs/decisions.md` get only the
 Check, and show only the steps that apply:
 
 - **Uncommitted docs** — the feature folder, `docs/progress/`,
-  `docs/decisions.md`, `CONTEXT.md`, `.claude/skills/`, any `CLAUDE.md` →
+  `docs/decisions.md`, `docs/adr/`, `CONTEXT.md`, `.claude/skills/`, any
+  `CLAUDE.md` →
   a commit step:
   `git add {paths} && git commit -m "docs({slug}): plan and tickets"`.
 - **Branch** — on the default branch → the build creates `feat/{slug}`.

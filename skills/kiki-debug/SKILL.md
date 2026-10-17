@@ -87,7 +87,7 @@ Before reading code for a theory, shrink where the bug can be:
   not a bug: set the record's Status to `spec gap → warroom`. Ask the user
   which behaviour they want (AskUserQuestion). The answer stays inside the
   spec's intent → record a `D{n}` with its index row and carry on. It
-  changes what the spec promises, a legal item, or a `system` decision →
+  changes what the spec promises, a legal item, or an ADR →
   add a row to `progress.md` › Blocked (Needs: `/warroom {slug}`, citing
   the record), stop, and end with that command. No warroom docs → ask
   which behaviour is right, and carry on.
@@ -163,7 +163,7 @@ system let this happen, never who.
   have prevented.
 - **Prevention** — prefer, in order: remove the hazard, a safer
   substitute, an automated check or test, a process change, a note. Each
-  action says where it is tracked: a ticket, a `system` decision, a CI
+  action says where it is tracked: a ticket, an ADR, a CI
   check. Actions that need new work → propose them with AskUserQuestion;
   in a warroom feature each one accepted becomes a new ticket after the
   highest number, in [the ticket template](../warroom/templates/ticket.md),

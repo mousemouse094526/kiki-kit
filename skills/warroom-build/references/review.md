@@ -18,7 +18,7 @@ merge or rerank across axes.
 |---|---|---|
 | When | end of every ticket, before its commit | every ticket `done`, before merge or PR |
 | Fixed point | the ticket's start commit | merge-base with the default branch |
-| Spec source | the ticket + what its Covers names | the whole feature folder + `system` decisions |
+| Spec source | the ticket + what its Covers names | the whole feature folder + ADRs |
 | Newcomer compares against | the ticket's **What to build** | spec.md › Solution |
 
 ## 1. Pin the diff and the sources
@@ -30,7 +30,7 @@ First check `git status`: mark each untracked file that belongs to this
 change with `git add -N {path}`, and delete or ignore the ones that don't.
 
 - **Spec source** — per the table above: tickets, the `D{n}`, the
-  `system` rows of `docs/decisions.md`, spec.md › Seams and the
+  ADRs, spec.md › Seams and the
   Implementation sections touched, the legal items.
 - **Standards source** — the project's conventions skill (SKILL.md and the
   `rules/` files for the layers touched), `.claude/rules/`, `CLAUDE.md`, lint
@@ -68,7 +68,7 @@ calls. Under 400 words. Do not edit files."
 **Spec** gets the diff command, the spec-source paths, and: "Report
 (a) acceptance criteria or requirements missing or partial; (b) behaviour
 not asked for — scope creep or another ticket's work; (c) behaviour that
-looks implemented but wrong, including `system` decisions and legal
+looks implemented but wrong, including ADR and legal
 requirements;
 (d) tests outside the agreed seams, coupled to internals, or tautological.
 Feature review also: (e) the same thing done two ways or named two ways
