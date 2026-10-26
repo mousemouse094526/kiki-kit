@@ -9,8 +9,14 @@ The agenda is one of:
 - **Blocked rows** — rows in `docs/progress/{slug}/progress.md` that are
   `open` with Needs `/warroom {slug}`, plus the spec's own Open Questions.
   Answers are `From: blocked #{n}`.
+- **A design link** — the user brings the design for `pending` screens.
+  Put each link in spec › Design › Source, set each `design: {screen}`
+  Blocked row to `done`, update the board, and end with the Next command.
+  Nothing else: no interview, legal check, Breaker, or gate. The design
+  adds something the spec doesn't have (a field, a step, a rule) → that
+  part only is a change request, below.
 
-Then:
+For a change request or Blocked rows, then:
 
 1. Set the spec back to `draft` and the board row to `planning`.
 2. Read the feature folder and its progress folder. Interview only on the

@@ -63,7 +63,9 @@ spec.md › Testing decisions, and `CONTEXT.md`. Then:
   user, and record a `D{n}` with its index row.
 - **Design** — the ticket covers screens → read their rows in spec ›
   Design. A Figma frame → fetch only those frames' design context through
-  the Figma MCP, once per ticket, before writing UI code. Spec has no
+  the Figma MCP, once per ticket, before writing UI code. Source
+  `pending` → don't build that screen: stop the ticket (section 4) on its
+  `design: {screen}` Blocked row. Spec has no
   Design section and the ticket has UI (an older feature) → ask once for
   the design source, record a `D{n}`, and add the section.
 - **Library docs** —

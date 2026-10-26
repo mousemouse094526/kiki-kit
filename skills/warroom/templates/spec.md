@@ -41,8 +41,12 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   allowed here), and anything unusual about what gets tested.
   Nothing to decide → one line, "follow {path}"; don't drop the section.
 - **Design** — only when the feature has UI: one row per screen, its user
-  stories, and its source (Figma frame link, image path, sketch, or
-  `existing components`). No UI → drop the section.
+  stories, what it must show, and its source (Figma frame link, image
+  path, `existing components`, or `pending`). No UI → drop the section.
+  - **Must show** is the design brief, from the decisions: fields,
+    actions, states (empty, loading, error, no permission), and the
+    messages or rules on screen, each citing its `D{n}`.
+  - `pending` is not an Open Question; it doesn't block the gate.
 - **Open Questions** — numbered, one sentence each. One that doesn't block
   building says why after ` — non-blocking: `. Empty → write `None.`
 - **Out of Scope** bullets cite the `D{n}` that ruled them out.
@@ -71,9 +75,10 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 ## Design
 
-| Screen | User stories | Source |
-|---|---|---|
-| {e.g. Contact form} | 1, 3 | [Figma frame]({url}) |
+| Screen | User stories | Must show | Source |
+|---|---|---|---|
+| {e.g. Contact form} | 1, 3 | {name, phone with country picker (D2), save; error: invalid phone (D4)} | [Figma frame]({url}) |
+| {e.g. Contact list} | 2 | {…} | pending |
 
 ## Expected Outcome
 

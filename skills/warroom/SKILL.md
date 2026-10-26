@@ -83,8 +83,9 @@ Otherwise keep it one feature and let the tickets carry the size.
 
 ## Re-opening a feature
 
-`docs/features/{slug}/spec.md` exists → a change request or its Blocked
-rows, not a new plan: follow [references/reopen.md](references/reopen.md).
+`docs/features/{slug}/spec.md` exists → a change request, its Blocked
+rows, or a design link, not a new plan: follow
+[references/reopen.md](references/reopen.md).
 
 ## Phase 1 — Interview, one question at a time
 
@@ -131,11 +132,11 @@ recommended answer first, marked "(Recommended)".
   once live. Pick the two or three this feature actually stresses; skip the
   rest.
 - **Screens → ask for the design once.** The feature has UI and no ADR
-  names a design source → ask: a Figma link, images, or none yet. None
-  yet → ask: follow the existing components and conventions
-  (Recommended), sketch the screens now, or wait for a design (an Open
-  Question that blocks the UI tickets). Record a `D{n}`; fill spec ›
-  Design. One design source for the whole project → an ADR candidate.
+  names a design source → ask: a Figma link, images, design after this
+  plan (Recommended when no design exists), or follow the existing
+  components and conventions. Record a `D{n}`; fill spec › Design, with
+  Source `pending` for screens designed after the plan. One design source
+  for the whole project → an ADR candidate.
 - **Never supply a why you weren't given.** Record a decision that came
   without its reason as `rationale not recorded`, and make the reason the
   next question.
