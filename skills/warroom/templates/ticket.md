@@ -15,7 +15,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   `None (can start immediately)`.
 - **Covers** names exactly what this ticket delivers, one kind per bullet:
   decisions (another feature's with its slug), ADRs, seams (by number in
-  spec.md › Seams), user stories, legal items.
+  spec.md › Seams), user stories, screens (by name in spec.md › Design),
+  legal items.
 - **One observable behaviour per bullet**: `{situation} → {result}`. A
   behaviour proven through the UI ends with `(e2e)`. More than eight →
   group them under `###` sub-headings by area.
@@ -35,6 +36,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 **Covers:**
 - Decisions: D1, D4, user-contact D4
 - ADR: 0002
+- Screens: Contact form
 - Seams: 1, 12
 - User stories: 3, 5
 - Legal: 9

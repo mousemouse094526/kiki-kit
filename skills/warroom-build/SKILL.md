@@ -61,6 +61,11 @@ spec.md › Testing decisions, and `CONTEXT.md`. Then:
   ([conventions.md](../warroom/references/conventions.md) says where).
   None for this area → set them up now as that file describes, asking the
   user, and record a `D{n}` with its index row.
+- **Design** — the ticket covers screens → read their rows in spec ›
+  Design. A Figma frame → fetch only those frames' design context through
+  the Figma MCP, once per ticket, before writing UI code. Spec has no
+  Design section and the ticket has UI (an older feature) → ask once for
+  the design source, record a `D{n}`, and add the section.
 - **Library docs** —
   [references/library-docs.md](references/library-docs.md): the version
   table, ask before any upgrade, and a reference note for the language and

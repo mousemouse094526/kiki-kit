@@ -56,7 +56,8 @@ few tickets as stay green.
 requirement in `legal.md` lands in at least one ticket's acceptance
 criteria; nothing from Out of Scope does. Every `(e2e)` seam lands in the
 ticket that completes its flow, tagged `(e2e)`. The first such ticket also
-sets up the e2e package if the project has none.
+sets up the e2e package if the project has none. Every screen in spec ›
+Design lands in the ticket that builds it.
 
 **Walk each ticket as its builder.** A choice the docs, `docs/decisions.md`,
 ADRs, and conventions leave open:

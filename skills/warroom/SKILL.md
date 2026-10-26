@@ -130,6 +130,12 @@ recommended answer first, marked "(Recommended)".
   behaviour when a dependency is down, who may see the data, how it is run
   once live. Pick the two or three this feature actually stresses; skip the
   rest.
+- **Screens → ask for the design once.** The feature has UI and no ADR
+  names a design source → ask: a Figma link, images, or none yet. None
+  yet → ask: follow the existing components and conventions
+  (Recommended), sketch the screens now, or wait for a design (an Open
+  Question that blocks the UI tickets). Record a `D{n}`; fill spec ›
+  Design. One design source for the whole project → an ADR candidate.
 - **Never supply a why you weren't given.** Record a decision that came
   without its reason as `rationale not recorded`, and make the reason the
   next question.

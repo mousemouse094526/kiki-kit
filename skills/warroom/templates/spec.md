@@ -40,6 +40,9 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 - **Testing decisions** — the existing tests to copy, by path (paths are
   allowed here), and anything unusual about what gets tested.
   Nothing to decide → one line, "follow {path}"; don't drop the section.
+- **Design** — only when the feature has UI: one row per screen, its user
+  stories, and its source (Figma frame link, image path, sketch, or
+  `existing components`). No UI → drop the section.
 - **Open Questions** — numbered, one sentence each. One that doesn't block
   building says why after ` — non-blocking: `. Empty → write `None.`
 - **Out of Scope** bullets cite the `D{n}` that ruled them out.
@@ -65,6 +68,12 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 
 **{Actor}**
 1. As a {actor}, I want {feature}, so that {benefit} (D1)
+
+## Design
+
+| Screen | User stories | Source |
+|---|---|---|
+| {e.g. Contact form} | 1, 3 | [Figma frame]({url}) |
 
 ## Expected Outcome
 
