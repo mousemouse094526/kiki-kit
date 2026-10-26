@@ -65,7 +65,7 @@ flowchart LR
 | ขั้น | ทำอะไร | คุณ |
 |---|---|---|
 | สัมภาษณ์ | ดู `docs/decisions.md` ก่อน — เคยตัดสินแล้ว → ใช้ของเดิม ไม่ถาม; จากนั้นถามทีละข้อ มีตัวเลือกแนะนำ; ตอบไม่ได้ → Open Question | ตอบ |
-| เขียนเอกสาร | spec, decisions (D1… ลง index ใน `docs/decisions.md` ทันทีที่ได้), flow | — |
+| เขียนเอกสาร | spec, decisions (D1… ลง index ใน `docs/decisions.md` ทันทีที่ได้), flow; หน้าจอได้ design brief (Must show) | — |
 | กฎหมาย | ทีละเรื่อง → `legal.md`; `UNVERIFIED` บล็อก gate | ตอบถ้ากำกวม |
 | Red team | Advocate, Builder, Breaker, Tester, Skeptic | ตัดสินเรื่องที่ต้องตัดสิน |
 | ADR sweep | หา decision ระดับโปรเจค ร่าง ADR | — |
@@ -74,6 +74,25 @@ flowchart LR
 
 กด **Approve** ได้เมื่อไม่มี Open Question ที่บล็อกการ build ก่อนหน้านั้น spec
 เป็น `draft` และ build จะไม่รับ
+
+**มีหน้าจอ?** สัมภาษณ์ถามครั้งเดียวว่า design มาจากไหน: Figma link, รูป, component ที่มีอยู่
+หรือ **ออกแบบหลังวางแผน** ถ้าออกแบบหลังวางแผน Source ของหน้าจอเป็น `pending` และคอลัมน์
+Must show คือ brief ที่เอาไปออกแบบ:
+
+```mermaid
+flowchart LR
+    P["/warroom<br/>แผน + brief"]
+    API["/warroom-build<br/>ticket ที่ไม่ใช่ UI"]
+    D["คุณออกแบบ<br/>ใน Figma"]
+    L["/warroom slug<br/>วาง link"]
+    UI["/warroom-build<br/>ticket หน้าจอ"]
+
+    P --> API
+    P --> D --> L --> UI
+```
+
+วาง link แล้วแค่เติม Source และปลด ticket หน้าจอ ถ้า design มีของที่แผนไม่มี (field ใหม่,
+ขั้นตอนใหม่) เฉพาะส่วนนั้นเป็น change request
 
 **feature เดียว หรือแยก?** ค่าเริ่มต้นคือต่อยอด feature เดิม (change request:
 `/warroom {slug}` ได้ ticket ใหม่ต่อจากใบที่ done) แยก feature ใหม่เฉพาะเมื่อมีผู้ใช้
@@ -158,6 +177,7 @@ flowchart LR
 | `/warroom {slug}` | คำสั่งที่ build ให้ตอนหยุด | `→ D{n}` |
 | `/warroom tickets {slug}` | เหมือนกัน | `→ ticket NN` |
 | `/kiki-debug {อาการ}` | เหมือนกัน เมื่อได้ log หรือข้อมูลแล้ว | `done ({sha})` |
+| `/warroom {slug}` สำหรับ `design: {หน้าจอ}` | พร้อม design link | `done` |
 
 คุณไม่ต้องแก้ `progress.md` เอง ถ้าจะทิ้งแถวไหน บอก skill
 

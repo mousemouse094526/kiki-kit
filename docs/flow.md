@@ -68,7 +68,7 @@ flowchart LR
 | Step | Does | You |
 |---|---|---|
 | Interview | checks `docs/decisions.md` first — already decided → reuses it, doesn't ask; then one question at a time, a recommended choice; can't answer yet → Open Question | answer |
-| Write docs | spec, decisions (D1…, each indexed in `docs/decisions.md` as it lands), flow | — |
+| Write docs | spec, decisions (D1…, each indexed in `docs/decisions.md` as it lands), flow; screens get a design brief (Must show) | — |
 | Legal | Thai law item by item → `legal.md`; `UNVERIFIED` blocks the gate | answer if ambiguous |
 | Red team | Advocate, Builder, Breaker, Tester, Skeptic | decide what needs deciding |
 | ADR sweep | finds project-wide decisions, drafts ADRs | — |
@@ -77,6 +77,27 @@ flowchart LR
 
 **Approve** is offered only when no Open Question blocks building. The
 spec stays `draft` until then, and the build refuses a `draft`.
+
+**Screens?** The interview asks once where the design comes from: a Figma
+link, images, existing components, or **design after the plan**. After the
+plan, each screen's Source is `pending` and its Must show column is the
+brief to design from:
+
+```mermaid
+flowchart LR
+    P["/warroom<br/>plan + brief"]
+    API["/warroom-build<br/>non-UI tickets"]
+    D["You design<br/>in Figma"]
+    L["/warroom slug<br/>paste the link"]
+    UI["/warroom-build<br/>UI tickets"]
+
+    P --> API
+    P --> D --> L --> UI
+```
+
+Pasting the link only fills Source and unblocks the UI tickets. Something
+the design adds that the plan lacks (a field, a step) becomes a change
+request for that part only.
 
 **One feature or two?** By default a change grows the feature you have
 (a change request: `/warroom {slug}`, new tickets after the done ones).
@@ -163,6 +184,7 @@ flowchart LR
 | `/warroom {slug}` | the command the build ended with | `→ D{n}` |
 | `/warroom tickets {slug}` | the same | `→ ticket NN` |
 | `/kiki-debug {symptom}` | the same, once the logs or data are in | `done ({sha})` |
+| `/warroom {slug}` for `design: {screen}` | with the design link | `done` |
 
 You don't edit `progress.md` yourself. To drop a row, tell the skill.
 
