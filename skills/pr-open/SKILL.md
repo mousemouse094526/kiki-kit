@@ -23,7 +23,11 @@ description: >-
    ([ci-checks.md](../warroom/references/ci-checks.md)). Red because of
    this branch → fix it first, or stop and say what is red. Never open a
    PR you know is red without saying so in **Verified**.
-5. **The repo's own template.** `.github/pull_request_template.md` (or
+5. **The board.** The branch builds a feature in
+   `docs/progress/board.md` whose Build isn't `✅` → say so in one line
+   (tickets left, or no feature review yet) and ask whether to open the
+   PR anyway.
+6. **The repo's own template.** `.github/pull_request_template.md` (or
    `.github/PULL_REQUEST_TEMPLATE/`) exists → follow its headings. Still
    drop checkboxes and fill **Deploy notes** under the closest heading.
 
@@ -81,9 +85,12 @@ From [templates/pr-body.md](templates/pr-body.md). Rules:
    asking.
 2. `gh pr create --base {base} --title "…" --body-file {tmp file}`. Draft
    only when the user asks or a check is red.
-3. Show the PR URL and the deploy notes in chat. Don't merge, don't
+3. The branch builds a feature on the board → its row: Left `PR #{N}`
+   with the link, Next `—`, Stage stays `review` until merged. Commit and
+   push it on the branch: `docs({slug}): PR opened`.
+4. Show the PR URL and the deploy notes in chat. Don't merge, don't
    approve, don't request reviewers unless asked.
-4. **The merge message, ready to copy.** Give the two fields of the merge
+5. **The merge message, ready to copy.** Give the two fields of the merge
    confirm box, each in its own code block:
    - **Commit title** — the PR title plus ` (#N)`, e.g.
      `fix(landing): หน้า landing ที่ไม่เรียก api (#14)`.

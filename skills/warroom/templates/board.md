@@ -19,9 +19,30 @@ and commands stay in English; the text is in the docs language.
   - `blocked` — the next step is an `open` Blocked row;
   - `review` — every ticket done, feature review or PR pending;
   - `done` — merged.
+- **UI** — whether the screens have a design, from spec › Design:
+  - `—` — the feature has no screens, or spec › Design isn't written yet;
+  - `⏳ {n}/{total}` — some screens still `pending`;
+  - `🎨 {total}/{total}` — every screen has a Source.
+
+  It changes when a Source is filled: the user pastes a design link
+  (`/warroom {slug}`), or a skill makes the screen in Figma through the
+  Figma MCP and puts that frame's link in Source. Whoever fills a Source
+  updates this cell in the same session.
+- **Build** — whether the feature is built and green:
+  - `{done}/{total}` — tickets `done` out of all;
+  - `✅ {short sha}` — every ticket done, the feature review passed, and
+    every CI check green at that commit;
+  - `❌ {short sha}` — a CI check red at that commit.
+
+  Only `✅` makes Next `/pr-open`. warroom-build writes it after each
+  ticket and after the feature review; the first commit that changes code
+  after `✅` sets it back to `{done}/{total}` until the checks run again.
 - **Left** says what is still to do in a few words: `tickets 03–04`,
   `2 open questions`, `Blocked #2`.
 - **Next** is the exact command to paste, or `—` when `done`.
+- A board without the UI and Build columns (an older one) → add them the
+  next time any row is written: UI from each spec › Design, Build from
+  each `progress.md` Tickets table (`✅` only once the checks are run).
 
 ## Template
 
@@ -30,9 +51,10 @@ and commands stay in English; the text is in the docs language.
 
 Where every feature stands. Detail per feature in `progress/{slug}/`.
 
-| Feature | Stage | Left | Next |
-|---|---|---|---|
-| [user-contact](user-contact/progress.md) | done | — | — |
-| [phone-international](phone-international/progress.md) | building | tickets 02–03 | `/warroom-build phone-international 02` |
-| [loyalty-points](loyalty-points/map.md) | mapping | 4 open questions | `/warroom loyalty-points` |
+| Feature | Stage | UI | Build | Left | Next |
+|---|---|---|---|---|---|
+| [user-contact](user-contact/progress.md) | done | 🎨 2/2 | ✅ 4f1c2ab | — | — |
+| [company-user](company-user/progress.md) | review | 🎨 3/3 | ✅ 1c92373 | open the PR | `/pr-open` |
+| [phone-international](phone-international/progress.md) | building | ⏳ 1/2 | 1/3 | tickets 02–03 | `/warroom-build phone-international 02` |
+| [loyalty-points](loyalty-points/map.md) | mapping | — | — | 4 open questions | `/warroom loyalty-points` |
 ```

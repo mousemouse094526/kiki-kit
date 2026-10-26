@@ -60,7 +60,8 @@ own work. Any of these → migrate first:
    top. In each entry's footer, drop `· **ADR:** …`.
 7. **Build `docs/progress/board.md`** from
    [templates/board.md](../templates/board.md): one row per feature, Stage
-   and Next from its `progress.md` (or map.md, or spec Status).
+   and Next from its `progress.md` (or map.md, or spec Status), UI from
+   spec › Design, Build from the Tickets table (`{done}/{total}`).
 8. **Update `docs/README.md`** rows to the new folders
    ([templates/docs-readme.md](../templates/docs-readme.md)).
 9. Run the self-check in [markdown-style.md](markdown-style.md) on the new

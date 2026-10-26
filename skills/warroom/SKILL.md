@@ -135,8 +135,9 @@ recommended answer first, marked "(Recommended)".
   names a design source → ask: a Figma link, images, design after this
   plan (Recommended when no design exists), or follow the existing
   components and conventions. Record a `D{n}`; fill spec › Design, with
-  Source `pending` for screens designed after the plan. One design source
-  for the whole project → an ADR candidate.
+  Source `pending` for screens designed after the plan, and set the board
+  row's UI cell (`⏳ 0/{n}`, `🎨 {n}/{n}`, or `—` with no screens). One
+  design source for the whole project → an ADR candidate.
 - **Never supply a why you weren't given.** Record a decision that came
   without its reason as `rationale not recorded`, and make the reason the
   next question.

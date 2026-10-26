@@ -87,15 +87,16 @@ brief to design from:
 flowchart LR
     P["/warroom<br/>plan + brief"]
     API["/warroom-build<br/>non-UI tickets"]
-    D["You design<br/>in Figma"]
-    L["/warroom slug<br/>paste the link"]
+    D["You design in Figma<br/>or ask for it<br/>through the Figma MCP"]
+    L["/warroom slug<br/>link fills Source"]
     UI["/warroom-build<br/>UI tickets"]
 
     P --> API
     P --> D --> L --> UI
 ```
 
-Pasting the link only fills Source and unblocks the UI tickets. Something
+Pasting the link (or the frame the Figma MCP made) only fills Source,
+turns the board's UI cell to `🎨`, and unblocks the UI tickets. Something
 the design adds that the plan lacks (a field, a step) becomes a change
 request for that part only.
 
@@ -144,10 +145,34 @@ flowchart LR
 `docs/progress/board.md`, one row per feature:
 
 ```
-| Feature        | Stage    | Left          | Next                              |
-| user-contact   | done     | —             | —                                 |
-| company-user   | building | tickets 03–04 | /warroom-build company-user 03    |
-| loyalty-points | mapping  | 4 questions   | /warroom loyalty-points           |
+| Feature        | Stage    | UI     | Build      | Left          | Next                               |
+| user-contact   | done     | 🎨 2/2 | ✅ 4f1c2ab | —             | —                                  |
+| company-user   | review   | 🎨 3/3 | ✅ 1c92373 | open the PR   | /pr-open                           |
+| domain-monitor | building | ⏳ 1/3 | 2/4        | tickets 03–04 | /warroom-build domain-monitor 03   |
+| loyalty-points | mapping  | —      | —          | 4 questions   | /warroom loyalty-points            |
+```
+
+Two flags sit beside the Stage:
+
+- **UI** — have the screens been designed? `—` no screens, `⏳ 1/3` some
+  still `pending`, `🎨 3/3` every screen has a design. It flips when a
+  design link lands in spec › Design › Source: pasted by you, or made
+  through the Figma MCP.
+- **Build** — is it built and green? `2/4` tickets done, `✅ {sha}` every
+  ticket done + feature review passed + CI green at that commit, `❌
+  {sha}` a check red. Only `✅` makes Next `/pr-open`; `/pr-open` asks
+  before opening a PR for a feature that isn't `✅`, and after it opens one
+  the row's Left becomes `PR #N`.
+
+```mermaid
+flowchart LR
+    T["tickets<br/>Build 2/4"]
+    R["last ticket<br/>Build 4/4"]
+    FR["--review-feature<br/>CI green"]
+    OK["Build ✅<br/>Next /pr-open"]
+    PR["/pr-open<br/>Left PR #N"]
+
+    T --> R --> FR --> OK --> PR
 ```
 
 Each skill updates its feature's row at the end of the session. The
@@ -218,7 +243,7 @@ docs/
 ├── features/{slug}/             ← what the feature is
 │   └── spec.md  decisions.md  flow.md  legal.md
 ├── progress/                    ← the work in flight
-│   ├── board.md                 ← every feature: stage, what's left, next command
+│   ├── board.md                 ← every feature: stage, UI and Build flags, what's left, next command
 │   └── {slug}/
 │       ├── progress.md  (map.md)
 │       ├── tickets/             ← 2–4 tickets, one file each

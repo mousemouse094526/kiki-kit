@@ -67,7 +67,8 @@ spec.md › Testing decisions, and `CONTEXT.md`. Then:
   `pending` → don't build that screen: stop the ticket (section 4) on its
   `design: {screen}` Blocked row. Spec has no
   Design section and the ticket has UI (an older feature) → ask once for
-  the design source, record a `D{n}`, and add the section.
+  the design source, record a `D{n}`, and add the section, and set the
+  board row's UI cell.
 - **Library docs** —
   [references/library-docs.md](references/library-docs.md): the version
   table, ask before any upgrade, and a reference note for the language and
@@ -143,7 +144,9 @@ Every acceptance criterion holds → ticket `**Status:** done`. In
 - **Now** and **Next**.
 
 Then the feature's board row: Left and Next, Stage `review` when every
-ticket is done.
+ticket is done. Build = `{done}/{total}` — `✅` waits for the feature
+review, even on the last ticket; Next is then `/warroom-build {slug}
+--review-feature`.
 
 Commit code, tests, the ticket, `progress.md`, the board, and any doc it
 changed:
@@ -173,7 +176,8 @@ Context running low, or a Blocked row stops the ticket:
    (Recommended) or discard it.
 3. In `progress.md`: a Log entry marked `stopped` — what is done, what is
    left, the `wip/` branch; the ticket stays `in-progress`; Now and Next.
-   The board row: Stage `blocked` when a Blocked row stopped it, Next.
+   The board row: Stage `blocked` when a Blocked row stopped it, Build
+   `{done}/{total}`, Next.
 4. Commit `progress.md`, the board, the ticket, and any new `D{n}` with
    its index row **on the feature branch** —
    `docs({slug}): stop ticket {NN}`. Then move the code to the `wip/`
@@ -195,8 +199,11 @@ Every ticket `done`, before merge.
    row each (Needs: `/warroom tickets {slug}`), or dropped when the user
    says so.
 4. Update `progress.md` and the board row: Now = "ready to merge", or the
-   rows still open and their commands. No Blocked row `open` → end with
-   `/pr-open` as the Next command.
+   rows still open and their commands. Every CI check green after the
+   fixes and no Blocked row `open` → Build `✅ {short sha of HEAD}`, Next
+   `/pr-open`, and end with it. A check red → Build `❌ {short sha}`, Next
+   the command that fixes it (`/kiki-debug …`). Then commit `progress.md`
+   and the board: `docs({slug}): feature review`.
 
 ## End of every session
 

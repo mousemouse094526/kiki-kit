@@ -83,15 +83,16 @@ Must show คือ brief ที่เอาไปออกแบบ:
 flowchart LR
     P["/warroom<br/>แผน + brief"]
     API["/warroom-build<br/>ticket ที่ไม่ใช่ UI"]
-    D["คุณออกแบบ<br/>ใน Figma"]
-    L["/warroom slug<br/>วาง link"]
+    D["คุณออกแบบใน Figma<br/>หรือสั่งสร้าง<br/>ผ่าน Figma MCP"]
+    L["/warroom slug<br/>link เติม Source"]
     UI["/warroom-build<br/>ticket หน้าจอ"]
 
     P --> API
     P --> D --> L --> UI
 ```
 
-วาง link แล้วแค่เติม Source และปลด ticket หน้าจอ ถ้า design มีของที่แผนไม่มี (field ใหม่,
+วาง link (หรือ frame ที่ Figma MCP สร้าง) แล้วแค่เติม Source, ช่อง UI ใน board เป็น `🎨`
+และปลด ticket หน้าจอ ถ้า design มีของที่แผนไม่มี (field ใหม่,
 ขั้นตอนใหม่) เฉพาะส่วนนั้นเป็น change request
 
 **feature เดียว หรือแยก?** ค่าเริ่มต้นคือต่อยอด feature เดิม (change request:
@@ -137,10 +138,32 @@ flowchart LR
 `docs/progress/board.md` feature ละแถว:
 
 ```
-| Feature        | Stage    | Left          | Next                              |
-| user-contact   | done     | —             | —                                 |
-| company-user   | building | tickets 03–04 | /warroom-build company-user 03    |
-| loyalty-points | mapping  | 4 questions   | /warroom loyalty-points           |
+| Feature        | Stage    | UI     | Build      | Left          | Next                               |
+| user-contact   | done     | 🎨 2/2 | ✅ 4f1c2ab | —             | —                                  |
+| company-user   | review   | 🎨 3/3 | ✅ 1c92373 | เปิด PR       | /pr-open                           |
+| domain-monitor | building | ⏳ 1/3 | 2/4        | tickets 03–04 | /warroom-build domain-monitor 03   |
+| loyalty-points | mapping  | —      | —          | 4 คำถาม       | /warroom loyalty-points            |
+```
+
+มี flag สองช่องข้าง Stage:
+
+- **UI** — หน้าจอมี design แล้วหรือยัง `—` ไม่มีหน้าจอ, `⏳ 1/3` บางหน้ายัง `pending`,
+  `🎨 3/3` ทุกหน้ามี design แล้ว เปลี่ยนเมื่อ link design ลงใน spec › Design › Source
+  ไม่ว่าคุณวางเอง หรือสร้างผ่าน Figma MCP
+- **Build** — build เสร็จและเขียวหรือยัง `2/4` ticket ที่ done, `✅ {sha}` ticket ครบ +
+  feature review ผ่าน + CI เขียวที่ commit นั้น, `❌ {sha}` มี check แดง ต้อง `✅` เท่านั้น
+  Next ถึงเป็น `/pr-open` ถ้ายังไม่ `✅` `/pr-open` จะถามก่อนเปิด PR และเปิดแล้ว Left
+  เป็น `PR #N`
+
+```mermaid
+flowchart LR
+    T["tickets<br/>Build 2/4"]
+    R["ticket สุดท้าย<br/>Build 4/4"]
+    FR["--review-feature<br/>CI เขียว"]
+    OK["Build ✅<br/>Next /pr-open"]
+    PR["/pr-open<br/>Left PR #N"]
+
+    T --> R --> FR --> OK --> PR
 ```
 
 ทุก skill อัปเดตแถวของ feature ตัวเองตอนจบ session รายละเอียดต่อ feature อยู่ที่
@@ -211,7 +234,7 @@ docs/
 ├── features/{slug}/             ← feature นี้คืออะไร
 │   └── spec.md  decisions.md  flow.md  legal.md
 ├── progress/                    ← งานที่กำลังทำ
-│   ├── board.md                 ← ทุก feature: ขั้นไหน เหลืออะไร คำสั่งถัดไป
+│   ├── board.md                 ← ทุก feature: ขั้นไหน flag UI กับ Build เหลืออะไร คำสั่งถัดไป
 │   └── {slug}/
 │       ├── progress.md  (map.md)
 │       ├── tickets/             ← 2–4 ticket ใบละไฟล์

@@ -90,8 +90,8 @@ some, or **split** one. Adjust until approved.
   `ready`, an empty Log, **Next** = the first ticket's command. A re-cut
   rewrites the Tickets table and keeps the Log and Blocked rows.
 - The feature's row in `docs/progress/board.md`
-  ([templates/board.md](../templates/board.md)): Stage `ready`, Next = the
-  first ticket's command.
+  ([templates/board.md](../templates/board.md)): Stage `ready`, UI from
+  spec › Design, Build `0/{total}`, Next = the first ticket's command.
 - Check every **Blocked by** points to a lower number, then run the
   self-check in [markdown-style.md](markdown-style.md).
 
