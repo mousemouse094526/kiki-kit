@@ -44,7 +44,12 @@ and commands stay in English; the text is in the docs language.
   ticket and after the feature review; the first commit that changes code
   after `✅` sets it back to `{done}/{total}` until the checks run again.
 - **Left** says what is still to do in a few words: `tickets 03–04`,
-  `2 open questions`, `Blocked #2`.
+  `2 open questions`, `Blocked #2`. At most about eight words, one item —
+  the next thing, not the history. Waits on another feature, deploy or
+  legal conditions, and how a review went belong in the feature's
+  `progress.md` (Blocked rows, Now) and in the ticket's **Blocked by**,
+  never here. Writing a row whose Left is longer → shorten it and move
+  what was cut to `progress.md` if it isn't there already.
 - **Next** is the exact command to paste, or `—` when `done`.
 - **Row order is priority.** The user moves rows to reorder; agents never
   reorder. `/warroom next` takes the first row that can move — see
