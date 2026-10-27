@@ -6,6 +6,18 @@ and commands stay in English; the text is in the docs language.
 
 ## Rules
 
+- **Read Settings first.** Before writing any row, read the board's
+  Settings table. The cells it lists as **User writes** for that feature
+  belong to the user: never write, clear, or reformat them — keep what is
+  there, and leave them empty in a new row. Everything else in the
+  session runs as usual (spec › Design Source, Blocked rows, the Next
+  command in chat); only the board cell is skipped. A feature not listed,
+  or a board with no Settings, → the agent writes every cell. Only the
+  user adds or removes Settings rows.
+- **Settings cells** are UI, Build, Left, Next; Feature and Stage are
+  always the agent's. Build is the user's → Next is `/pr-open` once Stage
+  is `review` with no `open` Blocked row, and pr-open skips the `✅`
+  check for that feature.
 - **One row per feature**, added by warroom the first time it writes for
   that feature.
 - **Updated by whichever warroom skill ran last** for that feature, at the
@@ -50,6 +62,18 @@ and commands stay in English; the text is in the docs language.
 # Board
 
 Where every feature stands. Detail per feature in `progress/{slug}/`.
+
+## Settings
+
+Cells the agent leaves alone; you fill them yourself. Add a row only for a
+feature where you want that.
+
+| Feature | User writes |
+|---|---|
+| company-user | UI |
+| phone-international | UI, Build |
+
+## Features
 
 | Feature | Stage | UI | Build | Left | Next |
 |---|---|---|---|---|---|

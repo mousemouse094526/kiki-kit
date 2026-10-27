@@ -107,7 +107,8 @@ next step. Ask with AskUserQuestion (multiSelect) which to act on now:
   `/warroom {slug}`, citing the finding); don't edit the spec here.
 
 Everything not picked stays in the report as `open`. Update the feature's
-board row in `docs/progress/board.md` (Stage `building` with a fix ticket,
+board row in `docs/progress/board.md`, skipping the cells its Settings
+give the user ([template](../warroom/templates/board.md)) (Stage `building` with a fix ticket,
 `blocked` with a spec gap; Left; Next). No product code, no branch, no
 commit from this skill: it writes only the report, `progress.md`, the
 board, the fix ticket, and any test account added to seed or example

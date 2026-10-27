@@ -166,6 +166,18 @@ flowchart LR
     T --> R --> FR --> OK --> PR
 ```
 
+อยากกรอกช่องไหนเองเฉพาะบาง feature? ใส่ไว้ใน **Settings** บนสุดของ board แล้ว agent
+จะไม่แตะช่องนั้นของ feature นั้นเลย (แต่ยังเติม spec › Design และแถว Blocked ตามปกติ):
+
+```
+## Settings
+| Feature        | User writes |
+| company-user   | UI          |
+| domain-monitor | UI, Build   |
+```
+
+ช่องที่กรอกเองได้: UI, Build, Left, Next feature ที่ไม่อยู่ใน Settings agent ทำทุกช่อง
+
 ทุก skill อัปเดตแถวของ feature ตัวเองตอนจบ session รายละเอียดต่อ feature อยู่ที่
 `docs/progress/{slug}/progress.md`:
 

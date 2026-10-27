@@ -20,7 +20,7 @@ first, write it last.
 |---|---|
 | `docs/features/{slug}/` | spec, decisions, flow, legal — what the feature is |
 | `docs/progress/{slug}/` | `progress.md`, `tickets/`, `bugs/` — the work |
-| `docs/progress/board.md` | one row per feature; this skill keeps its feature's row true |
+| `docs/progress/board.md` | one row per feature; this skill keeps its feature's row true, except the cells the board's Settings give the user ([template](../warroom/templates/board.md)) |
 | `docs/decisions.md` | every decision in the project, by subject |
 
 ## 1. Start the session
@@ -143,7 +143,8 @@ Every acceptance criterion holds → ticket `**Status:** done`. In
 - Blocked rows this ticket closed → `done (this ticket)`;
 - **Now** and **Next**.
 
-Then the feature's board row: Left and Next, Stage `review` when every
+Then the feature's board row — read its Settings first and skip the cells
+they give the user: Left and Next, Stage `review` when every
 ticket is done. Build = `{done}/{total}` — `✅` waits for the feature
 review, even on the last ticket; Next is then `/warroom-build {slug}
 --review-feature`.
@@ -202,7 +203,9 @@ Every ticket `done`, before merge.
    rows still open and their commands. Every CI check green after the
    fixes and no Blocked row `open` → Build `✅ {short sha of HEAD}`, Next
    `/pr-open`, and end with it. A check red → Build `❌ {short sha}`, Next
-   the command that fixes it (`/kiki-debug …`). Then commit `progress.md`
+   the command that fixes it (`/kiki-debug …`). Build is the user's in
+   the board's Settings → leave that cell; Next still follows these
+   checks. Then commit `progress.md`
    and the board: `docs({slug}): feature review`.
 
 ## End of every session

@@ -175,6 +175,20 @@ flowchart LR
     T --> R --> FR --> OK --> PR
 ```
 
+Want to fill a cell yourself for one feature? List it under **Settings**
+at the top of the board; the agent then never touches that cell for that
+feature (it still fills spec › Design and the Blocked rows as usual):
+
+```
+## Settings
+| Feature        | User writes |
+| company-user   | UI          |
+| domain-monitor | UI, Build   |
+```
+
+Cells you can take: UI, Build, Left, Next. A feature not listed → the
+agent writes every cell.
+
 Each skill updates its feature's row at the end of the session. The
 detail per feature is `docs/progress/{slug}/progress.md`:
 

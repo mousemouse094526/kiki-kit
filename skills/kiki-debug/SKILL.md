@@ -168,7 +168,7 @@ system let this happen, never who.
   in a warroom feature each one accepted becomes a new ticket after the
   highest number, in [the ticket template](../warroom/templates/ticket.md),
   `**Status:** ready-for-agent`, with its row in `progress.md` and the
-  board; otherwise a line in the record's Prevention. Nothing is
+  board (minus the cells the board's Settings give the user); otherwise a line in the record's Prevention. Nothing is
   created without the user's yes.
 - **What helped** — what made this fast or slow to find.
 

@@ -13,7 +13,7 @@ The agenda is one of:
   or asks for them to be made in Figma through the Figma MCP (then the
   link is the frame it made). Put each link in spec › Design › Source,
   set each `design: {screen}` Blocked row to `done`, update the board row
-  — UI `🎨 {n}/{n}` when no screen is left `pending`, else `⏳` with the
+  (not a cell the board's Settings give the user) — UI `🎨 {n}/{n}` when no screen is left `pending`, else `⏳` with the
   count — and end with the Next command.
   Nothing else: no interview, legal check, Breaker, or gate. The design
   adds something the spec doesn't have (a field, a step, a rule) → that

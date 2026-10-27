@@ -72,7 +72,8 @@ ready-to-build spec for …". It fixes the scope.}
 2. Survey the whole space — breadth, not depth — to find the sharp
    questions and the fog.
 3. No fog → no map: say so and just interview.
-4. Write `map.md` and the feature's board row (Stage `mapping`), show the
+4. Write `map.md` and the feature's board row (Stage `mapping`; Settings
+   first, [board.md](../templates/board.md)), show the
    map, and stop.
 
 ## Later sessions — `/warroom {slug}` with a map
