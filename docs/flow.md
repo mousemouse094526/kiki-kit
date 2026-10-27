@@ -145,11 +145,11 @@ flowchart LR
 `docs/progress/board.md`, one row per feature:
 
 ```
-| Feature        | Stage    | UI     | Build      | Left          | Next                               |
-| user-contact   | done     | 🎨 2/2 | ✅ 4f1c2ab | —             | —                                  |
-| company-user   | review   | 🎨 3/3 | ✅ 1c92373 | open the PR   | /pr-open                           |
-| domain-monitor | building | ⏳ 1/3 | 2/4        | tickets 03–04 | /warroom-build domain-monitor 03   |
-| loyalty-points | mapping  | —      | —          | 4 questions   | /warroom loyalty-points            |
+| Feature        | Manual | Stage    | UI     | Build      | Left          | Next                               |
+| user-contact   | false  | done     | 🎨 2/2 | ✅ 4f1c2ab | —             | —                                  |
+| company-user   | true   | review   | 🎨 3/3 | ✅ 1c92373 | open the PR   | /pr-open                           |
+| domain-monitor | false  | building | ⏳ 1/3 | 2/4        | tickets 03–04 | /warroom-build domain-monitor 03   |
+| loyalty-points | false  | mapping  | —      | —          | 4 questions   | /warroom loyalty-points            |
 ```
 
 Two flags sit beside the Stage:
@@ -175,19 +175,9 @@ flowchart LR
     T --> R --> FR --> OK --> PR
 ```
 
-Want to fill a cell yourself for one feature? List it under **Settings**
-at the top of the board; the agent then never touches that cell for that
-feature (it still fills spec › Design and the Blocked rows as usual):
-
-```
-## Settings
-| Feature        | User writes |
-| company-user   | UI          |
-| domain-monitor | UI, Build   |
-```
-
-Cells you can take: UI, Build, Left, Next. A feature not listed → the
-agent writes every cell.
+**Manual** (`true` / `false`) is yours alone: `true` means no agent
+touches that row — you keep it up to date. The feature's work itself
+(tickets, `progress.md`, the next command in chat) still runs as usual.
 
 Each skill updates its feature's row at the end of the session. The
 detail per feature is `docs/progress/{slug}/progress.md`:

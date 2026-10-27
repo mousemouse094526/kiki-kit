@@ -6,18 +6,12 @@ and commands stay in English; the text is in the docs language.
 
 ## Rules
 
-- **Read Settings first.** Before writing any row, read the board's
-  Settings table. The cells it lists as **User writes** for that feature
-  belong to the user: never write, clear, or reformat them — keep what is
-  there, and leave them empty in a new row. Everything else in the
-  session runs as usual (spec › Design Source, Blocked rows, the Next
-  command in chat); only the board cell is skipped. A feature not listed,
-  or a board with no Settings, → the agent writes every cell. Only the
-  user adds or removes Settings rows.
-- **Settings cells** are UI, Build, Left, Next; Feature and Stage are
-  always the agent's. Build is the user's → Next is `/pr-open` once Stage
-  is `review` with no `open` Blocked row, and pr-open skips the `✅`
-  check for that feature.
+- **Manual** — `true` or `false`, set only by the user. `true` → the row
+  belongs to the user: no agent writes, clears, or reformats any of its
+  cells. The feature's own work still runs as usual (spec, tickets,
+  `progress.md`, Blocked rows, the Next command in chat); only the board
+  row is skipped. A new row gets `false`; a board without the column (an
+  older one) gets it the next time any row is written, every row `false`.
 - **One row per feature**, added by warroom the first time it writes for
   that feature.
 - **Updated by whichever warroom skill ran last** for that feature, at the
@@ -63,22 +57,10 @@ and commands stay in English; the text is in the docs language.
 
 Where every feature stands. Detail per feature in `progress/{slug}/`.
 
-## Settings
-
-Cells the agent leaves alone; you fill them yourself. Add a row only for a
-feature where you want that.
-
-| Feature | User writes |
-|---|---|
-| company-user | UI |
-| phone-international | UI, Build |
-
-## Features
-
-| Feature | Stage | UI | Build | Left | Next |
-|---|---|---|---|---|---|
-| [user-contact](user-contact/progress.md) | done | 🎨 2/2 | ✅ 4f1c2ab | — | — |
-| [company-user](company-user/progress.md) | review | 🎨 3/3 | ✅ 1c92373 | open the PR | `/pr-open` |
-| [phone-international](phone-international/progress.md) | building | ⏳ 1/2 | 1/3 | tickets 02–03 | `/warroom-build phone-international 02` |
-| [loyalty-points](loyalty-points/map.md) | mapping | — | — | 4 open questions | `/warroom loyalty-points` |
+| Feature | Manual | Stage | UI | Build | Left | Next |
+|---|---|---|---|---|---|---|
+| [user-contact](user-contact/progress.md) | false | done | 🎨 2/2 | ✅ 4f1c2ab | — | — |
+| [company-user](company-user/progress.md) | true | review | 🎨 3/3 | ✅ 1c92373 | open the PR | `/pr-open` |
+| [phone-international](phone-international/progress.md) | false | building | ⏳ 1/2 | 1/3 | tickets 02–03 | `/warroom-build phone-international 02` |
+| [loyalty-points](loyalty-points/map.md) | false | mapping | — | — | 4 open questions | `/warroom loyalty-points` |
 ```

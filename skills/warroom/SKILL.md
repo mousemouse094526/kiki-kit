@@ -37,7 +37,7 @@ Nothing builds from a `draft`.
 | `docs/decisions.md` | every decision in the project, one line each, by subject ([template](templates/decisions-index.md)) |
 | `docs/adr/` | the rules every feature must follow, one short file each ([references/adr.md](references/adr.md)) |
 | `docs/features/{slug}/` | what the feature is: spec, decisions, flow, legal, sketches |
-| `docs/progress/board.md` | where every feature stands, one row each; its Settings name cells only the user writes ([template](templates/board.md)) |
+| `docs/progress/board.md` | where every feature stands, one row each; a row marked Manual `true` is the user's, never written ([template](templates/board.md)) |
 | `docs/progress/{slug}/` | the work in flight: map, tickets, `progress.md`, user trials, bugs |
 | `CONTEXT.md` | the glossary, at the repo root; created on the first resolved term, never empty |
 

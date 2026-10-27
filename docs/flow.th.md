@@ -138,11 +138,11 @@ flowchart LR
 `docs/progress/board.md` feature ละแถว:
 
 ```
-| Feature        | Stage    | UI     | Build      | Left          | Next                               |
-| user-contact   | done     | 🎨 2/2 | ✅ 4f1c2ab | —             | —                                  |
-| company-user   | review   | 🎨 3/3 | ✅ 1c92373 | เปิด PR       | /pr-open                           |
-| domain-monitor | building | ⏳ 1/3 | 2/4        | tickets 03–04 | /warroom-build domain-monitor 03   |
-| loyalty-points | mapping  | —      | —          | 4 คำถาม       | /warroom loyalty-points            |
+| Feature        | Manual | Stage    | UI     | Build      | Left          | Next                               |
+| user-contact   | false  | done     | 🎨 2/2 | ✅ 4f1c2ab | —             | —                                  |
+| company-user   | true   | review   | 🎨 3/3 | ✅ 1c92373 | เปิด PR       | /pr-open                           |
+| domain-monitor | false  | building | ⏳ 1/3 | 2/4        | tickets 03–04 | /warroom-build domain-monitor 03   |
+| loyalty-points | false  | mapping  | —      | —          | 4 คำถาม       | /warroom loyalty-points            |
 ```
 
 มี flag สองช่องข้าง Stage:
@@ -166,17 +166,8 @@ flowchart LR
     T --> R --> FR --> OK --> PR
 ```
 
-อยากกรอกช่องไหนเองเฉพาะบาง feature? ใส่ไว้ใน **Settings** บนสุดของ board แล้ว agent
-จะไม่แตะช่องนั้นของ feature นั้นเลย (แต่ยังเติม spec › Design และแถว Blocked ตามปกติ):
-
-```
-## Settings
-| Feature        | User writes |
-| company-user   | UI          |
-| domain-monitor | UI, Build   |
-```
-
-ช่องที่กรอกเองได้: UI, Build, Left, Next feature ที่ไม่อยู่ใน Settings agent ทำทุกช่อง
+**Manual** (`true` / `false`) คุณเป็นคนตั้งเท่านั้น `true` = agent ไม่แตะแถวนั้นใน board เลย
+คุณอัปเดตแถวเอง งานของ feature (ticket, `progress.md`, คำสั่งถัดไปในแชท) ยังทำตามปกติ
 
 ทุก skill อัปเดตแถวของ feature ตัวเองตอนจบ session รายละเอียดต่อ feature อยู่ที่
 `docs/progress/{slug}/progress.md`:
