@@ -91,6 +91,9 @@ export const register: Register = on => {
     const drawn = tiles.filter(t => t.png !== null)
     const cells = e.surface === 'terminal' ? fitRow(drawn.map(t => t.size), pictureRows, e.props.bodyColumns) : []
 
+    // Whatever other plugins and the engine draw here stays, below the band.
+    const below = await next(e)
+
     let row = null
     if (e.surface === 'terminal' && cells.length > 0) {
       const { Image, Raster } = $.ui.resolve(e)
@@ -134,6 +137,7 @@ export const register: Register = on => {
             <Text>{t.path}</Text>
           </Box>
         ))}
+        {below}
       </Box>
     )
   })

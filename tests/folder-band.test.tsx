@@ -45,6 +45,14 @@ function engine(on: On, draft = '') {
   on('classic.CwdChanged', () => ({}))
 }
 
+// The engine draws nothing of its own above the prompt.
+function nothingBeneath(on: On) {
+  on('ui.render', ($, e) => {
+    const { Box } = $.ui.resolve(e)
+    return <Box />
+  })
+}
+
 async function textOn($: Engine, surface: 'terminal' | 'desktop', text: RegExp) {
   const ui = await $.ui.mount({ ...BAND, surface })
   const found = await ui.find({ type: 'Text', text })
@@ -54,6 +62,7 @@ async function textOn($: Engine, surface: 'terminal' | 'desktop', text: RegExp) 
 
 test('the band shows the working folder, on every surface', async ($, on) => {
   engine(on)
+  nothingBeneath(on)
   await $.session.start({ cwd: '/Users/kiki/Works/kiki-kit', surface: 'terminal', isInteractive: true })
 
   for (const surface of ['terminal', 'desktop'] as const) {
@@ -63,6 +72,7 @@ test('the band shows the working folder, on every surface', async ($, on) => {
 
 test('the band follows a folder change', async ($, on) => {
   engine(on)
+  nothingBeneath(on)
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
   await $.classic.CwdChanged({ old_cwd: '/Users/kiki/a', new_cwd: '/opt/b' })
 
@@ -72,6 +82,7 @@ test('the band follows a folder change', async ($, on) => {
 test('a pasted image shows its absolute path', async ($, on) => {
   const clock = mock.clock(on)
   engine(on, 'look [Image #1]')
+  nothingBeneath(on)
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
   await clock.advance(250)
 
@@ -87,6 +98,7 @@ test('a pasted image shows its absolute path', async ($, on) => {
 
 test('an image Claude reads or writes shows its absolute path until the next prompt', async ($, on) => {
   engine(on)
+  nothingBeneath(on)
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
   await $.tool.call({ tool: 'Read', file_path: '/Users/kiki/a/shot.png' })
   await $.tool.call({ tool: 'Write', file_path: 'out/logo.png', content: '' })
@@ -111,4 +123,16 @@ test('the band yields to a survey', async ($, on) => {
   const ui = await $.ui.mount({ ...BAND, props: { ...BAND.props, hasSurvey: true }, surface: 'terminal' })
   expect((await ui.find({ type: 'Text', text: /engine/ }))?.text).toBe('engine')
   await ui.unmount()
+})
+
+test('the band keeps what is drawn beneath it', async ($, on) => {
+  engine(on)
+  on('ui.render', ($, e) => {
+    const { Text } = $.ui.resolve(e)
+    return <Text>other plugin</Text>
+  })
+  await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
+
+  expect(await textOn($, 'terminal', /other plugin/)).toBe('other plugin')
+  expect(await textOn($, 'terminal', /\/a$/)).toBe('~/a')
 })
