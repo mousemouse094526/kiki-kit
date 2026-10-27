@@ -12,6 +12,12 @@ Claude Code skills, packaged as a plugin.
 | `mermaid-flow` | Readable Mermaid diagrams, checked for correctness before delivery |
 | `brandsmith` | Brand logo package: wordmark, app icons, profile marks, PNGs, concept doc, light/dark variants |
 
+## Mod
+
+| Mod | Does |
+|---|---|
+| folder band | A row above the prompt showing the session's working folder (`~/...`), updated when the folder changes. Needs Claude Code v2.1.287+ (mods). The desktop app draws it too |
+
 Flow: `/warroom` → gate → tickets → `/warroom-build {slug} 01` (continues ticket to ticket; each session ends with the next command) → `--review-feature` → `/warroom-trial` when you want users to try it.
 Where everything stands: `docs/progress/board.md`. Every decision, by subject: `docs/decisions.md`. How the skills fit together: [docs/flow.md](docs/flow.md) ([ไทย](docs/flow.th.md)).
 `warroom` uses `mermaid-flow` from this plugin.
@@ -60,7 +66,11 @@ new version.
 ```
 .claude-plugin/   marketplace.json (marketplace "kiki") + plugin.json (plugin "kiki-kit") — required
 skills/           one folder per skill
+hooks/            the mod: hooks.json names register.tsx
+types/            the mod's state contract (named in plugin.json)
+tests/            mod tests, run with `claude plugin test .`
 docs/             how the skills fit together (flow.md, flow.th.md)
 ```
 
-Validate with `claude plugin validate .`
+Validate with `claude plugin validate .`, test the mod with `claude plugin test .`.
+Try local changes without installing: `claude --plugin-dir .`
