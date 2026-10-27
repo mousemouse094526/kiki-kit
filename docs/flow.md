@@ -179,6 +179,11 @@ flowchart LR
 touches that row — you keep it up to date. The feature's work itself
 (tickets, `progress.md`, the next command in chat) still runs as usual.
 
+Not sure what to work on? `/warroom next` walks the board top to bottom
+(row order is your priority), skips Manual `true`, `done`, and rows whose
+next ticket waits on another feature's ticket, and runs the first one's
+Next after you confirm.
+
 Each skill updates its feature's row at the end of the session. The
 detail per feature is `docs/progress/{slug}/progress.md`:
 

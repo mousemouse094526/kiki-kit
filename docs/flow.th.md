@@ -169,6 +169,10 @@ flowchart LR
 **Manual** (`true` / `false`) คุณเป็นคนตั้งเท่านั้น `true` = agent ไม่แตะแถวนั้นใน board เลย
 คุณอัปเดตแถวเอง งานของ feature (ticket, `progress.md`, คำสั่งถัดไปในแชท) ยังทำตามปกติ
 
+ไม่รู้จะทำอะไรต่อ? `/warroom next` ไล่ board จากบนลงล่าง (ลำดับแถวคือลำดับความสำคัญที่คุณจัด)
+ข้ามแถวที่ Manual `true`, `done`, และแถวที่ ticket ถัดไปยังรอ ticket ของ feature อื่น
+แล้วรัน Next ของแถวแรกที่ทำได้หลังคุณยืนยัน
+
 ทุก skill อัปเดตแถวของ feature ตัวเองตอนจบ session รายละเอียดต่อ feature อยู่ที่
 `docs/progress/{slug}/progress.md`:
 

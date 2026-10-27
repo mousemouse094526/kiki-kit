@@ -152,6 +152,12 @@ in or out.
 5. The bug has an `open` row in `progress.md` › Blocked → set it to
    `done ({short sha})`, or `done (this ticket)` when the fix goes in the
    ticket's commit.
+6. In a warroom feature, outside a ticket, update its board row (skip a
+   row marked Manual `true`): every ticket `done`, CI checks green, and no
+   Blocked row `open` → Build `✅ {short sha}`, Next `/pr-open`; a check
+   still red → Build `❌ {short sha}`, Next the command for it; tickets
+   left → Build `{done}/{total}`, Next the next ticket. Set `progress.md` ›
+   Now and Next to match, and commit them with the fix.
 
 ## Phase 7 — Postmortem
 

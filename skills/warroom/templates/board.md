@@ -46,6 +46,9 @@ and commands stay in English; the text is in the docs language.
 - **Left** says what is still to do in a few words: `tickets 03–04`,
   `2 open questions`, `Blocked #2`.
 - **Next** is the exact command to paste, or `—` when `done`.
+- **Row order is priority.** The user moves rows to reorder; agents never
+  reorder. `/warroom next` takes the first row that can move — see
+  [references/next.md](../references/next.md).
 - A board without the UI and Build columns (an older one) → add them the
   next time any row is written: UI from each spec › Design, Build from
   each `progress.md` Tickets table (`✅` only once the checks are run).

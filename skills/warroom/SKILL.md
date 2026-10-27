@@ -8,7 +8,8 @@ description: >-
   is asked again.
   Modes: /warroom [slug] (new plan, map, change request, Blocked rows);
   /warroom legal {items or slug} (Thai-law check only, not legal advice);
-  /warroom tickets {slug} (re-cut). Use with /warroom, or whenever a
+  /warroom tickets {slug} (re-cut); /warroom next (pick the next feature
+  from the board). Use with /warroom, or whenever a
   feature needs its plan laid out before anyone builds it.
 ---
 
@@ -26,6 +27,8 @@ into a few big tickets.
   [references/legal.md](references/legal.md).
 - `/warroom tickets {slug}` — only the ticket cut (a re-cut):
   [references/tickets.md](references/tickets.md).
+- `/warroom next` — read the board, pick the first feature that can move,
+  and run its Next: [references/next.md](references/next.md).
 
 The spec carries an honest `## Open Questions` list and a `Status`.
 Nothing builds from a `draft`.
