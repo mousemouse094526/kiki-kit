@@ -1,4 +1,6 @@
-import { expect, test } from 'claude-code/testing'
+import { expect, mock, test } from 'claude-code/testing'
+import type { On } from 'claude-code'
+import type { Engine } from 'claude-code/testing'
 
 const BAND = {
   plugin: 'kiki-kit',
@@ -6,49 +8,104 @@ const BAND = {
   props: {
     hasSurvey: false,
     isWorking: false,
-    maxRows: 10,
-    bodyColumns: 60,
-    scroll: { offset: 0, bodyRows: 9 },
+    maxRows: 30,
+    bodyColumns: 80,
+    scroll: { offset: 0, bodyRows: 29 },
     view: {},
   },
 } as const
 
-test('the band shows the working folder, on every surface', async ($, on) => {
-  on('env.get', () => ({ value: '/Users/kiki' }))
-  on('session.start', (_, e) => ({ cwd: e.cwd }))
+// A PNG's signature and IHDR, 4 x 2 pixels: enough for its size.
+const PNG_HEAD = btoa(String.fromCharCode(
+  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+  0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52,
+  0, 0, 0, 4, 0, 0, 0, 2,
+))
 
+const TMP = '/tmp/claude-501'
+const PASTES = `${TMP}/-Users-kiki-a/S1/images`
+
+const entry = (name: string, kind: 'dir' | 'file') => ({ name, kind, size: 0, mtimeMs: 0, isLink: false })
+
+// The world beneath the mod: a home folder, a session, one pasted PNG, any PNG readable.
+function engine(on: On, draft = '') {
+  on('env.get', (_, e) => ({ value: e.name === 'HOME' ? '/Users/kiki' : undefined }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('session.id', () => ({ value: 'S1' }))
+  on('session.cwd', () => ({ value: '/Users/kiki/a' }))
+  on('process.run', () => ({ value: { exitCode: 0, stdout: '501\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false } }))
+  on('prompt.read', () => ({ value: { text: draft, cursor: draft.length } }))
+  on('fs.exists', (_, e) => ({ value: e.path === PASTES }))
+  on('fs.list', (_, e) => ({
+    value: e.path === TMP ? [entry('-Users-kiki-a', 'dir')] : e.path === PASTES ? [entry('1.png', 'file')] : [],
+  }))
+  on('fs.read', () => ({ value: { base64: PNG_HEAD } }))
+  on('tool.call', () => ({ result: {} }))
+  on('prompt.submit', (_, e) => ({ text: e.text }))
+  on('classic.CwdChanged', () => ({}))
+}
+
+async function textOn($: Engine, surface: 'terminal' | 'desktop', text: RegExp) {
+  const ui = await $.ui.mount({ ...BAND, surface })
+  const found = await ui.find({ type: 'Text', text })
+  await ui.unmount()
+  return found?.text
+}
+
+test('the band shows the working folder, on every surface', async ($, on) => {
+  engine(on)
   await $.session.start({ cwd: '/Users/kiki/Works/kiki-kit', surface: 'terminal', isInteractive: true })
 
   for (const surface of ['terminal', 'desktop'] as const) {
-    const ui = await $.ui.mount({ ...BAND, surface })
-    const path = await ui.find({ type: 'Text', text: /Works/ })
-    expect(path?.text).toBe('~/Works/kiki-kit')
-    await ui.unmount()
+    expect(await textOn($, surface, /Works/)).toBe('~/Works/kiki-kit')
   }
 })
 
 test('the band follows a folder change', async ($, on) => {
-  on('env.get', () => ({ value: '/Users/kiki' }))
-  on('session.start', (_, e) => ({ cwd: e.cwd }))
-
-  on('classic.CwdChanged', () => ({}))
-
+  engine(on)
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
   await $.classic.CwdChanged({ old_cwd: '/Users/kiki/a', new_cwd: '/opt/b' })
 
+  expect(await textOn($, 'terminal', /\/opt/)).toBe('/opt/b')
+})
+
+test('a pasted image shows its absolute path', async ($, on) => {
+  const clock = mock.clock(on)
+  engine(on, 'look [Image #1]')
+  await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
+  await clock.advance(250)
+
+  for (const surface of ['terminal', 'desktop'] as const) {
+    expect(await textOn($, surface, /1\.png/)).toBe(`${PASTES}/1.png`)
+  }
+
+  // The terminal draws the picture above the path, labelled with its tag's number.
   const ui = await $.ui.mount({ ...BAND, surface: 'terminal' })
-  expect((await ui.find({ type: 'Text', text: /\/opt/ }))?.text).toBe('/opt/b')
+  expect((await ui.find({ type: 'Image' }))?.props.alt).toBe('#1')
   await ui.unmount()
 })
 
+test('an image Claude reads or writes shows its absolute path until the next prompt', async ($, on) => {
+  engine(on)
+  await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
+  await $.tool.call({ tool: 'Read', file_path: '/Users/kiki/a/shot.png' })
+  await $.tool.call({ tool: 'Write', file_path: 'out/logo.png', content: '' })
+  await $.tool.call({ tool: 'Read', file_path: '/Users/kiki/a/notes.md' })
+
+  expect(await textOn($, 'terminal', /shot/)).toBe('/Users/kiki/a/shot.png')
+  expect(await textOn($, 'terminal', /logo/)).toBe('/Users/kiki/a/out/logo.png')
+  expect(await textOn($, 'terminal', /notes/)).toBeUndefined()
+
+  await $.prompt.submit({ text: 'next', wait: false, origin: { kind: 'composer' } })
+  expect(await textOn($, 'terminal', /shot/)).toBeUndefined()
+})
+
 test('the band yields to a survey', async ($, on) => {
-  on('env.get', () => ({ value: '/Users/kiki' }))
-  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  engine(on)
   on('ui.render', ($, e) => {
     const { Text } = $.ui.resolve(e)
     return <Text>engine</Text>
   })
-
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
 
   const ui = await $.ui.mount({ ...BAND, props: { ...BAND.props, hasSurvey: true }, surface: 'terminal' })

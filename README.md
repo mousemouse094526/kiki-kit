@@ -16,7 +16,7 @@ Claude Code skills, packaged as a plugin.
 
 | Mod | Does |
 |---|---|
-| folder band | A row above the prompt showing the session's working folder (`~/...`), updated when the folder changes. Needs Claude Code v2.1.287+ (mods). The desktop app draws it too |
+| folder band | A band above the prompt: the session's working folder (`~/...`, follows folder changes), then image thumbnails, each with its absolute path so another app can open it — images pasted into the prompt (`#1`), and image files Claude read or wrote this turn (`read`, `wrote`; cleared on the next prompt). Thumbnails are real pictures in Ghostty and kitty, colored half blocks elsewhere; non-PNG images are converted with `sips` (macOS). The desktop app shows the folder and paths. Needs Claude Code v2.1.287+ (mods) |
 
 Flow: `/warroom` → gate → tickets → `/warroom-build {slug} 01` (continues ticket to ticket; each session ends with the next command) → `--review-feature` → `/warroom-trial` when you want users to try it.
 Where everything stands: `docs/progress/board.md`. Every decision, by subject: `docs/decisions.md`. How the skills fit together: [docs/flow.md](docs/flow.md) ([ไทย](docs/flow.th.md)).
@@ -28,6 +28,8 @@ Credits:
   `code-review`, `diagnosing-bugs`.
 - 9arm's `debug-mantra` ([thananon/9arm-skills](https://github.com/thananon/9arm-skills)):
   the four debug mantras.
+- Jarrod Watts ([jarrodwatts/claude-image-view](https://github.com/jarrodwatts/claude-image-view), MIT):
+  the thumbnail layout and PNG decoder in `hooks/layout.ts` and `hooks/png.ts`.
 - lyndonkl's `postmortem` ([lyndonkl/claude](https://github.com/lyndonkl/claude)):
   the blameless postmortem.
 
