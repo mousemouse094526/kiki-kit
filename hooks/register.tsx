@@ -8,6 +8,8 @@ import { registerTreeCommand, tree } from './tree'
 
 // Pasting an image raises no prompt edit, so the draft is polled.
 const POLL_MS = 200
+// A branch switched outside the session (another terminal) shows within this.
+const BRANCH_MS = 2000
 // Files a turn read or wrote that the band keeps, newest last.
 const MAX_TOUCHED = 4
 
@@ -19,6 +21,7 @@ const pasted = atom({ plugin: 'kiki-kit', key: 'pasted' } as const, [] as Tile[]
 const touched = atom({ plugin: 'kiki-kit', key: 'touched' } as const, [] as Tile[])
 
 let pastedKey = ''
+let statusText: string | undefined
 let isChecking = false
 
 // /Users/kiki/Works/x -> ~/Works/x
@@ -28,13 +31,33 @@ async function shorten($: EngineInterface, path: string): Promise<string> {
   return path
 }
 
-// `session ~/a`, or `session ~/a · now ~/a/b` once the session has moved.
+// The folder's git branch; a detached HEAD gives its short sha, outside a repo nothing.
+async function branchOf($: EngineInterface, folder: string): Promise<string | undefined> {
+  const branch = await $.process.run(['git', '-C', folder, 'branch', '--show-current'])
+  if (branch.exitCode !== 0) return undefined
+  if (branch.stdout.trim() !== '') return branch.stdout.trim()
+  const sha = await $.process.run(['git', '-C', folder, 'rev-parse', '--short', 'HEAD'])
+  return sha.exitCode === 0 && sha.stdout.trim() !== '' ? `detached ${sha.stdout.trim()}` : undefined
+}
+
+// `session ~/a · main`, or `session ~/a · now ~/a/b · main` once the session has moved.
 async function showFolder($: EngineInterface) {
   const start = await read($, root)
   const now = await read($, cwd)
-  if (start === null) return $.ui.status(undefined)
-  const text = `session ${await shorten($, start)}`
-  $.ui.status(now === null || now === start ? text : `${text} · now ${await shorten($, now)}`)
+  if (start === null) return setStatus($, undefined)
+  const here = now ?? start
+  const parts = [`session ${await shorten($, start)}`]
+  if (here !== start) parts.push(`now ${await shorten($, here)}`)
+  const branch = await branchOf($, here).catch(() => undefined)
+  if (branch !== undefined) parts.push(branch)
+  await setStatus($, parts.join(' · '))
+}
+
+// Pins the line only when it changed, so the poll costs no redraw.
+async function setStatus($: EngineInterface, text: string | undefined) {
+  if (text === statusText) return
+  statusText = text
+  await $.ui.status(text)
 }
 
 async function checkDraft($: EngineInterface) {
@@ -66,6 +89,7 @@ export const register: Register = on => {
     await update($, root, () => result.cwd)
     await update($, cwd, () => result.cwd)
     $.clock.every(POLL_MS, () => checkDraft($))
+    $.clock.every(BRANCH_MS, () => showFolder($).catch(() => {}))
     // Each part on its own: one that fails leaves the others running.
     await showFolder($).catch(() => {})
     await registerTreeCommand($).catch(() => {})

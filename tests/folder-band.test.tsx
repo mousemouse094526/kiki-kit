@@ -29,13 +29,18 @@ const entry = (name: string, kind: 'dir' | 'file') => ({ name, kind, size: 0, mt
 
 // The world beneath the mod: a home folder, a session, one pasted PNG, any PNG readable.
 // Returns the status line under the prompt, as the mod last pinned it.
-function engine(on: On, draft = '') {
+function engine(on: On, draft = '', branch = 'main') {
   const line = { text: undefined as string | undefined }
   on('env.get', (_, e) => ({ value: e.name === 'HOME' ? '/Users/kiki' : undefined }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('session.id', () => ({ value: 'S1' }))
   on('session.cwd', () => ({ value: '/Users/kiki/a' }))
-  on('process.run', () => ({ value: { exitCode: 0, stdout: '501\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false } }))
+  on('process.run', (_, e) => {
+    const isGit = e.argv[0] === 'git'
+    const stdout = !isGit ? '501\n' : e.argv.includes('rev-parse') ? 'abc1234\n' : `${branch}\n`
+    const exitCode = isGit && branch === 'none' ? 128 : 0
+    return { value: { exitCode, stdout, stderr: '', isStdoutTruncated: false, isStderrTruncated: false } }
+  })
   on('prompt.read', () => ({ value: { text: draft, cursor: draft.length } }))
   on('fs.exists', (_, e) => ({ value: e.path === PASTES }))
   on('fs.list', (_, e) => ({
@@ -72,6 +77,20 @@ test('the session folder shows under the prompt', async ($, on) => {
   const line = engine(on)
   await $.session.start({ cwd: '/Users/kiki/Works/kiki-kit', surface: 'terminal', isInteractive: true })
 
+  expect(line.text).toBe('session ~/Works/kiki-kit · main')
+})
+
+test('a detached HEAD shows its short sha', async ($, on) => {
+  const line = engine(on, '', '')
+  await $.session.start({ cwd: '/Users/kiki/Works/kiki-kit', surface: 'terminal', isInteractive: true })
+
+  expect(line.text).toBe('session ~/Works/kiki-kit · detached abc1234')
+})
+
+test('outside a git repo there is no branch', async ($, on) => {
+  const line = engine(on, '', 'none')
+  await $.session.start({ cwd: '/Users/kiki/Works/kiki-kit', surface: 'terminal', isInteractive: true })
+
   expect(line.text).toBe('session ~/Works/kiki-kit')
 })
 
@@ -80,7 +99,7 @@ test('a folder change shows beside the session folder', async ($, on) => {
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
   await $.classic.CwdChanged({ old_cwd: '/Users/kiki/a', new_cwd: '/opt/b' })
 
-  expect(line.text).toBe('session ~/a · now /opt/b')
+  expect(line.text).toBe('session ~/a · now /opt/b · main')
 })
 
 test('a pasted image shows its absolute path', async ($, on) => {
