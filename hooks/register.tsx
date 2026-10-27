@@ -4,6 +4,7 @@ import type { EngineInterface, Register } from 'claude-code'
 import type { Folder, Tile } from '../types'
 import { canDrawPictures, fileTile, IMAGE_FILE, pastedTiles, thumbOf } from './images'
 import { blockCells, fitRow } from './layout'
+import { registerTreeCommand, tree } from './tree'
 
 // Pasting an image raises no prompt edit, so the draft is polled.
 const POLL_MS = 200
@@ -58,12 +59,16 @@ async function remember($: EngineInterface, label: string, path: string | undefi
 }
 
 export const register: Register = on => {
+  tree(on)
+
   on('session.start', async ($, e, next) => {
     const result = await next(e)
     await update($, root, () => result.cwd)
     await update($, cwd, () => result.cwd)
-    await showFolder($)
     $.clock.every(POLL_MS, () => checkDraft($))
+    // Each part on its own: one that fails leaves the others running.
+    await showFolder($).catch(() => {})
+    await registerTreeCommand($).catch(() => {})
     return result
   })
 

@@ -15,6 +15,6 @@ export type Tile = {
 
 declare module 'claude-code' {
   interface PluginState {
-    'kiki-kit': { root: Folder | null; cwd: Folder | null; pasted: Tile[]; touched: Tile[] }
+    'kiki-kit': { root: Folder | null; cwd: Folder | null; treeOpen: Folder[]; treeVersion: number; pasted: Tile[]; touched: Tile[] }
   }
 }

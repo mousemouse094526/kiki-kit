@@ -17,6 +17,7 @@ Claude Code skills, packaged as a plugin.
 | Mod | Does |
 |---|---|
 | folder band | Under the prompt, the folder the session runs in (`session ~/...`, plus `now ~/...` once it moves). Above the prompt, image thumbnails, each with its absolute path so another app can open it — images pasted into the prompt (`#1`), and image files Claude read or wrote this turn (`read`, `wrote`; cleared on the next prompt). Thumbnails are real pictures in Ghostty and kitty, colored half blocks elsewhere; non-PNG images are converted with `sips` (macOS). The desktop app shows the paths. Needs Claude Code v2.1.287+ (mods) |
+| folder tree | `/tree` opens a pane listing the session folder: folders first, press one to expand or collapse it, `Refresh` to re-read. Re-reads by itself after Claude runs `Write`, `Edit`, `NotebookEdit` or `Bash`. Skips `.git` and `node_modules`; shows at most 200 entries per folder |
 
 Flow: `/warroom` → gate → tickets → `/warroom-build {slug} 01` (continues ticket to ticket; each session ends with the next command) → `--review-feature` → `/warroom-trial` when you want users to try it.
 Where everything stands: `docs/progress/board.md`. Every decision, by subject: `docs/decisions.md`. How the skills fit together: [docs/flow.md](docs/flow.md) ([ไทย](docs/flow.th.md)).

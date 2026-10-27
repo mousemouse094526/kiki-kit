@@ -28,7 +28,9 @@ const PASTES = `${TMP}/-Users-kiki-a/S1/images`
 const entry = (name: string, kind: 'dir' | 'file') => ({ name, kind, size: 0, mtimeMs: 0, isLink: false })
 
 // The world beneath the mod: a home folder, a session, one pasted PNG, any PNG readable.
+// Returns the status line under the prompt, as the mod last pinned it.
 function engine(on: On, draft = '') {
+  const line = { text: undefined as string | undefined }
   on('env.get', (_, e) => ({ value: e.name === 'HOME' ? '/Users/kiki' : undefined }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('session.id', () => ({ value: 'S1' }))
@@ -43,6 +45,12 @@ function engine(on: On, draft = '') {
   on('tool.call', () => ({ result: {} }))
   on('prompt.submit', (_, e) => ({ text: e.text }))
   on('classic.CwdChanged', () => ({}))
+  on('ui.status', (_, e) => {
+    line.text = e.text
+    return { value: undefined }
+  })
+  on('command.register', () => ({ value: { command: 'tree' } }))
+  return line
 }
 
 // The engine draws nothing of its own above the prompt.
@@ -60,27 +68,15 @@ async function textOn($: Engine, surface: 'terminal' | 'desktop', text: RegExp) 
   return found?.text
 }
 
-// The status line under the prompt, as the mod last pinned it.
-function statusLine(on: On) {
-  const line = { text: undefined as string | undefined }
-  on('ui.status', (_, e) => {
-    line.text = e.text
-    return { value: undefined }
-  })
-  return line
-}
-
 test('the session folder shows under the prompt', async ($, on) => {
-  engine(on)
-  const line = statusLine(on)
+  const line = engine(on)
   await $.session.start({ cwd: '/Users/kiki/Works/kiki-kit', surface: 'terminal', isInteractive: true })
 
   expect(line.text).toBe('session ~/Works/kiki-kit')
 })
 
 test('a folder change shows beside the session folder', async ($, on) => {
-  engine(on)
-  const line = statusLine(on)
+  const line = engine(on)
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
   await $.classic.CwdChanged({ old_cwd: '/Users/kiki/a', new_cwd: '/opt/b' })
 
