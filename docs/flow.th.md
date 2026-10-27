@@ -43,8 +43,8 @@ flowchart LR
 ```
 
 โหมดอื่น: `/warroom legal {รายการ}` (ตรวจกฎหมายอย่างเดียว) ·
-`/warroom tickets {slug}` (หั่นใหม่) · `/kiki-debug {อาการ}`
-(bug อะไรก็ได้)
+`/warroom tickets {slug}` (หั่นใหม่) · `/warroom next` (feature ถัดไปจาก board) ·
+`/kiki-debug {อาการ}` (bug อะไรก็ได้)
 
 ## 2. warroom — วางแผน แล้วหั่น ticket
 
@@ -162,8 +162,9 @@ flowchart LR
     FR["--review-feature<br/>CI เขียว"]
     OK["Build ✅<br/>Next /pr-open"]
     PR["/pr-open<br/>Left PR #N"]
+    MG["merge แล้ว /warroom next<br/>Stage done"]
 
-    T --> R --> FR --> OK --> PR
+    T --> R --> FR --> OK --> PR --> MG
 ```
 
 **Manual** (`true` / `false`) คุณเป็นคนตั้งเท่านั้น `true` = agent ไม่แตะแถวนั้นใน board เลย
@@ -171,7 +172,17 @@ flowchart LR
 
 ไม่รู้จะทำอะไรต่อ? `/warroom next` ไล่ board จากบนลงล่าง (ลำดับแถวคือลำดับความสำคัญที่คุณจัด)
 ข้ามแถวที่ Manual `true`, `done`, และแถวที่ ticket ถัดไปยังรอ ticket ของ feature อื่น
-แล้วรัน Next ของแถวแรกที่ทำได้หลังคุณยืนยัน
+แล้วรัน Next ของแถวแรกที่ทำได้หลังคุณยืนยัน ก่อนเลือกจะเช็คแถวที่เปิด PR ไว้ ถ้า merge แล้วจะเปลี่ยนเป็น `done`
+`/pr-open` จบด้วยคำสั่งนี้ และ `/warroom-build` ก็จบด้วยคำสั่งนี้เมื่อ feature ไม่มีอะไรทำต่อ หรือติดรอ feature อื่น
+
+**หนึ่ง feature หนึ่ง branch** แต่ละ feature ทำบน `feat/{slug}` ถ้าจะไปทำ feature อื่นตอนที่ยังอยู่บน `feat/…` ของอีก feature
+skill จะไม่ทำงานบน branch นั้น แต่จะสร้าง worktree ไว้ข้าง repo แล้วให้คำสั่งไปวางใน terminal ใหม่:
+
+```bash
+cd ../myrepo-domain-monitor && claude "/warroom-build domain-monitor 01"
+```
+
+feature แรกยังอยู่ในโฟลเดอร์และ branch เดิม ทำสองตัวพร้อมกันได้
 
 ทุก skill อัปเดตแถวของ feature ตัวเองตอนจบ session รายละเอียดต่อ feature อยู่ที่
 `docs/progress/{slug}/progress.md`:

@@ -39,7 +39,16 @@ spec.md is `draft` → stop and end with `/warroom {slug}`.
 2. **Clean tree.** `git status` shows changes → list them and ask: commit
    them as their own commit (Recommended for docs) or stash them. Never
    build on top of them.
-3. **Branch.** On the default branch → create `feat/{slug}` (ask once).
+3. **Branch.** On `feat/{slug}` → carry on. On the default branch →
+   create `feat/{slug}` (ask once). On another feature's branch → never
+   build here; ask with AskUserQuestion:
+   - **New worktree** (Recommended — the other feature stays as it is):
+     `git worktree add ../{repo}-{slug} -b feat/{slug} {default branch}`
+     (or the existing `feat/{slug}` without `-b`), then stop and end with
+     `cd ../{repo}-{slug} && claude "/warroom-build {slug} {NN}"` to paste
+     in a new terminal;
+   - **Switch here** — only with a clean tree: `git switch feat/{slug}`,
+     or create it from the default branch.
 4. **The CI checks.** Read the CI config and list its exact commands
    ([ci-checks.md](../warroom/references/ci-checks.md)), plus the
    single-test-file command, in one line. **Run them all now.** Anything
@@ -212,4 +221,6 @@ The last thing in chat, always:
 - what was done this session, one line per ticket;
 - anything now Blocked, with its command;
 - **Next** for this feature only, in its own code block, ready to paste in
-  a new session.
+  a new session;
+- this feature has nothing left to run (Next `—`), or its next step waits
+  on another feature → also `/warroom next` in its own code block.

@@ -46,8 +46,8 @@ flowchart LR
 ```
 
 Other modes: `/warroom legal {items}` (legal check only) ·
-`/warroom tickets {slug}` (re-cut) · `/kiki-debug {symptom}`
-(any bug).
+`/warroom tickets {slug}` (re-cut) · `/warroom next` (the next feature
+from the board) · `/kiki-debug {symptom}` (any bug).
 
 ## 2. warroom — plan, then cut
 
@@ -171,8 +171,9 @@ flowchart LR
     FR["--review-feature<br/>CI green"]
     OK["Build ✅<br/>Next /pr-open"]
     PR["/pr-open<br/>Left PR #N"]
+    MG["merge, then /warroom next<br/>Stage done"]
 
-    T --> R --> FR --> OK --> PR
+    T --> R --> FR --> OK --> PR --> MG
 ```
 
 **Manual** (`true` / `false`) is yours alone: `true` means no agent
@@ -182,7 +183,20 @@ touches that row — you keep it up to date. The feature's work itself
 Not sure what to work on? `/warroom next` walks the board top to bottom
 (row order is your priority), skips Manual `true`, `done`, and rows whose
 next ticket waits on another feature's ticket, and runs the first one's
-Next after you confirm.
+Next after you confirm. It first marks every row whose PR is merged as
+`done`. `/pr-open` ends with it, and so does `/warroom-build` once a
+feature has nothing left or waits on another one.
+
+**One feature, one branch.** Each feature builds on `feat/{slug}`. Moving
+to another feature while you are on a different `feat/…` branch, the
+skill doesn't build there — it makes a worktree beside the repo and gives
+you the line to paste in a new terminal:
+
+```bash
+cd ../myrepo-domain-monitor && claude "/warroom-build domain-monitor 01"
+```
+
+The first feature keeps its folder and branch; both can run at once.
 
 Each skill updates its feature's row at the end of the session. The
 detail per feature is `docs/progress/{slug}/progress.md`:

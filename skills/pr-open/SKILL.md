@@ -104,3 +104,6 @@ From [templates/pr-body.md](templates/pr-body.md). Rules:
    request #N from owner/branch" → mention once that Settings → General →
    Pull Requests → default merge (and squash) commit message → "Pull
    request title and description" makes this automatic.
+6. The branch built a warroom feature → end with `/warroom next` in its
+   own code block: once this PR is merged, it marks the row `done` and
+   picks the next feature.
