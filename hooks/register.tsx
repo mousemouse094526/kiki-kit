@@ -10,7 +10,8 @@ const POLL_MS = 200
 // Files a turn read or wrote that the band keeps, newest last.
 const MAX_TOUCHED = 4
 
-// The session's working folder, shown in a band above the prompt.
+// The folder the session started in, and the one it works in now; shown under the prompt.
+const root = atom({ plugin: 'kiki-kit', key: 'root' } as const, null as Folder | null)
 const cwd = atom({ plugin: 'kiki-kit', key: 'cwd' } as const, null as Folder | null)
 // Images pasted into the draft, and image files the last turn read or wrote.
 const pasted = atom({ plugin: 'kiki-kit', key: 'pasted' } as const, [] as Tile[])
@@ -24,6 +25,15 @@ async function shorten($: EngineInterface, path: string): Promise<string> {
   const home = await $.env.get('HOME')
   if (home && (path === home || path.startsWith(`${home}/`))) return `~${path.slice(home.length)}`
   return path
+}
+
+// `session ~/a`, or `session ~/a · now ~/a/b` once the session has moved.
+async function showFolder($: EngineInterface) {
+  const start = await read($, root)
+  const now = await read($, cwd)
+  if (start === null) return $.ui.status(undefined)
+  const text = `session ${await shorten($, start)}`
+  $.ui.status(now === null || now === start ? text : `${text} · now ${await shorten($, now)}`)
 }
 
 async function checkDraft($: EngineInterface) {
@@ -50,7 +60,9 @@ async function remember($: EngineInterface, label: string, path: string | undefi
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     const result = await next(e)
+    await update($, root, () => result.cwd)
     await update($, cwd, () => result.cwd)
+    await showFolder($)
     $.clock.every(POLL_MS, () => checkDraft($))
     return result
   })
@@ -58,7 +70,9 @@ export const register: Register = on => {
   // The band only watches: when one of its hooks fails, `.catch` lets the event go on as if it weren't here.
   on('classic.CwdChanged', async ($, e, next) => {
     // A failed write must not block the folder change itself.
-    await update($, cwd, () => e.new_cwd).catch(() => {})
+    await update($, cwd, () => e.new_cwd)
+      .then(() => showFolder($))
+      .catch(() => {})
     return next(e)
   }).catch(($, e, next) => next(e))
 
@@ -81,13 +95,12 @@ export const register: Register = on => {
   }).catch(($, e, next) => next(e))
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
-    const folder = await read($, cwd)
     const tiles = [...(await read($, pasted)), ...(await read($, touched))]
-    if (e.props.hasSurvey || (folder === null && tiles.length === 0)) return next(e)
+    if (e.props.hasSurvey || tiles.length === 0) return next(e)
 
     const { Box, Text } = $.ui.resolve(e)
-    // Rows left for pictures: the folder line and one path line per image come first.
-    const pictureRows = e.props.maxRows - 1 - tiles.length
+    // Rows left for pictures: one path line per image comes first.
+    const pictureRows = e.props.maxRows - tiles.length
     const drawn = tiles.filter(t => t.png !== null)
     const cells = e.surface === 'terminal' ? fitRow(drawn.map(t => t.size), pictureRows, e.props.bodyColumns) : []
 
@@ -124,12 +137,6 @@ export const register: Register = on => {
 
     return (
       <Box flexDirection="column">
-        {folder !== null && (
-          <Box>
-            <Text dimColor>folder </Text>
-            <Text bold wrap="truncate-start">{await shorten($, folder)}</Text>
-          </Box>
-        )}
         {row}
         {tiles.map(t => (
           <Box key={`path-${t.key}`}>

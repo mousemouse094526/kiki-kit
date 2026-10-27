@@ -60,23 +60,31 @@ async function textOn($: Engine, surface: 'terminal' | 'desktop', text: RegExp) 
   return found?.text
 }
 
-test('the band shows the working folder, on every surface', async ($, on) => {
+// The status line under the prompt, as the mod last pinned it.
+function statusLine(on: On) {
+  const line = { text: undefined as string | undefined }
+  on('ui.status', (_, e) => {
+    line.text = e.text
+    return { value: undefined }
+  })
+  return line
+}
+
+test('the session folder shows under the prompt', async ($, on) => {
   engine(on)
-  nothingBeneath(on)
+  const line = statusLine(on)
   await $.session.start({ cwd: '/Users/kiki/Works/kiki-kit', surface: 'terminal', isInteractive: true })
 
-  for (const surface of ['terminal', 'desktop'] as const) {
-    expect(await textOn($, surface, /Works/)).toBe('~/Works/kiki-kit')
-  }
+  expect(line.text).toBe('session ~/Works/kiki-kit')
 })
 
-test('the band follows a folder change', async ($, on) => {
+test('a folder change shows beside the session folder', async ($, on) => {
   engine(on)
-  nothingBeneath(on)
+  const line = statusLine(on)
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
   await $.classic.CwdChanged({ old_cwd: '/Users/kiki/a', new_cwd: '/opt/b' })
 
-  expect(await textOn($, 'terminal', /\/opt/)).toBe('/opt/b')
+  expect(line.text).toBe('session ~/a · now /opt/b')
 })
 
 test('a pasted image shows its absolute path', async ($, on) => {
@@ -132,7 +140,8 @@ test('the band keeps what is drawn beneath it', async ($, on) => {
     return <Text>other plugin</Text>
   })
   await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
+  await $.tool.call({ tool: 'Read', file_path: '/Users/kiki/a/shot.png' })
 
   expect(await textOn($, 'terminal', /other plugin/)).toBe('other plugin')
-  expect(await textOn($, 'terminal', /\/a$/)).toBe('~/a')
+  expect(await textOn($, 'terminal', /shot/)).toBe('/Users/kiki/a/shot.png')
 })
