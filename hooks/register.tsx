@@ -3,6 +3,7 @@ import type { EngineInterface, Register } from 'claude-code'
 
 import type { Folder, Tile } from '../types'
 import { canDrawPictures, fileTile, IMAGE_FILE, pastedTiles, thumbOf } from './images'
+import { fresh } from './fresh'
 import { blockCells, fitRow } from './layout'
 import { registerTreeCommand, tree } from './tree'
 
@@ -83,6 +84,7 @@ async function remember($: EngineInterface, label: string, path: string | undefi
 
 export const register: Register = on => {
   tree(on)
+  fresh(on)
 
   on('session.start', async ($, e, next) => {
     const result = await next(e)
@@ -95,6 +97,20 @@ export const register: Register = on => {
     await registerTreeCommand($).catch(() => {})
     return result
   })
+
+  // A /clear starts a new session with no session.start after it: the engine drops the status
+  // line and the session's state, so both are put back from the folder the session goes on in.
+  on('classic.SessionStart', async ($, e, next) => {
+    const result = await next(e)
+    if (e.source !== 'clear') return result
+    statusText = undefined
+    pastedKey = ''
+    await update($, root, () => e.cwd)
+      .then(() => update($, cwd, () => e.cwd))
+      .then(() => showFolder($))
+      .catch(() => {})
+    return result
+  }).catch(($, e, next) => next(e))
 
   // The band only watches: when one of its hooks fails, `.catch` lets the event go on as if it weren't here.
   on('classic.CwdChanged', async ($, e, next) => {

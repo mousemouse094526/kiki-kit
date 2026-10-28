@@ -50,6 +50,7 @@ function engine(on: On, draft = '', branch = 'main') {
   on('tool.call', () => ({ result: {} }))
   on('prompt.submit', (_, e) => ({ text: e.text }))
   on('classic.CwdChanged', () => ({}))
+  on('classic.SessionStart', () => ({}))
   on('ui.status', (_, e) => {
     line.text = e.text
     return { value: undefined }
@@ -100,6 +101,18 @@ test('a folder change shows beside the session folder', async ($, on) => {
   await $.classic.CwdChanged({ old_cwd: '/Users/kiki/a', new_cwd: '/opt/b' })
 
   expect(line.text).toBe('session ~/a · now /opt/b · main')
+})
+
+test('the session folder comes back after a /clear', async ($, on) => {
+  const clock = mock.clock(on)
+  const line = engine(on)
+  await $.session.start({ cwd: '/Users/kiki/a', surface: 'terminal', isInteractive: true })
+  // A /clear starts a new session: the engine drops the status line, and no session.start follows.
+  line.text = undefined
+  await $.classic.SessionStart({ source: 'clear', cwd: '/Users/kiki/a' })
+  await clock.advance(2500)
+
+  expect(line.text).toBe('session ~/a · main')
 })
 
 test('a pasted image shows its absolute path', async ($, on) => {
