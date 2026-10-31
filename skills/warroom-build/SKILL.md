@@ -74,7 +74,9 @@ spec.md › Testing decisions, and `CONTEXT.md`. Then:
   Design. A Figma frame → fetch only those frames' design context through
   the Figma MCP, once per ticket, before writing UI code. Source
   `pending` → don't build that screen: stop the ticket (section 4) on its
-  `design: {screen}` Blocked row. Spec has no
+  `design: {screen}` Blocked row, and point the user to
+  `docs/features/{slug}/ui-prompt.md` (missing → `/warroom ui {slug}`
+  first). Spec has no
   Design section and the ticket has UI (an older feature) → ask once for
   the design source, record a `D{n}`, and add the section, and set the
   board row's UI cell.

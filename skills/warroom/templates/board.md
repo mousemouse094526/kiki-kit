@@ -27,7 +27,8 @@ and commands stay in English; the text is in the docs language.
   - `done` — merged.
 - **UI** — whether the screens have a design, from spec › Design:
   - `—` — the feature has no screens, or spec › Design isn't written yet;
-  - `⏳ {n}/{total}` — some screens still `pending`;
+  - `⏳ {n}/{total}` — some screens still `pending` (their prompts are in
+    the feature's `ui-prompt.md`);
   - `🎨 {total}/{total}` — every screen has a Source.
 
   It changes when a Source is filled: the user pastes a design link

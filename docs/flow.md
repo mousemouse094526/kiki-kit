@@ -46,7 +46,8 @@ flowchart LR
 ```
 
 Other modes: `/warroom legal {items}` (legal check only) ·
-`/warroom tickets {slug}` (re-cut) · `/warroom next` (the next feature
+`/warroom tickets {slug}` (re-cut) · `/warroom ui {slug}` (design
+prompts for `pending` screens) · `/warroom next` (the next feature
 from the board) · `/kiki-debug {symptom}` (any bug).
 
 ## 2. warroom — plan, then cut
@@ -72,7 +73,7 @@ flowchart LR
 | Legal | Thai law item by item → `legal.md`; `UNVERIFIED` blocks the gate | answer if ambiguous |
 | Red team | Advocate, Builder, Breaker, Tester, Skeptic | decide what needs deciding |
 | ADR sweep | finds project-wide decisions, drafts ADRs | — |
-| Gate | summary + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
+| Gate | summary + Open Questions; on Approve, `ui-prompt.md` for `pending` screens | **Approve** / **Adjust** / **Stop as draft** |
 | Tickets | conventions where missing; 2–4 big vertical tickets; `progress.md`; the board row | approve, merge, or split |
 
 **Approve** is offered only when no Open Question blocks building. The
@@ -80,14 +81,17 @@ spec stays `draft` until then, and the build refuses a `draft`.
 
 **Screens?** The interview asks once where the design comes from: a Figma
 link, images, existing components, or **design after the plan**. After the
-plan, each screen's Source is `pending` and its Must show column is the
-brief to design from:
+plan, each screen's Source is `pending`, and warroom writes
+`docs/features/{slug}/ui-prompt.md`: one paste-ready prompt per screen,
+built from its Must show (fields, actions, every state, exact on-screen
+copy) and the project's real design system. Paste a block into Figma
+Make, Claude, v0, Stitch, or hand it to a designer:
 
 ```mermaid
 flowchart LR
-    P["/warroom<br/>plan + brief"]
+    P["/warroom<br/>plan + ui-prompt.md"]
     API["/warroom-build<br/>non-UI tickets"]
-    D["You design in Figma<br/>or ask for it<br/>through the Figma MCP"]
+    D["You paste the prompt<br/>into a design tool<br/>or the Figma MCP"]
     L["/warroom slug<br/>link fills Source"]
     UI["/warroom-build<br/>UI tickets"]
 
@@ -232,7 +236,7 @@ flowchart LR
 | `/warroom {slug}` | the command the build ended with | `→ D{n}` |
 | `/warroom tickets {slug}` | the same | `→ ticket NN` |
 | `/kiki-debug {symptom}` | the same, once the logs or data are in | `done ({sha})` |
-| `/warroom {slug}` for `design: {screen}` | with the design link | `done` |
+| `/warroom {slug}` for `design: {screen}` | with the design link, made from `ui-prompt.md` | `done` |
 
 You don't edit `progress.md` yourself. To drop a row, tell the skill.
 
@@ -264,7 +268,7 @@ docs/
 ├── README.md                    ← what each folder is for
 ├── decisions.md                 ← every decision, by subject — check before deciding
 ├── features/{slug}/             ← what the feature is
-│   └── spec.md  decisions.md  flow.md  legal.md
+│   └── spec.md  decisions.md  flow.md  legal.md  (ui-prompt.md)
 ├── progress/                    ← the work in flight
 │   ├── board.md                 ← every feature: stage, UI and Build flags, what's left, next command
 │   └── {slug}/

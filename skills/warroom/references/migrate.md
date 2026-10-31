@@ -14,8 +14,8 @@ Older warroom versions kept everything inside `docs/features/{slug}/`.
 | the `· **ADR:** …` footer of each entry | the ADR column of its `docs/decisions.md` row |
 | — | `docs/progress/board.md` |
 
-`features/{slug}/` keeps spec.md, flow.md, decisions.md, legal.md, and any
-sketches.
+`features/{slug}/` keeps spec.md, flow.md, decisions.md, legal.md,
+ui-prompt.md, and any sketches.
 
 ## When
 

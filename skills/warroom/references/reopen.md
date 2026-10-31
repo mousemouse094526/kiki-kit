@@ -15,6 +15,8 @@ The agenda is one of:
   set each `design: {screen}` Blocked row to `done`, update the board row
   (unless Manual `true`) — UI `🎨 {n}/{n}` when no screen is left `pending`, else `⏳` with the
   count — and end with the Next command.
+  Remove those screens' prompts from `ui-prompt.md` (the whole file and
+  its spec link when none is left `pending`).
   Nothing else: no interview, legal check, Breaker, or gate. The design
   adds something the spec doesn't have (a field, a step, a rule) → that
   part only is a change request, below.
@@ -29,7 +31,9 @@ For a change request or Blocked rows, then:
    ([templates/decisions.md](../templates/decisions.md) › Append-only); one
    with Used by or an ADR also follows
    [decisions-index.md](../templates/decisions-index.md) › Changing a
-   decision someone uses. Edit the spec sections it touches.
+   decision someone uses. Edit the spec sections it touches. A `pending`
+   screen's Design row changed → on Approve, rewrite `ui-prompt.md`
+   ([templates/ui-prompt.md](../templates/ui-prompt.md)).
 4. Run the legal check on the items it touches (it updates those verdicts
    in legal.md and keeps the rest).
 5. Give it to The Breaker alone instead of the full red team, then go to

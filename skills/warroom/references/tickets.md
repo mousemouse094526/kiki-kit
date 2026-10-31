@@ -59,8 +59,10 @@ ticket that completes its flow, tagged `(e2e)`. The first such ticket also
 sets up the e2e package if the project has none. Every screen in spec ›
 Design lands in the ticket that builds it. A screen whose Source is
 `pending` → a row in `progress.md` › Blocked for its ticket
-(`design: {screen}`, Needs `/warroom {slug}` with the design link); the
-other tickets don't wait for it.
+(`design: {screen}`, Needs `/warroom {slug}` with the design link, made
+from `ui-prompt.md`); the other tickets don't wait for it. No
+`ui-prompt.md` yet (a re-cut of an older plan) → write it now
+([templates/ui-prompt.md](../templates/ui-prompt.md)).
 
 **Walk each ticket as its builder.** A choice the docs, `docs/decisions.md`,
 ADRs, and conventions leave open:
@@ -113,6 +115,10 @@ Check, and show only the steps that apply:
   a start step.
 - **Secrets** the first ticket needs that `.env` lacks → say the build will
   ask for them.
+- **Screens to design** — any `pending` → link
+  `docs/features/{slug}/ui-prompt.md`: paste a block into a design tool
+  (or ask for the screens in Figma through the Figma MCP), then
+  `/warroom {slug}` with the link. Building can start meanwhile.
 
 Then end with the command to paste in a new session, in its own code
 block, always with the ticket number:

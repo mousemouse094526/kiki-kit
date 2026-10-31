@@ -8,8 +8,9 @@ description: >-
   is asked again.
   Modes: /warroom [slug] (new plan, map, change request, Blocked rows);
   /warroom legal {items or slug} (Thai-law check only, not legal advice);
-  /warroom tickets {slug} (re-cut); /warroom next (pick the next feature
-  from the board). Use with /warroom, or whenever a
+  /warroom tickets {slug} (re-cut); /warroom ui {slug} (paste-ready
+  design prompts for screens not designed yet); /warroom next (pick the
+  next feature from the board). Use with /warroom, or whenever a
   feature needs its plan laid out before anyone builds it.
 ---
 
@@ -27,6 +28,11 @@ into a few big tickets.
   [references/legal.md](references/legal.md).
 - `/warroom tickets {slug}` — only the ticket cut (a re-cut):
   [references/tickets.md](references/tickets.md).
+- `/warroom ui {slug}` — only the design prompts: rewrite
+  `docs/features/{slug}/ui-prompt.md` for every `pending` screen
+  ([templates/ui-prompt.md](templates/ui-prompt.md)). A spec with no
+  Design section (an older feature) → ask for the design source first, as
+  in Phase 1 › Screens. No `pending` screen → say so and stop.
 - `/warroom next` — read the board, pick the first feature that can move,
   and run its Next: [references/next.md](references/next.md).
 
@@ -39,7 +45,7 @@ Nothing builds from a `draft`.
 |---|---|
 | `docs/decisions.md` | every decision in the project, one line each, by subject ([template](templates/decisions-index.md)) |
 | `docs/adr/` | the rules every feature must follow, one short file each ([references/adr.md](references/adr.md)) |
-| `docs/features/{slug}/` | what the feature is: spec, decisions, flow, legal, sketches |
+| `docs/features/{slug}/` | what the feature is: spec, decisions, flow, legal, ui-prompt, sketches |
 | `docs/progress/board.md` | where every feature stands, one row each; a row marked Manual `true` is the user's, never written ([template](templates/board.md)) |
 | `docs/progress/{slug}/` | the work in flight: map, tickets, `progress.md`, user trials, bugs |
 | `CONTEXT.md` | the glossary, at the repo root; created on the first resolved term, never empty |
@@ -140,7 +146,9 @@ recommended answer first, marked "(Recommended)".
   components and conventions. Record a `D{n}`; fill spec › Design, with
   Source `pending` for screens designed after the plan, and set the board
   row's UI cell (`⏳ 0/{n}`, `🎨 {n}/{n}`, or `—` with no screens). One
-  design source for the whole project → an ADR candidate.
+  design source for the whole project → an ADR candidate. Every `pending`
+  screen gets a paste-ready prompt in `ui-prompt.md` once the spec is
+  approved (The Gate).
 - **Never supply a why you weren't given.** Record a decision that came
   without its reason as `rationale not recorded`, and make the reason the
   next question.
@@ -237,7 +245,9 @@ Ask with AskUserQuestion:
   says why it doesn't block building. Set the spec's Status to
   `ready-to-build`, write the ADRs to `docs/adr/NNNN-slug.md`
   ([templates/adr.md](templates/adr.md)) and each source row's ADR column
-  in `docs/decisions.md`, self-check those files, then go straight to
+  in `docs/decisions.md`; any screen `pending` → write `ui-prompt.md`
+  ([templates/ui-prompt.md](templates/ui-prompt.md)); self-check those
+  files, then go straight to
   **Phase 5**. Context already long
   (a map, many red-team rounds) → instead end with `/warroom tickets
   {slug}` to paste in a new session, and that as the board row's Next.

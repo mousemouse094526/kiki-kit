@@ -25,7 +25,7 @@ feature stands, and `decisions.md` before deciding anything.
 | Folder | Holds | Written by | Read it when |
 |---|---|---|---|
 | `decisions.md` | every decision in the project, one line each, by subject, linking its full entry | warroom skills, as each decision lands | before asking or deciding anything |
-| `features/{slug}/` | what one feature is: spec, decisions, flow, legal check | warroom | working on that feature |
+| `features/{slug}/` | what one feature is: spec, decisions, flow, legal check, design prompts for screens not designed yet | warroom | working on that feature |
 | `progress/` | the work in flight: `board.md` for every feature, then per feature its map, tickets, progress log, user trials, bugs | warroom skills | picking up or checking on work |
 | `adr/` | rules every feature must follow (architecture decision records), one short file each | warroom, at its gate | starting any feature |
 | `library-notes/` | what each library's docs recommend and warn about, for the installed version | warroom-build | writing code that uses the library |

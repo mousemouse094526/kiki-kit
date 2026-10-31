@@ -43,7 +43,7 @@ flowchart LR
 ```
 
 โหมดอื่น: `/warroom legal {รายการ}` (ตรวจกฎหมายอย่างเดียว) ·
-`/warroom tickets {slug}` (หั่นใหม่) · `/warroom next` (feature ถัดไปจาก board) ·
+`/warroom tickets {slug}` (หั่นใหม่) · `/warroom ui {slug}` (prompt ออกแบบหน้าจอที่ยัง `pending`) · `/warroom next` (feature ถัดไปจาก board) ·
 `/kiki-debug {อาการ}` (bug อะไรก็ได้)
 
 ## 2. warroom — วางแผน แล้วหั่น ticket
@@ -69,21 +69,23 @@ flowchart LR
 | กฎหมาย | ทีละเรื่อง → `legal.md`; `UNVERIFIED` บล็อก gate | ตอบถ้ากำกวม |
 | Red team | Advocate, Builder, Breaker, Tester, Skeptic | ตัดสินเรื่องที่ต้องตัดสิน |
 | ADR sweep | หา decision ระดับโปรเจค ร่าง ADR | — |
-| Gate | สรุป + Open Questions | **Approve** / **Adjust** / **Stop as draft** |
+| Gate | สรุป + Open Questions; Approve แล้วเขียน `ui-prompt.md` ให้หน้าจอที่ยัง `pending` | **Approve** / **Adjust** / **Stop as draft** |
 | Ticket | ตั้ง conventions ถ้ายังไม่มี; 2–4 ticket ใบใหญ่แนวตั้ง; `progress.md`; แถวใน board | อนุมัติ, รวม หรือแยก |
 
 กด **Approve** ได้เมื่อไม่มี Open Question ที่บล็อกการ build ก่อนหน้านั้น spec
 เป็น `draft` และ build จะไม่รับ
 
 **มีหน้าจอ?** สัมภาษณ์ถามครั้งเดียวว่า design มาจากไหน: Figma link, รูป, component ที่มีอยู่
-หรือ **ออกแบบหลังวางแผน** ถ้าออกแบบหลังวางแผน Source ของหน้าจอเป็น `pending` และคอลัมน์
-Must show คือ brief ที่เอาไปออกแบบ:
+หรือ **ออกแบบหลังวางแผน** ถ้าออกแบบหลังวางแผน Source ของหน้าจอเป็น `pending` และ warroom
+เขียน `docs/features/{slug}/ui-prompt.md`: prompt พร้อมวางหนึ่งก้อนต่อหน้าจอ สร้างจาก Must show
+(field, ปุ่ม, ทุก state, ข้อความบนจอตรงตามคำ) และ design system จริงของโปรเจกต์ เอาไปวางใน
+Figma Make, Claude, v0, Stitch หรือส่งให้ designer:
 
 ```mermaid
 flowchart LR
-    P["/warroom<br/>แผน + brief"]
+    P["/warroom<br/>แผน + ui-prompt.md"]
     API["/warroom-build<br/>ticket ที่ไม่ใช่ UI"]
-    D["คุณออกแบบใน Figma<br/>หรือสั่งสร้าง<br/>ผ่าน Figma MCP"]
+    D["คุณวาง prompt<br/>ใน design tool<br/>หรือ Figma MCP"]
     L["/warroom slug<br/>link เติม Source"]
     UI["/warroom-build<br/>ticket หน้าจอ"]
 
@@ -218,7 +220,7 @@ flowchart LR
 | `/warroom {slug}` | คำสั่งที่ build ให้ตอนหยุด | `→ D{n}` |
 | `/warroom tickets {slug}` | เหมือนกัน | `→ ticket NN` |
 | `/kiki-debug {อาการ}` | เหมือนกัน เมื่อได้ log หรือข้อมูลแล้ว | `done ({sha})` |
-| `/warroom {slug}` สำหรับ `design: {หน้าจอ}` | พร้อม design link | `done` |
+| `/warroom {slug}` สำหรับ `design: {หน้าจอ}` | พร้อม design link ที่ทำจาก `ui-prompt.md` | `done` |
 
 คุณไม่ต้องแก้ `progress.md` เอง ถ้าจะทิ้งแถวไหน บอก skill
 
@@ -250,7 +252,7 @@ docs/
 ├── README.md                    ← แต่ละโฟลเดอร์มีไว้ทำอะไร
 ├── decisions.md                 ← decision ทุกข้อ จัดตามเรื่อง — ดูก่อนตัดสินอะไร
 ├── features/{slug}/             ← feature นี้คืออะไร
-│   └── spec.md  decisions.md  flow.md  legal.md
+│   └── spec.md  decisions.md  flow.md  legal.md  (ui-prompt.md)
 ├── progress/                    ← งานที่กำลังทำ
 │   ├── board.md                 ← ทุก feature: ขั้นไหน flag UI กับ Build เหลืออะไร คำสั่งถัดไป
 │   └── {slug}/
