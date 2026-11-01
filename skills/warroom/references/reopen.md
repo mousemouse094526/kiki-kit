@@ -31,9 +31,12 @@ For a change request or Blocked rows, then:
    ([templates/decisions.md](../templates/decisions.md) › Append-only); one
    with Used by or an ADR also follows
    [decisions-index.md](../templates/decisions-index.md) › Changing a
-   decision someone uses. Edit the spec sections it touches. A `pending`
-   screen's Design row changed → on Approve, rewrite `ui-prompt.md`
-   ([templates/ui-prompt.md](../templates/ui-prompt.md)).
+   decision someone uses. Edit the spec sections it touches. A change to a
+   designed screen (a redesign, a new field on screen) → set its Source
+   to `pending` and keep the old link in Must show as `current: {link}`.
+   Any `pending` screen touched → on Approve, rewrite `ui-prompt.md`
+   ([templates/ui-prompt.md](../templates/ui-prompt.md)) and set the
+   board's UI cell to `⏳`.
 4. Run the legal check on the items it touches (it updates those verdicts
    in legal.md and keeps the rest).
 5. Give it to The Breaker alone instead of the full red team, then go to

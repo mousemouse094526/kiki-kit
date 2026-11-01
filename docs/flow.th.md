@@ -43,7 +43,7 @@ flowchart LR
 ```
 
 โหมดอื่น: `/warroom legal {รายการ}` (ตรวจกฎหมายอย่างเดียว) ·
-`/warroom tickets {slug}` (หั่นใหม่) · `/warroom ui {slug} [all]` (prompt ก้อนเดียวออกแบบหน้าจอที่ยัง `pending` หรือทั้งหมด) · `/warroom next` (feature ถัดไปจาก board) ·
+`/warroom tickets {slug}` (หั่นใหม่) · `/warroom ui {slug}` (prompt ก้อนเดียวออกแบบหน้าจอที่ยัง `pending`) · `/warroom next` (feature ถัดไปจาก board) ·
 `/kiki-debug {อาการ}` (bug อะไรก็ได้)
 
 ## 2. warroom — วางแผน แล้วหั่น ticket
@@ -79,8 +79,8 @@ flowchart LR
 หรือ **ออกแบบหลังวางแผน** ถ้าออกแบบหลังวางแผน Source ของหน้าจอเป็น `pending` และ warroom
 เขียน `docs/features/{slug}/ui-prompt.md`: prompt พร้อมวางก้อนเดียวสำหรับทุกหน้าจอนั้น: สร้าง component ก่อน
 แล้วทุกหน้าจอและทุก state จาก Must show (field, ปุ่ม, ข้อความบนจอตรงตามคำ) ด้วย design system จริงของโปรเจกต์
-แล้วจบด้วย preview ที่กดไล่ได้ทั้ง flow วางครั้งเดียวใน Figma Make, Claude, v0, Stitch, สั่งผ่าน Figma MCP
-หรือส่งให้ designer; `/warroom ui {slug} all` เขียนให้ทุกหน้าจอ (ออกแบบใหม่):
+แล้วต่อหน้าจอใหม่เข้า prototype เดิมของทั้งระบบ วางครั้งเดียวใน Figma Make, Claude, v0, Stitch, สั่งผ่าน Figma MCP
+หรือส่งให้ designer จะแก้หน้าจอทีหลังให้ส่งเป็น change request ด้วย `/warroom {slug}`:
 
 ```mermaid
 flowchart LR

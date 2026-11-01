@@ -46,8 +46,8 @@ flowchart LR
 ```
 
 Other modes: `/warroom legal {items}` (legal check only) ·
-`/warroom tickets {slug}` (re-cut) · `/warroom ui {slug} [all]` (one
-design prompt for `pending` screens, or all) · `/warroom next` (the next feature
+`/warroom tickets {slug}` (re-cut) · `/warroom ui {slug}` (one
+design prompt for `pending` screens) · `/warroom next` (the next feature
 from the board) · `/kiki-debug {symptom}` (any bug).
 
 ## 2. warroom — plan, then cut
@@ -85,10 +85,11 @@ plan, each screen's Source is `pending`, and warroom writes
 `docs/features/{slug}/ui-prompt.md`: one paste-ready prompt for all those screens:
 the component set first, then every screen and state from its Must show
 (fields, actions, exact on-screen copy) in the project's real design
-system, then a clickable preview of the whole flow. Paste it once into
+system, then a clickable preview of the whole flow. The preview adds
+the new screens to the system's existing prototype. Paste it once into
 Figma Make, Claude, v0, Stitch, ask for it through the Figma MCP, or hand
-it to a designer. `/warroom ui {slug} all` writes it for every screen (a
-redesign):
+it to a designer. To redesign a screen later, bring it as a change
+request with `/warroom {slug}`:
 
 ```mermaid
 flowchart LR

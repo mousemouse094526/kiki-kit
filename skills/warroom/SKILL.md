@@ -8,8 +8,8 @@ description: >-
   is asked again.
   Modes: /warroom [slug] (new plan, map, change request, Blocked rows);
   /warroom legal {items or slug} (Thai-law check only, not legal advice);
-  /warroom tickets {slug} (re-cut); /warroom ui {slug} [all] (one
-  paste-ready design prompt for the screens not designed yet, or all);
+  /warroom tickets {slug} (re-cut); /warroom ui {slug} (one
+  paste-ready design prompt for the screens not designed yet);
   /warroom next (pick the next feature from the board). Use with
   /warroom, or whenever a
   feature needs its plan laid out before anyone builds it.
@@ -33,8 +33,8 @@ into a few big tickets.
   `docs/features/{slug}/ui-prompt.md`, one prompt for every `pending`
   screen ([templates/ui-prompt.md](templates/ui-prompt.md)). A spec with no
   Design section (an older feature) → ask for the design source first, as
-  in Phase 1 › Screens. No `pending` screen → say so, offer `all`, and
-  stop. `/warroom ui {slug} all` — the same for every screen (a redesign).
+  in Phase 1 › Screens. No `pending` screen → say so and stop. To
+  redesign a screen, bring it as a change request: `/warroom {slug}`.
 - `/warroom next` — read the board, pick the first feature that can move,
   and run its Next: [references/next.md](references/next.md).
 

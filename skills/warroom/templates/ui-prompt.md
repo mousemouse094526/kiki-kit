@@ -1,114 +1,97 @@
 # Template: docs/features/{slug}/ui-prompt.md
 
-**One** paste-ready prompt that designs every screen whose Source in spec ›
-Design is `pending` — a component set, every screen and state, and a
-clickable preview of the whole flow — so the user pastes once into any
-design tool (Figma Make, Claude, v0, Stitch, Lovable), asks for it through
-the Figma MCP, or hands it to a designer. Copy the skeleton under
-**Template**; follow **Rules**.
+One paste-ready prompt per feature that designs every `pending` screen in
+spec › Design: components, screens with every state, and the system-wide
+preview. The user pastes it once into a design tool, runs it through the
+Figma MCP, or gives it to a designer. Copy **Template**; follow **Rules**.
 
 ## Rules
 
 All of [markdown-style.md](../references/markdown-style.md), plus:
 
-- **Written when** any screen is `pending`: at the gate's Approve (spec
-  final), on `/warroom ui {slug}`, and again whenever a change request
-  edits a `pending` screen's row. Rewritten whole each time — never
-  hand-edited. No `pending` screen left → delete the file and its link.
-- **`/warroom ui {slug} all`** writes it for every screen in spec › Design,
-  designed or not — a redesign. Sources, the board, and Blocked rows stay
-  as they are; the intro line says it is a redesign. The next pending-only
-  rewrite replaces it.
-- **One prompt for all the screens:** a single fenced `text` block, so
-  pasting it once is enough. Shared context, the component rules, and the
-  preview are written once at the top; each screen is a `Screen {n}` part
-  inside the same block, in flow order (the order a user meets them).
-- **Prompt language: English** (design tools follow it best). Every
-  on-screen string — labels, buttons, messages — is quoted exactly in the
-  product's language, from the decisions; never translated or invented.
-  Everything outside the block is in the docs language.
-- **Facts from the code, not guesses.** Look up the platform, breakpoints,
-  component library, colour and type tokens, icon set, the Figma file and
-  its component or token pages, and an existing screen to match (by name,
-  for the user to attach a screenshot of). None in the project → say
-  `no existing design system; propose a clean, neutral one`.
-- **Components first.** The block asks for the component set before any
-  screen: list the components the screens need — existing ones by their
-  name in the library (reuse, add variants), new ones with their variants
-  (one per state) and properties. Screens are built only from instances.
-- **Only what the spec says.** Fields, actions, states, rules, and copy
-  come from spec › Design › Must show and the `D{n}` it cites — no extra
-  fields, steps, or features. Out of Scope items are listed under "Do not
-  include".
-- **Every state is a frame.** Ask for the default plus each state Must
-  show names (empty, loading, error, no permission, success), at each
-  breakpoint the project supports.
-- **The preview covers everything made:** every screen frame in flow order,
-  wired as a prototype from the entry screen through each action named in
-  Content, plus every state frame placed beside its screen.
-- **No `D{n}` inside the block** — a design tool can't read them. The
-  screen table above the block cites them.
-- **End with how to bring it back:** paste the Figma link or image path
-  with `/warroom {slug}`.
+- **Written** whenever a screen is `pending`: at the gate's Approve, on
+  `/warroom ui {slug}`, and after a change request that touches a
+  `pending` screen. Rewrite the whole file each time; never hand-edit. No
+  `pending` screen → delete the file and its spec link.
+- **One fenced `text` block.** Context, components, and preview appear
+  once; each screen is a `Screen {n}` part inside it, in flow order.
+- **English prompt.** On-screen strings are quoted exactly in the
+  product's language, from the decisions. Text outside the block uses the
+  docs language.
+- **Start from what exists.** From the code and the design source in
+  `docs/decisions.md`, name the platform, breakpoints, component library,
+  tokens, icon set, the Figma file with its component, token, and preview
+  pages, and the existing screens this feature links to. No design system
+  → write `no existing design system; propose a clean, neutral one`.
+- **A redesigned screen** (Source was a link before the change request)
+  names its current frame link and says what changes.
+- **Components before screens.** Existing components by library name,
+  with the variants to add; new components with variants (one per state)
+  and properties. Screens use instances only.
+- **Spec only.** Fields, actions, states, rules, and copy come from Must
+  show and its `D{n}`. Out of Scope goes under "Do not include".
+- **Every state is a frame**, at each breakpoint.
+- **The preview extends the system's preview:** add this feature's
+  screens to the existing preview page (create it if missing) and wire
+  them to the existing screens they come from and return to, so the whole
+  system plays as one prototype.
+- **No `D{n}` inside the block.** The table above it cites them.
+- **Last line:** bring the link back with `/warroom {slug}`.
 
 ## Template
 
 ````markdown
 # UI prompt: {feature slug}
 
-{One line in the docs language: these screens are `pending` (or: a redesign
-of every screen); copy the one block below into a design tool — or in
-Claude Code with the Figma MCP, say "design docs/features/{slug}/ui-prompt.md
-in {Figma file link}" — then bring the result back with `/warroom {slug}`.}
+{Docs language, one line: paste the block below once into a design tool,
+or in Claude Code with the Figma MCP say "design
+docs/features/{slug}/ui-prompt.md in {Figma file link}"; then bring the
+link back with `/warroom {slug}`.}
 
-| # | Screen | User stories | Decisions |
-|---|---|---|---|
-| 1 | {Contact list} | 1 | D2 |
-| 2 | {Contact form} | 1, 3 | D2, D4 |
+| # | Screen | User stories | Decisions | Now |
+|---|---|---|---|---|
+| 1 | {Contact list} | 1 | D2 | new |
+| 2 | {Contact form} | 1, 3 | D2, D4 | [redesign]({current frame link}) |
 
 ```text
-Design the {feature} screens of {product: one line on what it is and who uses it}. Work in three steps, in this order: 1 Components, 2 Screens, 3 Preview.
+Design the {feature} screens of {product: what it is, who uses it}. Steps, in order: 1 Components, 2 Screens, 3 Preview.
 
 Context
 - Platform: {web app / iOS / Android}; breakpoints: {mobile 375, desktop 1440}.
-- Design system: {component library and version, tokens: primary #…, font …, radius …, icon set}. {Figma file "…", its token and component pages.} Match the look of the existing "{screen name}" screen (screenshot attached).
+- Design system: {library and version}; tokens: {primary #…, font …, radius …}; icons: {set}.
+- Figma file: {name or link}; components on "{page}", tokens on "{page}", preview on "{page}".
+- Existing screens this feature connects to: "{screen}" ({link}), "{screen}" ({link}). Match their look.
 - Language on screen: {Thai}. Use the copy below exactly.
-- Accessibility: WCAG 2.2 AA contrast, visible focus, labels on every input, touch targets ≥ 44px.
+- Accessibility: WCAG 2.2 AA contrast, visible focus, a label on every input, touch targets ≥ 44px.
 
-Step 1 — Components (page "Components")
-- Reuse before you create: {existing component} — add variants {…}; {existing component} as is.
-- New: {component} — variants {default, hover, disabled, error, …}; properties {label text, icon, …}.
-- Every component uses auto layout, binds colour, type, spacing, and radius to the tokens above (no raw values), and is named "{Area}/{Component}"; each state is a variant, not a copy.
-- Screens in step 2 use only instances of these components.
+Step 1 — Components
+- Reuse: "{Area}/{Component}" — add variants {…}; "{Area}/{Component}" as is.
+- New: "{Area}/{Component}" — variants {default, hover, disabled, error, …}; properties {label, icon, …}.
+- Auto layout everywhere; colour, type, spacing, and radius bound to the tokens; each state is a variant.
 
-Step 2 — Screens (page "Screens", one section per screen)
-Frames are named "{screen} / {state} / {breakpoint}", one per state per breakpoint, filled with realistic sample data in {Thai}.
+Step 2 — Screens (one section per screen)
+Frame names: "{screen} / {state} / {breakpoint}"; realistic sample data in {Thai}; instances only.
 
-Screen 1 — {Contact list}
-- Who and why: {actor} wants to {goal}, so that {benefit}. Arrives from {entry point}; goes to Screen 2 on {action}.
+Screen 1 — {Contact list} (new)
+- Goal: {actor} wants to {goal}. Comes from "{existing screen}" via {action}; goes to Screen 2 via {action}.
 - Content:
-  - {field}: {type, required/optional, format, validation rule} — label "{exact label}", placeholder "{…}".
-  - {action}: button "{exact text}" — {what it does; disabled when …}.
-  - {rule shown on screen}: "{exact message}".
-- States:
-  1. Default.
-  2. Empty: "{exact empty message}", with {call to action}.
-  3. Loading: {skeleton / spinner where}.
-  4. Error: {which error} → "{exact message}" shown {inline under the field / as a banner}.
-  5. No permission: {what is hidden or read-only} — "{exact message}".
-  6. Success: {what changes} — "{exact message}".
+  - {field}: {type, required/optional, format, rule}; label "{exact}", placeholder "{exact}".
+  - Button "{exact}": {what it does}; disabled when {…}.
+  - Message "{exact}": shown when {…}.
+- States: 1 Default. 2 Empty: "{exact}", with {call to action}. 3 Loading: {where}. 4 Error: {which} → "{exact}" {inline / banner}. 5 No permission: {hidden or read-only} — "{exact}". 6 Success: "{exact}".
 
-Screen 2 — {Contact form}
+Screen 2 — {Contact form} (redesign of {current frame link}: {what changes})
 - …
 
-Step 3 — Preview (page "Preview")
-- Place every screen's default frame left to right in flow order: {Screen 1} → {Screen 2} → …, each with its state frames stacked under it, at each breakpoint.
-- Wire a clickable prototype starting at "{Screen 1} / Default / {desktop}": {action} → {Screen 2}; {action} → {state or screen}; … Every action named in step 2 leads somewhere.
+Step 3 — Preview
+- On the existing preview page "{page}", add each screen's default frame in flow order, its state frames under it, at each breakpoint.
+- Prototype links: "{existing screen}" {action} → Screen 1; Screen 1 {action} → Screen 2; Screen 2 {action} → "{existing screen}"; …
+- Every action named in step 2 leads to a frame. The system's existing start frame stays the start.
 
 Do not include
 - {Out of Scope item}.
 - Any field, step, screen, or feature not listed above.
 
-Deliver: the three pages above; a list of every component made or changed; and the prototype's start link.
+Deliver: the components made or changed, the screen frames, and the preview's start link.
 ```
 ````
