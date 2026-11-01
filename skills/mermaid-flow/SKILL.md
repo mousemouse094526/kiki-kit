@@ -13,7 +13,7 @@ description: >-
 
 ## Workflow
 
-Follow this order every time. Validation is mandatory.
+Follow this order every time.
 
 1. **Pin the intent.** Before drawing, state in one sentence what the diagram must let
    the reader understand, and where the flow starts and ends. Vague ask ("diagram the
@@ -28,8 +28,8 @@ Follow this order every time. Validation is mandatory.
 
 3. **Draft with the layout rules below.**
 
-4. **Validate** — semantic self-review **and** the linter script. Fix or consciously
-   accept every finding. Only then present the diagram.
+4. **Validate** — semantic self-review **and** the linter script. Fix or knowingly
+   accept every finding, then present the diagram.
 
 ## Layout rules
 
@@ -68,8 +68,8 @@ Ship every diagram with:
 - **1–3 lines on how to read it** — the key rule, the start/end points, or the takeaway.
 
 Several diagrams → each gets its own caption, plus one sentence tying them together
-(how the parts connect, which shared nodes bridge them). Short plain prose under each
-```mermaid block.
+(how the parts connect, which shared nodes bridge them). Write it as short plain prose
+under each ```mermaid block.
 
 ## Validate before delivering
 

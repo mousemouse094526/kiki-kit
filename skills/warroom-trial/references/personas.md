@@ -9,8 +9,8 @@ Six lines:
 - **Goal today** — why they opened the app at all.
 - **Skill** — how comfortable they are with software like this.
 - **Situation** — device, time pressure, interruptions.
-- **Language** — what this person speaks and reads; usually the app's UI
-  language. The persona reports in it.
+- **Language** — what this person speaks and reads; default: the app's
+  UI language. The persona reports in it.
 - **Cares about** — what makes them trust or abandon it (speed, not looking
   foolish in front of a client, not losing data).
 

@@ -47,7 +47,7 @@ Read [references/personas.md](references/personas.md). Propose a cast:
   employee, someone on a phone in a hurry).
 
 Ask with AskUserQuestion (multiSelect, recommended ones first) which
-personas to run. Three to five is usually enough.
+personas to run. Recommend three to five.
 
 ## 3. Write the goals
 
@@ -55,11 +55,11 @@ For each persona, 3–6 **goals in the persona's own words**: what they want
 done, not how: "I need to get the new hire into the system before she
 starts Monday". Take them from User Stories, Expected Outcome, and
 flow.md, plus one or two the spec never mentions but the persona would
-likely try. Show the cast and goals in chat before running.
+try. Show the cast and goals in chat before running.
 
 ## 4. Run each persona
 
-One subagent per persona, **one at a time**. Each gets only the brief from
+One fresh subagent per persona, **one at a time**. Each gets only the brief from
 [references/personas.md](references/personas.md): who they are, their
 goals, the app URL, their test account, the device. **Never the code, the
 spec, or another persona's report.**
@@ -100,27 +100,23 @@ next step. Ask with AskUserQuestion (multiSelect) which to act on now:
   `Trial fixes {YYYY-MM-DD}`, numbered after the highest, in
   [the ticket template](../warroom/templates/ticket.md),
   `**Status:** ready-for-agent`, in `docs/progress/{slug}/tickets/`, with a
-  row in `progress.md`. One
-  acceptance criterion per finding, each the persona's goal as an `(e2e)`
-  criterion. A bug's criterion carries the persona's steps as its repro.
+  row in `progress.md`. One acceptance criterion per finding: the
+  persona's goal as an `(e2e)` criterion. A bug's criterion carries the
+  persona's steps as its repro.
 - **spec gap** → a row in `progress.md` › Blocked (Needs:
   `/warroom {slug}`, citing the finding); don't edit the spec here.
 
 Everything not picked stays in the report as `open`. Update the feature's
-board row in `docs/progress/board.md`, unless it is Manual `true` (Stage `building` with a fix ticket,
-`blocked` with a spec gap; Left; Next). No product code, no branch, no
-commit from this skill: it writes only the report, `progress.md`, the
-board, the fix ticket, and any test account added to seed or example
-config. List those files, then end with the next command in its
-own code block — `/warroom-build {slug} {fix ticket NN}`, or
+board row in `docs/progress/board.md` (Stage `building` with a fix ticket,
+`blocked` with a spec gap; Left; Next), unless the row is Manual `true`.
+No product code, no branch, no commit: this skill writes only the report,
+`progress.md`, the board, the fix ticket, and any test account added to
+seed or example config. List those files, then end with the next command
+in its own code block — `/warroom-build {slug} {fix ticket NN}`, or
 `/warroom {slug}` when a spec gap must be settled first.
 
 ## Operating rules
 
-- **Local only.** No staging, no production, no real user data.
-- **Personas never see the code or the spec.**
-- **Goals, not steps.**
-- **Personas run one at a time**, each in a fresh subagent.
 - **Nothing is fixed without the user's pick.**
 - **Report in the user's language**; kinds, status words, and `D{n}` stay
   in English. Persona briefs are in English, but each persona **answers in

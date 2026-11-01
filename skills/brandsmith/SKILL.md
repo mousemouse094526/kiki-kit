@@ -22,7 +22,7 @@ this order:
 1. **What is the logo about?** — brand name, what the brand does, feeling it should
    give (e.g. fresh / premium / playful / technical). If the user already said this in
    their request, confirm your reading instead of re-asking.
-2. **Color** — offer 3–4 palette choices appropriate to the brand's field (each option
+2. **Color** — offer 3–4 palette choices that fit the brand's field (each option
    = primary hex + short rationale), and remind the user they can type their own hex
    in "Other". Whatever they pick, the package must work on **both light and dark
    backgrounds**.
@@ -34,9 +34,9 @@ Also ask (same call or second call, batch to max 4 questions):
      image or negative-space element (Spotify/FedEx school)
    - *Lettermark* — single initial as the mark
    - *Abstract symbol + wordmark* — separate icon and text lockup
-4. Anything genuinely ambiguous about scope (e.g. does "logo" include app icons?).
+4. Any open scope question (e.g. does "logo" include app icons?).
 
-No user available to answer (non-interactive / subagent) → pick sensible defaults, and
+No user available to answer (non-interactive / subagent) → pick defaults and
 record every one in the concept document under a "Decisions taken by default" heading.
 
 ## Phase 1 — Similarity check (don't skip)
@@ -47,7 +47,7 @@ planned motif plus the brand's industry. Look for:
 - **Famous direct clashes** — same letter + same motif + same color family at a known
   brand. If found, change the motif, not just the color.
 - **Stock-template crowding** — exact concept sold as templates everywhere →
-  distinctiveness must come from a *specific combination* (placement, negative space,
+  get distinctiveness from a *specific combination* (placement, negative space,
   a second motif). Note this in the concept doc.
 
 Tell the user what you found in one short paragraph before building.
@@ -105,7 +105,7 @@ then headless Chrome; transparent variants keep their alpha).
 ## Phase 4 — Verify with your own eyes, then document
 
 1. Render PNGs and Read them as images. Check: nothing clipped, negative space reads
-   at a glance, dark variant actually legible on dark. Fix and re-render — do not
+   at a glance, dark variant actually legible on dark. Fix and re-render; never
    ship unviewed assets.
 2. Run what the project's CI runs on `brand/` — read the CI config first
    (`.github/workflows/*.yml` and the like), else the repo's linter and formatter
@@ -120,11 +120,11 @@ then headless Chrome; transparent variants keep their alpha).
    `python3 -m venv brand/tools/venv && brand/tools/venv/bin/pip install reportlab svglib`)
    and keep the PDF build as a script in `brand/tools/` so it regenerates. Add
    `brand/tools/venv/` to the repo's `.gitignore` and exclude it from the linter.
-   Skip the PDF only if the install itself fails (e.g. offline) — in that case tell
-   the user exactly the two commands to run later.
+   Skip the PDF only if the install fails (e.g. offline); then give the user the
+   exact two commands to run later.
    Non-Latin doc text (Thai etc.) needs a registered TTF — see the PDF section of
    [references/svg-technique.md](references/svg-technique.md).
-4. Show the user the result (render preview or key PNGs) and offer the natural next
+4. Show the user the result (render preview or key PNGs) and offer next
    iterations: tweak motif, add role/name-labeled profile variants, favicon sizes.
 
 ## Iterating later (same brand, follow-up sessions)

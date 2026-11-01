@@ -6,14 +6,13 @@ Three skills: **warroom** plans and cuts tickets, **warroom-build** builds
 them, **warroom-trial** lets role-played users try the result.
 **kiki-debug** finds a bug's cause — on its own with `/kiki-debug
 {symptom}`, or called by the build inside a ticket. Two files
-answer the two questions you keep asking:
+answer two questions:
 
 - **Where does everything stand?** `docs/progress/board.md` — one row per
   feature, with the command that moves it next.
 - **Did we already decide this?** `docs/decisions.md` — every decision of
   every feature, one line each, by subject. The warroom checks it before
-  every question, so nothing is asked twice. Each row lists the features
-  that reuse it (**Used by**), so changing a decision updates all of them.
+  every question. Each row lists the features that reuse it (**Used by**).
 
 ## 1. The whole path
 
@@ -32,7 +31,7 @@ flowchart LR
 ```
 
 **Every skill ends with the next command, ready to paste.**
-- You never work out what to run: copy the code block at the end of the reply.
+- Copy the code block at the end of the reply.
 - Builds continue from ticket to ticket in one session; the build asks before each next one.
 - A trial's picked findings become one fix ticket → back to `/warroom-build`.
 
@@ -195,10 +194,10 @@ Next after you confirm. It first marks every row whose PR is merged as
 `done`. `/pr-open` ends with it, and so does `/warroom-build` once a
 feature has nothing left or waits on another one.
 
-**One feature, one branch.** Each feature builds on `feat/{slug}`. Moving
-to another feature while you are on a different `feat/…` branch, the
-skill doesn't build there — it makes a worktree beside the repo and gives
-you the line to paste in a new terminal:
+**One feature, one branch.** Each feature builds on `feat/{slug}`. If you
+move to another feature while on a different `feat/…` branch, the skill
+makes a worktree beside the repo instead of building there, and gives you
+the line to paste in a new terminal:
 
 ```bash
 cd ../myrepo-domain-monitor && claude "/warroom-build domain-monitor 01"

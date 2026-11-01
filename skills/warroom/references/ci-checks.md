@@ -1,8 +1,8 @@
 # Run what CI runs — before every commit
 
-Shared by every warroom skill that writes files. Run the commands CI runs
-— format checks, repo-wide lint, the build, Markdown and JSON checks, not
-only tests — locally before a commit.
+Shared by every warroom skill that writes files. Before a commit, run
+locally what CI runs — format checks, repo-wide lint, the build, Markdown
+and JSON checks, not only tests.
 
 ## 1. Find the checks
 

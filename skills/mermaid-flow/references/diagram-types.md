@@ -22,8 +22,8 @@ Match the type to the shape of the information.
 - **Back-and-forth over time → `sequenceDiagram`.** Drawing an arrow back "up" a
   flowchart to show a response → stop and switch.
 
-- **Data at rest → `erDiagram`.** Tables, columns, foreign keys, cardinality. Never a
-  flowchart of boxes.
+- **Data at rest → `erDiagram`.** Tables, columns, foreign keys, cardinality. Not a
+  flowchart.
 
 - **One thing changing status → `stateDiagram-v2`.** Order lifecycle, connection states,
   job states. Not a flowchart.

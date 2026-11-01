@@ -42,7 +42,7 @@ spec.md is `draft` → stop and end with `/warroom {slug}`.
 3. **Branch.** On `feat/{slug}` → carry on. On the default branch →
    create `feat/{slug}` (ask once). On another feature's branch → never
    build here; ask with AskUserQuestion:
-   - **New worktree** (Recommended — the other feature stays as it is):
+   - **New worktree** (Recommended):
      `git worktree add ../{repo}-{slug} -b feat/{slug} {default branch}`
      (or the existing `feat/{slug}` without `-b`), then stop and end with
      `cd ../{repo}-{slug} && claude "/warroom-build {slug} {NN}"` to paste
@@ -52,8 +52,7 @@ spec.md is `draft` → stop and end with `/warroom {slug}`.
 4. **The CI checks.** Read the CI config and list its exact commands
    ([ci-checks.md](../warroom/references/ci-checks.md)), plus the
    single-test-file command, in one line. **Run them all now.** Anything
-   already red → one Blocked row for it (Needs: `/kiki-debug {symptom}`);
-   don't let it hide a new failure later.
+   already red → one Blocked row for it (Needs: `/kiki-debug {symptom}`).
 5. **Pick the ticket** — the one named, else the lowest `ready` or
    `in-progress` ticket whose blockers are `done`. Its blocker isn't done →
    say which and stop. Nothing ready → say what blocks the rest and stop.
@@ -76,10 +75,9 @@ spec.md › Testing decisions, and `CONTEXT.md`. Then:
   `pending` → don't build that screen: stop the ticket (section 4) on its
   `design: {screen}` Blocked row, and point the user to
   `docs/features/{slug}/ui-prompt.md` (missing → `/warroom ui {slug}`
-  first). Spec has no
-  Design section and the ticket has UI (an older feature) → ask once for
-  the design source, record a `D{n}`, and add the section, and set the
-  board row's UI cell.
+  first). Spec has no Design section and the ticket has UI (an older
+  feature) → ask once for the design source, record a `D{n}`, add the
+  section, and set the board row's UI cell.
 - **Library docs** —
   [references/library-docs.md](references/library-docs.md): the version
   table, ask before any upgrade, and a reference note for the language and
@@ -115,11 +113,11 @@ a layer's rules updates its `rules/{layer}.md` in the same commit.
    list it in the ticket's Log entry. Don't stop, don't ask.
 3. **Anything the user would notice, or that touches a legal item or an
    ADR** → ask now with AskUserQuestion: your recommendation first, and
-   where you looked. The answer stays inside the spec's intent
-   → record a `D{n}` with its index row and carry on. It changes what the
-   spec promises, the user wants to think about it, or the docs contradict
-   each other → add a Blocked
-   row (Needs: `/warroom {slug}`) and **stop the ticket** (section 4).
+   where you looked. The answer stays inside the spec's intent → record a
+   `D{n}` with its index row and carry on. It changes what the spec
+   promises, the user wants to think about it, or the docs contradict each
+   other → add a Blocked row (Needs: `/warroom {slug}`) and **stop the
+   ticket** (section 4).
 
 **Failure you can't explain at a glance** — a test failing for no reason
 you can name, a green test breaking, behaviour contradicting the spec →
@@ -139,9 +137,9 @@ ticket's. No commit while a check this ticket broke is red.
 [references/review.md](references/review.md), ticket scope: three parallel
 subagents — **Standards**, **Spec**, **Newcomer** — from the commit before
 this ticket. **Fix every finding now**, inside the ticket — refactoring
-happens here. A finding too big to fix here goes in
-the Log's **For the next ticket**, not in Blocked. Recheck only what you
-fixed, then run the CI checks again if any code changed.
+happens here. A finding too big to fix here goes in the Log's **For the
+next ticket**, not in Blocked. Recheck only what you fixed, then run the CI
+checks again if any code changed.
 
 ### Commit and log
 
@@ -154,15 +152,14 @@ Every acceptance criterion holds → ticket `**Status:** done`. In
 - Blocked rows this ticket closed → `done (this ticket)`;
 - **Now** and **Next**.
 
-Then the feature's board row, unless it is Manual `true`: Left and Next, Stage `review` when every
-ticket is done. Build = `{done}/{total}` — `✅` waits for the feature
-review, even on the last ticket; Next is then `/warroom-build {slug}
---review-feature`.
+Then the feature's board row, unless it is Manual `true`: Left and Next,
+Stage `review` when every ticket is done. Build = `{done}/{total}` — `✅`
+waits for the feature review, even on the last ticket; Next is then
+`/warroom-build {slug} --review-feature`.
 
 Commit code, tests, the ticket, `progress.md`, the board, and any doc it
-changed:
-`feat({slug}): {ticket title} (#{NN})` — `refactor` for a prefactor
-ticket. Don't push, don't open a PR.
+changed: `feat({slug}): {ticket title} (#{NN})` — `refactor` for a
+prefactor ticket. Don't push, don't open a PR.
 
 Then show the ticket's Log entry in chat as the summary.
 

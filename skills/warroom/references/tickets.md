@@ -4,9 +4,8 @@ Adapted from Matt Pocock's `to-tickets`
 ([mattpocock/skills](https://github.com/mattpocock/skills), MIT). Runs right
 after Approve, and alone as `/warroom tickets {slug}` (a re-cut).
 
-**Few, big tickets.** A feature is cut into **2–4 tickets**, each a large
-vertical slice someone could demo. One ticket is fine when the feature is
-small.
+**Few, big tickets.** Cut a feature into **2–4 tickets**, each a large
+vertical slice someone could demo. A small feature can be one ticket.
 
 ## 1. Read
 
@@ -47,16 +46,15 @@ Give each ticket its **blocking edges**: the tickets that must finish
 first. Usually a straight line.
 
 **Wide refactors are the exception.** One mechanical change that fans
-across the codebase (rename a column, retype a shared symbol) → sequence it
-as **expand–contract**: add the
-new form beside the old, migrate callers, then delete the old form — in as
-few tickets as stay green.
+across the codebase (rename a column, retype a shared symbol) → sequence
+it as **expand–contract**: add the new form beside the old, migrate
+callers, then delete the old form — in as few tickets as stay green.
 
 **Cover the docs.** Every User Story, every Seam, and every CONDITIONAL
 requirement in `legal.md` lands in at least one ticket's acceptance
 criteria; nothing from Out of Scope does. Every `(e2e)` seam lands in the
-ticket that completes its flow, tagged `(e2e)`. The first such ticket also
-sets up the e2e package if the project has none. Every screen in spec ›
+ticket that completes its flow, tagged `(e2e)`. The project has no e2e
+package → the first such ticket sets it up. Every screen in spec ›
 Design lands in the ticket that builds it. A screen whose Source is
 `pending` → a row in `progress.md` › Blocked for its ticket
 (`design: {screen}`, Needs `/warroom {slug}` with the design link, made
@@ -71,9 +69,9 @@ ADRs, and conventions leave open:
   conventions;
 - **small and inside this feature** (a default, a message, a limit) →
   leave it: the build decides and records it;
-- **behaviour the user sees, a legal item, or an ADR** → ask
-  the user now (AskUserQuestion) and record a `D{n}` (`**From:** tickets`)
-  with its index row. The user wants it to wait → stop: add a row to
+- **behaviour the user sees, a legal item, or an ADR** → ask the user now
+  (AskUserQuestion) and record a `D{n}` (`**From:** tickets`) with its
+  index row. The user wants it to wait → stop: add a row to
   `progress.md` › Blocked (`→ /warroom {slug}`) and write no tickets.
 
 ## 4. Approve the cut
@@ -107,8 +105,7 @@ Check, and show only the steps that apply:
 
 - **Uncommitted docs** — the feature folder, `docs/progress/`,
   `docs/decisions.md`, `docs/adr/`, `CONTEXT.md`, `.claude/skills/`, any
-  `CLAUDE.md` →
-  a commit step:
+  `CLAUDE.md` → a commit step:
   `git add {paths} && git commit -m "docs({slug}): plan and tickets"`.
 - **Branch** — on the default branch → the build creates `feat/{slug}`.
 - **Services** the first ticket needs (`docker-compose.yml`, setup docs) →

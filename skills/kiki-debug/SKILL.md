@@ -52,7 +52,7 @@ when the bug is in a warroom feature, otherwise
 `docs/bugs/{YYYY-MM-DD}-{slug}.md` — from
 [templates/debug-record.md](templates/debug-record.md) before anything
 else. Fill in the symptom in the user's words. **Every later phase writes
-into this file as it happens.** Write in the user's language; follow
+into this file as it happens.** Follow
 [markdown-style.md](../warroom/references/markdown-style.md).
 
 ## Phase 1 — Reproduce
@@ -169,16 +169,16 @@ system let this happen, never who.
   have prevented.
 - **Prevention** — prefer, in order: remove the hazard, a safer
   substitute, an automated check or test, a process change, a note. Each
-  action says where it is tracked: a ticket, an ADR, a CI
-  check. Actions that need new work → propose them with AskUserQuestion;
-  in a warroom feature each one accepted becomes a new ticket after the
+  action says where it is tracked: a ticket, an ADR, a CI check. Actions
+  that need new work → propose them with AskUserQuestion; in a warroom
+  feature each one accepted becomes a new ticket after the
   highest number, in [the ticket template](../warroom/templates/ticket.md),
   `**Status:** ready-for-agent`, with its row in `progress.md` and the
-  board (not a board row marked Manual `true`); otherwise a line in the record's Prevention. Nothing is
-  created without the user's yes.
+  board (not a board row marked Manual `true`); otherwise a line in the
+  record's Prevention. Nothing is created without the user's yes.
 - **What helped** — what made this fast or slow to find.
 
-Put the confirmed hypothesis in the fix's commit message, in English.
+Put the confirmed hypothesis in the fix's commit message.
 Report one line per phase, plus the record path.
 
 ## Operating rules

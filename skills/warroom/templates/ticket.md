@@ -13,7 +13,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   or three sentences — not a layer-by-layer task list.
 - **Blocked by** names ticket numbers and titles, or
   `None (can start immediately)`. A ticket of another feature is written
-  `{slug} {NN}: {title}`, so `/warroom next` can check it.
+  `{slug} {NN}: {title}`.
 - **Covers** names exactly what this ticket delivers, one kind per bullet:
   decisions (another feature's with its slug), ADRs, seams (by number in
   spec.md › Seams), user stories, screens (by name in spec.md › Design),

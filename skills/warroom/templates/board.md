@@ -8,9 +8,8 @@ and commands stay in English; the text is in the docs language.
 
 - **Manual** — `true` or `false`, set only by the user. `true` → the row
   belongs to the user: no agent writes, clears, or reformats any of its
-  cells. The feature's own work still runs as usual (spec, tickets,
-  `progress.md`, Blocked rows, the Next command in chat); only the board
-  row is skipped. A new row gets `false`; a board without the column (an
+  cells. The feature's other work still runs (spec, tickets,
+  `progress.md`, Blocked rows, the Next command in chat). A new row gets `false`; a board without the column (an
   older one) gets it the next time any row is written, every row `false`.
 - **One row per feature**, added by warroom the first time it writes for
   that feature.

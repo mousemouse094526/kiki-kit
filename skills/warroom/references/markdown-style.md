@@ -1,9 +1,8 @@
 # Markdown style — every doc the warroom skills write
 
 Shared by every warroom skill — warroom, warroom-build, warroom-trial —
-and every template they use.
-Each template's own rules add to these; where they conflict, the template
-wins.
+and every template they use. Each template's own rules add to these; where
+they conflict, the template wins.
 
 ## Rules
 
@@ -17,8 +16,8 @@ wins.
   and `**Covers:**` lists.
 - **Pick the shape that fits:** tables for contracts and comparisons,
   numbered lists for ordered steps, bullets for everything else.
-- **Bold labels stand on their own line** with a blank line before the
-  next one, so they render as separate paragraphs.
+- **Bold labels stand on their own line**, with a blank line before the
+  next one.
 - **Headings go one level at a time** — `##` then `###`, never skipping.
 - **Code identifiers in backticks** — fields, routes, error codes, env vars.
 - **Link every outside fact to its source.** Anything that came from
@@ -36,8 +35,8 @@ wins.
 
 - **Every folder under `docs/` has a row in `docs/README.md`**
   ([templates/docs-readme.md](../templates/docs-readme.md)), added by the
-  skill that creates the folder — create the README from the template if
-  it's missing.
+  skill that creates the folder. README missing → create it from the
+  template.
 - **What a feature is, apart from the work on it:**
   - `docs/features/{slug}/` — spec, decisions, flow, legal, and sketches:
     what stays true once the feature ships;

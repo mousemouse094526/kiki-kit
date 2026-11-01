@@ -53,9 +53,8 @@ own work. Any of these → migrate first:
    - **5b. A `Scope` column instead** → replace it with the Used by and
      ADR columns as above. Rows that said `system` but have no ADR → list
      them and ask which get an ADR now ([adr.md](adr.md)); the rest become
-     `—`. A row
-     whose D was `ADR-NNNN` → Feature and D `—`, ADR `NNNN`. If
-     `docs/adr/` was deleted, restore it from git history first.
+     `—`. A row whose D was `ADR-NNNN` → Feature and D `—`, ADR `NNNN`.
+     `docs/adr/` was deleted → restore it from git history first.
 6. **Trim each feature `decisions.md`.** Delete the index table at its
    top. In each entry's footer, drop `· **ADR:** …`.
 7. **Build `docs/progress/board.md`** from

@@ -29,9 +29,8 @@ Diff: `git diff {fixed point}` (include uncommitted work); commits:
 First check `git status`: mark each untracked file that belongs to this
 change with `git add -N {path}`, and delete or ignore the ones that don't.
 
-- **Spec source** — per the table above: tickets, the `D{n}`, the
-  ADRs, spec.md › Seams and the
-  Implementation sections touched, the legal items.
+- **Spec source** — per the table above: tickets, the `D{n}`, the ADRs,
+  spec.md › Seams and the Implementation sections touched, the legal items.
 - **Standards source** — the project's conventions skill (SKILL.md and the
   `rules/` files for the layers touched), `.claude/rules/`, `CLAUDE.md`, lint
   config, the `docs/library-notes/` notes for what the diff touches — plus the
@@ -68,8 +67,7 @@ calls. Under 400 words. Do not edit files."
 **Spec** gets the diff command, the spec-source paths, and: "Report
 (a) acceptance criteria or requirements missing or partial; (b) behaviour
 not asked for — scope creep or another ticket's work; (c) behaviour that
-looks implemented but wrong, including ADR and legal
-requirements;
+looks implemented but wrong, including ADR and legal requirements;
 (d) tests outside the agreed seams, coupled to internals, or tautological.
 Feature review also: (e) the same thing done two ways or named two ways
 across tickets. Quote the ticket or spec line for each. Under 400 words. Do
@@ -86,8 +84,9 @@ files."
 ## 3. Compare and report
 
 Put the Newcomer's summary next to **What to build** (ticket) or spec.md ›
-Solution (feature). Differs → a finding: either the code says something other than what it does (rename,
-restructure, clarify the test) or it does something other than intended.
+Solution (feature). Differs → a finding: either the code says something
+other than what it does (rename, restructure, clarify the test) or it does
+something other than intended.
 Each "had to guess" item is a finding too.
 
 Show the reports under `## Standards`, `## Spec`, and `## Newcomer`, then

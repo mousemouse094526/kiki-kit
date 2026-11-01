@@ -1,15 +1,14 @@
 # Map mode — a plan too big for one session
 
-When the plan is too big for one session, first chart a **map** — one
-markdown file a cold session can pick up — and resolve it over several
-sessions before the gate.
+Chart a **map** — one markdown file a cold session can pick up — and
+resolve it over several sessions before the gate.
 
 ## When to chart one
 
 After the first few questions, chart a map when you count roughly **five
-or more open decisions** and can see that early answers will raise
-questions you can't phrase yet. Below that, just interview. Say why in one
-line and ask before writing the file.
+or more open decisions** and early answers will raise questions you can't
+phrase yet. Below that, interview. Say why in one line and ask before
+writing the file.
 
 ## The file — `docs/progress/{slug}/map.md`
 
@@ -71,10 +70,9 @@ ready-to-build spec for …". It fixes the scope.}
 1. Agree the destination.
 2. Survey the whole space — breadth, not depth — to find the sharp
    questions and the fog.
-3. No fog → no map: say so and just interview.
+3. No fog → no map: say so and interview.
 4. Write `map.md` and the feature's board row (Stage `mapping`; skip a
-   row marked Manual `true`), show the
-   map, and stop.
+   row marked Manual `true`), show the map, and stop.
 
 ## Later sessions — `/warroom {slug}` with a map
 

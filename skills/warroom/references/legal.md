@@ -24,7 +24,7 @@ ALLOWED, (c) don't store: ALLOWED". Rule after the answer.
   marketing SMS", …) — one verdict per item. Don't add items the user
   didn't ask about.
 - Or a feature slug — read `docs/features/{slug}/spec.md` (and `flow.md`
-  if present) and take the legally relevant actions as the items.
+  if present); its actions with legal weight are the items.
 - From a warroom run, the decisions are already in context — don't
   re-interview; take the items from what is decided.
 
@@ -41,7 +41,7 @@ regimes: PDPA (B.E. 2562), Computer Crime Act, BOT regulations when money
 moves, consumer-protection and direct-sales law for e-commerce.
 
 Every verdict cites a numbered reference listed at the bottom of the file.
-If the web is unreachable, write the verdict anyway, mark it
+Web unreachable → write the verdict anyway, mark it
 `UNVERIFIED — from model knowledge, verify before relying`, and say so in
 the reply. Cite or mark UNVERIFIED — no third state.
 
@@ -68,9 +68,6 @@ After writing:
 
 ## Operating rules
 
-- One md file per run.
-- Verdict only on what the user asked. Ambiguous → AskUserQuestion first.
-- Cite `[n]` or mark UNVERIFIED.
 - File and chat in the language the user writes in. Keep verdict words
   (ALLOWED / NOT ALLOWED / CONDITIONAL / UNVERIFIED), `[n]` citations, and
   law names as-is; translate the headings and prose.

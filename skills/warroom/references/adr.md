@@ -7,13 +7,13 @@ An ADR records a decision that reaches beyond one feature.
 
 ## When a decision earns an ADR
 
-All three must be true; if one is missing, skip it:
+All three must be true; otherwise no ADR:
 
 1. **Hard to reverse** — changing your mind later would cost something real.
 2. **Surprising without context** — a future reader of the code would ask
    "why did they do it this way?"
-3. **The result of a real trade-off** — there were real alternatives and
-   you picked one for specific reasons.
+3. **The result of a real trade-off** — real alternatives existed and one
+   was picked for specific reasons.
 
 ### What qualifies
 

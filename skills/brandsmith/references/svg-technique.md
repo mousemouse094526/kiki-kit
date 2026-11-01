@@ -55,8 +55,8 @@ Cap height: measure from the actual 'B'/'H' glyph bbox, not OS/2 metrics. Scale 
 `H` px = `H / cap_units`.
 
 **Complex scripts (Thai, Arabic, Devanagari…):** don't use the cmap+kern walk above.
-Shape with `uharfbuzz` first (it returns positioned glyph ids with
-x/y offsets), then draw each glyph through SVGPathPen at its shaped position.
+Shape with `uharfbuzz` first (returns glyph ids with x/y offsets), then draw
+each glyph through SVGPathPen at its shaped position.
 `pip install uharfbuzz` alongside fonttools. Use a vendored open-licensed Thai
 font (see Choosing the font), not the macOS system Thai fonts.
 
@@ -96,7 +96,7 @@ as a subpath wound the same direction inside the letter path and set
 | variant | background | mark |
 |---|---|---|
 | primary | white / light | brand color (accent may differ) |
-| on-dark | dark ink (very dark, tinted with brand hue, not pure #000) | white + brand-color accent |
+| on-dark | dark ink (not pure #000) | white + brand-color accent |
 | mono-black | any light | #000 only |
 | mono-white | any dark | #FFF only |
 | brand-color | brand-color bg | white |
@@ -107,5 +107,5 @@ Tint dark ink toward the brand hue (e.g. green brand → `#14261A`).
 
 Embed the generated SVGs with `reportlab` + `svglib`. Thai/non-Latin text in the PDF
 needs a TTF registered via `pdfmetrics.registerFont(TTFont(...))` — use the vendored
-font in `brand/tools/fonts/`. Keep every doc string in the build script so the PDF
-regenerates from one command.
+font in `brand/tools/fonts/`. Keep every doc string in the build script; the PDF
+must regenerate from one command.

@@ -18,10 +18,9 @@ throughout. Follow [markdown-style.md](../references/markdown-style.md).
 - **No code yet → write the rules agreed with the user**, and put
   `None yet — the first ticket that touches this layer sets it.` under Good
   examples. That first ticket replaces it with real files.
-- **Never-break rules** — only those a reviewer should block a merge
-  for.
-- Named `{framework}-{surface}` (see [conventions.md](../references/conventions.md) › Naming), not after
-  the project.
+- **Never-break rules** — only those a reviewer should block a merge for.
+- Named `{framework}-{surface}`, not after the project (see
+  [conventions.md](../references/conventions.md) › Naming).
 - No other project's name, paths, or code.
 
 ## SKILL.md

@@ -11,7 +11,7 @@ the reference note wins on library behaviour.
 
 ## Where they are
 
-Read, in this order, whatever exists for the area a ticket touches:
+For the area a ticket touches, read whichever exist, in this order:
 
 1. `CLAUDE.md` at the repo root and in the app or package touched.
 2. `.claude/rules/*.md`.

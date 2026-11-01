@@ -6,8 +6,7 @@ Adapted from Matt Pocock's `domain-modeling` skill
 ## Where the glossary lives
 
 - `CONTEXT-MAP.md` at the repo root → multiple contexts; it points to each
-  context's `CONTEXT.md`. Infer which context the feature belongs to; if
-  unclear, ask.
+  context's `CONTEXT.md`. Infer the feature's context; unclear → ask.
 - Only a root `CONTEXT.md` → single context.
 - Neither → create a root `CONTEXT.md` when the first term is resolved.
   Never create an empty one.
@@ -37,8 +36,8 @@ Rules:
 - **Project-specific terms only.** No general programming concepts
   (timeouts, error types, utility patterns).
 - **Glossary only.** No implementation details, decisions, or scratch notes.
-- **Group under subheadings** when natural clusters appear; otherwise a
-  flat list.
+- **Group under subheadings** when terms form clusters; otherwise a flat
+  list.
 - **Term names match the code** (usually English). Descriptions follow the
   docs language rule in markdown-style.md.
 

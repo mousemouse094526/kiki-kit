@@ -8,11 +8,10 @@ description: >-
   is asked again.
   Modes: /warroom [slug] (new plan, map, change request, Blocked rows);
   /warroom legal {items or slug} (Thai-law check only, not legal advice);
-  /warroom tickets {slug} (re-cut); /warroom ui {slug} (one
-  paste-ready design prompt for the screens not designed yet);
-  /warroom next (pick the next feature from the board). Use with
-  /warroom, or whenever a
-  feature needs its plan laid out before anyone builds it.
+  /warroom tickets {slug} (re-cut); /warroom ui {slug} (one paste-ready
+  design prompt for the screens not designed yet); /warroom next (pick the
+  next feature from the board). Use with /warroom, or whenever a feature
+  needs its plan laid out before anyone builds it.
 ---
 
 # Warroom — plan one feature, on paper, until nothing is left to decide
@@ -30,11 +29,11 @@ into a few big tickets.
 - `/warroom tickets {slug}` — only the ticket cut (a re-cut):
   [references/tickets.md](references/tickets.md).
 - `/warroom ui {slug}` — only the design prompt: rewrite
-  `docs/features/{slug}/ui-prompt.md`, one prompt for every `pending`
-  screen ([templates/ui-prompt.md](templates/ui-prompt.md)). A spec with no
-  Design section (an older feature) → ask for the design source first, as
-  in Phase 1 › Screens. No `pending` screen → say so and stop. To
-  redesign a screen, bring it as a change request: `/warroom {slug}`.
+  `docs/features/{slug}/ui-prompt.md`, one prompt covering every `pending`
+  screen ([templates/ui-prompt.md](templates/ui-prompt.md)). No Design
+  section in the spec (an older feature) → first ask for the design source,
+  as in Phase 1 › Screens. No `pending` screen → say so and stop. A
+  redesign is a change request: `/warroom {slug}`.
 - `/warroom next` — read the board, pick the first feature that can move,
   and run its Next: [references/next.md](references/next.md).
 
@@ -140,22 +139,20 @@ recommended answer first, marked "(Recommended)".
   it.
 - **Ask about the qualities nobody brought up** — speed under load,
   behaviour when a dependency is down, who may see the data, how it is run
-  once live. Pick the two or three this feature actually stresses; skip the
-  rest.
+  once live. Pick the two or three this feature stresses; skip the rest.
 - **Screens → ask for the design once.** The feature has UI and no ADR
   names a design source → ask: a Figma link, images, design after this
   plan (Recommended when no design exists), or follow the existing
   components and conventions. Record a `D{n}`; fill spec › Design, with
   Source `pending` for screens designed after the plan, and set the board
   row's UI cell (`⏳ 0/{n}`, `🎨 {n}/{n}`, or `—` with no screens). One
-  design source for the whole project → an ADR candidate. The `pending`
-  screens get one paste-ready prompt in `ui-prompt.md` once the spec is
-  approved (The Gate).
+  design source for the whole project → an ADR candidate. At The Gate,
+  the `pending` screens get one paste-ready prompt in `ui-prompt.md`.
 - **Never supply a why you weren't given.** Record a decision that came
   without its reason as `rationale not recorded`, and make the reason the
   next question.
-- **Words run out → sketch.** When talk stops settling how something should
-  look or behave, make something rough to react to — a state table, a text
+- **Words run out → sketch.** Talk stops settling how something should
+  look or behave → make something rough to react to: a state table, a text
   mockup, a sample request and response. Save it in the feature folder and
   link it from the `D{n}` it settled. Never ship it.
 - **A question the user can't answer yet** goes into spec.md › Open
@@ -190,7 +187,7 @@ Anything you can't fill in is an Open Question.
 
 Follow [references/legal.md](references/legal.md) on the drafted feature.
 It writes `legal.md` or reports "no legal surface". Fold every CONDITIONAL
-requirement into the spec's Implementation. Run it every time.
+requirement into the spec's Implementation.
 
 Every verdict marked `UNVERIFIED` goes into spec.md › Open Questions as
 blocking. It closes when a re-run cites a source, or when the user
@@ -249,10 +246,9 @@ Ask with AskUserQuestion:
   ([templates/adr.md](templates/adr.md)) and each source row's ADR column
   in `docs/decisions.md`; any screen `pending` → write `ui-prompt.md`
   ([templates/ui-prompt.md](templates/ui-prompt.md)); self-check those
-  files, then go straight to
-  **Phase 5**. Context already long
-  (a map, many red-team rounds) → instead end with `/warroom tickets
-  {slug}` to paste in a new session, and that as the board row's Next.
+  files, then go straight to **Phase 5**. Context already long (a map,
+  many red-team rounds) → instead end with `/warroom tickets {slug}` to
+  paste in a new session, and set it as the board row's Next.
 - **Adjust** — fold the change into the docs and gate again. A new or
   changed `D{n}` skipped the red team: first run the legal check on what it
   touches and give it to The Breaker alone.

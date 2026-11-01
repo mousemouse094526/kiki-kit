@@ -42,7 +42,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   Nothing to decide → one line, "follow {path}"; don't drop the section.
 - **Design** — only when the feature has UI: one row per screen, its user
   stories, what it must show, and its source (Figma frame link, image
-  path, `existing components`, or `pending`). No UI → drop the section.
+  path, `existing components`, or `pending`).
   - **Must show** is the design brief, from the decisions: fields,
     actions, states (empty, loading, error, no permission), and the
     messages or rules on screen, each citing its `D{n}`.
