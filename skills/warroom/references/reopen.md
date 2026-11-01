@@ -15,8 +15,8 @@ The agenda is one of:
   set each `design: {screen}` Blocked row to `done`, update the board row
   (unless Manual `true`) — UI `🎨 {n}/{n}` when no screen is left `pending`, else `⏳` with the
   count — and end with the Next command.
-  Remove those screens' prompts from `ui-prompt.md` (the whole file and
-  its spec link when none is left `pending`).
+  Rewrite `ui-prompt.md` without those screens (delete the file and its
+  spec link when none is left `pending`).
   Nothing else: no interview, legal check, Breaker, or gate. The design
   adds something the spec doesn't have (a field, a step, a rule) → that
   part only is a change request, below.

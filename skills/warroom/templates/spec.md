@@ -48,7 +48,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
     messages or rules on screen, each citing its `D{n}`.
   - `pending` is not an Open Question; it doesn't block the gate.
   - Any screen `pending` → one line under the table links
-    [ui-prompt.md](ui-prompt.md), the prompts to design them from. The
+    [ui-prompt.md](ui-prompt.md), the one prompt to design them from. The
     Source cell stays exactly `pending`.
 - **Open Questions** — numbered, one sentence each. One that doesn't block
   building says why after ` — non-blocking: `. Empty → write `None.`
@@ -83,7 +83,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 | {e.g. Contact form} | 1, 3 | {name, phone with country picker (D2), save; error: invalid phone (D4)} | [Figma frame]({url}) |
 | {e.g. Contact list} | 2 | {…} | pending |
 
-Pending screens: design prompts in [ui-prompt.md](ui-prompt.md).
+Pending screens: one design prompt in [ui-prompt.md](ui-prompt.md).
 
 ## Expected Outcome
 

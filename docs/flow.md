@@ -46,8 +46,8 @@ flowchart LR
 ```
 
 Other modes: `/warroom legal {items}` (legal check only) ·
-`/warroom tickets {slug}` (re-cut) · `/warroom ui {slug}` (design
-prompts for `pending` screens) · `/warroom next` (the next feature
+`/warroom tickets {slug}` (re-cut) · `/warroom ui {slug} [all]` (one
+design prompt for `pending` screens, or all) · `/warroom next` (the next feature
 from the board) · `/kiki-debug {symptom}` (any bug).
 
 ## 2. warroom — plan, then cut
@@ -82,10 +82,13 @@ spec stays `draft` until then, and the build refuses a `draft`.
 **Screens?** The interview asks once where the design comes from: a Figma
 link, images, existing components, or **design after the plan**. After the
 plan, each screen's Source is `pending`, and warroom writes
-`docs/features/{slug}/ui-prompt.md`: one paste-ready prompt per screen,
-built from its Must show (fields, actions, every state, exact on-screen
-copy) and the project's real design system. Paste a block into Figma
-Make, Claude, v0, Stitch, or hand it to a designer:
+`docs/features/{slug}/ui-prompt.md`: one paste-ready prompt for all those screens:
+the component set first, then every screen and state from its Must show
+(fields, actions, exact on-screen copy) in the project's real design
+system, then a clickable preview of the whole flow. Paste it once into
+Figma Make, Claude, v0, Stitch, ask for it through the Figma MCP, or hand
+it to a designer. `/warroom ui {slug} all` writes it for every screen (a
+redesign):
 
 ```mermaid
 flowchart LR

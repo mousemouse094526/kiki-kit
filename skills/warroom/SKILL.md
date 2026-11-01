@@ -8,9 +8,10 @@ description: >-
   is asked again.
   Modes: /warroom [slug] (new plan, map, change request, Blocked rows);
   /warroom legal {items or slug} (Thai-law check only, not legal advice);
-  /warroom tickets {slug} (re-cut); /warroom ui {slug} (paste-ready
-  design prompts for screens not designed yet); /warroom next (pick the
-  next feature from the board). Use with /warroom, or whenever a
+  /warroom tickets {slug} (re-cut); /warroom ui {slug} [all] (one
+  paste-ready design prompt for the screens not designed yet, or all);
+  /warroom next (pick the next feature from the board). Use with
+  /warroom, or whenever a
   feature needs its plan laid out before anyone builds it.
 ---
 
@@ -28,11 +29,12 @@ into a few big tickets.
   [references/legal.md](references/legal.md).
 - `/warroom tickets {slug}` — only the ticket cut (a re-cut):
   [references/tickets.md](references/tickets.md).
-- `/warroom ui {slug}` — only the design prompts: rewrite
-  `docs/features/{slug}/ui-prompt.md` for every `pending` screen
-  ([templates/ui-prompt.md](templates/ui-prompt.md)). A spec with no
+- `/warroom ui {slug}` — only the design prompt: rewrite
+  `docs/features/{slug}/ui-prompt.md`, one prompt for every `pending`
+  screen ([templates/ui-prompt.md](templates/ui-prompt.md)). A spec with no
   Design section (an older feature) → ask for the design source first, as
-  in Phase 1 › Screens. No `pending` screen → say so and stop.
+  in Phase 1 › Screens. No `pending` screen → say so, offer `all`, and
+  stop. `/warroom ui {slug} all` — the same for every screen (a redesign).
 - `/warroom next` — read the board, pick the first feature that can move,
   and run its Next: [references/next.md](references/next.md).
 
@@ -146,8 +148,8 @@ recommended answer first, marked "(Recommended)".
   components and conventions. Record a `D{n}`; fill spec › Design, with
   Source `pending` for screens designed after the plan, and set the board
   row's UI cell (`⏳ 0/{n}`, `🎨 {n}/{n}`, or `—` with no screens). One
-  design source for the whole project → an ADR candidate. Every `pending`
-  screen gets a paste-ready prompt in `ui-prompt.md` once the spec is
+  design source for the whole project → an ADR candidate. The `pending`
+  screens get one paste-ready prompt in `ui-prompt.md` once the spec is
   approved (The Gate).
 - **Never supply a why you weren't given.** Record a decision that came
   without its reason as `rationale not recorded`, and make the reason the

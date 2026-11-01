@@ -116,7 +116,7 @@ Check, and show only the steps that apply:
 - **Secrets** the first ticket needs that `.env` lacks → say the build will
   ask for them.
 - **Screens to design** — any `pending` → link
-  `docs/features/{slug}/ui-prompt.md`: paste a block into a design tool
+  `docs/features/{slug}/ui-prompt.md`: paste its one block into a design tool
   (or ask for the screens in Figma through the Figma MCP), then
   `/warroom {slug}` with the link. Building can start meanwhile.
 
