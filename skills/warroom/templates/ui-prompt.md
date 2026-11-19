@@ -37,8 +37,7 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   - An ADR sets one → a frame for each screen and for each state that
     changes its layout (every state the row's At sync column doesn't
     name), at each breakpoint. The At sync states get no frame: list
-    them in the screen's `Follow at code sync` line, so the designer
-    knows they exist and leaves room for them.
+    them in the screen's `Follow at code sync` line.
 - **`Follow at code sync` line** — only under a design-first scope ADR,
   and only for a screen with At sync states; those states leave its
   `States` line. Otherwise drop the line.

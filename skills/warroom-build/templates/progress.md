@@ -36,9 +36,9 @@ docs language.
     `→ ticket NN`, `done ({short sha})`, or `dropped ({why})` when the user
     says so.
 - **Design sync** — states and parts built in code before they had a
-  frame, allowed by a design-first scope ADR
+  frame, under a design-first scope ADR
   ([design.md](../../warroom/references/design.md)). The section exists
-  only once it has a row; a project without such an ADR never has it.
+  only once it has a row.
   - warroom-build adds a row in the ticket's commit.
   - Rows are numbered, never deleted. They never stop a ticket or a merge.
   - **Status** is `waiting` until `/warroom sync` handles it, then

@@ -157,8 +157,8 @@ recommended answer first, marked "(Recommended)".
     ([references/design.md](references/design.md)) → split each screen's
     states now, by the ADR's words: the ones built in code first go in
     the row's **At sync** column, the rest wait for a frame. Can't place
-    a state → ask. The build follows this split and does not re-decide
-    it. No such ADR → no column; every state waits for its design.
+    a state → ask. No such ADR → no column; every state waits for its
+    design.
   - **The user's answer itself splits screens from states** ("design the
     screens, build the error and empty states from what we have") and no
     ADR says so yet → record the `D{n}`, split the states the same way,
@@ -296,5 +296,4 @@ Next command in its own code block. Only this feature's next step.
 - **Legal, red team, and ADR sweep run every time.** "No ADR" needs a
   reason.
 - **Every decision has a number and an index row.**
-- **One feature per session** — except `/warroom sync` without a slug,
-  which reads every feature and decides nothing.
+- **One feature per session** — except `/warroom sync` without a slug.

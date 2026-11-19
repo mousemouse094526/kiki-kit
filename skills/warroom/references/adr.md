@@ -53,8 +53,8 @@ All three must be true; otherwise no ADR:
   team added.
 - Every decision this feature reused from another feature
   (`user-contact D4`).
-- The design-source `D{n}` and spec › Design — an At sync split made
-  without an ADR behind it is a design-first scope waiting to be written.
+- The design-source `D{n}` and spec › Design — an At sync split with no
+  ADR behind it.
 - `legal.md` — its assumptions and every CONDITIONAL requirement.
 - `spec.md` › Implementation — settings and contracts that never became a
   `D{n}`.

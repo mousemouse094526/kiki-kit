@@ -59,8 +59,7 @@ Design lands in the ticket that builds it. A screen whose Source is
 `pending` → a row in `progress.md` › Blocked for its ticket
 (`design: {screen}`, Needs `/warroom {slug}` with the design link, made
 from `ui-prompt.md`); the other tickets don't wait for it. States in a
-row's At sync column ([design.md](design.md)) get no Blocked row: the
-build makes them from existing components. No
+row's At sync column ([design.md](design.md)) get no Blocked row. No
 `ui-prompt.md` yet (a re-cut of an older plan) → write it now
 ([templates/ui-prompt.md](../templates/ui-prompt.md)).
 

@@ -5,10 +5,8 @@ the Figma file, draws the states that have no frame, corrects frames whose
 copy or simple structure drifted, and updates the links. No slug → every
 feature. Writes Figma and docs, never code.
 
-Run it at feature close or before a release. It is the round that pays
-the debt of code-first work ([design.md](design.md) › Design-first scope),
-and it works without such an ADR too: any project whose code and Figma
-have drifted can run it.
+Run it at feature close or before a release. It needs no design-first
+scope ADR ([design.md](design.md)).
 
 The code is the truth for what exists; Figma is the truth for how it
 looks.
@@ -36,8 +34,7 @@ looks.
    message catalog (the i18n files); a project without one → the strings
    in the code.
 2. **List the frames.** Read the Figma file through the Figma MCP, page
-   by page: every frame, its name, its node id. Not from the docs — the
-   index and the specs are what this run corrects.
+   by page: every frame, its name, its node id. Never from the docs.
 3. **Match them**, into four lists:
    - **missing** — a state the code renders with no frame;
    - **drifted** — a frame whose copy or structure no longer matches the
@@ -79,7 +76,7 @@ looks.
    - `progress.md` › Design sync — each row now drawn → Status
      `synced {YYYY-MM-DD}`; a row listed for the designer →
      `for designer`;
-   - the board is not touched: its UI cell counts screens, not states.
+   - the board is not touched.
 7. **Check by screenshot.** Take a screenshot of a sample of each kind of
    edit — a drawn state, a copy fix, a structure fix — on every page
    touched, and look at it: text not clipped, nothing overlapping, the
@@ -100,23 +97,21 @@ looks.
      `git add {paths} && git commit -m "docs: design sync {YYYY-MM-DD}"`.
      Leave them uncommitted.
 
-## Writing to Figma — rules learned the hard way
+## Writing to Figma
 
 - **One page per script.** Work page by page and never switch page twice
   in one script.
 - **One frame, one guard.** Wrap each frame's edits so a failure removes
   only that frame (or leaves that one existing frame untouched), and the
   rest of the script goes on. Every script returns the ids of everything
-  it created or changed; the report and the index are built from those
-  ids, not from what the script was meant to do.
+  it created or changed; build the report and the index from those ids.
 - **Clear the default fill.** A new auto-layout frame gets a white fill;
   remove it unless the design calls for one.
 - **Replace whole strings.** When replacing text by pattern, match and
-  replace the entire string. A pattern that matches only the start leaves
-  the old tail behind.
+  replace the entire string, never only its start.
 - **Check before adding.** Before adding a field, a row, or a frame, look
-  for it; already there → skip. A second run must not duplicate anything,
-  and a second run on the same day reuses that day's section.
+  for it; already there → skip. A second run on the same day reuses that
+  day's section.
 - **Make room, then re-lay out.** After adding content, make the frame
   tall enough to show it, then re-lay out the rows of the section so
   frames don't overlap.
@@ -131,6 +126,5 @@ looks.
 - **Nothing is decided here.** A missing state that the spec doesn't
   mention is drawn as the code has it and named in the report; whether
   the spec should say so is a change request.
-- **Every feature, but one report.** Without a slug this is the one
-  warroom mode that reads more than one feature. It writes each feature's
-  spec and `progress.md` only as step 6 allows.
+- **No slug → one report.** Each feature's spec and `progress.md` are
+  written only as step 6 allows.

@@ -52,9 +52,8 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
     Source cell stays exactly `pending`.
   - **At sync** — a fifth column, after Source, only when an ADR sets a
     design-first scope ([design.md](../references/design.md)). It lists
-    the states and parts of that screen that are built in code first,
-    from existing components, and get their frame at `/warroom sync`;
-    `—` when none. Everything in Must show that At sync doesn't name
+    the states and parts of that screen built in code first, from
+    existing components; `—` when none. Everything in Must show that At sync doesn't name
     needs its frame before build. No such ADR → no column: every state
     needs its design before build.
   - Source holds the screen's own frame link. Frames of its states are

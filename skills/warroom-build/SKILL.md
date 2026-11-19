@@ -90,9 +90,7 @@ spec.md › Testing decisions, and `CONTEXT.md`. Then:
   - **A state with no frame** — in At sync, or code-first by the ADR, and
     not in the design index → build it and add a row to `progress.md` ›
     Design sync ([template](templates/progress.md)) in the ticket's
-    commit. The list lives there, not on the board: the build reads and
-    commits `progress.md` with every ticket, while a board row is one
-    short line and may be Manual. A state the index has a frame for →
+    commit, never to the board. A state the index has a frame for →
     fetch that frame; no row.
   - Spec has no Design section and the ticket has UI (an older feature) →
     ask once for the design source, record a `D{n}`, add the section, and
