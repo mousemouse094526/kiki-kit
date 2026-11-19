@@ -46,8 +46,9 @@ flowchart LR
 
 Other modes: `/warroom legal {items}` (legal check only) ·
 `/warroom tickets {slug}` (re-cut) · `/warroom ui {slug}` (one
-design prompt for `pending` screens) · `/warroom next` (the next feature
-from the board) · `/kiki-debug {symptom}` (any bug).
+design prompt for `pending` screens) · `/warroom sync [slug]` (bring
+Figma and the design links back in line with the code) ·
+`/warroom next` (the next feature from the board) · `/kiki-debug {symptom}` (any bug).
 
 ## 2. warroom — plan, then cut
 
@@ -106,6 +107,27 @@ Pasting the link (or the frame the Figma MCP made) only fills Source,
 turns the board's UI cell to `🎨`, and unblocks the UI tickets. Something
 the design adds that the plan lacks (a field, a step) becomes a change
 request for that part only.
+
+**Figma first for screens, code first for states** — only when a project
+ADR says so (a design-first scope). Then the plan splits each screen's
+states: spec › Design gets an **At sync** column for the ones built in
+code from existing components, and the design prompt asks for frames of
+the screen and its layout-changing states only. The build no longer stops
+for those states; it lists each in `progress.md` › Design sync. A new
+screen, layout, component, or token still waits for its frame. No such
+ADR → every state needs its design before build, as before.
+
+**`/warroom sync [slug]`** pays that debt, at feature close or before a
+release. It lists what the code renders, reads the frames in the Figma
+file through the Figma MCP, draws each missing state into a
+`code sync — {date}` section, fixes copy and simple structure in existing
+frames, lists for the designer what needs a new layout, and leaves alone
+what Figma has ahead of the code. Then it updates the links: each
+screen's frame in spec › Design › Source, every frame (states included)
+in the design index (`docs/design/index.md` unless the project has one).
+Whoever adds or moves a frame updates both. The report says how many
+frames were checked by screenshot; the Figma version history is the way
+back.
 
 **One feature or two?** By default a change grows the feature you have
 (a change request: `/warroom {slug}`, new tickets after the done ones).
@@ -281,6 +303,7 @@ docs/
 │       └── bugs/                ← bug investigations for this feature
 ├── adr/                         ← rules every feature must follow
 ├── library-notes/               ← what each library's docs recommend, for the installed version
+├── design/                      ← index.md: a link to every Figma frame, states included (made by /warroom sync)
 ├── bugs/                        ← bugs outside any feature
 └── legal/                       ← standalone legal checks
 .claude/skills/{framework}-{surface}/   ← the project's coding conventions

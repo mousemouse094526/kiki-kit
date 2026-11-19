@@ -11,7 +11,9 @@ The agenda is one of:
   Answers are `From: blocked #{n}`.
 - **A design link** — the user brings the design for `pending` screens,
   or asks for them to be made in Figma through the Figma MCP (the link is
-  then the frame it made). Put each link in spec › Design › Source, set
+  then the frame it made). Put each link in spec › Design › Source, and
+  in the design index when [design.md](design.md) › Link rules calls for
+  one (state frames go only there), in the same change. Set
   each `design: {screen}` Blocked row to `done`, update the board row
   (unless Manual `true`) — UI `🎨 {n}/{n}` when no screen is left
   `pending`, else `⏳` with the count — and end with the Next command.
@@ -33,6 +35,10 @@ For a change request or Blocked rows, then:
    decision someone uses. Edit the spec sections it touches. A change to a
    designed screen (a redesign, a new field on screen) → set its Source
    to `pending` and keep the old link in Must show as `current: {link}`.
+   Under a design-first scope ADR ([design.md](design.md)), a change the
+   ADR lets go code-first (a new state, copy, a part made from existing
+   components) leaves Source as it is: add it to Must show and to the
+   row's At sync column instead.
    Any `pending` screen touched → on Approve, rewrite `ui-prompt.md`
    ([templates/ui-prompt.md](../templates/ui-prompt.md)) and set the
    board's UI cell to `⏳`.

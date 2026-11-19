@@ -35,6 +35,15 @@ docs language.
   - **Status** is `open` until that command closes it, then `→ D{n}`,
     `→ ticket NN`, `done ({short sha})`, or `dropped ({why})` when the user
     says so.
+- **Design sync** — states and parts built in code before they had a
+  frame, allowed by a design-first scope ADR
+  ([design.md](../../warroom/references/design.md)). The section exists
+  only once it has a row; a project without such an ADR never has it.
+  - warroom-build adds a row in the ticket's commit.
+  - Rows are numbered, never deleted. They never stop a ticket or a merge.
+  - **Status** is `waiting` until `/warroom sync` handles it, then
+    `synced {YYYY-MM-DD}` (the frame's link is in the design index) or
+    `for designer` (it needs a layout the sync may not draw).
 
 ## Template
 
@@ -76,4 +85,10 @@ docs language.
 | # | Ticket | What | Needs | Status |
 |---|---|---|---|---|
 | 1 | 02 | {what is stuck, one line} | `/warroom {slug}` | open |
+
+## Design sync
+
+| # | Ticket | Screen | State or part | Built from | Status |
+|---|---|---|---|---|---|
+| 1 | 02 | {Contact form} | {error: invalid phone} | {`Alert`, `TextField` error variant} | waiting |
 ````

@@ -70,14 +70,33 @@ spec.md › Testing decisions, and `CONTEXT.md`. Then:
   None for this area → set them up now as that file describes, asking the
   user, and record a `D{n}` with its index row.
 - **Design** — the ticket covers screens → read their rows in spec ›
-  Design. A Figma frame → fetch only those frames' design context through
-  the Figma MCP, once per ticket, before writing UI code. Source
-  `pending` → don't build that screen: stop the ticket (section 4) on its
-  `design: {screen}` Blocked row, and point the user to
-  `docs/features/{slug}/ui-prompt.md` (missing → `/warroom ui {slug}`
-  first). Spec has no Design section and the ticket has UI (an older
-  feature) → ask once for the design source, record a `D{n}`, add the
-  section, and set the board row's UI cell.
+  Design, and their states' rows in the design index when the project has
+  one ([design.md](../warroom/references/design.md) › Link rules). A Figma
+  frame → fetch only those frames' design context through the Figma MCP,
+  once per ticket, before writing UI code.
+  - **Source `pending`** → first look for a design-first scope ADR
+    ([design.md](../warroom/references/design.md) › Design-first scope).
+    - **None** → don't build that screen: stop the ticket (section 4) on
+      its `design: {screen}` Blocked row, and point the user to
+      `docs/features/{slug}/ui-prompt.md` (missing → `/warroom ui {slug}`
+      first).
+    - **One exists** → sort what the ticket builds on that screen by the
+      ADR's words. Only states or parts the ADR lets go code-first (the
+      row's **At sync** column; no column → judge against the ADR) →
+      build them from the existing components and the screen's current
+      frame, and close its `design: {screen}` Blocked row as
+      `done (this ticket)`. A new screen, a new layout, a new component,
+      a token, or anything you can't place → stop as above.
+  - **A state with no frame** — in At sync, or code-first by the ADR, and
+    not in the design index → build it and add a row to `progress.md` ›
+    Design sync ([template](templates/progress.md)) in the ticket's
+    commit. The list lives there, not on the board: the build reads and
+    commits `progress.md` with every ticket, while a board row is one
+    short line and may be Manual. A state the index has a frame for →
+    fetch that frame; no row.
+  - Spec has no Design section and the ticket has UI (an older feature) →
+    ask once for the design source, record a `D{n}`, add the section, and
+    set the board row's UI cell.
 - **Library docs** —
   [references/library-docs.md](references/library-docs.md): the version
   table, ask before any upgrade, and a reference note for the language and
@@ -150,6 +169,7 @@ Every acceptance criterion holds → ticket `**Status:** done`. In
 - a new Log entry on top — **Built**, **Decided**, **For the next ticket**,
   **Checks** ([template](templates/progress.md));
 - Blocked rows this ticket closed → `done (this ticket)`;
+- a Design sync row for each state built without a frame (Load › Design);
 - **Now** and **Next**.
 
 Then the feature's board row, unless it is Manual `true`: Left and Next,
@@ -209,7 +229,9 @@ Every ticket `done`, before merge.
 4. Update `progress.md` and the board row: Now = "ready to merge", or the
    rows still open and their commands. Every CI check green after the
    fixes and no Blocked row `open` → Build `✅ {short sha of HEAD}`, Next
-   `/pr-open`, and end with it. A check red → Build `❌ {short sha}`, Next
+   `/pr-open`, and end with it. Design sync rows still `waiting` don't
+   hold the merge: name the count and `/warroom sync {slug}` beside the
+   Next command. A check red → Build `❌ {short sha}`, Next
    the command that fixes it (`/kiki-debug …`). Then commit `progress.md`
    and the board: `docs({slug}): feature review`.
 

@@ -43,7 +43,7 @@ flowchart LR
 ```
 
 โหมดอื่น: `/warroom legal {รายการ}` (ตรวจกฎหมายอย่างเดียว) ·
-`/warroom tickets {slug}` (หั่นใหม่) · `/warroom ui {slug}` (prompt ก้อนเดียวออกแบบหน้าจอที่ยัง `pending`) · `/warroom next` (feature ถัดไปจาก board) ·
+`/warroom tickets {slug}` (หั่นใหม่) · `/warroom ui {slug}` (prompt ก้อนเดียวออกแบบหน้าจอที่ยัง `pending`) · `/warroom sync [slug]` (ปรับ Figma และ link design ให้ตรงกับ code) · `/warroom next` (feature ถัดไปจาก board) ·
 `/kiki-debug {อาการ}` (bug อะไรก็ได้)
 
 ## 2. warroom — วางแผน แล้วหั่น ticket
@@ -97,6 +97,23 @@ flowchart LR
 วาง link (หรือ frame ที่ Figma MCP สร้าง) แล้วแค่เติม Source, ช่อง UI ใน board เป็น `🎨`
 และปลด ticket หน้าจอ ถ้า design มีของที่แผนไม่มี (field ใหม่,
 ขั้นตอนใหม่) เฉพาะส่วนนั้นเป็น change request
+
+**หน้าจอใหม่ทำ Figma ก่อน, state ทำ code ก่อน** — เฉพาะเมื่อโปรเจกต์มี ADR กำหนดไว้
+(design-first scope) ตอนวางแผน warroom จะแยก state ของแต่ละหน้าจอ:
+spec › Design มีคอลัมน์ **At sync** สำหรับ state ที่ build จาก component ที่มีอยู่ได้เลย
+และ design prompt ขอ frame เฉพาะหน้าจอกับ state ที่เปลี่ยน layout
+build ไม่หยุดรอ state พวกนั้น แต่จดแต่ละอันลง `progress.md` › Design sync
+หน้าจอใหม่, layout ใหม่, component ใหม่ หรือ token ยังต้องรอ frame
+ไม่มี ADR แบบนี้ → ทุก state ต้องมี design ก่อน build เหมือนเดิม
+
+**`/warroom sync [slug]`** ใช้ตอนปิด feature หรือก่อน release
+ไล่ดูว่า code แสดงหน้าจอและ state อะไรบ้าง, อ่าน frame จากไฟล์ Figma ผ่าน Figma MCP,
+วาด state ที่ยังไม่มี frame ลง section `code sync — {วันที่}`,
+แก้ข้อความและโครงสร้างง่าย ๆ ใน frame เดิม, ทำรายการให้ designer สำหรับส่วนที่ต้องจัด layout ใหม่
+และไม่แตะสิ่งที่ Figma มีแต่ code ยังไม่มี จากนั้นอัปเดต link:
+frame ของหน้าจออยู่ใน spec › Design › Source, ทุก frame (รวม state) อยู่ใน design index
+(`docs/design/index.md` ถ้าโปรเจกต์ยังไม่มี) ใครเพิ่มหรือย้าย frame ต้องแก้ทั้งสองที่
+รายงานบอกว่าตรวจด้วย screenshot กี่ frame; ย้อนกลับได้จาก version history ของ Figma
 
 **feature เดียว หรือแยก?** ค่าเริ่มต้นคือต่อยอด feature เดิม (change request:
 `/warroom {slug}` ได้ ticket ใหม่ต่อจากใบที่ done) แยก feature ใหม่เฉพาะเมื่อมีผู้ใช้
@@ -263,6 +280,7 @@ docs/
 │       └── bugs/                ← การไล่ bug ของ feature นี้
 ├── adr/                         ← กฎที่ทุก feature ต้องทำตาม
 ├── library-notes/               ← docs library แนะนำอะไร สำหรับเวอร์ชันที่ติดตั้ง
+├── design/                      ← index.md: link ของทุก frame ใน Figma รวม state (สร้างโดย /warroom sync)
 ├── bugs/                        ← bug นอก feature
 └── legal/                       ← ตรวจกฎหมายแบบเดี่ยว
 .claude/skills/{framework}-{surface}/   ← กติกาการเขียนโค้ดของโปรเจค

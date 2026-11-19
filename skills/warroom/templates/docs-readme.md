@@ -31,5 +31,6 @@ feature stands, and `decisions.md` before deciding anything.
 | `library-notes/` | what each library's docs recommend and warn about, for the installed version | warroom-build | writing code that uses the library |
 | `bugs/` | investigations of bugs that don't belong to one feature | kiki-debug | the same bug seems to be back |
 | `legal/` | Thai-law checks that don't belong to one feature | `/warroom legal` | before building anything those checks cover |
+| `design/` | the design index: a link to every Figma frame, states included, by app and feature | `/warroom sync`, and whoever adds or moves a frame | building or checking a screen |
 | `{folder}/` | {what is inside} | {who or what writes it} | {when someone needs it} |
 ```

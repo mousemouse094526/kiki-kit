@@ -50,6 +50,15 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   - Any screen `pending` → one line under the table links
     [ui-prompt.md](ui-prompt.md), the one prompt to design them from. The
     Source cell stays exactly `pending`.
+  - **At sync** — a fifth column, after Source, only when an ADR sets a
+    design-first scope ([design.md](../references/design.md)). It lists
+    the states and parts of that screen that are built in code first,
+    from existing components, and get their frame at `/warroom sync`;
+    `—` when none. Everything in Must show that At sync doesn't name
+    needs its frame before build. No such ADR → no column: every state
+    needs its design before build.
+  - Source holds the screen's own frame link. Frames of its states are
+    in the project's design index, not here.
 - **Open Questions** — numbered, one sentence each. One that doesn't block
   building says why after ` — non-blocking: `. Empty → write `None.`
 - **Out of Scope** bullets cite the `D{n}` that ruled them out.
@@ -84,6 +93,13 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
 | {e.g. Contact list} | 2 | {…} | pending |
 
 Pending screens: one design prompt in [ui-prompt.md](ui-prompt.md).
+
+{Only under a design-first scope ADR — the same table with the fifth column:}
+
+| Screen | User stories | Must show | Source | At sync |
+|---|---|---|---|---|
+| {e.g. Contact form} | 1, 3 | {name, phone with country picker (D2), save; error: invalid phone (D4); loading} | [Figma frame]({url}) | {error: invalid phone; loading} |
+| {e.g. Contact list} | 2 | {…} | pending | {empty} |
 
 ## Expected Outcome
 

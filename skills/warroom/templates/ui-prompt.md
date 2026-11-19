@@ -1,7 +1,7 @@
 # Template: docs/features/{slug}/ui-prompt.md
 
 One paste-ready prompt per feature that designs every `pending` screen in
-spec › Design: components, screens with every state, and the system-wide
+spec › Design: components, screens with their states, and the system-wide
 preview. The user pastes it once into a design tool, runs it through the
 Figma MCP, or gives it to a designer. Copy **Template**; follow **Rules**.
 
@@ -30,7 +30,18 @@ All of [markdown-style.md](../references/markdown-style.md), plus:
   and properties. Screens use instances only.
 - **Spec only.** Fields, actions, states, rules, and copy come from Must
   show and its `D{n}`. Out of Scope goes under "Do not include".
-- **Every state is a frame**, at each breakpoint.
+- **Frames.**
+  - No ADR sets a design-first scope
+    ([design.md](../references/design.md)) → every state is a frame, at
+    each breakpoint.
+  - An ADR sets one → a frame for each screen and for each state that
+    changes its layout (every state the row's At sync column doesn't
+    name), at each breakpoint. The At sync states get no frame: list
+    them in the screen's `Follow at code sync` line, so the designer
+    knows they exist and leaves room for them.
+- **`Follow at code sync` line** — only under a design-first scope ADR,
+  and only for a screen with At sync states; those states leave its
+  `States` line. Otherwise drop the line.
 - **The preview extends the system's preview:** add this feature's
   screens to the existing preview page (create it if missing) and wire
   them to the existing screens they come from and return to, so the whole
@@ -79,6 +90,7 @@ Screen 1 — {Contact list} (new)
   - Button "{exact}": {what it does}; disabled when {…}.
   - Message "{exact}": shown when {…}.
 - States: 1 Default. 2 Empty: "{exact}", with {call to action}. 3 Loading: {where}. 4 Error: {which} → "{exact}" {inline / banner}. 5 No permission: {hidden or read-only} — "{exact}". 6 Success: "{exact}".
+- Follow at code sync (no frame now; built from existing components, drawn later from the code): {Loading: {where}. Error: {which} → "{exact}".}
 
 Screen 2 — {Contact form} (redesign of {current frame link}: {what changes})
 - …
