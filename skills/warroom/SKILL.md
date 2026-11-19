@@ -9,9 +9,10 @@ description: >-
   Modes: /warroom [slug] (new plan, map, change request, Blocked rows);
   /warroom legal {items or slug} (Thai-law check only, not legal advice);
   /warroom tickets {slug} (re-cut); /warroom ui {slug} (one paste-ready
-  design prompt for the screens not designed yet); /warroom next (pick the
-  next feature from the board). Use with /warroom, or whenever a feature
-  needs its plan laid out before anyone builds it.
+  design prompt for the screens not designed yet); /warroom sync [slug]
+  (bring Figma and the design links back in line with the code);
+  /warroom next (pick the next feature from the board). Use with /warroom,
+  or whenever a feature needs its plan laid out before anyone builds it.
 ---
 
 # Warroom — plan one feature, on paper, until nothing is left to decide
@@ -34,6 +35,10 @@ into a few big tickets.
   section in the spec (an older feature) → first ask for the design source,
   as in Phase 1 › Screens. No `pending` screen → say so and stop. A
   redesign is a change request: `/warroom {slug}`.
+- `/warroom sync [slug]` — only the design sync: compare what the code
+  renders with the Figma file, draw the states that have no frame, correct
+  drifted frames, and update the design links. No slug → every feature:
+  [references/sync.md](references/sync.md).
 - `/warroom next` — read the board, pick the first feature that can move,
   and run its Next: [references/next.md](references/next.md).
 
@@ -148,6 +153,16 @@ recommended answer first, marked "(Recommended)".
   row's UI cell (`⏳ 0/{n}`, `🎨 {n}/{n}`, or `—` with no screens). One
   design source for the whole project → an ADR candidate. At The Gate,
   the `pending` screens get one paste-ready prompt in `ui-prompt.md`.
+  - **An ADR sets a design-first scope**
+    ([references/design.md](references/design.md)) → split each screen's
+    states now, by the ADR's words: the ones built in code first go in
+    the row's **At sync** column, the rest wait for a frame. Can't place
+    a state → ask. No such ADR → no column; every state waits for its
+    design.
+  - **The user's answer itself splits screens from states** ("design the
+    screens, build the error and empty states from what we have") and no
+    ADR says so yet → record the `D{n}`, split the states the same way,
+    and hold "design-first scope" as an ADR candidate for the sweep.
 - **Never supply a why you weren't given.** Record a decision that came
   without its reason as `rationale not recorded`, and make the reason the
   next question.
@@ -281,4 +296,4 @@ Next command in its own code block. Only this feature's next step.
 - **Legal, red team, and ADR sweep run every time.** "No ADR" needs a
   reason.
 - **Every decision has a number and an index row.**
-- **One feature per session.**
+- **One feature per session** — except `/warroom sync` without a slug.

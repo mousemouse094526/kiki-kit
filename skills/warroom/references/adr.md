@@ -31,6 +31,12 @@ All three must be true; otherwise no ADR:
 - **A rule every later feature must follow** — "every Company-owned table is
   deleted with its Company", "every Admin write is audited", even when this
   feature's own use of it looks small.
+- **A design-first scope** — which UI work must have a design before it
+  is built and which may be built in code first, when the user answers
+  the design question in a way that splits screens from states. The ADR
+  names both sides in its own words and says when Figma catches up
+  ([design.md](design.md) › Design-first scope reads it). The design
+  source alone (one Figma file for the project) is a separate candidate.
 
 ### Not an ADR
 
@@ -47,6 +53,8 @@ All three must be true; otherwise no ADR:
   team added.
 - Every decision this feature reused from another feature
   (`user-contact D4`).
+- The design-source `D{n}` and spec › Design — an At sync split with no
+  ADR behind it.
 - `legal.md` — its assumptions and every CONDITIONAL requirement.
 - `spec.md` › Implementation — settings and contracts that never became a
   `D{n}`.

@@ -30,6 +30,8 @@ and commands stay in English; the text is in the docs language.
     the feature's `ui-prompt.md`);
   - `🎨 {total}/{total}` — every screen has a Source.
 
+  It counts screens, not states.
+
   It changes when a Source is filled: the user pastes a design link
   (`/warroom {slug}`), or a skill makes the screen in Figma through the
   Figma MCP and puts that frame's link in Source. Whoever fills a Source
